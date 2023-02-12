@@ -52,12 +52,14 @@ namespace LipUI
                 services.AddScoped<Views.Pages.SettingsPage>();
                 services.AddScoped<Views.Pages.InstallPage>();
                 services.AddScoped<Views.Pages.UninstallPage>();
+                services.AddScoped<Views.Pages.LipRegistryPage>();
                 // ViewModels
                 services.AddScoped<ViewModels.DashboardViewModel>();
                 services.AddScoped<ViewModels.ToothLocalModel>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
                 services.AddScoped<ViewModels.InstallPageViewModel>();
                 services.AddScoped<ViewModels.UninstallPageViewModel>();
+                services.AddScoped<ViewModels.LipRegistryPageViewModel>();
 
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));

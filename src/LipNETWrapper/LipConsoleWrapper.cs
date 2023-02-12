@@ -49,14 +49,14 @@ namespace LipNETWrapper
             return new LipConsoleLoader(ExecutablePath)
                 .Run(LipCommand.Create("install") + packageId, onOutput, tk);
         }
-        public async Task<LipRegistry> GetLipRegistryAsync(CancellationToken tk = default)
+        public async Task<LipRegistry> GetLipRegistryAsync(string registry, CancellationToken tk = default)
         {
             //https://registry.litebds.com/index.json
             using var client = new WebClient();
-            var text = await client.DownloadStringTaskAsync("https://registry.litebds.com/index.json");
+            var text = await client.DownloadStringTaskAsync(registry);
             if (text is null)
             {
-                throw new NullReferenceException("Failed to get registry");
+                throw new NullReferenceException("Failed to get registry : " + registry);
             }
             return JsonConvert.DeserializeObject<LipRegistry>(text)!;
         }

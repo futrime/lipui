@@ -89,7 +89,7 @@ namespace LipNETWrapperTest
         [Test]
         public async Task TestGetLipRegistry()
         {
-            var registry = await Loader.GetLipRegistryAsync();
+            var registry = await Loader.GetLipRegistryAsync("https://registry.litebds.com/index.json");
             //output all info
             OutPut(registry.FormatVersion);
             foreach (var x in registry.Index)

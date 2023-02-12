@@ -60,8 +60,15 @@ namespace LipUI.ViewModels
                 {
                     Content = "卸载齿包",
                     PageTag = "remove",
-                    Icon = SymbolRegular.TrayItemRemove24,
+                    Icon = SymbolRegular.BoxDismiss24,
                     PageType = typeof(Views.Pages.UninstallPage)
+                },
+                new NavigationItem()
+                {
+                    Content = "包市场",
+                    PageTag = "registry",
+                    Icon = SymbolRegular.BoxSearch24,
+                    PageType = typeof(Views.Pages.LipRegistryPage)
                 }
             };
 

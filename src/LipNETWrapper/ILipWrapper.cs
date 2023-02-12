@@ -14,5 +14,5 @@ public interface ILipWrapper
         CancellationToken tk = default);
     Task<int> InstallPackageAsync(string packageId,
         CancellationToken tk = default, Action<string>? onOutput = null);
-    Task<LipRegistry> GetLipRegistryAsync(CancellationToken tk = default);
+    Task<LipRegistry> GetLipRegistryAsync(string registry, CancellationToken tk = default);
 }
