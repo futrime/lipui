@@ -5,10 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LipUI.Views.Controls"
              xmlns:viewModels="clr-namespace:LipUI.ViewModels"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              d:DataContext="{d:DesignInstance viewModels:ToothInfoPanelViewModel,IsDesignTimeCreatable=False}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
     <Grid>
-            <TextBlock Text="测试"/>
+        <ScrollViewer >
+            <ui:Card  VerticalAlignment="Top" HorizontalAlignment="Right" >
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="包名：" VerticalAlignment="Center"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Tooth}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="版本：" VerticalAlignment="Center"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Version}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="名称：" VerticalAlignment="Center"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Name}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="作者：" VerticalAlignment="Center"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Author}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="描述：" VerticalAlignment="Center"/>
+                        <TextBox TextWrapping="WrapWithOverflow" MinWidth="100" IsReadOnly="True" Text="{Binding  Description}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="主页：" VerticalAlignment="Center"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Homepage}"/>
+                    </StackPanel> 
+                </StackPanel>
+            </ui:Card>
+        </ScrollViewer>
     </Grid>
 </UserControl>

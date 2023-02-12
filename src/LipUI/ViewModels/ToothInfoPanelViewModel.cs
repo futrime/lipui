@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 namespace LipUI.ViewModels
 {
-    internal partial class ToothInfoPanelViewModel : ObservableObject
+    public partial class ToothInfoPanelViewModel : ObservableObject
     {
         private LipNETWrapper.Class.LipPackage _info;
         public ToothInfoPanelViewModel(LipNETWrapper.Class.LipPackage info)

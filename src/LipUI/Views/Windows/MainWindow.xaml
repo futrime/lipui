@@ -10,6 +10,7 @@
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="1100"
     Height="650"
+    MinWidth="500"
     d:DataContext="{d:DesignInstance local:MainWindow,
                                      IsDesignTimeCreatable=True}"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -24,14 +25,12 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
         <ui:NavigationCompact
             x:Name="RootNavigation"
             Grid.Column="0"
             Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
             Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
             Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
-
         <ui:TitleBar
             Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
             Grid.Row="0"

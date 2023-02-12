@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -16,7 +18,7 @@ using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
 {
-    /// <summary>
+     /// <summary>
     /// Interaction logic for ToothLocalPage.xaml
     /// </summary>
     public partial class ToothLocalPage : INavigableView<ViewModels.ToothLocalModel>
@@ -30,6 +32,14 @@ namespace LipUI.Views.Pages
             ViewModel = viewModel;
 
             InitializeComponent();
+        }
+        private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.IsShowingDetail = false;
+        }
+        private void UIElement_OnTouchDown(object sender, TouchEventArgs e)
+        {
+            ViewModel.IsShowingDetail = false;
         }
     }
 }

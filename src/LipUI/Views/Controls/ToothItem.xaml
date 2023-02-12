@@ -13,7 +13,7 @@
 
         <DockPanel>
             <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
-                <Button>详细信息</Button>
+                <Button Command="{Binding ShowInfoCommand}">详细信息</Button>
             </DockPanel>
             <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
                 <Button>删除</Button>
