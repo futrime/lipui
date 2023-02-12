@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ public interface ILipWrapper
     Task<(LipPackageSimple[] packages, string message)> GetAllPackagesAsync(CancellationToken tk = default);
 
     Task<(bool success, LipPackage? package, string message)> GetPackageInfoAsync(string packageId,
-        CancellationToken tk = default);
+        CancellationToken tk = default, Action<string>? onOutput = null);
 
     Task<(bool success, LipPackage? package, string message)> GetLocalPackageInfoAsync(string packageId,
         CancellationToken tk = default);

@@ -89,7 +89,7 @@ namespace LipNETWrapper
             ExecutablePath = Path.GetFullPath(executablePath);
         }
         public string ExecutablePath { get; }
-        public async Task<int> Run(string cmd, Action<string> output, CancellationToken tk)
+        public async Task<int> Run(string cmd, Action<string> output, CancellationToken tk = default)
         {
             var inst = new LipConsoleCommandInstance(ExecutablePath, cmd, output, output);
             while (!inst.HasExited)
@@ -99,7 +99,7 @@ namespace LipNETWrapper
             tk.ThrowIfCancellationRequested();
             return inst.ExitCode;
         }
-        public async Task<int> Run(string cmd, Action<string> output, Action<string> outputError, CancellationToken tk)
+        public async Task<int> Run(string cmd, Action<string> output, Action<string> outputError, CancellationToken tk = default)
         {
             var inst = new LipConsoleCommandInstance(ExecutablePath, cmd, output, outputError);
             while (!inst.HasExited)
@@ -109,11 +109,17 @@ namespace LipNETWrapper
             tk.ThrowIfCancellationRequested();
             return inst.ExitCode;
         }
-        public async Task<string> Run(string cmd, CancellationToken tk)
+        public async Task<string> RunString(string cmd, Action<string>? output = null, CancellationToken tk = default)
         {
             var sb = new StringBuilder();
             var inst = new LipConsoleCommandInstance(ExecutablePath, cmd,
-                s => sb.AppendLine(s), s => sb.AppendLine(s));
+                s =>
+                {
+                    sb.AppendLine(s); output?.Invoke(s);
+                }, s =>
+                {
+                    sb.AppendLine(s); output?.Invoke(s);
+                });
             while (!inst.HasExited)
             {
                 await Task.Delay(100, tk);
