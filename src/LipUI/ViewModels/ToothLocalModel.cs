@@ -13,7 +13,7 @@ namespace LipUI.ViewModels
 {
     public partial class ToothLocalModel : ObservableObject, INavigationAware
     {
-        private bool _isInitialized = false;
+        protected bool _isInitialized = false;
         [ObservableProperty]
         ToothInfoPanelViewModel _currentInfo = null;
         [ObservableProperty]
@@ -34,7 +34,7 @@ namespace LipUI.ViewModels
         {
         }
         [RelayCommand(CanExecute = nameof(Loading))]
-        private async Task LoadAllPackages()
+        protected virtual async Task LoadAllPackages()
         {
             ToothItems.Clear();
             var (packages, message) = await Global.Lip.GetAllPackagesAsync();
@@ -48,7 +48,7 @@ namespace LipUI.ViewModels
                 await Task.Delay(100);//100毫秒显示一个，假装很丝滑
             }
         }
-        private async Task ShowInfo(ToothItemViewModel toothItem)
+        protected async Task ShowInfo(ToothItemViewModel toothItem)
         {
             CurrentSelected = toothItem;
             var (success, package, message) = await Global.Lip.GetLocalPackageInfoAsync(toothItem.Tooth);
@@ -62,7 +62,7 @@ namespace LipUI.ViewModels
             }
             IsShowingDetail = true;
         }
-        private void InitializeViewModel()
+        protected virtual void InitializeViewModel()
         {
             _ = LoadAllPackages();//初始化加载所以包
             _isInitialized = true;

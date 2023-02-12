@@ -20,8 +20,8 @@ public class LipRegistry
         }
     }   */
     [JsonProperty("format_version")] public int FormatVersion;
-    [JsonProperty("index")] public IReadOnlyDictionary<string, RegistryItem> Index;
-    public class RegistryItem
+    [JsonProperty("index")] public IReadOnlyDictionary<string, LipRegistryItem> Index;
+    public class LipRegistryItem
     {
         [JsonProperty("author")] public string Author;
         [JsonProperty("description")] public string Description;

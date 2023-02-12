@@ -50,8 +50,7 @@ namespace LipNETWrapper
                 .Run(LipCommand.Create("install") + packageId, onOutput, tk);
         }
         public async Task<LipRegistry> GetLipRegistryAsync(string registry, CancellationToken tk = default)
-        {
-            //https://registry.litebds.com/index.json
+        { 
             using var client = new WebClient();
             var text = await client.DownloadStringTaskAsync(registry);
             if (text is null)
