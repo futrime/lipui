@@ -46,13 +46,18 @@ namespace LipUI
                 services.AddScoped<INavigationWindow, Views.Windows.MainWindow>();
                 services.AddScoped<ViewModels.MainWindowViewModel>();
 
-                // Views and ViewModels
+                // Views 
                 services.AddScoped<Views.Pages.DashboardPage>();
-                services.AddScoped<ViewModels.DashboardViewModel>();
                 services.AddScoped<Views.Pages.ToothLocalPage>();
-                services.AddScoped<ViewModels.ToothLocalModel>();
                 services.AddScoped<Views.Pages.SettingsPage>();
+                services.AddScoped<Views.Pages.InstallPage>();
+                services.AddScoped<Views.Pages.UninstallPage>();
+                // ViewModels
+                services.AddScoped<ViewModels.DashboardViewModel>();
+                services.AddScoped<ViewModels.ToothLocalModel>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
+                services.AddScoped<ViewModels.InstallPageViewModel>();
+                services.AddScoped<ViewModels.UninstallPageViewModel>();
 
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));

@@ -46,8 +46,22 @@ namespace LipUI.ViewModels
                 {
                     Content = "本地包",
                     PageTag = "local",
-                    Icon = SymbolRegular.TrayItemAdd20,
+                    Icon = SymbolRegular.LocalLanguage24,
                     PageType = typeof(Views.Pages.ToothLocalPage)
+                },
+                new NavigationItem()
+                {
+                    Content = "安装齿包",
+                    PageTag = "add",
+                    Icon = SymbolRegular.Add24,
+                    PageType = typeof(Views.Pages.InstallPage)
+                },
+                new NavigationItem()
+                {
+                    Content = "卸载齿包",
+                    PageTag = "remove",
+                    Icon = SymbolRegular.TrayItemRemove24,
+                    PageType = typeof(Views.Pages.UninstallPage)
                 }
             };
 
@@ -59,7 +73,7 @@ namespace LipUI.ViewModels
                     PageTag = "settings",
                     Icon = SymbolRegular.Settings24,
                     PageType = typeof(Views.Pages.SettingsPage)
-                }
+                } 
             };
 
             TrayMenuItems = new ObservableCollection<MenuItem>
