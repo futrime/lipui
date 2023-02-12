@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 using Wpf.Ui.Mvvm.Contracts;
 
 namespace LipUI.Services
@@ -15,7 +16,6 @@ namespace LipUI.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private INavigationWindow _navigationWindow;
-
         public ApplicationHostService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -50,7 +50,6 @@ namespace LipUI.Services
             {
                 _navigationWindow = (_serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow)!;
                 _navigationWindow!.ShowWindow();
-
                 _navigationWindow.Navigate(typeof(Views.Pages.DashboardPage));
             }
 

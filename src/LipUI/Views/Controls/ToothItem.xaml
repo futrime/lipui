@@ -15,9 +15,9 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <DockPanel>
-                <TextBlock Text="包名："/>
-                <TextBlock Text="{Binding PackageName}"/>
+            <DockPanel >
+                <TextBlock Text="包名：" Style="{StaticResource Title}"/>
+                <TextBlock Text="{Binding PackageName}" Style="{StaticResource Title}"/>
             </DockPanel>
             <DockPanel Grid.Row="1">
                 <TextBlock Text="描述："/>

@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using LipUI.Views.Windows;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
@@ -12,6 +14,8 @@ namespace LipUI.ViewModels
 
         [ObservableProperty]
         private string _appVersion = String.Empty;
+        [ObservableProperty]
+        private string _lipVersion = String.Empty;
 
         [ObservableProperty]
         private Wpf.Ui.Appearance.ThemeType _currentTheme = Wpf.Ui.Appearance.ThemeType.Unknown;
@@ -30,7 +34,7 @@ namespace LipUI.ViewModels
         {
             CurrentTheme = Wpf.Ui.Appearance.Theme.GetAppTheme();
             AppVersion = $"LipUI - {GetAssemblyVersion()}";
-
+            LipVersion = "loading ... "; 
             _isInitialized = true;
         }
 
