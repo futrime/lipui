@@ -2,6 +2,7 @@
 using LipUI.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -14,32 +15,32 @@ namespace LipUI.ViewModels
     {
         private bool _isInitialized = false;
         [ObservableProperty]
-        IEnumerable<ToothItemViewModel> _toothItems
-            = Array.Empty<ToothItemViewModel>();
-
+        ObservableCollection<ToothItemViewModel> _toothItems
+            = new ();
         [ObservableProperty]
-        private bool _loading = true;
-
+        bool _loading = true;
         public void OnNavigatedTo()
         {
             if (!_isInitialized)
                 InitializeViewModel();
         }
-
         public void OnNavigatedFrom()
         {
         }
         [RelayCommand(CanExecute = nameof(Loading))]
         private async Task LoadAllPackages()
         {
-            ToothItems = Array.Empty<ToothItemViewModel>();
+            ToothItems.Clear();
             var (packages, message) = await Global.Lip.GetAllPackagesAsync();
-            ToothItems = (from x in packages
-                select new ToothItemViewModel()
+            foreach (var package in packages)
+            {
+                ToothItems.Add(new ToothItemViewModel()
                 {
-                    Version = x.Version,
-                    Tooth = x.Tooth
-                }).ToArray();
+                    Version = package.Version,
+                    Tooth = package.Tooth
+                });
+                await Task.Delay(100);//100毫秒显示一个，更加丝滑
+            }
         }
         private void InitializeViewModel()
         {

@@ -14,26 +14,44 @@
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Storyboard x:Key="PopDown">
+            <!--create story board to slide down StatusBar--> 
+        </Storyboard>
+    </Page.Resources>
     <Grid Margin="20,0">
         <DockPanel>
-            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button  Command="{Binding ViewModel.LoadAllPackagesCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <ui:SymbolIcon Symbol="Feed16"
-                                   Filled="False" FontSize="32"
-                                   Foreground="White"/>
-                    <TextBlock Text="重新加载" VerticalAlignment="Center"/>
-                </StackPanel>
-                </Button>
-            </StackPanel>
-            <ui:VirtualizingItemsControl Padding="0" HorizontalContentAlignment="Stretch"
+            <StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom"> 
+                <StatusBarItem HorizontalContentAlignment="Stretch">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10,0">
+                            <TextBlock Text="已安装 " Style="{StaticResource Title}"/>
+                            <TextBlock Text="{Binding ViewModel.ToothItems.Count}" Style="{StaticResource Title}"/>
+                            <TextBlock Text=" 个齿包" Style="{StaticResource Title}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Margin="-10" Command="{Binding ViewModel.LoadAllPackagesCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon Symbol="Feed16"
+                                                   Filled="False" FontSize="32"
+                                                   Foreground="White"/>
+                                    <TextBlock Text="重新加载" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </DockPanel>
+                </StatusBarItem>
+            </StatusBar>
+            <ScrollViewer DockPanel.Dock="Bottom">
+                <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
                                      ItemsSource="{Binding ViewModel.ToothItems, Mode=OneWay}" >
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <controls:ToothItem DataContext="{Binding Path=., Mode=OneWay}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ui:VirtualizingItemsControl>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ToothItem DataContext="{Binding Path=., Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </DockPanel>
     </Grid>
 </ui:UiPage>
