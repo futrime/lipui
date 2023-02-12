@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
+using LipNETWrapper.Class;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
@@ -48,10 +49,15 @@ namespace LipUI.ViewModels
                 await Task.Delay(100);//100毫秒显示一个，假装很丝滑
             }
         }
+
+        protected virtual Task<(bool success, LipPackage? package, string message)> FetchPackageInfo(string tooth)
+        {
+            return Global.Lip.GetLocalPackageInfoAsync(tooth);
+        }
         protected async Task ShowInfo(ToothItemViewModel toothItem)
         {
             CurrentSelected = toothItem;
-            var (success, package, message) = await Global.Lip.GetLocalPackageInfoAsync(toothItem.Tooth);
+            var (success, package, message) = await FetchPackageInfo(toothItem.Tooth);
             if (success)
             {
                 CurrentInfo = new ToothInfoPanelViewModel(package!);

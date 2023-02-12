@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LipNETWrapper.Class;
+
 namespace LipUI.ViewModels;
 public partial class LipRegistryPageViewModel : ToothLocalModel
 {
@@ -22,10 +24,14 @@ public partial class LipRegistryPageViewModel : ToothLocalModel
             await Task.Delay(100);//100毫秒显示一个，假装很丝滑
         }
     }
-
     protected override void InitializeViewModel()
     {
         _ = LoadAllPackages();//初始化加载所以包
         _isInitialized = true;
+    }
+
+    protected override Task<(bool success, LipPackage? package, string message)> FetchPackageInfo(string tooth)
+    {
+        return Global.Lip.GetPackageInfoAsync(tooth);
     }
 }
