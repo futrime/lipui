@@ -14,16 +14,9 @@
     mc:Ignorable="d">
 
     <Grid Margin="56,0" VerticalAlignment="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <TextBlock
-            Margin="0,24,0,0"
-            FontSize="20"
-            FontWeight="Medium"
-            Text="About LipUI" />
-        <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.Counter, Mode=OneWay}" />
-
+        <StackPanel>
+            <TextBlock>这里什么都没有！</TextBlock>
+            <TextBlock>点击左边的导航栏吧！</TextBlock>
+        </StackPanel>
     </Grid>
 </ui:UiPage>

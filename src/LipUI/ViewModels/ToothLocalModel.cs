@@ -7,7 +7,7 @@ using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
 {
-    public partial class DataViewModel : ObservableObject, INavigationAware
+    public partial class ToothLocalModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
         [ObservableProperty]

@@ -17,10 +17,10 @@ namespace LipNETWrapper
             ExecutablePath = executablePath;
         }
         public string ExecutablePath { get; }
-        public Task<string> GetLipVersion(CancellationToken tk = default)
+        public async Task<string> GetLipVersion(CancellationToken tk = default)
         {
-            return new LipConsoleLoader(ExecutablePath)
-                .Run(LipCommand.Create("-V"), tk);
+            return (await new LipConsoleLoader(ExecutablePath)
+                .Run(LipCommand.Create("-V"), tk)).Trim();
         }
         public async Task<(LipPackageSimple[] packages, string message)> GetAllPackagesAsync(CancellationToken tk = default)
         {

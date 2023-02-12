@@ -15,6 +15,10 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <DockPanel >
                 <TextBlock Text="包名：" Style="{StaticResource Title}"/>
                 <TextBlock Text="{Binding PackageName}" Style="{StaticResource Title}"/>
@@ -22,6 +26,9 @@
             <DockPanel Grid.Row="1">
                 <TextBlock Text="描述："/>
                 <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding PackageDescription}"/>
+            </DockPanel> 
+            <DockPanel Margin="5" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+                <Button>详细信息</Button>
             </DockPanel> 
         </Grid>
     </ui:Card>

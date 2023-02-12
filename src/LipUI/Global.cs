@@ -14,21 +14,12 @@ namespace LipUI
             );
         internal static async Task DispatcherInvokeAsync(Action act)
         {
-            await (Application.Current.Windows.OfType<Views.Windows.MainWindow>()
-                    .FirstOrDefault()?
-                    .Dispatcher ??
-                   throw new Exception("MainWindow not found!")
-                    )
-                .InvokeAsync(act);
+            await Application.Current.Dispatcher.InvokeAsync(act);
         }
         internal static void DispatcherInvoke(Action act)
         {
-            (Application.Current.Windows.OfType<Views.Windows.MainWindow>()
-                  .FirstOrDefault()?
-                  .Dispatcher ??
-                 throw new Exception("MainWindow not found!")
-                  )
-              .Invoke(act);
+
+            Application.Current.Dispatcher.Invoke(act);
         }
     }
 }

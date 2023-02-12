@@ -5,9 +5,7 @@ using Wpf.Ui.Common.Interfaces;
 namespace LipUI.ViewModels
 {
     public partial class DashboardViewModel : ObservableObject, INavigationAware
-    {
-        [ObservableProperty]
-        private int _counter = 0;
+    { 
 
         public void OnNavigatedTo()
         {

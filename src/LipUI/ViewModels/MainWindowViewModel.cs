@@ -37,17 +37,17 @@ namespace LipUI.ViewModels
             {
                 new NavigationItem()
                 {
-                    Content = "Home",
+                    Content = "主页",
                     PageTag = "dashboard",
                     Icon = SymbolRegular.Home24,
                     PageType = typeof(Views.Pages.DashboardPage)
                 },
                 new NavigationItem()
                 {
-                    Content = "Data",
-                    PageTag = "data",
-                    Icon = SymbolRegular.DataHistogram24,
-                    PageType = typeof(Views.Pages.DataPage)
+                    Content = "本地包",
+                    PageTag = "local",
+                    Icon = SymbolRegular.TrayItemAdd20,
+                    PageType = typeof(Views.Pages.ToothLocalPage)
                 }
             };
 
@@ -55,7 +55,7 @@ namespace LipUI.ViewModels
             {
                 new NavigationItem()
                 {
-                    Content = "Settings",
+                    Content = "设置",
                     PageTag = "settings",
                     Icon = SymbolRegular.Settings24,
                     PageType = typeof(Views.Pages.SettingsPage)

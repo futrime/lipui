@@ -16,7 +16,6 @@ namespace LipUI.ViewModels
         private string _appVersion = String.Empty;
         [ObservableProperty]
         private string _lipVersion = String.Empty;
-
         [ObservableProperty]
         private Wpf.Ui.Appearance.ThemeType _currentTheme = Wpf.Ui.Appearance.ThemeType.Unknown;
 
@@ -25,11 +24,9 @@ namespace LipUI.ViewModels
             if (!_isInitialized)
                 InitializeViewModel();
         }
-
         public void OnNavigatedFrom()
         {
         }
-
         private void InitializeViewModel()
         {
             CurrentTheme = Wpf.Ui.Appearance.Theme.GetAppTheme();
@@ -37,16 +34,11 @@ namespace LipUI.ViewModels
             LipVersion = "loading ... ";
             Task.Run(async () =>
             {
-                var version= await Global.Lip.GetLipVersion();
-                await Global.DispatcherInvokeAsync(() =>
-                {
-                    LipVersion = version;
-                });
+                var version = await Global.Lip.GetLipVersion();
+                LipVersion = version;
             }).ConfigureAwait(false);
             _isInitialized = true;
-        }
-
-
+        } 
         [RelayCommand]
         private void OnOpenLipUrl()
         {

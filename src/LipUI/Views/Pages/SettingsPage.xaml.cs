@@ -15,7 +15,6 @@ namespace LipUI.Views.Pages
         public SettingsPage(ViewModels.SettingsViewModel viewModel)
         {
             ViewModel = viewModel;
-
             InitializeComponent();
         }
     }
