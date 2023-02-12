@@ -34,7 +34,15 @@ namespace LipUI.ViewModels
         {
             CurrentTheme = Wpf.Ui.Appearance.Theme.GetAppTheme();
             AppVersion = $"LipUI - {GetAssemblyVersion()}";
-            LipVersion = "loading ... "; 
+            LipVersion = "loading ... ";
+            Task.Run(async () =>
+            {
+                var version= await Global.Lip.GetLipVersion();
+                await Global.DispatcherInvokeAsync(() =>
+                {
+                    LipVersion = version;
+                });
+            }).ConfigureAwait(false);
             _isInitialized = true;
         }
 

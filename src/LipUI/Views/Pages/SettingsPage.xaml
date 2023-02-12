@@ -44,9 +44,11 @@
             Margin="0,24,0,0"
             FontSize="20"
             FontWeight="Medium"
-            Text="关于 LipUI" />
+            Text="关于" />
         <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
+        <TextBlock Margin="0,12,0,0" Text="{Binding ViewModel.LipVersion, Mode=OneWay}" />
         <Grid Margin="0,10"/>
-        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/Lip">Lip on GitHub</ui:Hyperlink>
+        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/LipUI">LipUI 的 GitHub 项目地址</ui:Hyperlink>
+        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/Lip">Lip 的 GitHub 项目地址</ui:Hyperlink>
     </StackPanel>
 </ui:UiPage>
