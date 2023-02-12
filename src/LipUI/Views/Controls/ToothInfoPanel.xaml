@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance viewModels:ToothInfoPanelViewModel,IsDesignTimeCreatable=False}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
-    <Grid>
+    <Grid MinWidth="200">
         <ScrollViewer>
             <ui:Card  VerticalAlignment="Top" HorizontalAlignment="Right" >
                 <DockPanel>
