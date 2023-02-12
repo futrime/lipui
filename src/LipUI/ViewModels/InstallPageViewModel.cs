@@ -22,14 +22,13 @@ namespace LipUI.ViewModels
         [NotifyPropertyChangedFor(nameof(InfoLoaded))]
         [ObservableProperty]
         ToothInfoPanelViewModel? _toothInfoPanel;
-        private CancellationTokenSource _ctk = new();
         public bool InfoLoaded => _toothInfoPanel is not null;
         [ObservableProperty] private bool _installing = false;
         [RelayCommand(CanExecute = nameof(InfoLoaded))]
         public async Task Install()
         {
             OutPut.Clear();
-            _ctk = new CancellationTokenSource();
+            Ctk = new CancellationTokenSource();
             Installing = true;
             try
             {
@@ -53,13 +52,14 @@ namespace LipUI.ViewModels
             {
                 OutPut.Add(ex.ToString());
             }
+            Ctk = null;
             Installing = false;
         }
         [RelayCommand]
         public async Task FetchInfo()
         {
             OutPut.Clear();
-            _ctk = new CancellationTokenSource();
+            Ctk = new CancellationTokenSource();
             try
             {
                 var (success, package, message) = await Global.Lip.GetPackageInfoAsync(ToothName, _ctk.Token, x =>
@@ -82,6 +82,18 @@ namespace LipUI.ViewModels
             {
                 OutPut.Add(ex.ToString());
             }
+            Ctk = null;
+        }
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(CanCancel))]
+        [NotifyCanExecuteChangedFor(nameof(CancelCommand))]
+        CancellationTokenSource? _ctk = null;
+        public bool CanCancel => Ctk is not null;
+        [RelayCommand(CanExecute = nameof(CanCancel))]
+        public void Cancel()
+        {
+            Ctk?.Cancel();
+            Ctk = null;
         }
     }
 }
