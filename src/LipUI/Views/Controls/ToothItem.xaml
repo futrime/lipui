@@ -10,26 +10,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="800">
     <ui:Card Margin="10" HorizontalAlignment="Stretch">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <DockPanel >
-                <TextBlock Text="包名：" Style="{StaticResource Title}"/>
-                <TextBlock Text="{Binding PackageName}" Style="{StaticResource Title}"/>
-            </DockPanel>
-            <DockPanel Grid.Row="1">
-                <TextBlock Text="描述："/>
-                <TextBlock TextWrapping="WrapWithOverflow" Text="{Binding PackageDescription}"/>
-            </DockPanel> 
-            <DockPanel Margin="5" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+        <DockPanel> 
+            <DockPanel Margin="0,0,10,0">
                 <Button>详细信息</Button>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="{Binding Tooth}" Style="{StaticResource Title}"/>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="版本："/>
+                <TextBlock Text="{Binding Version}"/>
             </DockPanel> 
-        </Grid>
+        </DockPanel>
     </ui:Card>
 </UserControl>

@@ -4,8 +4,7 @@ namespace LipUI.ViewModels;
 public partial class ToothItemViewModel : ObservableObject
 {
     [ObservableProperty]
-    private string _packageName = string.Empty;
+    private string _tooth = string.Empty;
     [ObservableProperty]
-    private string _packageDescription = string.Empty;
-
+    private string _version = string.Empty;
 }

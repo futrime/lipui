@@ -2,7 +2,10 @@
 using LipUI.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media;
+using CommunityToolkit.Mvvm.Input;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
@@ -11,7 +14,11 @@ namespace LipUI.ViewModels
     {
         private bool _isInitialized = false;
         [ObservableProperty]
-        private IEnumerable<ToothItemViewModel> _toothItems;
+        IEnumerable<ToothItemViewModel> _toothItems
+            = Array.Empty<ToothItemViewModel>();
+
+        [ObservableProperty]
+        private bool _loading = true;
 
         public void OnNavigatedTo()
         {
@@ -22,19 +29,21 @@ namespace LipUI.ViewModels
         public void OnNavigatedFrom()
         {
         }
-
+        [RelayCommand(CanExecute = nameof(Loading))]
+        private async Task LoadAllPackages()
+        {
+            ToothItems = Array.Empty<ToothItemViewModel>();
+            var (packages, message) = await Global.Lip.GetAllPackagesAsync();
+            ToothItems = (from x in packages
+                select new ToothItemViewModel()
+                {
+                    Version = x.Version,
+                    Tooth = x.Tooth
+                }).ToArray();
+        }
         private void InitializeViewModel()
         {
-            var itemCollection = new List<ToothItemViewModel>();
-            for (int i = 1; i <= 32; i++)
-            {
-                itemCollection.Add(new ToothItemViewModel
-                {
-                    PackageName = "测试 " + i,
-                    PackageDescription = "描述"
-                });
-            }
-            ToothItems = itemCollection;
+            _ = LoadAllPackages();//初始化加载所以包
             _isInitialized = true;
         }
     }
