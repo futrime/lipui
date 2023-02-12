@@ -63,7 +63,7 @@
                     <Frame x:Name="RootFrame" Grid.Row="1" />
                     <ui:Breadcrumb
                         Grid.Row="0"
-                        Margin="56,32"
+                        Margin="16"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="28"

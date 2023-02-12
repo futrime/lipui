@@ -10,34 +10,37 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
     <Grid>
-        <ScrollViewer >
+        <ScrollViewer>
             <ui:Card  VerticalAlignment="Top" HorizontalAlignment="Right" >
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="包名：" VerticalAlignment="Center"/>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Tooth,Mode=OneWay}"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="版本：" VerticalAlignment="Center"/>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Version,Mode=OneWay}"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="名称：" VerticalAlignment="Center"/>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Name,Mode=OneWay}"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="作者：" VerticalAlignment="Center"/>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Author,Mode=OneWay}"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="描述：" VerticalAlignment="Center"/>
-                        <TextBox TextWrapping="WrapWithOverflow" MinWidth="100" IsReadOnly="True" Text="{Binding  Description,Mode=OneWay}"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                        <TextBox TextWrapping="WrapWithOverflow" MinWidth="100"  IsReadOnly="True" Text="{Binding  Description,Mode=OneWay}"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="主页：" VerticalAlignment="Center"/>
+                        <ui:Hyperlink VerticalAlignment="Center" NavigateUri="{Binding Homepage,Mode=OneWay}">
+                            打开
+                        </ui:Hyperlink>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Homepage,Mode=OneWay}"/>
-                    </StackPanel> 
-                </StackPanel>
+                    </DockPanel>
+                </DockPanel>
             </ui:Card>
         </ScrollViewer>
     </Grid>

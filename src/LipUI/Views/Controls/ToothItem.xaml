@@ -9,8 +9,7 @@
     d:DataContext="{d:DesignInstance models:ToothItemViewModel,IsDesignTimeCreatable=False}"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="800">
-    <ui:Card Margin="10" HorizontalAlignment="Stretch">
-
+    <ui:Card Margin="10" HorizontalAlignment="Stretch" >
         <DockPanel>
             <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
                 <Button Command="{Binding ShowInfoCommand}">详细信息</Button>
