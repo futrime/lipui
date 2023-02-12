@@ -46,7 +46,7 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <controls:ToothInfoPanel DataContext="{Binding ViewModel.CurrentInfo,Mode=TwoWay}"/>
+            <controls:ToothInfoPanel DataContext="{Binding ViewModel.CurrentInfo}"/>
         </Grid>
         <Grid MouseDown="UIElement_OnMouseDown" TouchDown="UIElement_OnTouchDown" ZIndex="1" Opacity="0" Visibility="{Binding Opacity, RelativeSource={RelativeSource Self},Converter={StaticResource OpacityToVisibilityConverter}}"
             Background="{DynamicResource ApplicationBackgroundBrush}">
@@ -68,7 +68,7 @@
                                     <Storyboard >
                                         <DoubleAnimation
                                             Storyboard.TargetProperty="(FrameworkElement.Opacity)"
-                                            To=".5" Duration="0:0:0.2"/>
+                                            To=".75" Duration="0:0:0.2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.EnterActions>

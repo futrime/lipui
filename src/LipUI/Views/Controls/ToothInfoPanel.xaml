@@ -15,27 +15,27 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="包名：" VerticalAlignment="Center"/>
-                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Tooth}"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Tooth,Mode=OneWay}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="版本：" VerticalAlignment="Center"/>
-                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Version}"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Version,Mode=OneWay}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="名称：" VerticalAlignment="Center"/>
-                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Name}"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Name,Mode=OneWay}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="作者：" VerticalAlignment="Center"/>
-                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Author}"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Author,Mode=OneWay}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="描述：" VerticalAlignment="Center"/>
-                        <TextBox TextWrapping="WrapWithOverflow" MinWidth="100" IsReadOnly="True" Text="{Binding  Description}"/>
+                        <TextBox TextWrapping="WrapWithOverflow" MinWidth="100" IsReadOnly="True" Text="{Binding  Description,Mode=OneWay}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="主页：" VerticalAlignment="Center"/>
-                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Homepage}"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Homepage,Mode=OneWay}"/>
                     </StackPanel> 
                 </StackPanel>
             </ui:Card>
