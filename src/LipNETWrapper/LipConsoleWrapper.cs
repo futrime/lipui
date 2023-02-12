@@ -42,6 +42,11 @@ namespace LipNETWrapper
                 .RunString(LipCommand.Create("show").WithJson() + packageId, tk: tk);
             var json = text.Split('\n').FirstOrDefault(x => x.StartsWith("{"))?.Trim();
             return (json is not null, json is null ? null : JsonConvert.DeserializeObject<LipPackage>(json)!, text);
+        } 
+        public Task<int>  InstallPackageAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
+        {  
+            return new LipConsoleLoader(ExecutablePath)
+                .Run(LipCommand.Create("install") + packageId, onOutput, tk);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NUnit.Framework.Internal;
 
 namespace LipNETWrapperTest
@@ -71,6 +72,16 @@ namespace LipNETWrapperTest
             sb.AppendLine(message);
             Assert.Pass(sb.ToString());
         }
-
+        [Test]
+        public async Task TestInstallPackage()
+        {
+            var sb = new StringBuilder();
+            var result = await Loader.InstallPackageAsync("github.com/tooth-hub/liteloaderbds", onOutput: s =>
+            {
+                sb.AppendLine(s);
+            });
+            sb.AppendLine("exit code : " + result);
+            Assert.Pass(sb.ToString());
+        }
     }
 }

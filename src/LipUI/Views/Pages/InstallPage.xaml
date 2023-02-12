@@ -15,21 +15,70 @@
            mc:Ignorable="d">
     <ui:UiPage.Resources>
         <helpers:HalfOriginalConverter x:Key="HalfOriginalConverter" />
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <helpers:OpacityToVisibilityConverter x:Key="OpacityToVisibilityConverter" />
     </ui:UiPage.Resources>
-    <DockPanel Margin="56,0">
-        <DockPanel Dock="Top">
-            <Button DockPanel.Dock="Right" Command="{Binding ViewModel.FetchInfoCommand}">
-                获取
-            </Button>
-            <ui:TextBox Margin="5" Text="{Binding ViewModel.ToothName}"/>
+    <Grid>
+        <Grid Opacity=".0" Visibility="{Binding Opacity, RelativeSource={RelativeSource Self},Converter={StaticResource OpacityToVisibilityConverter}}" ZIndex="1" Background="{DynamicResource ApplicationBackgroundBrush}">
+            <Grid.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ViewModel.Installing}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                                            To=".7" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard >
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                                            To="0" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ui:ProgressRing IsIndeterminate="True" Progress="80" />
+                <TextBlock Text="安装中... ? %" HorizontalAlignment="Center" FontSize="25"/>
+                <Button Content="取消（还没做）" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+        <DockPanel Margin="56,0" x:Name="Root">
+            <DockPanel Dock="Top">
+                <Button DockPanel.Dock="Right" Command="{Binding ViewModel.FetchInfoCommand}">
+                    获取
+                </Button>
+                <Button Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.InstallCommand}">
+                    取消
+                </Button>
+                <Button Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.InstallCommand}">
+                    安装
+                </Button>
+
+                <ui:TextBox Margin="5" Text="{Binding ViewModel.ToothName}"/>
+            </DockPanel>
+            <Grid Visibility="{Binding ViewModel.InfoLoaded,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter} }"  MaxWidth="{Binding ElementName=Root,Path=ActualWidth,Converter={StaticResource HalfOriginalConverter}}">
+                <controls:ToothInfoPanel DataContext="{Binding  ViewModel.ToothInfoPanel}" Margin="5"/>
+            </Grid>
+            <ScrollViewer DockPanel.Dock="Bottom">
+                <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
+                          ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding .}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </DockPanel>
-        <controls:ToothInfoPanel MaxWidth="{Binding ActualWidth,Converter={StaticResource HalfOriginalConverter}}"/>
-            <ItemsControl ItemsSource="{Binding ViewModel.OutPut}">
-            <ItemsControl.Template>
-                <ControlTemplate>
-                    <TextBlock Text="{Binding .}"></TextBlock>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
-    </DockPanel>
+    </Grid>
 </ui:UiPage>

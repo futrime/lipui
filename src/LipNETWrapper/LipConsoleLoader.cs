@@ -89,9 +89,9 @@ namespace LipNETWrapper
             ExecutablePath = Path.GetFullPath(executablePath);
         }
         public string ExecutablePath { get; }
-        public async Task<int> Run(string cmd, Action<string> output, CancellationToken tk = default)
+        public async Task<int> Run(string cmd, Action<string>? output, CancellationToken tk = default)
         {
-            var inst = new LipConsoleCommandInstance(ExecutablePath, cmd, output, output);
+            var inst = new LipConsoleCommandInstance(ExecutablePath, cmd, s=> output?.Invoke(s), s => output?.Invoke(s));
             while (!inst.HasExited)
             {
                 await Task.Delay(100, tk);
