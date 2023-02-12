@@ -1,6 +1,5 @@
 ﻿#nullable enable
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using LipNETWrapper.Class;
@@ -15,4 +14,5 @@ public interface ILipWrapper
         CancellationToken tk = default);
     Task<int> InstallPackageAsync(string packageId,
         CancellationToken tk = default, Action<string>? onOutput = null);
+    Task<LipRegistry> GetLipRegistryAsync(CancellationToken tk = default);
 }

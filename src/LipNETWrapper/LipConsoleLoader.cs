@@ -66,8 +66,16 @@ namespace LipNETWrapper
                 RedirectStandardInput = true,
                 WorkingDirectory = Path.GetDirectoryName(exe)
             };
-            _process.OutputDataReceived += (_, args) => output(args.Data);
-            _process.ErrorDataReceived += (_, args) => outputErr(args.Data);
+            _process.OutputDataReceived += (_, args) =>
+            {
+                if (!_tk.IsCancellationRequested)
+                    output(args.Data);
+            };
+            _process.ErrorDataReceived += (_, args) =>
+            {
+                if (!_tk.IsCancellationRequested) 
+                    outputErr(args.Data);
+            };
             _process.Start();
             _process.BeginOutputReadLine();
             _process.BeginErrorReadLine();

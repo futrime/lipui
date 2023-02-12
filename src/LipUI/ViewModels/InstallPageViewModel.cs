@@ -17,6 +17,7 @@ namespace LipUI.ViewModels
         partial void OnToothNameChanged(string _)
         {
             ToothInfoPanel = null;
+            OutPut.Clear();
         }
         [NotifyCanExecuteChangedFor(nameof(InstallCommand))]
         [NotifyPropertyChangedFor(nameof(InfoLoaded))]

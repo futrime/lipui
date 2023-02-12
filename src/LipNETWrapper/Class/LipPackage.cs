@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +35,7 @@ namespace LipNETWrapper.Class
         [JsonProperty("versions")] public string[] Versions { get; set; }
     }
     [Serializable]
-    public class LipFile
+    public class LipFile//todo 这玩意长啥样
     {
         //[JsonProperty("name")] public string Name { get; set; }
         //[JsonProperty("sha256")] public string Sha256 { get; set; }

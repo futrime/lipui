@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NUnit.Framework.Internal;
@@ -6,6 +8,14 @@ namespace LipNETWrapperTest
 {
     public class Tests
     {
+        private void Sep()
+        {
+            Console.WriteLine("---");
+        }
+        private void OutPut(object obj, [CallerArgumentExpression(nameof(obj))] string? expression = null)
+        {
+            Console.WriteLine(expression + " = " + obj);
+        }
         [SetUp]
         public void Setup()
         {
@@ -33,16 +43,14 @@ namespace LipNETWrapperTest
         public async Task TestLipList()
         {
             var (packages, message) = await Loader.GetAllPackagesAsync();
-            var sb = new StringBuilder();
-            sb.AppendLine(packages.Length.ToString());
+            OutPut(packages.Length.ToString());
             foreach (var item in packages)
             {
-                sb.AppendLine("Tooth = " + item.Tooth);
-                sb.AppendLine("Version = " + item.Version);
-                sb.AppendLine("-----");
+                OutPut("Tooth = " + item.Tooth);
+                OutPut("Version = " + item.Version);
+                OutPut("-----");
             }
-            sb.AppendLine(message);
-            Assert.Pass(sb.ToString());
+            OutPut(message);
         }
 
         [Test]
@@ -50,13 +58,11 @@ namespace LipNETWrapperTest
         {
             //github.com/tooth-hub/liteloaderbds
             var (success, package, message) = await Loader.GetPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
-            var sb = new StringBuilder();
-            sb.AppendLine(success.ToString());
-            sb.AppendLine(package?.Name);
-            sb.AppendLine(package?.Version);
-            sb.AppendLine("----------");
-            sb.AppendLine(message);
-            Assert.Pass(sb.ToString());
+            OutPut(success.ToString());
+            OutPut(package?.Name);
+            OutPut(package?.Version);
+            OutPut("----------");
+            OutPut(message);
         }
 
         [Test]
@@ -64,24 +70,34 @@ namespace LipNETWrapperTest
         {
             //github.com/tooth-hub/liteloaderbds
             var (success, package, message) = await Loader.GetLocalPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
-            var sb = new StringBuilder();
-            sb.AppendLine(success.ToString());
-            sb.AppendLine(package?.Name);
-            sb.AppendLine(package?.Version);
-            sb.AppendLine("----------");
-            sb.AppendLine(message);
-            Assert.Pass(sb.ToString());
+            OutPut(success.ToString());
+            OutPut(package?.Name);
+            OutPut(package?.Version);
+            OutPut("----------");
+            OutPut(message);
         }
         [Test]
         public async Task TestInstallPackage()
         {
-            var sb = new StringBuilder();
             var result = await Loader.InstallPackageAsync("github.com/tooth-hub/liteloaderbds", onOutput: s =>
             {
-                sb.AppendLine(s);
+                OutPut(s);
             });
-            sb.AppendLine("exit code : " + result);
-            Assert.Pass(sb.ToString());
+            OutPut("exit code : " + result);
+        }
+
+        [Test]
+        public async Task TestGetLipRegistry()
+        {
+            var registry = await Loader.GetLipRegistryAsync();
+            //output all info
+            OutPut(registry.FormatVersion);
+            foreach (var x in registry.Index)
+            {
+                Sep();
+                OutPut(x.Key);
+                OutPut(x.Value.Tooth);
+            }
         }
     }
 }
