@@ -43,5 +43,34 @@ namespace LipNETWrapperTest
             sb.AppendLine(message);
             Assert.Pass(sb.ToString());
         }
+
+        [Test]
+        public async Task TestGetPackageInfo()
+        {
+            //github.com/tooth-hub/liteloaderbds
+            var (success, package, message) = await Loader.GetPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
+            var sb = new StringBuilder();
+            sb.AppendLine(success.ToString());
+            sb.AppendLine(package?.Name);
+            sb.AppendLine(package?.Version);
+            sb.AppendLine("----------");
+            sb.AppendLine(message);
+            Assert.Pass(sb.ToString());
+        }
+
+        [Test]
+        public async Task TestGetLocalPackageInfo()
+        {
+            //github.com/tooth-hub/liteloaderbds
+            var (success, package, message) = await Loader.GetLocalPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
+            var sb = new StringBuilder();
+            sb.AppendLine(success.ToString());
+            sb.AppendLine(package?.Name);
+            sb.AppendLine(package?.Version);
+            sb.AppendLine("----------");
+            sb.AppendLine(message);
+            Assert.Pass(sb.ToString());
+        }
+
     }
 }
