@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using LipNETWrapper;
 using LipUI.Views.Windows;
 using Wpf.Ui.Common.Interfaces;
 
@@ -19,6 +21,19 @@ namespace LipUI.ViewModels
         [ObservableProperty]
         private Wpf.Ui.Appearance.ThemeType _currentTheme = Wpf.Ui.Appearance.ThemeType.Unknown;
 
+        [ObservableProperty]
+        public string _lipPath;
+        partial void OnLipPathChanging(string path)
+        {
+            if (File.Exists(path))
+            {
+                Global.Lip = new LipConsoleWrapper(path);
+            }
+            else if(File.Exists(Path.Combine(path, "lip.exe")))
+            {
+                Global.Lip = new LipConsoleWrapper(Path.Combine(path, "lip.exe"));
+            }
+        }
         public void OnNavigatedTo()
         {
             if (!_isInitialized)
@@ -38,7 +53,7 @@ namespace LipUI.ViewModels
                 LipVersion = version;
             }).ConfigureAwait(false);
             _isInitialized = true;
-        } 
+        }
         [RelayCommand]
         private void OnOpenLipUrl()
         {
