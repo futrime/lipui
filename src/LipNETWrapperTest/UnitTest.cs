@@ -59,8 +59,13 @@ namespace LipNETWrapperTest
             //github.com/tooth-hub/liteloaderbds
             var (success, package, message) = await Loader.GetPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
             OutPut(success.ToString());
-            OutPut(package?.Name);
-            OutPut(package?.Version);
+            if (success)
+            {
+                foreach (var v in package!.Versions)
+                {
+                    OutPut(v);
+                }
+            }
             OutPut("----------");
             OutPut(message);
         }

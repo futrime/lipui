@@ -12,7 +12,29 @@
     <ui:Card Margin="10" HorizontalAlignment="Stretch" >
         <DockPanel>
             <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
-                <Button Command="{Binding ShowInfoCommand}">详细信息</Button>
+                <ui:CodeBlock Margin="0,0,0,8">
+                </ui:CodeBlock>
+                <ui:Button Name="ShowInfoButton" Command="{Binding ShowInfoCommand}" Background="Transparent">
+                    <ContentControl>
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl" >
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <ProgressBar IsIndeterminate="True" Width="75"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Margin" Value="-10"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="True">
+                                        <Setter Property="Content" Value="详细信息"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </ui:Button>
             </DockPanel>
             <Grid  DockPanel.Dock="Top" Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <DockPanel>

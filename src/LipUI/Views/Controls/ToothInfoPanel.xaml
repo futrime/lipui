@@ -9,12 +9,16 @@
              d:DataContext="{d:DesignInstance viewModels:ToothInfoPanelViewModel,IsDesignTimeCreatable=False}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="200">
-    <Grid MinWidth="200">
+    <Grid>
         <ScrollViewer>
-            <ui:Card  VerticalAlignment="Top" HorizontalAlignment="Right" >
+            <ui:Card>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="包名：" VerticalAlignment="Center"/>
+                        <Button  DockPanel.Dock="Right" Margin="4,0,0,2" Padding="8,4" VerticalAlignment="Stretch"
+                                 Command="{Binding CopyToothButtonCommand}">
+                            <ui:SymbolIcon Symbol="CopySelect20"/>
+                        </Button>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Tooth,Mode=OneWay}"/>
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top" Visibility="{Binding Version,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
@@ -43,6 +47,9 @@
                             打开
                         </ui:Hyperlink>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Homepage,Mode=OneWay}"/>
+                    </DockPanel>
+                    <DockPanel >
+                        <ContentControl HorizontalAlignment="Stretch" Content="{Binding  Content,RelativeSource={RelativeSource FindAncestor,AncestorType=local:ToothInfoPanel}}"/>
                     </DockPanel>
                 </DockPanel>
             </ui:Card>

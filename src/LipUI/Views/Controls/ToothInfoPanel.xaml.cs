@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace LipUI.Views.Controls
 {
@@ -23,6 +11,15 @@ namespace LipUI.Views.Controls
         public ToothInfoPanel()
         {
             InitializeComponent();
+        }
+        //content property
+        public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(
+                       "Content", typeof(object), typeof(ToothInfoPanel), new PropertyMetadata(default(object)));
+
+        public new object Content
+        {
+            get { return (object)GetValue(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
         }
     }
 }

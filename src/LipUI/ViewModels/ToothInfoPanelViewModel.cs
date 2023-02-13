@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using LipNETWrapper.Class;
 
 namespace LipUI.ViewModels
 {
-    public class ToothInfoPanelViewModel : ObservableObject
+    public partial class ToothInfoPanelViewModel : ObservableObject
     {
         private LipPackage? _info;
         private LipRegistry.LipRegistryItem? _registryItem;
@@ -30,5 +31,10 @@ namespace LipUI.ViewModels
         public string License => _info?.License ?? _registryItem?.License ?? string.Empty;
         public string Version => _info?.Version ?? "";
         public string[] Versions => _ver.Versions;
+        [RelayCommand]
+        void CopyToothButton()
+        {
+            System.Windows.Clipboard.SetText(Tooth);
+        }
     }
 }
