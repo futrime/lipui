@@ -17,9 +17,14 @@ namespace LipNETWrapper
         {
             return new LipCommand();
         }
-        public static LipCommand Create(string cmd)
+        public static LipCommand Create(string cmd, bool quiet = false)
         {
-            return new LipCommand().Add(cmd);
+            var instance = new LipCommand();
+            if (quiet)
+            {
+                instance.Add("-q");
+            }
+            return instance.Add(cmd);
         }
         public LipCommand Add(string cmd)
         {
@@ -31,16 +36,11 @@ namespace LipNETWrapper
             _commands.Add("--json");
             return this;
         }
-        public LipCommand Verbose()
-        {
-            _commands.Add("--verbose");
-            return this;
-        }
-        public LipCommand Quiet()
-        {
-            _commands.Add("--quiet");
-            return this;
-        }
+        //public LipCommand Verbose()
+        //{
+        //    _commands.Add("--verbose");
+        //    return this;
+        //} 
         public static implicit operator string(LipCommand cmd) => string.Join(" ", cmd._commands);
         public override string ToString() => this;
         public static LipCommand operator +(LipCommand cmd, string s) => cmd.Add(s);
@@ -73,7 +73,7 @@ namespace LipNETWrapper
             };
             _process.ErrorDataReceived += (_, args) =>
             {
-                if (!_tk.IsCancellationRequested) 
+                if (!_tk.IsCancellationRequested)
                     outputErr(args.Data);
             };
             _process.Start();

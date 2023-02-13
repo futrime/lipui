@@ -5,8 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging.Messages;
-using LipNETWrapper.Class;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
