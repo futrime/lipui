@@ -50,16 +50,16 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             ToothItems.Clear();
         });
         var registry = await Global.Lip.GetLipRegistryAsync(_registryHub);
-        foreach (var item in registry.Index)
+    
+        await Global.DispatcherInvokeAsync(() =>
+        {
+            IsLoading = false;
+        });    foreach (var item in registry.Index)
         {
             await Global.DispatcherInvokeAsync(() =>
                 ToothItems.Add(new ToothItemViewModel(ShowInfo, item.Value)));
             await Task.Delay(100);//100毫秒显示一个，假装很丝滑
         }
-        await Global.DispatcherInvokeAsync(() =>
-        {
-            IsLoading = false;
-        });
     }
     protected void InitializeViewModel()
     {
