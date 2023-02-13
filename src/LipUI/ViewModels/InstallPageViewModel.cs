@@ -40,7 +40,7 @@ namespace LipUI.ViewModels
                     fullname += "@" + SelectedVersion;
                 var exitCode = await Global.Lip.InstallPackageAsync(fullname, Ctk.Token, x =>
                 {
-                    if (x is not null)
+                    if (!string.IsNullOrWhiteSpace(x))
                     {//todo Please enter y if you agree with the above terms
                      //if (x.StartsWith("{"))
                      //{
