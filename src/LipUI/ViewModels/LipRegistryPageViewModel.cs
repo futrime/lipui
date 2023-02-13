@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipNETWrapper.Class;
+using LipUI.Views.Pages;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels;
-public partial class LipRegistryPageViewModel : ObservableObject, INavigationAware
+public partial class LipRegistryPageViewModel : ObservableRecipient, INavigationAware
 {
     protected bool _isInitialized = false;
     [ObservableProperty]
@@ -40,7 +41,14 @@ public partial class LipRegistryPageViewModel : ObservableObject, INavigationAwa
     [RelayCommand]
     protected async Task LoadAllPackages()
     {
-        await Global.DispatcherInvokeAsync(() => ToothItems.Clear());
+        await Global.DispatcherInvokeAsync(() =>
+        {
+            IsLoading = true;
+            LoadingOutPut.Clear();
+            LoadingOutPut.Add("正在加载所有包");
+            LoadingOutPut.Add(RegistryHub);
+            ToothItems.Clear();
+        });
         var registry = await Global.Lip.GetLipRegistryAsync(_registryHub);
         foreach (var item in registry.Index)
         {
@@ -48,6 +56,10 @@ public partial class LipRegistryPageViewModel : ObservableObject, INavigationAwa
                 ToothItems.Add(new ToothItemViewModel(ShowInfo, item.Value)));
             await Task.Delay(100);//100毫秒显示一个，假装很丝滑
         }
+        await Global.DispatcherInvokeAsync(() =>
+        {
+            IsLoading = false;
+        });
     }
     protected void InitializeViewModel()
     {
@@ -67,5 +79,13 @@ public partial class LipRegistryPageViewModel : ObservableObject, INavigationAwa
             //todo 读取失败
         }
         IsShowingDetail = true;
+    }
+    [ObservableProperty] bool _isLoading = new();
+    [ObservableProperty] ObservableCollection<string> _loadingOutPut = new();
+    [RelayCommand]
+    void GotoInstall()
+    {
+        Global.EnqueueItem(new InstallInfo(CurrentInfo.Tooth,CurrentInfo));
+        Global.Navigate<InstallPage, ViewModels.InstallPageViewModel>();
     }
 }

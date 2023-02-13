@@ -46,7 +46,7 @@
                 <controls:ToothInfoPanel DockPanel.Dock="Top" DataContext="{Binding ViewModel.CurrentInfo}">
                     <DockPanel Margin="0,10,0,0">
                         <TextBlock Text="版本：" VerticalAlignment="Center"/>
-                        <Button Click="GotoInstall_OnClick" Margin="5,0,0,0" HorizontalAlignment="Stretch" DockPanel.Dock="Right">
+                        <Button Command="{Binding ViewModel.GotoInstallCommand,RelativeSource={RelativeSource AncestorType=local:LipRegistryPage}}" Margin="5,0,0,0" HorizontalAlignment="Stretch" DockPanel.Dock="Right">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock>安装</TextBlock>
                                 <TextBlock Text="{Binding SelectedVersion}"/>
@@ -153,13 +153,17 @@
                 </ItemsControl>
             </ScrollViewer>
         </DockPanel>
-        <ui:LoadingScreen VerticalContentAlignment="Top">
-            <StackPanel VerticalAlignment="Top">
-                <TextBlock Text="Loading" VerticalAlignment="Top"></TextBlock>
-                <TextBlock Text="Loading" VerticalAlignment="Top"></TextBlock>
-                <TextBlock Text="Loading" VerticalAlignment="Top"></TextBlock>
-                <TextBlock Text="Loading" VerticalAlignment="Top"></TextBlock>
-            </StackPanel>
+        <ui:LoadingScreen Margin="-10" Visibility="{Binding ViewModel.IsLoading,Converter={StaticResource BooleanToVisibilityConverter},Mode=OneWay}">
+            <ScrollViewer DockPanel.Dock="Bottom">
+                <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
+                              ItemsSource="{Binding ViewModel.LoadingOutPut, Mode=OneWay}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="18" Text="{Binding .}" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </ui:LoadingScreen>
     </Grid>
 </ui:UiPage>

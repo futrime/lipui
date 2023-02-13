@@ -4,11 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging.Messages;
+using LipNETWrapper.Class;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
 {
-    public partial class InstallPageViewModel : ObservableObject , INavigationAware
+    public record InstallInfo(string Tooth, ToothInfoPanelViewModel data);
+    public partial class InstallPageViewModel : ObservableObject, INavigationAware
     {
         [ObservableProperty]
         ObservableCollection<string> _outPut = new();
@@ -98,6 +101,11 @@ namespace LipUI.ViewModels
         }
         public void OnNavigatedTo()
         {
+            if (Global.TryDequeueItem<InstallInfo>(out var item))
+            {
+                ToothName = item.Tooth;
+                ToothInfoPanel = item.data;
+            }
         }
         public void OnNavigatedFrom()
         {
