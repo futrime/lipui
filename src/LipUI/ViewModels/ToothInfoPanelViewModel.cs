@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipNETWrapper.Class;
 
@@ -9,19 +10,18 @@ namespace LipUI.ViewModels
         private LipPackage? _info;
         private LipRegistry.LipRegistryItem? _registryItem;
         private LipPackageVersions _ver;
-        public ToothInfoPanelViewModel(LipPackage info)
+        public ToothInfoPanelViewModel(LipPackage info) : this((LipPackageVersions)info)
         {
             _info = info;
-            _ver = info;
         }
-        public ToothInfoPanelViewModel(LipPackageVersions info, LipRegistry.LipRegistryItem item)
+        public ToothInfoPanelViewModel(LipPackageVersions info, LipRegistry.LipRegistryItem item) : this(info)
         {
-            _ver = info;
             _registryItem = item;
         }
         public ToothInfoPanelViewModel(LipPackageVersions info)
         {
             _ver = info;
+            SelectedVersion = Versions.FirstOrDefault();
         }
         public string Author => _info?.Author ?? _registryItem?.Author ?? string.Empty;
         public string Description => _info?.Description ?? _registryItem?.Description ?? string.Empty;
@@ -36,5 +36,6 @@ namespace LipUI.ViewModels
         {
             System.Windows.Clipboard.SetText(Tooth);
         }
+        [ObservableProperty] private string? _selectedVersion;
     }
 }

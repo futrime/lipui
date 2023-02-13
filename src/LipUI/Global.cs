@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI
 {
@@ -24,6 +26,15 @@ namespace LipUI
         {
 
             Application.Current.Dispatcher.Invoke(act);
-        } 
+        }
+        public static void Navigate<T, TV>()
+            where TV : ObservableObject, INavigationAware
+            where T : INavigableView<TV>
+        {
+            DispatcherInvoke(() =>
+            {
+                ((Views.Windows.MainWindow)Application.Current.MainWindow!).Navigate(typeof(T));
+            });
+        }
     }
 }

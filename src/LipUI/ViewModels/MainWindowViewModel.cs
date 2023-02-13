@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
@@ -32,7 +33,7 @@ namespace LipUI.ViewModels
 
         private void InitializeViewModel()
         {
-            ApplicationTitle = "LipUI - 齿包管理器";
+            ApplicationTitle = "LipUI - 齿包管理器"; 
             NavigationItems = new ObservableCollection<INavigationControl>
             {
                 new NavigationItem()

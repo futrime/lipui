@@ -14,7 +14,7 @@ namespace LipUI.ViewModels
 {
     public partial class ToothLocalModel : ObservableObject, INavigationAware
     {
-        protected bool _isInitialized = false;
+        //protected bool _isInitialized = false;
         [ObservableProperty]
         ToothInfoPanelViewModel _currentInfo = null;
         [ObservableProperty]
@@ -28,29 +28,30 @@ namespace LipUI.ViewModels
         bool _loading = true;
         public void OnNavigatedTo()
         {
-            if (!_isInitialized)
-                InitializeViewModel();
+            Task.Run(LoadAllPackages);//初始化加载所以包
+            //if (!_isInitialized)
+            //    InitializeViewModel();
         }
         public void OnNavigatedFrom()
         {
         }
         [RelayCommand(CanExecute = nameof(Loading))]
-        protected virtual async Task LoadAllPackages()
+        protected async Task LoadAllPackages()
         {
-            ToothItems.Clear();
+            await Global.DispatcherInvokeAsync(() => ToothItems.Clear());
             var (packages, message) = await Global.Lip.GetAllPackagesAsync();
             foreach (var package in packages)
             {
-                ToothItems.Add(new ToothItemViewModel(ShowInfo)
+                await Global.DispatcherInvokeAsync(() => ToothItems.Add(new ToothItemViewModel(ShowInfo)
                 {
                     Version = package.Version,
                     Tooth = package.Tooth
-                });
+                }));
                 await Task.Delay(100);//100毫秒显示一个，假装很丝滑
             }
         }
 
-        protected virtual Task<(bool success, LipPackage? package, string message)> FetchPackageInfo(string tooth)
+        protected Task<(bool success, LipPackage? package, string message)> FetchPackageInfo(string tooth)
         {
             return Global.Lip.GetLocalPackageInfoAsync(tooth);
         }
@@ -67,11 +68,6 @@ namespace LipUI.ViewModels
                 //todo 读取失败
             }
             IsShowingDetail = true;
-        }
-        protected virtual void InitializeViewModel()
-        {
-            _ = LoadAllPackages();//初始化加载所以包
-            _isInitialized = true;
         }
     }
 }

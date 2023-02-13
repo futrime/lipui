@@ -8,7 +8,7 @@ using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
 {
-    public partial class InstallPageViewModel : ObservableObject 
+    public partial class InstallPageViewModel : ObservableObject , INavigationAware
     {
         [ObservableProperty]
         ObservableCollection<string> _outPut = new();
@@ -95,6 +95,12 @@ namespace LipUI.ViewModels
         {
             Ctk?.Cancel();
             Ctk = null;
+        }
+        public void OnNavigatedTo()
+        {
+        }
+        public void OnNavigatedFrom()
+        {
         }
     }
 }

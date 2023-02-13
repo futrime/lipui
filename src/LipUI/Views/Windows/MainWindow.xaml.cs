@@ -23,8 +23,8 @@ namespace LipUI.Views.Windows
 
             InitializeComponent();
             SetPageService(pageService);
-
-            navigationService.SetNavigationControl(RootNavigation);
+             
+            navigationService.SetNavigationControl(RootNavigation);  
         }
 
         #region INavigationWindow methods

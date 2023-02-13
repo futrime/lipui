@@ -12,8 +12,6 @@
     <ui:Card Margin="10" HorizontalAlignment="Stretch" >
         <DockPanel>
             <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
-                <ui:CodeBlock Margin="0,0,0,8">
-                </ui:CodeBlock>
                 <ui:Button Name="ShowInfoButton" Command="{Binding ShowInfoCommand}" Background="Transparent">
                     <ContentControl>
                         <ContentControl.Style>

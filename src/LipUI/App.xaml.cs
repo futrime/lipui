@@ -60,7 +60,6 @@ namespace LipUI
                 services.AddScoped<ViewModels.InstallPageViewModel>();
                 services.AddScoped<ViewModels.UninstallPageViewModel>();
                 services.AddScoped<ViewModels.LipRegistryPageViewModel>();
-
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
             }).Build();

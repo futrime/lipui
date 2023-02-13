@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages;
@@ -23,5 +24,10 @@ public partial class LipRegistryPage : INavigableView<ViewModels.LipRegistryPage
     private void UIElement_OnTouchDown(object sender, TouchEventArgs e)
     {
         ViewModel.IsShowingDetail = false;
+    }
+    private void GotoInstall_OnClick(object sender, RoutedEventArgs e)
+    {
+        //route to install page
+        Global.Navigate<InstallPage, ViewModels.InstallPageViewModel>();
     }
 }
