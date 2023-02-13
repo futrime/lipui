@@ -16,6 +16,10 @@ namespace LipUI
         {
             await Application.Current.Dispatcher.InvokeAsync(act);
         }
+        internal static async Task DispatcherInvokeAsync(Func<Task> act)
+        {
+            await Application.Current.Dispatcher.InvokeAsync(act);
+        }
         internal static void DispatcherInvoke(Action act)
         {
 

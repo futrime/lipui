@@ -23,12 +23,12 @@ public class LipRegistry
     [JsonProperty("index")] public IReadOnlyDictionary<string, LipRegistryItem> Index;
     public class LipRegistryItem
     {
-        [JsonProperty("author")] public string Author;
-        [JsonProperty("description")] public string Description;
-        [JsonProperty("homepage")] public string Homepage;
-        [JsonProperty("license")] public string License;
-        [JsonProperty("name")] public string Name;
-        [JsonProperty("repository")] public string Repository;
-        [JsonProperty("tooth")] public string Tooth;
+        [JsonProperty("author")] public string Author { get; set; }
+        [JsonProperty("description")] public string Description { get; set; }
+        [JsonProperty("homepage")] public string Homepage { get; set; }
+        [JsonProperty("license")] public string License { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("repository")] public string Repository { get; set; }
+        [JsonProperty("tooth")] public string Tooth { get; set; }
     }
 }

@@ -14,16 +14,34 @@
             <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
                 <Button Command="{Binding ShowInfoCommand}">详细信息</Button>
             </DockPanel>
-            <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
-                <Button>删除</Button>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Top">
-                <TextBlock Text="{Binding Tooth}" Style="{StaticResource Title}"/>
-            </DockPanel>
-            <DockPanel DockPanel.Dock="Top">
-                <TextBlock Text="版本："/>
-                <TextBlock Text="{Binding Version}"/>
-            </DockPanel>
+            <Grid  DockPanel.Dock="Top" Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Right" Margin="20,0,0,0">
+                        <DockPanel DockPanel.Dock="Top">
+                            <TextBlock Text="作者："/>
+                            <TextBlock Text="{Binding RegistryItem.Author}"/>
+                        </DockPanel>
+                        <DockPanel DockPanel.Dock="Top" Visibility="{Binding RegistryItem.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                            <TextBlock Text="协议："/>
+                            <TextBlock Text="{Binding RegistryItem.License}"/>
+                        </DockPanel>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Left">
+                        <TextBlock Text="{Binding RegistryItem.Name}" Style="{StaticResource Title}"/>
+                    </DockPanel>
+                </DockPanel>
+            </Grid>
+            <Grid Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource InvBooleanToVisibilityConverter}}">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <TextBlock Text="{Binding Tooth}" Style="{StaticResource Title}"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <TextBlock Text="版本："/>
+                        <TextBlock Text="{Binding Version}"/>
+                    </DockPanel>
+                </DockPanel>
+            </Grid>
         </DockPanel>
     </ui:Card>
 </UserControl>

@@ -22,7 +22,12 @@ namespace LipNETWrapper.Class
     //        ]
     //}
     [Serializable]
-    public class LipPackage
+    public class LipPackageVersions
+    { 
+        [JsonProperty("versions")] public string[] Versions { get; set; }
+    }
+    [Serializable]
+    public class LipPackage: LipPackageVersions
     {
         [JsonProperty("author")] public string Author { get; set; }
         [JsonProperty("description")] public string Description { get; set; }
@@ -32,7 +37,6 @@ namespace LipNETWrapper.Class
         [JsonProperty("name")] public string Name { get; set; }
         [JsonProperty("tooth")] public string Tooth { get; set; }
         [JsonProperty("version")] public string Version { get; set; }
-        [JsonProperty("versions")] public string[] Versions { get; set; }
     }
     [Serializable]
     public class LipFile//todo 这玩意长啥样

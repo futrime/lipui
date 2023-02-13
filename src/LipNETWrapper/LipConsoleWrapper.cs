@@ -30,12 +30,12 @@ namespace LipNETWrapper
             var json = text.Split('\n').First(x => x.StartsWith("[")).Trim();
             return (JsonConvert.DeserializeObject<LipPackageSimple[]>(json)!, text);
         }
-        public async Task<(bool success, LipPackage? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
+        public async Task<(bool success, LipPackageVersions? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
         {
             var text = await new LipConsoleLoader(ExecutablePath)
                 .RunString(LipCommand.Create("show").WithJson() + "--available" + packageId, onOutput, tk);
             var json = text.Split('\n').FirstOrDefault(x => x.StartsWith("{"))?.Trim();
-            return (json is not null, json is null ? null : JsonConvert.DeserializeObject<LipPackage>(json)!, text);
+            return (json is not null, json is null ? null : JsonConvert.DeserializeObject<LipPackageVersions>(json)!, text);
         }
         public async Task<(bool success, LipPackage? package, string message)> GetLocalPackageInfoAsync(string packageId, CancellationToken tk = default)
         {

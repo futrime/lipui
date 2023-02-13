@@ -15,9 +15,6 @@
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
-    <Page.Resources>
-        <helper:OpacityToVisibilityConverter x:Key="OpacityToVisibilityConverter" />
-    </Page.Resources>
     <Grid Margin="20,0">
         <Grid ZIndex="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="0" >
             <Grid.Style>
