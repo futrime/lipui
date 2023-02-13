@@ -40,6 +40,10 @@
             <TextBlock Margin="0,12,0,0" Text="Lip路径："  Style="{StaticResource Title}"/>
             <TextBox MinWidth="200" Text="{Binding ViewModel.LipPath}"/>
         </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="0,12,0,0" Text="工作路径："  Style="{StaticResource Title}"/>
+            <TextBox MinWidth="200" Text="{Binding ViewModel.WorkingDir}"/>
+        </StackPanel>
         <TextBlock
             Margin="0,24,0,0"
             FontSize="20"

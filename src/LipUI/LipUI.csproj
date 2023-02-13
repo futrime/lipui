@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
+		<Version>0.1.0</Version>
 		<TargetFrameworks>net462;net7.0-windows</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<LangVersion>11.0</LangVersion>
@@ -24,8 +25,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Costura.Fody" Version="5.7.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="WPF-UI" Version="2.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
@@ -38,7 +39,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\LipNETWrapper\LipNETWrapper.csproj" />
+		<ProjectReference Include="..\LipNETWrapper\LipNETWrapper.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

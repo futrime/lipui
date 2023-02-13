@@ -21,17 +21,27 @@ namespace LipUI.ViewModels
         [ObservableProperty]
         private Wpf.Ui.Appearance.ThemeType _currentTheme = Wpf.Ui.Appearance.ThemeType.Unknown;
 
+
         [ObservableProperty]
         public string _lipPath;
-        partial void OnLipPathChanging(string path)
+        partial void OnLipPathChanged(string path)
         {
             if (File.Exists(path))
             {
-                Global.Lip = new LipConsoleWrapper(path);
+                Global.Lip.ExecutablePath = path;
             }
-            else if(File.Exists(Path.Combine(path, "lip.exe")))
+            else if (File.Exists(Path.Combine(path, "lip.exe")))
             {
-                Global.Lip = new LipConsoleWrapper(Path.Combine(path, "lip.exe"));
+                Global.Lip.ExecutablePath = Path.Combine(path, "lip.exe");
+            }
+        }
+        [ObservableProperty]
+        public string _workingDir;
+        partial void OnWorkingDirChanged(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                Global.Lip.WorkingPath = path;
             }
         }
         public void OnNavigatedTo()

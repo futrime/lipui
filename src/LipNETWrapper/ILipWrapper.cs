@@ -6,6 +6,8 @@ using LipNETWrapper.Class;
 namespace LipNETWrapper;
 public interface ILipWrapper
 {
+    string ExecutablePath { get; set; }
+    string? WorkingPath { get; set; }
     Task<string> GetLipVersion(CancellationToken tk = default);
     Task<(LipPackageSimple[] packages, string message)> GetAllPackagesAsync(CancellationToken tk = default);
     Task<(bool success, LipPackageVersions? package, string message)> GetPackageInfoAsync(string packageId,
