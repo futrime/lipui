@@ -29,7 +29,7 @@
         <ScrollViewer DockPanel.Dock="Bottom" IsEnabled="{Binding ViewModel.HasTooth}">
             <StackPanel>
                 <Button Margin="10" HorizontalAlignment="Stretch" Command="{Binding ViewModel.DoUninstallCommand}">
-                    <StackPanel Orientation="Horizontal" Opacity="{Binding ViewModel.DoUninstallCommand.IsRunning,Converter={StaticResource BooleanToOpacityConverter},ConverterParameter=0.7}">
+                    <StackPanel Orientation="Horizontal" Opacity="{Binding ViewModel.DoUninstallCommand.IsRunning,Converter={StaticResource BooleanToOpacityConverter},ConverterParameter='0.5'}">
                         <TextBlock Text="确认删除"/>
                         <TextBlock Text="{Binding ViewModel.Tooth}"/>
                     </StackPanel>

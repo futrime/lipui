@@ -44,8 +44,8 @@
             </Grid>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <ui:ProgressRing IsIndeterminate="True" Progress="80" />
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="安装中..." HorizontalAlignment="Center" FontSize="25"/>
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" >
+                    <TextBlock Text="安装中..." FontSize="25"/>
                     <TextBlock Text="{Binding ViewModel.Percentage}" HorizontalAlignment="Center" FontSize="25"/>
                 </StackPanel>
                 <Button Content="终止安装（危险）" HorizontalAlignment="Center" Command="{Binding ViewModel.CancelCommand}"/>

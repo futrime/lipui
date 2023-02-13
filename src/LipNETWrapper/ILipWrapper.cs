@@ -17,4 +17,6 @@ public interface ILipWrapper
     Task<int> UninstallPackageAsync(string packageId,
         CancellationToken tk = default, Action<string>? onOutput = null);
     Task<LipRegistry> GetLipRegistryAsync(string registry, CancellationToken tk = default);
+
+    Task CachePurge();
 }

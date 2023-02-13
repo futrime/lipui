@@ -9,7 +9,11 @@ internal class BooleanToOpacityConverter : IValueConverter
     {
         if (value is true)
         {
-            return parameter;
+            if (double.TryParse(parameter.ToString(), out var pd))
+            {
+                return pd;
+            }
+            return .7;
         }
         return true;
     }

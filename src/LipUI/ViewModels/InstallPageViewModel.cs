@@ -41,10 +41,12 @@ namespace LipUI.ViewModels
                 var exitCode = await Global.Lip.InstallPackageAsync(fullname, Ctk.Token, x =>
                 {
                     if (x is not null)
-                    {
-                        if (x.StartsWith("{"))
+                    {//todo Please enter y if you agree with the above terms
+                     //if (x.StartsWith("{"))
+                     //{
+                        if (x.Trim().EndsWith("|"))
                         {
-                            //todo json进度
+                            Percentage = x.Replace("|", "").Trim();
                         }
                         else
                         {
@@ -72,11 +74,7 @@ namespace LipUI.ViewModels
                 {
                     if (x is not null)
                     {
-                        if (x.Trim().EndsWith("||"))
-                        {
-                            Percentage = x.Replace("|","").Trim();
-                        }
-                        else if (!x.StartsWith("{"))
+                        if (!x.StartsWith("{"))
                         {
                             Global.DispatcherInvoke(() => OutPut.Add(x));
                         }

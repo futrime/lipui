@@ -68,5 +68,9 @@ namespace LipNETWrapper
             }
             return JsonConvert.DeserializeObject<LipRegistry>(text)!;
         }
+        public Task CachePurge()
+        {//todo : implement
+            throw new NotImplementedException();
+        }
     }
 }
