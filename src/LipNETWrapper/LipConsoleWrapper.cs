@@ -52,6 +52,12 @@ namespace LipNETWrapper
             return new LipConsoleLoader(ExecutablePath)
                 .Run(LipCommand.Create("install") + "-y" + packageId, onOutput, tk);
         }
+
+        public Task<int> UninstallPackageAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
+        {
+            return new LipConsoleLoader(ExecutablePath)
+                .Run(LipCommand.Create("uninstall") + packageId, onOutput, tk);
+        } 
         public async Task<LipRegistry> GetLipRegistryAsync(string registry, CancellationToken tk = default)
         {
             using var client = new WebClient();

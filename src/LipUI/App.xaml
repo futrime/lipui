@@ -25,6 +25,7 @@
             <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
             <helpers:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter" />
             <helpers:InvBooleanConverter x:Key="InvBooleanConverter" />
+            <helpers:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

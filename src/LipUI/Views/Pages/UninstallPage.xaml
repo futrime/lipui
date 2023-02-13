@@ -14,7 +14,7 @@
            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
            mc:Ignorable="d">
     <StackPanel Margin="56,0">
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Visibility="{Binding ViewModel.HasTooth,Converter={StaticResource InvBooleanToVisibilityConverter}}">
             <TextBlock Style="{StaticResource Title}">
             请在
             </TextBlock>
@@ -25,6 +25,27 @@
             页面点击详细信息，然后点击删除
             </TextBlock>
         </StackPanel>
-        <TextBlock Text="{Binding ViewModel.Tooth}"/>
+        <TextBlock HorizontalAlignment="Center" Text="{Binding ViewModel.Tooth}" Style="{StaticResource Title}"/>
+        <ScrollViewer DockPanel.Dock="Bottom" IsEnabled="{Binding ViewModel.HasTooth}">
+            <StackPanel>
+                <Button Margin="10" HorizontalAlignment="Stretch" Command="{Binding ViewModel.DoUninstallCommand}">
+                    <StackPanel Orientation="Horizontal" Opacity="{Binding ViewModel.DoUninstallCommand.IsRunning,Converter={StaticResource BooleanToOpacityConverter},ConverterParameter=0.7}">
+                        <TextBlock Text="确认删除"/>
+                        <TextBlock Text="{Binding ViewModel.Tooth}"/>
+                    </StackPanel>
+                </Button>
+                <ui:Hyperlink Click="Hyperlink_OnClick" FontSize="20" Visibility="{Binding ViewModel.UninstallComplete,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    返回
+                </ui:Hyperlink>
+                <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
+                          ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding .}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
     </StackPanel>
 </ui:UiPage>
