@@ -43,7 +43,15 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <controls:ToothInfoPanel DataContext="{Binding ViewModel.CurrentInfo}"/>
+            <controls:ToothInfoPanel DataContext="{Binding ViewModel.CurrentInfo}">
+                <Button HorizontalAlignment="Stretch" Margin="0,10,0,0" Command="{Binding ViewModel.UninstallCommand, RelativeSource={RelativeSource AncestorType=local:ToothLocalPage}}"
+                        CommandParameter="{Binding Tooth}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="卸载"/>
+                        <TextBlock Text="{Binding Name  }"/>
+                    </StackPanel>
+                </Button>
+            </controls:ToothInfoPanel>
         </Grid>
         <Grid MouseDown="UIElement_OnMouseDown" TouchDown="UIElement_OnTouchDown" ZIndex="1" Opacity="0" Visibility="{Binding Opacity, RelativeSource={RelativeSource Self},Converter={StaticResource OpacityToVisibilityConverter}}"
             Background="{DynamicResource ApplicationBackgroundBrush}">

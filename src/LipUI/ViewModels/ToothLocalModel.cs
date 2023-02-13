@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
 using LipNETWrapper.Class;
+using LipUI.Views.Pages;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
@@ -68,6 +69,14 @@ namespace LipUI.ViewModels
                 //todo 读取失败
             }
             IsShowingDetail = true;
+        }
+
+        [RelayCommand]
+        void Uninstall(string target)
+        {
+            IsShowingDetail = false;
+            Global.EnqueueItem(new UninstallItem(target));
+            Global.Navigate<UninstallPage, UninstallPageViewModel>();
         }
     }
 }

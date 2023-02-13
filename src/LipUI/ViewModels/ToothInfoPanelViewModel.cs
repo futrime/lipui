@@ -12,7 +12,6 @@ namespace LipUI.ViewModels
         private LipPackageVersions _ver;
         public ToothInfoPanelViewModel(LipPackage info) : this((LipPackageVersions)info)
         {
-            _info = info;
             Tooth = info.Tooth;
         }
         public ToothInfoPanelViewModel(LipPackageVersions info, LipRegistry.LipRegistryItem item) : this(info)
@@ -20,9 +19,13 @@ namespace LipUI.ViewModels
             _registryItem = item;
             Tooth = item.Tooth;
         }
-        public ToothInfoPanelViewModel(LipPackageVersions info)
+        public ToothInfoPanelViewModel(LipPackageVersions ver)
         {
-            _ver = info;
+            _ver = ver;
+            if (ver is LipPackage info)
+            {
+                _info = info;
+            }
             if (Versions?.FirstOrDefault() is not null and var v)
             {
                 SelectedVersion = v;

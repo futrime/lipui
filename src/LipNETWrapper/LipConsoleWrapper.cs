@@ -34,9 +34,9 @@ namespace LipNETWrapper
         public async Task<(bool success, LipPackageVersions? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
         {
             var text = await new LipConsoleLoader(ExecutablePath)
-                .RunString(LipCommand.Create("show", true).WithJson() + "--available" + packageId, onOutput, tk);
+                .RunString(LipCommand.Create("show", onOutput is null).WithJson() + "--available" + packageId, onOutput, tk);
             var json = text.Split('\n').FirstOrDefault(x => x.StartsWith("{"))?.Trim();
-            var obj = json is null ? null : JsonConvert.DeserializeObject<LipPackageVersions>(json);
+            var obj = json is null ? null : JsonConvert.DeserializeObject<LipPackage>(json);
             return (obj is not null, obj, text);
         }
         public async Task<(bool success, LipPackage? package, string message)> GetLocalPackageInfoAsync(string packageId, CancellationToken tk = default)

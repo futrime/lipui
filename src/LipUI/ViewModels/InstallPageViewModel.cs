@@ -35,7 +35,10 @@ namespace LipUI.ViewModels
             Installing = true;
             try
             {
-                var exitCode = await Global.Lip.InstallPackageAsync(ToothName, _ctk.Token, x =>
+                var fullname = ToothName;
+                if (!string.IsNullOrWhiteSpace(SelectedVersion))
+                    fullname += "@" + SelectedVersion;
+                var exitCode = await Global.Lip.InstallPackageAsync(fullname, Ctk.Token, x =>
                 {
                     if (x is not null)
                     {
@@ -67,9 +70,16 @@ namespace LipUI.ViewModels
             {
                 var (success, package, message) = await Global.Lip.GetPackageInfoAsync(ToothName, _ctk.Token, x =>
                 {
-                    if (x is not null && !x.StartsWith("{"))
+                    if (x is not null)
                     {
-                        Global.DispatcherInvoke(() => OutPut.Add(x));
+                        if (x.Trim().EndsWith("||"))
+                        {
+                            Percentage = x.Replace("|","").Trim();
+                        }
+                        else if (!x.StartsWith("{"))
+                        {
+                            Global.DispatcherInvoke(() => OutPut.Add(x));
+                        }
                     }
                 });
                 if (success)
@@ -96,6 +106,8 @@ namespace LipUI.ViewModels
         CancellationTokenSource? _ctk = null;
         [ObservableProperty]
         string? _selectedVersion;
+        [ObservableProperty]
+        string _percentage = string.Empty;
         public bool CanCancel => Ctk is not null;
         [RelayCommand(CanExecute = nameof(CanCancel))]
         public void Cancel()

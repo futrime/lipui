@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LipUI.ViewModels;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
@@ -29,6 +30,11 @@ namespace LipUI.Views.Pages
         {
             ViewModel = viewModel;
             InitializeComponent();
+        }
+
+        private void Hyperlink_OnClick(object sender, RoutedEventArgs e)
+        {
+            Global.Navigate<ToothLocalPage, ToothLocalModel>();
         }
     }
 }

@@ -53,11 +53,7 @@
                             </StackPanel>
                         </Button>
                         <ComboBox Padding="5" HorizontalAlignment="Stretch" ItemsSource="{Binding Versions}" SelectedItem="{Binding SelectedVersion}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding .}" HorizontalAlignment="Center"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
+                         
                         </ComboBox>
                     </DockPanel>
                 </controls:ToothInfoPanel>

@@ -14,9 +14,7 @@
            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
            mc:Ignorable="d">
     <Grid>
-        <Grid Visibility="{Binding Opacity,ElementName=BgGrid,Converter={StaticResource OpacityToVisibilityConverter}}" 
-              ZIndex="1" >
-          
+        <Grid Visibility="{Binding Opacity,ElementName=BgGrid,Converter={StaticResource OpacityToVisibilityConverter}}" ZIndex="1">
             <Grid x:Name="BgGrid" Opacity=".0" Visibility="{Binding Opacity, RelativeSource={RelativeSource Self},Converter={StaticResource OpacityToVisibilityConverter}}" 
                   Background="{DynamicResource ApplicationBackgroundBrush}">
                 <Grid.Style>
@@ -26,8 +24,7 @@
                                 <DataTrigger.EnterActions>
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <DoubleAnimation
-                                            Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                                            <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.Opacity)"
                                             To=".7" Duration="0:0:0.3"/>
                                         </Storyboard>
                                     </BeginStoryboard>
@@ -35,8 +32,7 @@
                                 <DataTrigger.ExitActions>
                                     <BeginStoryboard>
                                         <Storyboard >
-                                            <DoubleAnimation
-                                            Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                                            <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.Opacity)"
                                             To="0" Duration="0:0:0.3"/>
                                         </Storyboard>
                                     </BeginStoryboard>
@@ -48,7 +44,10 @@
             </Grid>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <ui:ProgressRing IsIndeterminate="True" Progress="80" />
-                <TextBlock Text="安装中... ? %" HorizontalAlignment="Center" FontSize="25"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="安装中..." HorizontalAlignment="Center" FontSize="25"/>
+                    <TextBlock Text="{Binding ViewModel.Percentage}" HorizontalAlignment="Center" FontSize="25"/>
+                </StackPanel>
                 <Button Content="终止安装（危险）" HorizontalAlignment="Center" Command="{Binding ViewModel.CancelCommand}"/>
             </StackPanel>
         </Grid>
@@ -65,12 +64,27 @@
             <Grid Visibility="{Binding ViewModel.InfoLoaded,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter} }"  MaxWidth="{Binding ElementName=Root,Path=ActualWidth,Converter={StaticResource HalfOriginalConverter}}">
                 <ScrollViewer>
                     <StackPanel>
-                        <TextBlock Text="- 获取成功 -" Style="{StaticResource Title}" HorizontalAlignment="Center"/>
-                        <TextBlock Text="- 选择版本以安装 -" Style="{StaticResource Title}" HorizontalAlignment="Center"/>
-                        <ComboBox SelectedItem="{Binding ViewModel.SelectedVersion}" Margin="5" ItemsSource="{Binding ViewModel.ToothInfoPanel.Versions}"/>
-                        <Button Margin="5" HorizontalAlignment="Stretch" Command="{Binding ViewModel.InstallCommand}">
-                            安装
-                        </Button>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox SelectedItem="{Binding ViewModel.SelectedVersion}" Margin="5" ItemsSource="{Binding ViewModel.ToothInfoPanel.Versions}">
+                                <!--<ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <TextBlock HorizontalAlignment="Center" Text="{Binding .}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>-->
+                            </ComboBox>
+                            <Button Grid.Column="1" Padding="8" Margin="5" HorizontalAlignment="Stretch" Command="{Binding ViewModel.InstallCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>安装</TextBlock>
+                                    <TextBlock Text="{Binding ViewModel.SelectedVersion}"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
                         <controls:ToothInfoPanel VerticalAlignment="Top" DataContext="{Binding  ViewModel.ToothInfoPanel}" Margin="5"/>
                     </StackPanel>
                 </ScrollViewer>

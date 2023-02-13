@@ -14,6 +14,17 @@
            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
            mc:Ignorable="d">
     <StackPanel Margin="56,0">
-
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Style="{StaticResource Title}">
+            请在
+            </TextBlock>
+            <ui:Hyperlink Click="Hyperlink_OnClick" FontSize="20">
+                本地包
+            </ui:Hyperlink>
+            <TextBlock Style="{StaticResource Title}">
+            页面点击详细信息，然后点击删除
+            </TextBlock>
+        </StackPanel>
+        <TextBlock Text="{Binding ViewModel.Tooth}"/>
     </StackPanel>
 </ui:UiPage>
