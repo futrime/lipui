@@ -12,7 +12,7 @@
            d:DesignWidth="800"
            d:Background="{DynamicResource ApplicationBackgroundBrush}"
            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-           mc:Ignorable="d"> 
+           mc:Ignorable="d">
     <Grid>
         <Grid Opacity=".0" Visibility="{Binding Opacity, RelativeSource={RelativeSource Self},Converter={StaticResource OpacityToVisibilityConverter}}" ZIndex="1" Background="{DynamicResource ApplicationBackgroundBrush}">
             <Grid.Style>
@@ -55,13 +55,20 @@
                 <Button Visibility="{Binding ViewModel.CanCancel}" Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.CancelCommand}">
                     取消
                 </Button>
-                <Button Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.InstallCommand}">
-                    安装
-                </Button>
                 <ui:TextBox PlaceholderText="输入齿包的地址..." Margin="5" Text="{Binding ViewModel.ToothName}"/>
             </DockPanel>
             <Grid Visibility="{Binding ViewModel.InfoLoaded,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter} }"  MaxWidth="{Binding ElementName=Root,Path=ActualWidth,Converter={StaticResource HalfOriginalConverter}}">
-                <controls:ToothInfoPanel DataContext="{Binding  ViewModel.ToothInfoPanel}" Margin="5"/>
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="- 获取成功 -" Style="{StaticResource Title}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="- 选择版本以安装 -" Style="{StaticResource Title}" HorizontalAlignment="Center"/>
+                        <ComboBox SelectedItem="{Binding ViewModel.SelectedVersion}" Margin="5" ItemsSource="{Binding ViewModel.ToothInfoPanel.Versions}"/>
+                        <Button Margin="5" HorizontalAlignment="Stretch" Command="{Binding ViewModel.InstallCommand}">
+                            安装
+                        </Button>
+                        <controls:ToothInfoPanel VerticalAlignment="Top" DataContext="{Binding  ViewModel.ToothInfoPanel}" Margin="5"/>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
             <ScrollViewer DockPanel.Dock="Bottom">
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"

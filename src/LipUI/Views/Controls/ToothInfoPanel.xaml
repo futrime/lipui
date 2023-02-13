@@ -25,11 +25,11 @@
                         <TextBlock Text="版本：" VerticalAlignment="Center" />
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Version,Mode=OneWay}"/>
                     </DockPanel>
-                    <DockPanel DockPanel.Dock="Top">
+                    <DockPanel DockPanel.Dock="Top" Visibility="{Binding Name,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                         <TextBlock Text="名称：" VerticalAlignment="Center"/>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Name,Mode=OneWay}"/>
                     </DockPanel>
-                    <DockPanel DockPanel.Dock="Top">
+                    <DockPanel DockPanel.Dock="Top" Visibility="{Binding Author,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                         <TextBlock Text="作者：" VerticalAlignment="Center"/>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Author,Mode=OneWay}"/>
                     </DockPanel>
@@ -37,7 +37,7 @@
                         <TextBlock Text="协议：" VerticalAlignment="Center"/>
                         <TextBox MinWidth="100"  IsReadOnly="True" Text="{Binding  License,Mode=OneWay}"/>
                     </DockPanel>
-                    <DockPanel DockPanel.Dock="Top">
+                    <DockPanel DockPanel.Dock="Top"  Visibility="{Binding Description,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                         <TextBlock Text="描述：" VerticalAlignment="Center"/>
                         <TextBox TextWrapping="WrapWithOverflow" MinWidth="100"  IsReadOnly="True" Text="{Binding  Description,Mode=OneWay}"/>
                     </DockPanel>

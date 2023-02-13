@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,7 +11,7 @@ using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
 {
-    public record InstallInfo(string Tooth, ToothInfoPanelViewModel data);
+    public record InstallInfo(string Tooth, ToothInfoPanelViewModel data, string? Version);
     public partial class InstallPageViewModel : ObservableObject, INavigationAware
     {
         [ObservableProperty]
@@ -75,7 +76,10 @@ namespace LipUI.ViewModels
                 });
                 if (success)
                 {
-                    ToothInfoPanel = new ToothInfoPanelViewModel(package!);
+                    ToothInfoPanel = new ToothInfoPanelViewModel(package!)
+                    {
+                        Tooth = ToothName
+                    };
                 }
                 else
                 {
@@ -92,6 +96,8 @@ namespace LipUI.ViewModels
         [NotifyPropertyChangedFor(nameof(CanCancel))]
         [NotifyCanExecuteChangedFor(nameof(CancelCommand))]
         CancellationTokenSource? _ctk = null;
+        [ObservableProperty]
+        string? _selectedVersion;
         public bool CanCancel => Ctk is not null;
         [RelayCommand(CanExecute = nameof(CanCancel))]
         public void Cancel()
@@ -105,6 +111,7 @@ namespace LipUI.ViewModels
             {
                 ToothName = item.Tooth;
                 ToothInfoPanel = item.data;
+                SelectedVersion = item.Version ?? item.data.Versions.FirstOrDefault();
             }
         }
         public void OnNavigatedFrom()

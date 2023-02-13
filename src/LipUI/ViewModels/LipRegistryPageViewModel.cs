@@ -85,7 +85,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     [RelayCommand]
     void GotoInstall()
     {
-        Global.EnqueueItem(new InstallInfo(CurrentInfo.Tooth,CurrentInfo));
+        Global.EnqueueItem(new InstallInfo(CurrentInfo.Tooth, CurrentInfo, CurrentInfo.SelectedVersion));
         Global.Navigate<InstallPage, ViewModels.InstallPageViewModel>();
     }
 }

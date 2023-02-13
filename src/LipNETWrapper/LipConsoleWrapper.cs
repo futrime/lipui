@@ -28,21 +28,24 @@ namespace LipNETWrapper
             var text = (await new LipConsoleLoader(ExecutablePath)
                 .RunString(LipCommand.Create("list").WithJson(), tk: tk));
             var json = text.Split('\n').First(x => x.StartsWith("[")).Trim();
-            return (JsonConvert.DeserializeObject<LipPackageSimple[]>(json)!, text);
+            var arr = JsonConvert.DeserializeObject<LipPackageSimple[]>(json);
+            return (arr ?? Array.Empty<LipPackageSimple>(), text);
         }
         public async Task<(bool success, LipPackageVersions? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
         {
             var text = await new LipConsoleLoader(ExecutablePath)
                 .RunString(LipCommand.Create("show").WithJson() + "--available" + packageId, onOutput, tk);
             var json = text.Split('\n').FirstOrDefault(x => x.StartsWith("{"))?.Trim();
-            return (json is not null, json is null ? null : JsonConvert.DeserializeObject<LipPackageVersions>(json)!, text);
+            var obj = json is null ? null : JsonConvert.DeserializeObject<LipPackageVersions>(json);
+            return (obj is not null, obj, text);
         }
         public async Task<(bool success, LipPackage? package, string message)> GetLocalPackageInfoAsync(string packageId, CancellationToken tk = default)
         {
             var text = await new LipConsoleLoader(ExecutablePath)
                 .RunString(LipCommand.Create("show").WithJson() + packageId, tk: tk);
             var json = text.Split('\n').FirstOrDefault(x => x.StartsWith("{"))?.Trim();
-            return (json is not null, json is null ? null : JsonConvert.DeserializeObject<LipPackage>(json)!, text);
+            var obj = json is null ? null : JsonConvert.DeserializeObject<LipPackage>(json);
+            return (obj is not null, obj, text);
         }
         public Task<int> InstallPackageAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
         {
@@ -50,7 +53,7 @@ namespace LipNETWrapper
                 .Run(LipCommand.Create("install") + packageId, onOutput, tk);
         }
         public async Task<LipRegistry> GetLipRegistryAsync(string registry, CancellationToken tk = default)
-        { 
+        {
             using var client = new WebClient();
             var text = await client.DownloadStringTaskAsync(registry);
             if (text is null)
