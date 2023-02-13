@@ -24,7 +24,7 @@ namespace LipNETWrapper.Class
     [Serializable]
     public class LipPackageVersions
     { 
-        [JsonProperty("versions")] public string[] Versions { get; set; }
+        [JsonProperty("versions")] public string[]? Versions { get; set; }
     }
     [Serializable]
     public class LipPackage: LipPackageVersions
