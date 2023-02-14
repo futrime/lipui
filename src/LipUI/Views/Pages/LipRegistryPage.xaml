@@ -138,7 +138,12 @@
                     </StatusBarItem>
                 </StatusBar>
             </Grid>
-            <ui:AutoSuggestBox DockPanel.Dock="Top" PlaceholderText="Search..." Text="{Binding ViewModel.SearchText}"/>
+            <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5">
+                <ui:Button Command="{Binding ViewModel.InvokeSearchCommand}" DockPanel.Dock="Right" Appearance="Transparent" Margin="5,0,0,0">
+                    <ui:SymbolIcon Symbol="Search24"/>
+                </ui:Button>
+                <ui:TextBox PlaceholderText="查找..." Text="{Binding ViewModel.SearchText}" />
+            </DockPanel>
             <ScrollViewer DockPanel.Dock="Bottom">
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
                                      ItemsSource="{Binding ViewModel.VisibleToothItems, Mode=OneWay}" >

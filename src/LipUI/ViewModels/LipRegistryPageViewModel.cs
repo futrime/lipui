@@ -48,6 +48,11 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
                 ));
         }
     }
+    [RelayCommand]
+    void InvokeSearch()
+    {
+        OnPropertyChanged(nameof(VisibleToothItems));
+    }
     [ObservableProperty]
     bool _loading = true;
     public void OnNavigatedTo()
