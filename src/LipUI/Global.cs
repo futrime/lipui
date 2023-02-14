@@ -88,7 +88,10 @@ namespace LipUI
                                 }
                                 catch (Exception e)
                                 {
-                                    await DispatcherInvokeAsync(() => vm.Tip = "下载失败：" + e);
+                                    await DispatcherInvokeAsync(() => vm.Tip = "失败：" + e);
+#if DEBUG
+                                    throw;
+#endif
                                 }
                             });
                             vm.Progress = 0;

@@ -51,7 +51,14 @@ namespace LipNETWrapper
         public bool HasExited => _process.HasExited;
         public int ExitCode => _process.ExitCode;
         private CancellationToken _tk;
-        public LipConsoleCommandInstance(string exe, string? workingDir, string cmd, CancellationToken tk, Action<string> output, Action<string> outputErr)
+
+        public LipConsoleCommandInstance(string exe, string? workingDir, string cmd, CancellationToken tk,
+            Action<string> output, Action<string> outputErr, out Process process) : this(exe, workingDir, cmd, tk, output, outputErr)
+        {
+            process = _process!;
+        }
+        public LipConsoleCommandInstance(string exe, string? workingDir, string cmd, CancellationToken tk,
+            Action<string> output, Action<string> outputErr)
         {
             _tk = tk;
             _process = new();
@@ -128,6 +135,30 @@ namespace LipNETWrapper
             tk.ThrowIfCancellationRequested();
             return inst.ExitCode;
         }
+        public async Task<int> RunWithInput(string cmd, Action<string, Action<string>>? output, CancellationToken tk = default)
+        {
+            Process? process = default;
+            var inst = new LipConsoleCommandInstance(ExecutablePath, WorkingPath, cmd, tk,
+                s =>
+                {
+                    output?.Invoke(s, s =>
+                    {
+                        process.StandardInput.WriteLine(s);
+                    });
+                }, s =>
+                {
+                    output?.Invoke(s, s =>
+                    {
+                        process.StandardInput.WriteLine(s);
+                    });
+                }, out process);
+            while (!inst.HasExited)
+            {
+                await Task.Delay(100, tk);
+            }
+            tk.ThrowIfCancellationRequested();
+            return inst.ExitCode;
+        }
         public async Task<int> Run(string cmd, Action<string> output, Action<string> outputError, CancellationToken tk = default)
         {
             var inst = new LipConsoleCommandInstance(ExecutablePath, WorkingPath, cmd, tk, output, outputError);
@@ -149,6 +180,41 @@ namespace LipNETWrapper
                 {
                     sb.AppendLine(s); output?.Invoke(s);
                 });
+            while (!inst.HasExited)
+            {
+                try
+                {
+                    await Task.Delay(100, tk);
+                }
+                catch
+                {
+                    // ignored
+                }
+                inst.KillIfCanceled();
+            }
+            tk.ThrowIfCancellationRequested();
+            return sb.ToString();
+        }
+        public async Task<string> RunStringWithInput(string cmd, Action<string, Action<string>>? output = null, CancellationToken tk = default)
+        {
+            var sb = new StringBuilder();
+            Process? process = default;
+            var inst = new LipConsoleCommandInstance(ExecutablePath, WorkingPath, cmd, tk,
+                s =>
+                {
+                    sb.AppendLine(s);
+                    output?.Invoke(s, s =>
+                    {
+                        process.StandardInput.WriteLine(s);
+                    });
+                }, s =>
+                {
+                    sb.AppendLine(s);
+                    output?.Invoke(s, s =>
+                    {
+                        process.StandardInput.WriteLine(s);
+                    });
+                }, out process);
             while (!inst.HasExited)
             {
                 try

@@ -38,13 +38,20 @@ namespace LipUI.ViewModels
                 var fullname = ToothName;
                 if (!string.IsNullOrWhiteSpace(SelectedVersion))
                     fullname += "@" + SelectedVersion;
-                var exitCode = await Global.Lip.InstallPackageAsync(fullname, Ctk.Token, x =>
+                var exitCode = await Global.Lip.InstallPackageAsync(fullname, Ctk.Token, (x, input) =>
                 {
                     if (!string.IsNullOrWhiteSpace(x))
-                    {//todo Please enter y if you agree with the above terms
-                     //if (x.StartsWith("{"))
-                     //{
-                        if (x.Trim().EndsWith("|"))
+                    {
+                        if (x.StartsWith("Please enter y if you agree with the above terms"))
+                        {
+                            _ = Global.ShowDialog("是否同意条款", string.Join(Environment.NewLine, OutPut), ("同意", hide =>
+                                    {
+                                        hide();
+                                        input("y");
+                                    }
+                            ));
+                        }
+                        else if (x.Trim().EndsWith("|"))
                         {
                             Percentage = x.Replace("|", "").Trim();
                         }
