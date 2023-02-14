@@ -37,11 +37,14 @@
             IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Margin="0,12,0,0" Text="Lip路径："  Style="{StaticResource Title}"/>
+            <TextBlock Text="Lip路径："  Style="{StaticResource Title}"/>
+            <ui:ToggleSwitch Margin="0,0,10,0" IsChecked="{Binding ViewModel.AutoLipPath}">
+                自动获取
+            </ui:ToggleSwitch>
             <TextBox MinWidth="200" Text="{Binding ViewModel.LipPath}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Margin="0,12,0,0" Text="工作路径："  Style="{StaticResource Title}"/>
+            <TextBlock Text="工作路径："  Style="{StaticResource Title}"/>
             <TextBox MinWidth="200" Text="{Binding ViewModel.WorkingDir}"/>
         </StackPanel>
         <TextBlock

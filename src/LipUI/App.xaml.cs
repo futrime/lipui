@@ -80,6 +80,7 @@ namespace LipUI
         /// </summary>
         private async void OnStartup(object sender, StartupEventArgs e)
         {
+            Global.Init();
             await _host.StartAsync();
         }
 

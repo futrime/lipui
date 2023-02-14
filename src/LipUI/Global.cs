@@ -5,13 +5,50 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using LipNETWrapper;
 using LipUI.Models;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI
 {
     internal static class Global
     {
+        /// <summary>初始化全局变量</summary>
+        internal static void Init()
+        { 
+            //从配置获取Lip路径
+            if (!TryRefreshLipPath())
+            {
+                //todo 未找到Lip
+            }
+        }
+        static bool TryRefreshLipPath()
+        {
+            if (Config.AutoLipPath)//自动获取
+            {
+                //当前目录
+                var current = Path.GetFullPath("lip.ex");
+                if (File.Exists(current))
+                {
+                    Lip.WorkingPath = current;
+                    return true;
+                }
+                //全局Path
+                var (success, path) = Utils.TryGetLipFromPath();
+                if (success)
+                {
+                    Lip.WorkingPath = path;
+                    return true;
+                }
+            }
+            else if (Directory.Exists(Config.WorkingDirectory))//设定了自定义路径
+            {
+                Lip.WorkingPath = Config.WorkingDirectory;
+                return true;
+            }
+            return false;
+        }
         private static readonly string ConfigPath = Path.Combine(".lip", "config", "lipui", "config.json");
         private static Lazy<AppConfig> _config = new(() =>
         {
@@ -23,11 +60,12 @@ namespace LipUI
             {
                 switch (e.PropertyName)//修改后应用配置
                 {
-                    case nameof(result.LipPath) when result.LipPath is not null:
-                        Lip.ExecutablePath = result.LipPath;
-                        break;
                     case nameof(result.WorkingDirectory) when result.WorkingDirectory is not null:
                         Lip.WorkingPath = result.WorkingDirectory;
+                        break;
+                    case nameof(result.LipPath) when result.LipPath is not null:
+                    case nameof(result.AutoLipPath):
+                        TryRefreshLipPath();
                         break;
                 }
 
@@ -36,8 +74,8 @@ namespace LipUI
                     var dir = Path.GetDirectoryName(fp);
                     if (!Directory.Exists(dir))
                     {
-                            Directory.CreateDirectory(dir);
-                        }
+                        Directory.CreateDirectory(dir);
+                    }
                     File.WriteAllText(fp, result.ToString());
                 }
                 catch (Exception ex)

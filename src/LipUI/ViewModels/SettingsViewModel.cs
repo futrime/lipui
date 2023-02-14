@@ -10,19 +10,24 @@ namespace LipUI.ViewModels
     public partial class SettingsViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
-
         [ObservableProperty]
-        private string _appVersion = String.Empty;
+        private string _appVersion = string.Empty;
         [ObservableProperty]
-        private string _lipVersion = String.Empty;
+        private string _lipVersion = string.Empty;
         [ObservableProperty]
-        private Wpf.Ui.Appearance.ThemeType _currentTheme = Wpf.Ui.Appearance.ThemeType.Unknown;
+        private Wpf.Ui.Appearance.ThemeType _currentTheme = Global.Config.Theme;
         partial void OnCurrentThemeChanged(Wpf.Ui.Appearance.ThemeType theme)
         {
             Global.Config.Theme = theme;
         }
         [ObservableProperty]
-        public string _lipPath;
+        public bool _autoLipPath = Global.Config.AutoLipPath;
+        partial void OnAutoLipPathChanged(bool auto)
+        {
+            Global.Config.AutoLipPath = auto;
+        }
+        [ObservableProperty]
+        public string _lipPath = Global.Config.LipPath;
         partial void OnLipPathChanged(string path)
         {
             if (File.Exists(path))
@@ -35,7 +40,7 @@ namespace LipUI.ViewModels
             }
         }
         [ObservableProperty]
-        public string _workingDir;
+        public string _workingDir = Global.Config.WorkingDirectory;
         partial void OnWorkingDirChanged(string path)
         {
             if (Directory.Exists(path))

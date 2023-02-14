@@ -11,6 +11,8 @@ namespace LipUI.Models
         [ObservableProperty] string _lipPath = "lip.exe";
         [ObservableProperty] string _workingDirectory;
         [ObservableProperty] ThemeType _theme;
+        [ObservableProperty] private bool _autoLipPath = true;
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);

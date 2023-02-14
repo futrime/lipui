@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 
@@ -24,7 +25,10 @@ namespace LipUI.Views.Windows
             InitializeComponent();
             SetPageService(pageService);
              
-            navigationService.SetNavigationControl(RootNavigation);  
+            navigationService.SetNavigationControl(RootNavigation);
+
+            //从配置获取主题
+            if (Global.Config.Theme is not ThemeType.Unknown) Theme.Apply(Global.Config.Theme);
         }
 
         #region INavigationWindow methods
