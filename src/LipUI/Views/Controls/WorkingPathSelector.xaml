@@ -12,6 +12,7 @@
         <TextBlock Text="{Binding Tip}"/>
         <DockPanel>
             <Button Content="添加" DockPanel.Dock="Right" Margin="5" Command="{Binding AddWorkingDirCommand }"/>
+            <Button Content="选择" DockPanel.Dock="Right" Margin="5" Command="{Binding SelectWorkingDirCommand }"/>
             <TextBox Text="{Binding AddingWorkingDir}" Margin="5"/>
         </DockPanel>
         <ListBox Margin="5" FontSize="16" ItemsSource="{Binding Config.AllWorkingDirectory}" SelectedItem="{Binding Config.WorkingDirectory}">

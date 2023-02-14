@@ -148,6 +148,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
+            <!--todo <ui:AutoSuggestBox PlaceholderText="Search..." />-->
         </DockPanel>
         <ui:LoadingScreen Margin="-10" Visibility="{Binding ViewModel.IsLoading,Converter={StaticResource BooleanToVisibilityConverter},Mode=OneWay}">
             <ScrollViewer DockPanel.Dock="Bottom">

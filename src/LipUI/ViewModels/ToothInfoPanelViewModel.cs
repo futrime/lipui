@@ -43,6 +43,7 @@ namespace LipUI.ViewModels
         void CopyToothButton()
         {
             System.Windows.Clipboard.SetText(Tooth);
+            Global.PopupSnackbar("复制成功", Tooth);
         }
         [ObservableProperty] private string? _selectedVersion;
     }

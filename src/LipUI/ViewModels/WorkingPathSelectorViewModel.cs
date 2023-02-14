@@ -11,6 +11,7 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
     void Copy(string v)
     {
         Clipboard.SetText(v);
+        Global.PopupSnackbar("已复制到剪切板", v);
     }
     [RelayCommand]
     void Select(string v)
@@ -24,6 +25,23 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
     }
     [ObservableProperty] string _addingWorkingDir;
     [ObservableProperty] string _tip;
+    /// <summary>
+    /// 选择目录
+    /// </summary>
+    [RelayCommand]
+    void SelectWorkingDir()
+    {
+        var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog
+        {
+            SelectedPath = AddingWorkingDir,
+            ShowNewFolderButton = true,
+            Description = "选择工作目录"
+        };
+        if (dialog.ShowDialog() == true)
+        {
+            AddingWorkingDir = dialog.SelectedPath;
+        }
+    }
     /// <summary>
     /// 添加目录
     /// </summary>
