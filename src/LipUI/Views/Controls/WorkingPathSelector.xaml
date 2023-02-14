@@ -3,26 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-            d:DataContext="{d:DesignInstance WorkingPathSelectorViewModel, IsDesignTimeCreatable=False}"
+            d:DataContext="{d:DesignInstance viewModels:WorkingPathSelectorViewModel, IsDesignTimeCreatable=False}"
              xmlns:local="clr-namespace:LipUI.Views.Controls"
+             xmlns:viewModels="clr-namespace:LipUI.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Margin="10,40,0,0" Style="{StaticResource Title}">工作目录：</TextBlock>
-        <TextBlock Text="{Binding ViewModel.Tip}"/>
+    <StackPanel>
+        <TextBlock Text="{Binding Tip}"/>
         <DockPanel>
-            <Button Content="添加" DockPanel.Dock="Right" Margin="5" Command="{Binding ViewModel.AddWorkingDirCommand }"/>
-            <TextBox Text="{Binding ViewModel.AddingWorkingDir}" Margin="5"/>
+            <Button Content="添加" DockPanel.Dock="Right" Margin="5" Command="{Binding AddWorkingDirCommand }"/>
+            <TextBox Text="{Binding AddingWorkingDir}" Margin="5"/>
         </DockPanel>
-        <ListBox Margin="5" FontSize="16" ItemsSource="{Binding ViewModel.Config.AllWorkingDirectory}" SelectedItem="{Binding ViewModel.Config.WorkingDirectory}">
+        <ListBox Margin="5" FontSize="16" ItemsSource="{Binding Config.AllWorkingDirectory}" SelectedItem="{Binding Config.WorkingDirectory}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <ListBoxItem>
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                <Button Margin="5,-5" Content="选中" Command="{Binding ViewModel.SelectCommand,RelativeSource={RelativeSource AncestorType= local:DashboardPage}}" CommandParameter="{Binding .,Mode=OneTime}" />
-                                <Button Margin="5,-5" Content="复制" Command="{Binding ViewModel.CopyCommand,RelativeSource={RelativeSource AncestorType= local:DashboardPage}}" CommandParameter="{Binding .,Mode=OneTime}"/>
-                                <Button Margin="5,-5" FontSize="16" Content="删除" Command="{Binding ViewModel.DeleteCommand,RelativeSource={RelativeSource AncestorType= local:DashboardPage}}" CommandParameter="{Binding .,Mode=OneTime}"/>
+                                <Button Margin="5,-5" Content="选中" Command="{Binding ViewModel.SelectCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}" />
+                                <Button Margin="5,-5" Content="复制" Command="{Binding ViewModel.CopyCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
+                                <Button Margin="5,-5" FontSize="16" Content="删除" Command="{Binding ViewModel.DeleteCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
                             </StackPanel>
                             <TextBlock Text="{Binding .}" DockPanel.Dock="Left"/>
                         </DockPanel>
@@ -30,5 +30,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-    </Grid>
+    </StackPanel>
 </UserControl>

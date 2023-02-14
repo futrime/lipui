@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:LipUI.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:controls="clr-namespace:LipUI.Views.Controls"
     Title="DashboardPage"
     d:DataContext="{d:DesignInstance local:DashboardPage, IsDesignTimeCreatable=False}"
     d:DesignHeight="550"
@@ -16,6 +17,8 @@
     <Grid Margin="56,0" VerticalAlignment="Top">
         <StackPanel>
             <TextBlock Style="{StaticResource Title}">点击左边的导航栏开始吧！</TextBlock>
+            <TextBlock Margin="10,40,0,0" Style="{StaticResource Title}">工作目录：</TextBlock>
+            <controls:WorkingPathSelector/>
         </StackPanel>
     </Grid>
 </ui:UiPage>
