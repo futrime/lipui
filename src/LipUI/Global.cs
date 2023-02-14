@@ -124,8 +124,8 @@ namespace LipUI
                         }
                 ), modify: dialog =>
                 {
-                    dialog.DialogWidth = 700;
-                    dialog.DialogHeight = 500;
+                    dialog.DialogWidth = 750;
+                    dialog.DialogHeight = 430;
                 });
             }
         }
@@ -309,7 +309,7 @@ namespace LipUI
                     {
                         dialog.ButtonRightName = k;
                         dialog.ButtonRightVisibility = Visibility.Visible;
-                        onDialogOnButtonRightClick = (_, e) => v(() => Hide());
+                        onDialogOnButtonRightClick = (_, e) => v(Hide);
                     }
                 }
                 {
