@@ -2,15 +2,39 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using LipUI.Models;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI
 {
     internal static class Global
     {
+        private static readonly string ConfigPath = Path.Combine(".lip", "config", "lipui", "config.json");
+        private static Lazy<AppConfig> _config = new(() =>
+        {
+            var fp = Path.GetFileName(ConfigPath);
+            var result = File.Exists(fp)
+                ? AppConfig.FromString(File.ReadAllText(fp))
+                : new AppConfig();
+            result.PropertyChanged += (s, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(result.LipPath):
+                        Lip.ExecutablePath = result.LipPath;
+                        break;
+                    case nameof(result.WorkingDirectory):
+                        Lip.WorkingPath = result.WorkingDirectory;
+                        break;
+                }
+                File.WriteAllText(fp, result.ToString());
+            };
+            return result;
+        });
+        internal static AppConfig Config => _config.Value;
         internal static LipNETWrapper.ILipWrapper Lip = new LipNETWrapper.LipConsoleWrapper(
 #if DEBUG
             "A:\\Documents\\GitHub\\BDS\\Latest\\lip.exe"

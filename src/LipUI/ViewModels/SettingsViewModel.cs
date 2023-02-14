@@ -3,9 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using LipNETWrapper;
-using LipUI.Views.Windows;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
@@ -20,19 +17,21 @@ namespace LipUI.ViewModels
         private string _lipVersion = String.Empty;
         [ObservableProperty]
         private Wpf.Ui.Appearance.ThemeType _currentTheme = Wpf.Ui.Appearance.ThemeType.Unknown;
-
-
+        partial void OnCurrentThemeChanged(Wpf.Ui.Appearance.ThemeType theme)
+        {
+            Global.Config.Theme = theme;
+        }
         [ObservableProperty]
         public string _lipPath;
         partial void OnLipPathChanged(string path)
         {
             if (File.Exists(path))
             {
-                Global.Lip.ExecutablePath = path;
+                Global.Config.LipPath = path;
             }
             else if (File.Exists(Path.Combine(path, "lip.exe")))
             {
-                Global.Lip.ExecutablePath = Path.Combine(path, "lip.exe");
+                Global.Config.LipPath = Path.Combine(path, "lip.exe");
             }
         }
         [ObservableProperty]
@@ -41,7 +40,7 @@ namespace LipUI.ViewModels
         {
             if (Directory.Exists(path))
             {
-                Global.Lip.WorkingPath = path;
+                Global.Config.WorkingDirectory = path;
             }
         }
         public void OnNavigatedTo()
