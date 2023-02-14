@@ -35,22 +35,16 @@ namespace LipUI.Views.Windows
 
         public Frame GetFrame()
             => RootFrame;
-
         public INavigation GetNavigation()
             => RootNavigation;
-
         public bool Navigate(Type pageType)
             => RootNavigation.Navigate(pageType);
-
         public void SetPageService(IPageService pageService)
             => RootNavigation.PageService = pageService;
-
         public void ShowWindow()
             => Show();
-
         public void CloseWindow()
             => Close();
-
         #endregion INavigationWindow methods
 
         /// <summary>

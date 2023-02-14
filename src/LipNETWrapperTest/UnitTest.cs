@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using LipNETWrapper;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NUnit.Framework.Internal;
 
@@ -103,6 +104,18 @@ namespace LipNETWrapperTest
                 OutPut(x.Key);
                 OutPut(x.Value.Tooth);
             }
+        }
+        [Test]
+        public void TestLipPath()
+        {
+            //OutPut(Environment.GetEnvironmentVariable("PATH"));
+            OutPut(Utils.TryGetLipFromPath());
+        }
+        [Test]
+        public void TestLipDownload()
+        {
+            //OutPut(Environment.GetEnvironmentVariable("PATH"));
+            OutPut(Utils.TryGetLipFromPath());
         }
     }
 }

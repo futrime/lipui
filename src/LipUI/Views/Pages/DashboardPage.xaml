@@ -16,7 +16,7 @@
     <Grid Margin="56,0" VerticalAlignment="Top">
         <StackPanel>
             <TextBlock>这里什么都没有！</TextBlock>
-            <TextBlock>点击左边的导航栏吧！</TextBlock>
+            <TextBlock>点击左边的导航栏吧！</TextBlock> 
         </StackPanel>
     </Grid>
 </ui:UiPage>

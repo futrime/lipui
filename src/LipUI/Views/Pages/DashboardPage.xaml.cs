@@ -1,4 +1,6 @@
-﻿using Wpf.Ui.Common.Interfaces;
+﻿using System.Threading.Tasks;
+using System.Windows;
+using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
 {
@@ -17,6 +19,6 @@ namespace LipUI.Views.Pages
             ViewModel = viewModel;
 
             InitializeComponent();
-        }
+        } 
     }
 }
