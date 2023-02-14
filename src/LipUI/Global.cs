@@ -248,11 +248,12 @@ namespace LipUI
         /// <summary>
         /// 弹出底部提示
         /// </summary>
-        public static void PopupSnackbar(string title, object content, SymbolRegular icon = SymbolRegular.Info16, ControlAppearance appearance = ControlAppearance.Secondary)
+        public static void PopupSnackbar(string title, object content, SymbolRegular icon = SymbolRegular.Info16, ControlAppearance appearance = ControlAppearance.Secondary, int timeout = 2000)
         {
             DispatcherInvoke(() =>
             {
                 var snackbar = ((Views.Windows.MainWindow)Application.Current.MainWindow!).Snackbar;
+                snackbar.Timeout = timeout;
                 snackbar.Show(title, "", icon, ControlAppearance.Primary);
                 snackbar.Content = content;
             });
