@@ -23,10 +23,10 @@ namespace LipUI
             {
                 switch (e.PropertyName)//修改后应用配置
                 {
-                    case nameof(result.LipPath):
+                    case nameof(result.LipPath) when result.LipPath is not null:
                         Lip.ExecutablePath = result.LipPath;
                         break;
-                    case nameof(result.WorkingDirectory):
+                    case nameof(result.WorkingDirectory) when result.WorkingDirectory is not null:
                         Lip.WorkingPath = result.WorkingDirectory;
                         break;
                 }
