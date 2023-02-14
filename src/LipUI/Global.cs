@@ -7,15 +7,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using LipNETWrapper;
 using LipUI.Models;
 using LipUI.ViewModels;
-using Wpf.Ui.Appearance;
 using Wpf.Ui.Common;
 using Wpf.Ui.Common.Interfaces;
-using Wpf.Ui.Controls;
-using Wpf.Ui.Controls.Interfaces;
 
 namespace LipUI
 {
@@ -35,7 +31,7 @@ namespace LipUI
                     if (TryRefreshLipPath())
                         hide();
                     else
-                        vm.Tip = "未找到lip.exe，如已安装请重新启动LipUI";
+                        PopupSnackbar("未找到lip.exe", "如已安装请重新启动LipUI");
                 }
                 ), ("下载安装程序", hide =>
                 {
@@ -105,24 +101,28 @@ namespace LipUI
                         }
                     }
                     else
-                        vm.Tip = "请开启'自动获取Lip路径'";
+                        PopupSnackbar("无效操作", "请开启'自动获取Lip路径'", SymbolRegular.Warning16, ControlAppearance.Danger);
                 }
                 ));
             }
+            CheckWorkDir();
+        }
+        internal static void CheckWorkDir()
+        {
             if (!Directory.Exists(Config.WorkingDirectory))
             {//保存的WorkingDirectory不合法，需要手动选择 
                 _ = ShowDialog("需要指定有效的工作路径", new Views.Controls.WorkingPathSelector(), ("完成", hide =>
-                {
-                    if (Directory.Exists(Config.WorkingDirectory))
-                    {
-                        hide();
-                    }
-                    else
-                    {
-                        PopupSnackbar("请选择有效的工作路径", Config.WorkingDirectory, SymbolRegular.Warning16, ControlAppearance.Caution);
-                    }
-                }
-                ),modify: dialog =>
+                        {
+                            if (Directory.Exists(Config.WorkingDirectory))
+                            {
+                                hide();
+                            }
+                            else
+                            {
+                                PopupSnackbar("请选择有效的工作路径", Config.WorkingDirectory, SymbolRegular.Warning16, ControlAppearance.Caution);
+                            }
+                        }
+                ), modify: dialog =>
                 {
                     dialog.DialogWidth = 700;
                     dialog.DialogHeight = 500;
@@ -295,15 +295,21 @@ namespace LipUI
             await DispatcherInvokeAsync(async () =>
             {
                 var dialog = ((Views.Windows.MainWindow)Application.Current.MainWindow!).Dialog;
-                RoutedEventHandler onDialogOnButtonLeftClick = (_, e) => dialog.Hide();
-                RoutedEventHandler onDialogOnButtonRightClick = (_, e) => dialog.Hide();
+                bool successAndHide = false;
+                void Hide()
+                {
+                    successAndHide = true;
+                    dialog.Hide();
+                }
+                RoutedEventHandler onDialogOnButtonLeftClick = (_, e) => Hide();
+                RoutedEventHandler onDialogOnButtonRightClick = (_, e) => Hide();
                 {
                     dialog.ButtonRightVisibility = Visibility.Hidden;
                     if (right is var (k, v))
                     {
                         dialog.ButtonRightName = k;
                         dialog.ButtonRightVisibility = Visibility.Visible;
-                        onDialogOnButtonRightClick = (_, e) => v(() => dialog.Hide());
+                        onDialogOnButtonRightClick = (_, e) => v(() => Hide());
                     }
                 }
                 {
@@ -312,7 +318,7 @@ namespace LipUI
                     {
                         dialog.ButtonLeftName = k;
                         dialog.ButtonLeftVisibility = Visibility.Visible;
-                        onDialogOnButtonLeftClick = (_, e) => v(() => dialog.Hide());
+                        onDialogOnButtonLeftClick = (_, e) => v(() => Hide());
                     }
                 }
                 dialog.DialogHeight = 250;
@@ -330,7 +336,10 @@ namespace LipUI
                 dialog.ButtonRightClick += onDialogOnButtonRightClick;
                 dialog.Title = title;
                 dialog.Content = content;
-                await dialog.ShowAndWaitAsync();
+                while (!successAndHide)
+                {
+                    await dialog.ShowAndWaitAsync();
+                }
                 dialog.ButtonLeftClick -= onDialogOnButtonLeftClick;
                 dialog.ButtonRightClick -= onDialogOnButtonRightClick;
             });

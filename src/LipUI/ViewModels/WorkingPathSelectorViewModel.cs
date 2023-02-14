@@ -16,14 +16,16 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
         Global.PopupSnackbar("已复制到剪切板", v);
     }
     [RelayCommand]
-  internal  void Select(string v)
+    internal void Select(string v)
     {
         Config.WorkingDirectory = v;
+        Global.CheckWorkDir();
     }
     [RelayCommand]
     void Delete(string dir)
     {
         Config.AllWorkingDirectory.Remove(dir);
+        Global.CheckWorkDir();
     }
     [ObservableProperty] string _addingWorkingDir;
     //[ObservableProperty] string _tip;
@@ -50,6 +52,7 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
     [RelayCommand]
     void AddWorkingDir()
     {
+        if (string.IsNullOrWhiteSpace(AddingWorkingDir)) return;
         AddingWorkingDir = AddingWorkingDir.Trim();
         if (Directory.Exists(AddingWorkingDir))
         {
