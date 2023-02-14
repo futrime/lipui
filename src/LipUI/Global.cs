@@ -30,7 +30,19 @@ namespace LipUI
                         Lip.WorkingPath = result.WorkingDirectory;
                         break;
                 }
-                File.WriteAllText(fp, result.ToString());
+
+                try
+                {
+                    var dir = Path.GetDirectoryName(fp);
+                    if (!Directory.Exists(dir))
+                    {
+                            Directory.CreateDirectory(dir);
+                        }
+                    File.WriteAllText(fp, result.ToString());
+                }
+                catch (Exception ex)
+                {
+                }
             };
             return result;
         });
