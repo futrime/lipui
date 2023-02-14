@@ -31,6 +31,9 @@ public partial class DashboardViewModel : ObservableObject, INavigationAware
     }
     [ObservableProperty] string _addingWorkingDir;
     [ObservableProperty] string _tip;
+    /// <summary>
+    /// 添加目录
+    /// </summary>
     [RelayCommand]
     void AddWorkingDir()
     {

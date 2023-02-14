@@ -19,7 +19,7 @@ namespace LipUI
 {
     internal static class Global
     {
-        /// <summary>初始化全局变量</summary>
+        /// <summary>初始化全局变量(初始化程序)</summary>
         internal static void Init()
         {
             // 从配置获取Lip路径
@@ -107,10 +107,6 @@ namespace LipUI
                 }
                 ));
             }
-            // 
-            //if ()
-            //{
-            //}
         }
         static bool TryRefreshLipPath()
         {
@@ -147,13 +143,16 @@ namespace LipUI
             }
             return false;
         }
+        /// <summary>配置文件路径</summary>
         private static readonly string ConfigPath = Path.Combine(".lip", "config", "lipui", "config.json");
-        private static Lazy<AppConfig> _config = new(() =>
+        private static Lazy<AppConfig> _config = //延迟加载的配置文件对象
+            new(() =>
         {
             var fp = Path.GetFullPath(ConfigPath);
             var result = File.Exists(fp)
                 ? AppConfig.FromString(File.ReadAllText(fp))
                 : new AppConfig();
+            //订阅属性更改，并应用属性
             result.PropertyChanged += (s, e) =>
             {
                 switch (e.PropertyName)//修改后应用配置
@@ -179,43 +178,80 @@ namespace LipUI
                     }
                     File.WriteAllText(fp, result.ToString());
                 }
-                catch (Exception ex)
+                catch
                 {
+                    // ignored
                 }
             };
             return result;
         });
+        /// <summary>
+        /// 程序配置文件实例
+        /// </summary>
         internal static AppConfig Config => _config.Value;
-        internal static LipNETWrapper.ILipWrapper Lip = new LipNETWrapper.LipConsoleWrapper(
-#if DEBUG
-            "A:\\Documents\\GitHub\\BDS\\Latest\\lip.exe"
-#endif
-            );
+        /// <summary>
+        /// 实现Lip接口的实例
+        /// </summary>
+        internal static ILipWrapper Lip = new LipConsoleWrapper();
+        /// <summary>
+        /// UI线程封送消息，异步可等待
+        /// </summary>
+        /// <param name="act">方法对象</param>
+        /// <returns>异步任务</returns>
         internal static async Task DispatcherInvokeAsync(Action act)
         {
             await Application.Current.Dispatcher.InvokeAsync(act);
         }
+        /// <summary>
+        /// UI线程封送消息，异步可等待
+        /// </summary>
+        /// <param name="act">异步方法对象</param>
+        /// <returns>异步任务</returns>
         internal static async Task DispatcherInvokeAsync(Func<Task> act)
         {
             await Application.Current.Dispatcher.InvokeAsync(act);
         }
+        /// <summary>
+        /// UI线程封送消息
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="act">方法对象</param>
+        /// <returns>返回对象</returns>
         internal static async Task<T> DispatcherInvokeAsync<T>(Func<T> act)
         {
             return await Application.Current.Dispatcher.InvokeAsync(act);
         }
+        /// <summary>
+        /// UI线程封送消息
+        /// </summary>
+        /// <param name="act">方法委托</param>
         internal static void DispatcherInvoke(Action act)
         {
             Application.Current.Dispatcher.Invoke(act);
         }
+        /// <summary>
+        /// 导航到页面
+        /// </summary>
+        /// <typeparam name="T">页面的类，要求继承ui:Page</typeparam>
+        /// <typeparam name="TV">页面的ViewModel，要求继承ObservableObject且实现INavigationAware</typeparam>
         public static void Navigate<T, TV>()
-            where TV : ObservableObject, INavigationAware
             where T : INavigableView<TV>
+            where TV : ObservableObject, INavigationAware
         {
             DispatcherInvoke(() =>
             {
                 ((Views.Windows.MainWindow)Application.Current.MainWindow!).Navigate(typeof(T));
             });
         }
+        /// <summary>
+        /// 弹出对话框
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="content">内容（如果是WPF控件需要DispatcherInvoke在UI线程创建）</param>
+        /// <param name="right">左按钮内容和回调</param>
+        /// <param name="left">右按钮内容和回调</param>
+        /// <param name="modify">对dialog控件的额外修改（通常无需操作）</param>
+        /// <returns></returns>
         public static async Task ShowDialog(
             string title,
             object content,

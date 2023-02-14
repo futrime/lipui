@@ -33,6 +33,9 @@ namespace LipUI.ViewModels
         ToothInfoPanelViewModel? _toothInfoPanel;
         public bool InfoLoaded => _toothInfoPanel is not null;
         [ObservableProperty] private bool _installing = false;
+        /// <summary>
+        /// 执行安装
+        /// </summary>
         [RelayCommand(CanExecute = nameof(InfoLoaded))]
         public async Task Install()
         {
