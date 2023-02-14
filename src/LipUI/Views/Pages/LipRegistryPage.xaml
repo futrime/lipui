@@ -53,7 +53,7 @@
                             </StackPanel>
                         </Button>
                         <ComboBox Padding="5" HorizontalAlignment="Stretch" ItemsSource="{Binding Versions}" SelectedItem="{Binding SelectedVersion}">
-                         
+
                         </ComboBox>
                     </DockPanel>
                 </controls:ToothInfoPanel>
@@ -138,9 +138,10 @@
                     </StatusBarItem>
                 </StatusBar>
             </Grid>
+            <ui:AutoSuggestBox DockPanel.Dock="Top" PlaceholderText="Search..." Text="{Binding ViewModel.SearchText}"/>
             <ScrollViewer DockPanel.Dock="Bottom">
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
-                                     ItemsSource="{Binding ViewModel.ToothItems, Mode=OneWay}" >
+                                     ItemsSource="{Binding ViewModel.VisibleToothItems, Mode=OneWay}" >
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <controls:ToothItem DataContext="{Binding Path=., Mode=OneWay}"/>
@@ -148,7 +149,6 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-            <!--todo <ui:AutoSuggestBox PlaceholderText="Search..." />-->
         </DockPanel>
         <ui:LoadingScreen Margin="-10" Visibility="{Binding ViewModel.IsLoading,Converter={StaticResource BooleanToVisibilityConverter},Mode=OneWay}">
             <ScrollViewer DockPanel.Dock="Bottom">
