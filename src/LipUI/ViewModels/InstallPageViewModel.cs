@@ -98,7 +98,13 @@ namespace LipUI.ViewModels
                                                 }
                                             };
                                         }
-                                    }), ("好的", hide =>
+                                    }), ("同意！", hide =>
+                                    {
+                                        hide();
+                                        //input("n");
+                                        input("y");
+                                    }//todo 取消操作有效后修改
+                                ), ("好的", hide =>
                                     {
                                         hide();
                                         input("y");
