@@ -83,6 +83,15 @@ namespace LipUI
                                         string.Join(" ",
                                             from arg in Environment.GetCommandLineArgs().Skip(1)
                                             select $"\"{arg}\""));
+                                    //删除安装包
+                                    try
+                                    {
+                                        File.Delete(installer);
+                                    }
+                                    catch
+                                    {
+                                        // ignored
+                                    }
                                     //退出当前实例
                                     Environment.Exit(0);
                                 }
@@ -124,10 +133,19 @@ namespace LipUI
                     return true;
                 }
             }
-            else if (Directory.Exists(Config.LipPath))//设定了自定义路径
+            else if (File.Exists(Config.LipPath))//设定了自定义路径
             {
                 Lip.ExecutablePath = Config.LipPath;
                 return true;
+            }
+            else
+            {
+                var file = Path.Combine(Config.LipPath, "lip.exe");
+                if (File.Exists(file))//设定了自定义路径
+                {
+                    Lip.ExecutablePath = file;
+                    return true;
+                }
             }
             return false;
         }
@@ -183,6 +201,10 @@ namespace LipUI
         {
             await Application.Current.Dispatcher.InvokeAsync(act);
         }
+        internal static async Task<T> DispatcherInvokeAsync<T>(Func<T> act)
+        {
+            return await Application.Current.Dispatcher.InvokeAsync(act);
+        }
         internal static void DispatcherInvoke(Action act)
         {
             Application.Current.Dispatcher.Invoke(act);
@@ -226,6 +248,8 @@ namespace LipUI
                         onDialogOnButtonLeftClick = (_, e) => v(() => dialog.Hide());
                     }
                 }
+                dialog.DialogHeight = 250;
+                dialog.DialogWidth = 400;
                 modify?.Invoke(dialog);
                 //if (content is Control ct)
                 //{

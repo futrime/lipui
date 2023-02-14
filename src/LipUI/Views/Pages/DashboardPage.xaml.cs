@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
+using CommunityToolkit.Mvvm.Input;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
@@ -13,12 +14,11 @@ namespace LipUI.Views.Pages
         {
             get;
         }
-
         public DashboardPage(ViewModels.DashboardViewModel viewModel)
         {
             ViewModel = viewModel;
 
             InitializeComponent();
-        } 
+        }
     }
 }

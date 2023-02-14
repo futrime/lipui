@@ -44,10 +44,10 @@
             <TextBox MinWidth="200" Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource InvBooleanToVisibilityConverter}}" Text="{Binding ViewModel.LipPath}"/>
             <TextBox IsReadOnly="True" MinWidth="200" Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding ViewModel.CurrentLipPath,Mode=OneWay}"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
+        <!--<StackPanel Orientation="Horizontal">
             <TextBlock Text="工作路径："  Style="{StaticResource Title}"/>
             <TextBox MinWidth="200" Text="{Binding ViewModel.WorkingDir}"/>
-        </StackPanel>
+        </StackPanel>-->
         <TextBlock
             Margin="0,24,0,0"
             FontSize="20"

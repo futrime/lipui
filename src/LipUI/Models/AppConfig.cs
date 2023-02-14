@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using Wpf.Ui.Appearance;
@@ -10,9 +11,9 @@ namespace LipUI.Models
     {
         [ObservableProperty] string _lipPath = "lip.exe";
         [ObservableProperty] string _workingDirectory;
+        [ObservableProperty] ObservableCollection<string> _allWorkingDirectory=new();
         [ObservableProperty] ThemeType _theme;
         [ObservableProperty] private bool _autoLipPath = true;
-
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);

@@ -107,7 +107,10 @@ namespace LipNETWrapper
         {
             try
             {
-                _process?.Kill();
+                if (_process is { HasExited: false })
+                {
+                    _process?.Kill();
+                }
             }
             catch
             {

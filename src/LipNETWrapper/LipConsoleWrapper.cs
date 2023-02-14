@@ -27,11 +27,22 @@ namespace LipNETWrapper
         }
         public async Task<(LipPackageSimple[] packages, string message)> GetAllPackagesAsync(CancellationToken tk = default)
         {
-            var text = (await new LipConsoleLoader(ExecutablePath, WorkingPath)
-                .RunString(LipCommand.Create("list", true).WithJson(), tk: tk));
-            var json = text.Split('\n').First(x => x.StartsWith("[")).Trim();
-            var arr = JsonConvert.DeserializeObject<LipPackageSimple[]>(json);
-            return (arr ?? Array.Empty<LipPackageSimple>(), text);
+            try
+            {
+                var text = (await new LipConsoleLoader(ExecutablePath, WorkingPath)
+                    .RunString(LipCommand.Create("list", true).WithJson(), tk: tk));
+                var json = text.Split('\n').First(x => x.StartsWith("[")).Trim();
+                var arr = JsonConvert.DeserializeObject<LipPackageSimple[]>(json);
+                return (arr ?? Array.Empty<LipPackageSimple>(), text);
+            }
+            catch 
+            { //retry once
+                var text = (await new LipConsoleLoader(ExecutablePath, WorkingPath)
+                    .RunString(LipCommand.Create("list", true).WithJson(), tk: tk));
+                var json = text.Split('\n').First(x => x.StartsWith("[")).Trim();
+                var arr = JsonConvert.DeserializeObject<LipPackageSimple[]>(json);
+                return (arr ?? Array.Empty<LipPackageSimple>(), text);
+            }
         }
         public async Task<(bool success, LipPackageVersions? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
         {

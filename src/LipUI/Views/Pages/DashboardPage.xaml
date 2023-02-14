@@ -7,7 +7,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="DashboardPage"
     d:DataContext="{d:DesignInstance local:DashboardPage, IsDesignTimeCreatable=False}"
-    d:DesignHeight="450"
+    d:DesignHeight="550"
     d:DesignWidth="800"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -15,8 +15,29 @@
 
     <Grid Margin="56,0" VerticalAlignment="Top">
         <StackPanel>
-            <TextBlock>这里什么都没有！</TextBlock>
-            <TextBlock>点击左边的导航栏吧！</TextBlock> 
+            <TextBlock Style="{StaticResource Title}">点击左边的导航栏开始吧！</TextBlock>
+            <TextBlock Margin="10,40,0,0" Style="{StaticResource Title}">工作目录：</TextBlock>
+            <TextBlock Text="{Binding ViewModel.Tip}"/>
+            <DockPanel>
+                <Button Content="添加" DockPanel.Dock="Right" Margin="5" Command="{Binding ViewModel.AddWorkingDirCommand }"/>
+                <TextBox Text="{Binding ViewModel.AddingWorkingDir}" Margin="5"/>
+            </DockPanel>
+            <ListBox Margin="5" FontSize="16" ItemsSource="{Binding ViewModel.Config.AllWorkingDirectory}" SelectedItem="{Binding ViewModel.Config.WorkingDirectory}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ListBoxItem>
+                            <DockPanel>
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                    <Button Margin="5,-5" Content="选中" Command="{Binding ViewModel.SelectCommand,RelativeSource={RelativeSource AncestorType= local:DashboardPage}}" CommandParameter="{Binding .,Mode=OneTime}" />
+                                    <Button Margin="5,-5" Content="复制" Command="{Binding ViewModel.CopyCommand,RelativeSource={RelativeSource AncestorType= local:DashboardPage}}" CommandParameter="{Binding .,Mode=OneTime}"/>
+                                    <Button Margin="5,-5" FontSize="16" Content="删除" Command="{Binding ViewModel.DeleteCommand,RelativeSource={RelativeSource AncestorType= local:DashboardPage}}" CommandParameter="{Binding .,Mode=OneTime}"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding .}" DockPanel.Dock="Left"/>
+                            </DockPanel> 
+                        </ListBoxItem>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
     </Grid>
 </ui:UiPage>
