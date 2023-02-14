@@ -8,7 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Resources;
 using LipNETWrapper;
 using LipUI.Models;
 using LipUI.ViewModels;
@@ -114,17 +113,6 @@ namespace LipUI
                 }
                 ));
             }
-            //自动添加目录
-            {
-                var testPath = Path.GetFullPath("bedrock_server_mod.exe");
-                if (File.Exists(testPath))
-                {
-                    if (!Config.AllWorkingDirectory.Contains(testPath))
-                    {
-                        Config.WorkingDirectory = testPath;
-                    }
-                }
-            }
         }
         static bool TryRefreshLipPath()
         {
@@ -183,6 +171,7 @@ namespace LipUI
                         TryRefreshLipPath();
                         break;
                 }
+
                 try
                 {
                     var dir = Path.GetDirectoryName(fp);
