@@ -74,6 +74,7 @@
                 </Border>
             </Grid>
             <ui:Dialog Grid.Column="0" Grid.ColumnSpan="2" Margin="0,42,0,0" x:Name="Dialog" DialogHeight="250" DialogWidth="400"/>
+            <ui:Snackbar Grid.Column="0" Grid.ColumnSpan="2"  x:Name="Snackbar"/>
         </Grid>
     </Grid>
 </ui:UiWindow>

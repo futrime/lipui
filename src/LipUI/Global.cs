@@ -12,7 +12,9 @@ using LipNETWrapper;
 using LipUI.Models;
 using LipUI.ViewModels;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.Common;
 using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
 
 namespace LipUI
@@ -241,6 +243,18 @@ namespace LipUI
             DispatcherInvoke(() =>
             {
                 ((Views.Windows.MainWindow)Application.Current.MainWindow!).Navigate(typeof(T));
+            });
+        }
+        /// <summary>
+        /// 弹出底部提示
+        /// </summary>
+        public static void PopupSnackbar(string title, object content, SymbolRegular icon = SymbolRegular.Info16, ControlAppearance appearance = ControlAppearance.Secondary)
+        {
+            DispatcherInvoke(() =>
+            {
+                var snackbar = ((Views.Windows.MainWindow)Application.Current.MainWindow!).Snackbar;
+                snackbar.Show(title, "", icon, ControlAppearance.Primary);
+                snackbar.Content = content;
             });
         }
         /// <summary>
