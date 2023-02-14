@@ -41,7 +41,8 @@
             <ui:ToggleSwitch Margin="0,0,10,0" IsChecked="{Binding ViewModel.AutoLipPath}">
                 自动获取
             </ui:ToggleSwitch>
-            <TextBox MinWidth="200" Text="{Binding ViewModel.LipPath}"/>
+            <TextBox MinWidth="200" Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource InvBooleanToVisibilityConverter}}" Text="{Binding ViewModel.LipPath}"/>
+            <TextBox IsReadOnly="True" MinWidth="200" Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding ViewModel.CurrentLipPath,Mode=OneWay}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="工作路径："  Style="{StaticResource Title}"/>

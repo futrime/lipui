@@ -41,6 +41,9 @@ namespace LipUI.ViewModels
         }
         [ObservableProperty]
         public string _workingDir = Global.Config.WorkingDirectory;
+
+        public string CurrentLipPath => Global.Lip.ExecutablePath;
+
         partial void OnWorkingDirChanged(string path)
         {
             if (Directory.Exists(path))
