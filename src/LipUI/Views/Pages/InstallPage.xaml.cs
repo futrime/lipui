@@ -1,18 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Wpf.Ui.Common.Interfaces;
+﻿using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
 {
@@ -29,6 +15,11 @@ namespace LipUI.Views.Pages
         {
             ViewModel = viewModel;
             InitializeComponent();
+            ViewModel.OutPut.CollectionChanged += OutPut_CollectionChanged;
+        }
+        private void OutPut_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            ScrollViewer.ScrollToEnd();
         }
     }
 }

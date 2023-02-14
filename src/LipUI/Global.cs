@@ -22,7 +22,7 @@ namespace LipUI
         /// <summary>初始化全局变量</summary>
         internal static void Init()
         {
-            //从配置获取Lip路径
+            // 从配置获取Lip路径
             if (!TryRefreshLipPath())
             {
                 var vm = new LipInstallerViewModel();
@@ -31,13 +31,9 @@ namespace LipUI
                     Config.AutoLipPath = !vm.ManualConfig;
                     Config.LipPath = vm.LipPath;
                     if (TryRefreshLipPath())
-                    {
                         hide();
-                    }
                     else
-                    {
                         vm.Tip = "未找到lip.exe，如已安装请重新启动LipUI";
-                    }
                 }
                 ), ("下载安装程序", hide =>
                 {
@@ -107,12 +103,14 @@ namespace LipUI
                         }
                     }
                     else
-                    {
                         vm.Tip = "请开启'自动获取Lip路径'";
-                    }
                 }
                 ));
             }
+            // 
+            //if ()
+            //{
+            //}
         }
         static bool TryRefreshLipPath()
         {

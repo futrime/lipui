@@ -89,9 +89,9 @@
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
-            <ScrollViewer DockPanel.Dock="Bottom">
+            <ScrollViewer DockPanel.Dock="Bottom" x:Name="ScrollViewer">
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
-                          ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}" >
+                      ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding .}"/>
