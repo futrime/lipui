@@ -15,13 +15,13 @@ namespace LipUI
         private static readonly string ConfigPath = Path.Combine(".lip", "config", "lipui", "config.json");
         private static Lazy<AppConfig> _config = new(() =>
         {
-            var fp = Path.GetFileName(ConfigPath);
+            var fp = Path.GetFullPath(ConfigPath);
             var result = File.Exists(fp)
                 ? AppConfig.FromString(File.ReadAllText(fp))
                 : new AppConfig();
             result.PropertyChanged += (s, e) =>
             {
-                switch (e.PropertyName)
+                switch (e.PropertyName)//修改后应用配置
                 {
                     case nameof(result.LipPath):
                         Lip.ExecutablePath = result.LipPath;
