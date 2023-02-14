@@ -109,6 +109,25 @@ namespace LipUI
                 }
                 ));
             }
+            if (!Directory.Exists(Config.WorkingDirectory))
+            {//保存的WorkingDirectory不合法，需要手动选择 
+                _ = ShowDialog("需要指定有效的工作路径", new Views.Controls.WorkingPathSelector(), ("完成", hide =>
+                {
+                    if (Directory.Exists(Config.WorkingDirectory))
+                    {
+                        hide();
+                    }
+                    else
+                    {
+                        PopupSnackbar("请选择有效的工作路径", Config.WorkingDirectory, SymbolRegular.Warning16, ControlAppearance.Caution);
+                    }
+                }
+                ),modify: dialog =>
+                {
+                    dialog.DialogWidth = 700;
+                    dialog.DialogHeight = 500;
+                });
+            }
         }
         static bool TryRefreshLipPath()
         {
@@ -254,7 +273,7 @@ namespace LipUI
             {
                 var snackbar = ((Views.Windows.MainWindow)Application.Current.MainWindow!).Snackbar;
                 snackbar.Timeout = timeout;
-                snackbar.Show(title, content, icon,appearance);
+                snackbar.Show(title, content, icon, appearance);
             });
         }
         /// <summary>

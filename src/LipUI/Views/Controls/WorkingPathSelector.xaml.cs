@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using LipUI.ViewModels;
 
 namespace LipUI.Views.Controls
@@ -13,6 +15,10 @@ namespace LipUI.Views.Controls
         {
             InitializeComponent();
             this.DataContext = new WorkingPathSelectorViewModel();
+        }
+        private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {//修复点击文字无法选中的bug
+            ViewModel.Select((string)((DockPanel)sender).Tag);
         }
     }
 }

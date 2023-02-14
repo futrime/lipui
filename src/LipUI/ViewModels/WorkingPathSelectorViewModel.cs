@@ -1,8 +1,10 @@
 ﻿using System.IO;
-using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipUI.Models;
+using Wpf.Ui.Common;
+using Clipboard = System.Windows.Clipboard;
+
 namespace LipUI.ViewModels;
 public partial class WorkingPathSelectorViewModel : ObservableObject
 {
@@ -14,7 +16,7 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
         Global.PopupSnackbar("已复制到剪切板", v);
     }
     [RelayCommand]
-    void Select(string v)
+  internal  void Select(string v)
     {
         Config.WorkingDirectory = v;
     }
@@ -24,7 +26,7 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
         Config.AllWorkingDirectory.Remove(dir);
     }
     [ObservableProperty] string _addingWorkingDir;
-    [ObservableProperty] string _tip;
+    //[ObservableProperty] string _tip;
     /// <summary>
     /// 选择目录
     /// </summary>
@@ -54,18 +56,19 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
             if (Config.AllWorkingDirectory.Contains(AddingWorkingDir))
             {
                 Config.WorkingDirectory = AddingWorkingDir;
-                Tip = "目录已存在";
+                Global.PopupSnackbar("目录已添加", AddingWorkingDir, SymbolRegular.Warning16, ControlAppearance.Caution);
             }
             else
             {
                 Config.AllWorkingDirectory.Add(AddingWorkingDir);
                 Config.WorkingDirectory = AddingWorkingDir;
                 AddingWorkingDir = "";
+                Global.PopupSnackbar("添加成功", AddingWorkingDir);
             }
         }
         else
         {
-            Tip = "目录不存在";
+            Global.PopupSnackbar("目录不存在", AddingWorkingDir, SymbolRegular.Warning16, ControlAppearance.Caution);
         }
     }
 }

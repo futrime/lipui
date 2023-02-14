@@ -9,7 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
-        <TextBlock Text="{Binding Tip}"/>
         <DockPanel>
             <Button Content="添加" DockPanel.Dock="Right" Margin="5" Command="{Binding AddWorkingDirCommand }"/>
             <Button Content="选择" DockPanel.Dock="Right" Margin="5" Command="{Binding SelectWorkingDirCommand }"/>
@@ -19,7 +18,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <ListBoxItem>
-                        <DockPanel>
+                        <DockPanel  Tag="{Binding .}" MouseDown="UIElement_OnMouseDown" >
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                 <Button Margin="5,-5" Content="选中" Command="{Binding ViewModel.SelectCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}" />
                                 <Button Margin="5,-5" Content="复制" Command="{Binding ViewModel.CopyCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
