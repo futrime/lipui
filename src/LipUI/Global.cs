@@ -29,7 +29,10 @@ namespace LipUI
                     Config.AutoLipPath = !vm.ManualConfig;
                     Config.LipPath = vm.LipPath;
                     if (TryRefreshLipPath())
+                    {
                         hide();
+                        CheckWorkDir();
+                    }
                     else
                         PopupSnackbar("未找到lip.exe", "如已安装请重新启动LipUI");
                 }
@@ -105,7 +108,10 @@ namespace LipUI
                 }
                 ));
             }
-            CheckWorkDir();
+            else
+            {
+                CheckWorkDir();
+            }
         }
         internal static void CheckWorkDir()
         {
@@ -131,9 +137,9 @@ namespace LipUI
         }
         static bool TryRefreshLipPath()
         {
-            if (Config.AutoLipPath)//自动获取
+            if (Config.AutoLipPath)//是否设置了自动获取
             {
-                //当前目录
+                //当前目录优先
                 var current = Path.GetFullPath("lip.exe");
                 if (File.Exists(current))
                 {
@@ -148,7 +154,7 @@ namespace LipUI
                     return true;
                 }
             }
-            else if (File.Exists(Config.LipPath))//设定了自定义路径
+            else if (File.Exists(Config.LipPath))//使用自定义路径
             {
                 Lip.ExecutablePath = Config.LipPath;
                 return true;
@@ -156,13 +162,13 @@ namespace LipUI
             else
             {
                 var file = Path.Combine(Config.LipPath, "lip.exe");
-                if (File.Exists(file))//设定了自定义路径
+                if (File.Exists(file))//使用自定义路径文件夹下的lip.exe
                 {
                     Lip.ExecutablePath = file;
                     return true;
                 }
             }
-            return false;
+            return false;//最终没能找到
         }
         /// <summary>配置文件路径</summary>
         private static readonly string ConfigPath = Path.Combine(".lip", "config", "lipui", "config.json");
@@ -189,7 +195,7 @@ namespace LipUI
                         TryRefreshLipPath();
                         break;
                 }
-
+                //保存
                 try
                 {
                     var dir = Path.GetDirectoryName(fp);
@@ -276,6 +282,8 @@ namespace LipUI
                 snackbar.Show(title, content, icon, appearance);
             });
         }
+        public static void PopupSnackbarWarn(string title, string content)
+            => PopupSnackbar(title, content, SymbolRegular.Warning16, ControlAppearance.Caution);
         /// <summary>
         /// 弹出对话框
         /// </summary>

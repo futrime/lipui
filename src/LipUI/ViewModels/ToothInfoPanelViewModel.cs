@@ -7,9 +7,9 @@ namespace LipUI.ViewModels
 {
     public partial class ToothInfoPanelViewModel : ObservableObject
     {
-        private LipPackage? _info;
-        private LipRegistry.LipRegistryItem? _registryItem;
-        private LipPackageVersions _ver;
+        private readonly LipPackage? _info;
+        private readonly LipRegistry.LipRegistryItem? _registryItem;
+        private readonly LipPackageVersions _ver;
         public ToothInfoPanelViewModel(LipPackage info) : this((LipPackageVersions)info)
         {
             Tooth = info.Tooth;

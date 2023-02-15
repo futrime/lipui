@@ -34,14 +34,7 @@ public partial class UninstallPageViewModel : ObservableObject, INavigationAware
             {
                 if (x is not null)
                 {
-                    if (x.StartsWith("{"))
-                    {
-                        //todo json进度
-                    }
-                    else
-                    {
-                        Global.DispatcherInvoke(() => OutPut.Add(x));
-                    }
+                    Global.DispatcherInvoke(() => OutPut.Add(x));
                 }
             });
             OutPut.Add($"ExitCode：{exitCode}");

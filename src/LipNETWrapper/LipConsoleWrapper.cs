@@ -94,8 +94,9 @@ namespace LipNETWrapper
 #endif
         }
         public Task CachePurge()
-        {//todo : implement
-            throw new NotImplementedException();
+        {
+            return new LipConsoleLoader(ExecutablePath, WorkingPath)
+                .Run(LipCommand.Create("cache") + "purge", null, CancellationToken.None);
         }
     }
 }

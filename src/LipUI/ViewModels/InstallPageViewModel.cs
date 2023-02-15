@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -7,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Wpf.Ui.Common.Interfaces;
@@ -168,7 +166,7 @@ namespace LipUI.ViewModels
                 }
                 else
                 {
-                    //todo 获取失败
+                    Global.PopupSnackbarWarn("获取失败", message);
                 }
             }
             catch (Exception ex)

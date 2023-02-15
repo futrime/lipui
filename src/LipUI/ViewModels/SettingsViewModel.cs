@@ -33,10 +33,16 @@ namespace LipUI.ViewModels
             if (File.Exists(path))
             {
                 Global.Config.LipPath = path;
+                Global.PopupSnackbar("设置成功", path);
             }
             else if (File.Exists(Path.Combine(path, "lip.exe")))
             {
                 Global.Config.LipPath = Path.Combine(path, "lip.exe");
+                Global.PopupSnackbar("设置成功", Global.Config.LipPath);
+            }
+            else
+            {
+                Global.PopupSnackbarWarn("路径不存在", path);
             }
         }
         [ObservableProperty]

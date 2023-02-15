@@ -15,6 +15,7 @@
         <ui:ToggleSwitch Content="手动配置" IsChecked="{Binding ManualConfig }"/>
         <ui:TextBox Visibility="{Binding ManualConfig,Converter={StaticResource BooleanToVisibilityConverter}}" PlaceholderText="lip.exe的路径" Text="{Binding LipPath }"/>
         <DockPanel Visibility="{Binding ManualConfig,Converter={StaticResource InvBooleanToVisibilityConverter}}">
+            <TextBlock Text="当前拟定位置："/>
             <TextBlock Text="{Binding CurrentLipPath}"/>
         </DockPanel>
         <ProgressBar Value="{Binding Progress}" Visibility="{Binding ShowProgressBar,Converter={StaticResource BooleanToVisibilityConverter}}"/>

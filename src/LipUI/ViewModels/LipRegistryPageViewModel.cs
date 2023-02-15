@@ -99,28 +99,51 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
 
         TrySearch();
     }
-    [ObservableProperty] private string _registryHub = "https://registry.litebds.com/index.json";
+
+    public string RegistryHub
+    {
+        get
+        {
+            var args = Environment.GetCommandLineArgs().ToList();
+            //using LipUI.exe -r http://xxx.xxx.xxx/registry.json
+            //or --registry
+            var index = args.FindIndex(x => x is "-r" or "--registry");
+            if (index != -1 && args.Count > index + 1)
+            {
+                return args[index + 1];
+            }
+            return "https://registry.litebds.com/index.json";
+        }
+    }
     [RelayCommand]
     protected async Task LoadAllPackages()
     {
-        await Global.DispatcherInvokeAsync(() =>
-        {
-            IsLoading = true;
-            LoadingOutPut.Clear();
-            LoadingOutPut.Add("正在加载所有包");
-            LoadingOutPut.Add(RegistryHub);
-            ToothItems.Clear();
-        });
-        var registry = await Global.Lip.GetLipRegistryAsync(_registryHub);
-
-        await Global.DispatcherInvokeAsync(() =>
-        {
-            IsLoading = false;
-        }); foreach (var item in registry.Index)
+        try
         {
             await Global.DispatcherInvokeAsync(() =>
-                ToothItems.Add(new ToothItemViewModel(ShowInfo, item.Value)));
-            await Task.Delay(100);//100毫秒显示一个，假装很丝滑
+            {
+                IsLoading = true;
+                LoadingOutPut.Clear();
+                LoadingOutPut.Add("正在加载所有包");
+                LoadingOutPut.Add(RegistryHub);
+                ToothItems.Clear();
+            });
+            var registry = await Global.Lip.GetLipRegistryAsync(RegistryHub);
+
+            await Global.DispatcherInvokeAsync(() =>
+            {
+                IsLoading = false;
+            }); 
+            foreach (var item in registry.Index)
+            {
+                await Global.DispatcherInvokeAsync(() =>
+                    ToothItems.Add(new ToothItemViewModel(ShowInfo, item.Value)));
+                await Task.Delay(100);//100毫秒显示一个，假装很丝滑
+            }
+        }
+        catch (Exception e)
+        {
+            Global.PopupSnackbarWarn("获取失败", e.Message);
         }
     }
     protected void InitializeViewModel()
@@ -138,7 +161,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         }
         else
         {
-            //todo 读取失败
+            Global.PopupSnackbarWarn("获取失败", message);
         }
         IsShowingDetail = true;
     }

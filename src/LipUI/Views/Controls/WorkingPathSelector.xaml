@@ -14,21 +14,21 @@
             <Button Content="选择" DockPanel.Dock="Right" Margin="5" Command="{Binding SelectWorkingDirCommand }"/>
             <TextBox Text="{Binding AddingWorkingDir}" Margin="5"/>
         </DockPanel>
-            <ListBox Margin="5" FontSize="14" ItemsSource="{Binding Config.AllWorkingDirectory}" SelectedItem="{Binding Config.WorkingDirectory}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <ListBoxItem>
-                            <DockPanel  Tag="{Binding .}" MouseDown="UIElement_OnMouseDown" >
-                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                    <Button Margin="5,-5" Content="选中" Command="{Binding ViewModel.SelectCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}" />
-                                    <Button Margin="5,-5" Content="复制" Command="{Binding ViewModel.CopyCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
-                                    <Button Margin="5,-5" Content="删除" Command="{Binding ViewModel.DeleteCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
-                                </StackPanel>
-                                <TextBlock Text="{Binding .}" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                            </DockPanel>
-                        </ListBoxItem>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+        <ListView Margin="5" FontSize="14" ItemsSource="{Binding Config.AllWorkingDirectory}" SelectedItem="{Binding Config.WorkingDirectory}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ListViewItem>
+                        <DockPanel  Tag="{Binding .}" MouseDown="UIElement_OnMouseDown" >
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                <Button Margin="5,-5" Content="选中" Command="{Binding ViewModel.SelectCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}" />
+                                <Button Margin="5,-5" Content="复制" Command="{Binding ViewModel.CopyCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
+                                <Button Margin="5,-5" Content="删除" Command="{Binding ViewModel.DeleteCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding .}" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                        </DockPanel>
+                    </ListViewItem>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackPanel>
 </UserControl>

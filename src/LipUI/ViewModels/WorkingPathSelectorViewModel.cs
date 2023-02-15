@@ -6,6 +6,7 @@ using Wpf.Ui.Common;
 using Clipboard = System.Windows.Clipboard;
 
 namespace LipUI.ViewModels;
+
 public partial class WorkingPathSelectorViewModel : ObservableObject
 {
     public AppConfig Config => Global.Config;

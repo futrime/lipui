@@ -33,22 +33,30 @@ namespace LipUI.ViewModels
             //if (!_isInitialized)
             //    InitializeViewModel();
         }
-        public void OnNavigatedFrom()
-        {
-        }
+        public void OnNavigatedFrom() { }
         [RelayCommand(CanExecute = nameof(Loading))]
         protected async Task LoadAllPackages()
         {
-            await Global.DispatcherInvokeAsync(() => ToothItems.Clear());
-            var (packages, message) = await Global.Lip.GetAllPackagesAsync();
-            foreach (var package in packages)
+            try
             {
-                await Global.DispatcherInvokeAsync(() => ToothItems.Add(new ToothItemViewModel(ShowInfo)
+                await Global.DispatcherInvokeAsync(() => ToothItems.Clear());
+                var (packages, message) = await Global.Lip.GetAllPackagesAsync();
+                foreach (var package in packages)
                 {
-                    Version = package.Version,
-                    Tooth = package.Tooth
-                }));
-                await Task.Delay(100);//100毫秒显示一个，假装很丝滑
+                    await Global.DispatcherInvokeAsync(() => ToothItems.Add(new ToothItemViewModel(ShowInfo)
+                    {
+                        Version = package.Version,
+                        Tooth = package.Tooth
+                    }));
+                    await Task.Delay(100);//100毫秒显示一个，假装很丝滑
+                }
+            }
+            catch (Exception e)
+            {
+                Global.PopupSnackbarWarn("小错误，请尝试重新获取", e.Message);
+#if DEBUG
+                throw;
+#endif
             }
         }
 
@@ -66,7 +74,7 @@ namespace LipUI.ViewModels
             }
             else
             {
-                //todo 读取失败
+                Global.PopupSnackbarWarn("获取失败", message);
             }
             IsShowingDetail = true;
         }
