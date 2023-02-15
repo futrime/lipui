@@ -28,7 +28,7 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
         Config.AllWorkingDirectory.Remove(dir);
         Global.CheckWorkDir();
     }
-    [ObservableProperty] string _addingWorkingDir;
+    [ObservableProperty] string _addingWorkingDir=string.Empty;
     //[ObservableProperty] string _tip;
     /// <summary>
     /// 选择目录

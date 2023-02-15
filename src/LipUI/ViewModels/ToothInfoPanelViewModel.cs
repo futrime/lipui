@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipNETWrapper.Class;
@@ -18,6 +19,12 @@ namespace LipUI.ViewModels
         {
             _registryItem = item;
             Tooth = item.Tooth;
+            Author = item.Author;
+            Description = item.Description;
+            Homepage = item.Homepage;
+            Name = item.Name;
+            License = item.License;
+            //Version = item.Version;
         }
         public ToothInfoPanelViewModel(LipPackageVersions ver)
         {
@@ -25,19 +32,25 @@ namespace LipUI.ViewModels
             if (ver is LipPackage info)
             {
                 _info = info;
+                Author = info.Author;
+                Description = info.Description;
+                Homepage = info.Homepage;
+                Name = info.Name;
+                License = info.License;
+                Version = info.Version;
             }
             if (Versions?.FirstOrDefault() is not null and var v)
             {
                 SelectedVersion = v;
             }
         }
-        public string Author => _info?.Author ?? _registryItem?.Author ?? string.Empty;
-        public string Description => _info?.Description ?? _registryItem?.Description ?? string.Empty;
-        public string Homepage => _info?.Homepage ?? _registryItem?.Homepage ?? string.Empty;
-        public string Name => _info?.Name ?? _registryItem?.Name ?? string.Empty;
-        [ObservableProperty] public string _tooth;
-        public string License => _info?.License ?? _registryItem?.License ?? string.Empty;
-        public string Version => _info?.Version ?? "";
+        [ObservableProperty] string _author = string.Empty;
+        [ObservableProperty] string _description = string.Empty;
+        [ObservableProperty] string _homepage = string.Empty;
+        [ObservableProperty] string _name = string.Empty;
+        [ObservableProperty] string _license = string.Empty;
+        [ObservableProperty] string _version = string.Empty;
+        [ObservableProperty] string _tooth = string.Empty;
         public string[]? Versions => _ver.Versions;
         [RelayCommand]
         void CopyToothButton()

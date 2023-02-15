@@ -19,8 +19,8 @@ namespace LipUI.ViewModels
         [ObservableProperty]
         ObservableCollection<string> _outPut = new();
         [ObservableProperty]
-        string _toothName;
-        partial void OnToothNameChanged(string _)
+        string _toothName = string.Empty;
+        partial void OnToothNameChanged(string value)
         {
             ToothInfoPanel = null;
             OutPut.Clear();
@@ -49,6 +49,10 @@ namespace LipUI.ViewModels
                 {
                     if (!string.IsNullOrWhiteSpace(x))
                     {
+                        if (x.StartsWith("Successfully installed all tooth files"))
+                        {
+                            Global.PopupSnackbar("安装完成", "Successfully installed all tooth files.");
+                        }
                         if (x.StartsWith("======"))
                         {
                             Task.Delay(1000).ContinueWith(async _ =>
@@ -147,14 +151,11 @@ namespace LipUI.ViewModels
             Ctk = new CancellationTokenSource();
             try
             {
-                var (success, package, message) = await Global.Lip.GetPackageInfoAsync(ToothName, _ctk.Token, x =>
+                var (success, package, message) = await Global.Lip.GetPackageInfoAsync(ToothName, _ctk?.Token ?? default, x =>
                 {
-                    if (x is not null)
+                    if (!x.StartsWith("{"))
                     {
-                        if (!x.StartsWith("{"))
-                        {
-                            Global.DispatcherInvoke(() => OutPut.Add(x));
-                        }
+                        Global.DispatcherInvoke(() => OutPut.Add(x));
                     }
                 });
                 if (success)
@@ -196,7 +197,7 @@ namespace LipUI.ViewModels
             {
                 ToothName = item.Tooth;
                 ToothInfoPanel = item.data;
-                SelectedVersion = item.Version ?? item.data.Versions.FirstOrDefault();
+                SelectedVersion = item.Version ?? item.data.Versions?.FirstOrDefault();
             }
         }
         public void OnNavigatedFrom()

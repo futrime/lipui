@@ -20,11 +20,11 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             OnPropertyChanged(nameof(VisibleToothItems));
         };
     }
-    protected bool _isInitialized = false;
+    private bool _isInitialized = false;
     [ObservableProperty]
-    ToothInfoPanelViewModel _currentInfo = null;
+    ToothInfoPanelViewModel? _currentInfo = null;
     [ObservableProperty]
-    ToothItemViewModel _currentSelected = null;
+    ToothItemViewModel? _currentSelected = null;
     [ObservableProperty]
     bool _isShowingDetail = false;
     [ObservableProperty]
@@ -66,15 +66,15 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     {
     }
     //[NotifyPropertyChangedFor(nameof(VisibleToothItems))]
-    [ObservableProperty] string _searchText;
-    DateTime lastSearch = DateTime.Now;//上次执行搜索
-    partial void OnSearchTextChanged(string _)//输入变动
+    [ObservableProperty] string _searchText = string.Empty;
+    DateTime _lastSearch = DateTime.Now;//上次执行搜索
+    partial void OnSearchTextChanged(string value)//输入变动
     {//1秒的时间间隔是为了避免频繁刷新导致界面卡顿
         void TrySearch()//执行搜索
         {
             //do not invoke if the last search is in 1 second 
             var now = DateTime.Now;
-            if (now - lastSearch < TimeSpan.FromSeconds(1))
+            if (now - _lastSearch < TimeSpan.FromSeconds(1))
             {
                 //delay for 1 second to invoke search
                 Task.Run(async () =>
@@ -84,16 +84,16 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
                     {
                         var now = DateTime.Now;
                         //这1秒内没搜索，执行一次搜索
-                        if (now - lastSearch > TimeSpan.FromSeconds(1))
+                        if (now - _lastSearch > TimeSpan.FromSeconds(1))
                         {
                             InvokeSearch();
-                            lastSearch = now;
+                            _lastSearch = now;
                         }
                     });
                 });
                 return;
             }
-            lastSearch = now;
+            _lastSearch = now;
             InvokeSearch();
         }
 
@@ -133,7 +133,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             await Global.DispatcherInvokeAsync(() =>
             {
                 IsLoading = false;
-            }); 
+            });
             foreach (var item in registry.Index)
             {
                 await Global.DispatcherInvokeAsync(() =>
@@ -157,7 +157,8 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         var (success, versions, message) = await Global.Lip.GetPackageInfoAsync(toothItem.Tooth);
         if (success)
         {
-            CurrentInfo = new ToothInfoPanelViewModel(versions!, toothItem.RegistryItem);
+            if (toothItem.RegistryItem is not null)
+                CurrentInfo = new ToothInfoPanelViewModel(versions!, toothItem.RegistryItem);
         }
         else
         {
@@ -170,7 +171,8 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     [RelayCommand]
     void GotoInstall()
     {
-        Global.EnqueueItem(new InstallInfo(CurrentInfo.Tooth, CurrentInfo, CurrentInfo.SelectedVersion));
+        if (CurrentInfo != null)
+            Global.EnqueueItem(new InstallInfo(CurrentInfo.Tooth, CurrentInfo, CurrentInfo.SelectedVersion));
         Global.Navigate<InstallPage, ViewModels.InstallPageViewModel>();
     }
 }

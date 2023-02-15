@@ -18,12 +18,12 @@ namespace LipUI.Views.Controls
     /// <summary>
     /// Interaction logic for ToothItem.xaml
     /// </summary>
-    public partial class ToothItem 
+    public partial class ToothItem
     {
-        public ViewModels.ToothItemViewModel ViewModel => DataContext as ViewModels.ToothItemViewModel;
+        public ViewModels.ToothItemViewModel ViewModel => (ViewModels.ToothItemViewModel)DataContext;
         public ToothItem()
-        { 
-            InitializeComponent(); 
-        } 
+        {
+            InitializeComponent();
+        }
     }
 }

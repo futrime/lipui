@@ -13,13 +13,13 @@ namespace LipUI.Views.Controls
             InitializeComponent();
         }
         //content property
-        public static readonly DependencyProperty ContentProperty = DependencyProperty.Register(
-                       "Content", typeof(object), typeof(ToothInfoPanel), new PropertyMetadata(default(object)));
+        public new static readonly DependencyProperty ContentProperty = DependencyProperty.Register(
+                       nameof(Content), typeof(object), typeof(ToothInfoPanel), new PropertyMetadata(default(object)));
 
         public new object Content
         {
-            get { return (object)GetValue(ContentProperty); }
-            set { SetValue(ContentProperty, value); }
+            get => GetValue(ContentProperty);
+            set => SetValue(ContentProperty, value);
         }
     }
 }

@@ -16,7 +16,9 @@ namespace LipUI.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private INavigationWindow _navigationWindow;
+#pragma warning disable CS8618
         public ApplicationHostService(IServiceProvider serviceProvider)
+#pragma warning restore CS8618
         {
             _serviceProvider = serviceProvider;
         }

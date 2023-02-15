@@ -10,8 +10,8 @@ namespace LipUI.Models
     public partial class AppConfig : ObservableObject
     {
         [ObservableProperty] string _lipPath = "lip.exe";
-        [ObservableProperty] string _workingDirectory;
-        [ObservableProperty] ObservableCollection<string> _allWorkingDirectory=new();
+        [ObservableProperty] string _workingDirectory = string.Empty;
+        [ObservableProperty] ObservableCollection<string> _allWorkingDirectory = new();
         [ObservableProperty] ThemeType _theme;
         [ObservableProperty] private bool _autoLipPath = true;
         public override string ToString()

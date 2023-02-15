@@ -26,14 +26,14 @@ namespace LipNETWrapper.Class
     [Serializable]
     public class LipPackage: LipPackageVersions
     {
-        [JsonProperty("author")] public string Author { get; set; }
-        [JsonProperty("description")] public string Description { get; set; }
-        [JsonProperty("files")] public LipFile[] Files { get; set; }
-        [JsonProperty("homepage")] public string Homepage { get; set; }
-        [JsonProperty("license")] public string License { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("tooth")] public string Tooth { get; set; }
-        [JsonProperty("version")] public string Version { get; set; }
+        [JsonProperty("author")] public string Author { get; set; } = string.Empty;
+        [JsonProperty("description")] public string Description { get; set; } = string.Empty;
+        [JsonProperty("files")] public LipFile[] Files { get; set; } = Array.Empty<LipFile>();
+        [JsonProperty("homepage")] public string Homepage { get; set; } = string.Empty;
+        [JsonProperty("license")] public string License { get; set; } = string.Empty;
+        [JsonProperty("name")] public string Name { get; set; } = string.Empty;
+        [JsonProperty("tooth")] public string Tooth { get; set; } = string.Empty;
+        [JsonProperty("version")] public string Version { get; set; } = string.Empty;
     }
     [Serializable]
     public class LipFile//todo 这玩意长啥样

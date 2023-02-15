@@ -15,7 +15,7 @@ namespace LipUI.Views.Pages
         {
             ViewModel = viewModel;
             InitializeComponent();
-            ViewModel.OutPut.CollectionChanged += OutPut_CollectionChanged;
+            ViewModel.OutPut.CollectionChanged += OutPut_CollectionChanged!;
         }
         private void OutPut_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

@@ -13,9 +13,17 @@ namespace LipNETWrapperTest
         {
             Console.WriteLine("---");
         }
-        private void OutPut(object obj, [CallerArgumentExpression(nameof(obj))] string? expression = null)
+        private void OutPut(object? obj, [CallerArgumentExpression(nameof(obj))] string? expression = null)
         {
-            Console.WriteLine(expression + " = " + obj);
+            if (obj is null)
+            {
+                Console.WriteLine(expression + " = [null]");
+            }
+            else
+            {
+                Console.WriteLine(expression + " = " + obj);
+
+            }
         }
         [SetUp]
         public void Setup()
@@ -27,13 +35,14 @@ namespace LipNETWrapperTest
             })
             {
                 if (!File.Exists(exePath)) continue;
-                Loader = new LipNETWrapper.LipConsoleWrapper(exePath);
+                _loader = new LipNETWrapper.LipConsoleWrapper(exePath);
                 break;
             }
-            if (Loader == null)
+            if (_loader == null)
                 Assert.Fail("please put your lip.exe path");
         }
-        LipNETWrapper.LipConsoleWrapper Loader = null;
+        LipNETWrapper.LipConsoleWrapper Loader => _loader!;
+        LipNETWrapper.LipConsoleWrapper? _loader;
         [Test]
         public async Task TestLipVersion()
         {
@@ -62,9 +71,12 @@ namespace LipNETWrapperTest
             OutPut(success.ToString());
             if (success)
             {
-                foreach (var v in package!.Versions)
+                if (package!.Versions is not null)
                 {
-                    OutPut(v);
+                    foreach (var v in package!.Versions)
+                    {
+                        OutPut(v);
+                    }
                 }
             }
             OutPut("----------");

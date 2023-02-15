@@ -27,7 +27,8 @@ public partial class ToothItemViewModel : ObservableObject
     [ObservableProperty] LipRegistry.LipRegistryItem? _registryItem;
     #endregion
     [RelayCommand(CanExecute = nameof(ExecutingShowInfo))]
-    async Task ShowInfo() => await _showInfo(this); [ObservableProperty] bool executingShowInfo = true;
+    async Task ShowInfo() => await _showInfo(this);
+    [ObservableProperty] private bool _executingShowInfo = true;
     [ObservableProperty] string _tooth = string.Empty;
     [ObservableProperty] string _version = string.Empty;
 }

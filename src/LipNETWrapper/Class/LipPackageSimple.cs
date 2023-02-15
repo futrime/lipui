@@ -26,7 +26,7 @@ namespace LipNETWrapper.Class
     [Serializable]
     public class LipPackageSimple
     {
-        [JsonProperty("tooth")] public string Tooth { get; set; }
-        [JsonProperty("version")] public string Version { get; set; }
+        [JsonProperty("tooth")] public string Tooth { get; set; } = string.Empty;
+        [JsonProperty("version")] public string Version { get; set; } = string.Empty;
     } 
 }

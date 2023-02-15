@@ -17,9 +17,9 @@ namespace LipUI.ViewModels
     {
         //protected bool _isInitialized = false;
         [ObservableProperty]
-        ToothInfoPanelViewModel _currentInfo = null;
+        ToothInfoPanelViewModel? _currentInfo = null;
         [ObservableProperty]
-        ToothItemViewModel _currentSelected = null;
+        ToothItemViewModel? _currentSelected = null;
         [ObservableProperty]
         bool _isShowingDetail = false;
         [ObservableProperty]

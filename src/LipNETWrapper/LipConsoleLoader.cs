@@ -48,9 +48,9 @@ namespace LipNETWrapper
     public class LipConsoleCommandInstance
     {
         private Process? _process;
-        public bool HasExited => _process.HasExited;
-        public int ExitCode => _process.ExitCode;
-        private CancellationToken _tk;
+        public bool HasExited => _process?.HasExited ?? false;
+        public int ExitCode => _process?.ExitCode ?? -1;
+        private readonly CancellationToken _tk;
 
         public LipConsoleCommandInstance(string exe, string? workingDir, string cmd, CancellationToken tk,
             Action<string> output, Action<string> outputErr, out Process process) : this(exe, workingDir, cmd, tk, output, outputErr)
@@ -76,12 +76,12 @@ namespace LipNETWrapper
             _process.OutputDataReceived += (_, args) =>
             {
                 if (!_tk.IsCancellationRequested)
-                    output(args.Data);
+                    output(args.Data??"");
             };
             _process.ErrorDataReceived += (_, args) =>
             {
                 if (!_tk.IsCancellationRequested)
-                    outputErr(args.Data);
+                    outputErr(args.Data ?? "");
             };
             _process.Start();
             _process.BeginOutputReadLine();
@@ -146,13 +146,13 @@ namespace LipNETWrapper
                 {
                     output?.Invoke(s, s =>
                     {
-                        process.StandardInput.WriteLine(s);
+                        process?.StandardInput.WriteLine(s);
                     });
                 }, s =>
                 {
                     output?.Invoke(s, s =>
                     {
-                        process.StandardInput.WriteLine(s);
+                        process?.StandardInput.WriteLine(s);
                     });
                 }, out process);
             while (!inst.HasExited)
@@ -208,14 +208,14 @@ namespace LipNETWrapper
                     sb.AppendLine(s);
                     output?.Invoke(s, s =>
                     {
-                        process.StandardInput.WriteLine(s);
+                        process?.StandardInput.WriteLine(s);
                     });
                 }, s =>
                 {
                     sb.AppendLine(s);
                     output?.Invoke(s, s =>
                     {
-                        process.StandardInput.WriteLine(s);
+                        process?.StandardInput.WriteLine(s);
                     });
                 }, out process);
             while (!inst.HasExited)

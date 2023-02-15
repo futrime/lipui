@@ -16,33 +16,33 @@ namespace LipUI.ViewModels
         private string _lipVersion = string.Empty;
         [ObservableProperty]
         private Wpf.Ui.Appearance.ThemeType _currentTheme = Global.Config.Theme;
-        partial void OnCurrentThemeChanged(Wpf.Ui.Appearance.ThemeType theme)
+        partial void OnCurrentThemeChanged(Wpf.Ui.Appearance.ThemeType value)
         {
-            Global.Config.Theme = theme;
+            Global.Config.Theme = value;
         }
         [ObservableProperty]
-        public bool _autoLipPath = Global.Config.AutoLipPath;
-        partial void OnAutoLipPathChanged(bool auto)
+        bool _autoLipPath = Global.Config.AutoLipPath;
+        partial void OnAutoLipPathChanged(bool value)
         {
-            Global.Config.AutoLipPath = auto;
+            Global.Config.AutoLipPath = value;
         }
         [ObservableProperty]
-        public string _lipPath = Global.Config.LipPath;
-        partial void OnLipPathChanged(string path)
+        string _lipPath = Global.Config.LipPath;
+        partial void OnLipPathChanged(string value)
         {
-            if (File.Exists(path))
+            if (File.Exists(value))
             {
-                Global.Config.LipPath = path;
-                Global.PopupSnackbar("设置成功", path);
+                Global.Config.LipPath = value;
+                Global.PopupSnackbar("设置成功", value);
             }
-            else if (File.Exists(Path.Combine(path, "lip.exe")))
+            else if (File.Exists(Path.Combine(value, "lip.exe")))
             {
-                Global.Config.LipPath = Path.Combine(path, "lip.exe");
+                Global.Config.LipPath = Path.Combine(value, "lip.exe");
                 Global.PopupSnackbar("设置成功", Global.Config.LipPath);
             }
             else
             {
-                Global.PopupSnackbarWarn("路径不存在", path);
+                Global.PopupSnackbarWarn("路径不存在", value);
             }
         }
         [ObservableProperty]
@@ -50,11 +50,11 @@ namespace LipUI.ViewModels
 
         public string CurrentLipPath => Global.Lip.ExecutablePath;
 
-        partial void OnWorkingDirChanged(string path)
+        partial void OnWorkingDirChanged(string value)
         {
-            if (Directory.Exists(path))
+            if (Directory.Exists(value))
             {
-                Global.Config.WorkingDirectory = path;
+                Global.Config.WorkingDirectory = value;
             }
         }
         public void OnNavigatedTo()

@@ -150,7 +150,7 @@ namespace LipUI
                 var (success, path) = Utils.TryGetLipFromPath();
                 if (success)
                 {
-                    Lip.ExecutablePath = path;
+                    Lip.ExecutablePath = path!;
                     return true;
                 }
             }
@@ -184,11 +184,11 @@ namespace LipUI
             {
                 switch (e.PropertyName)//修改后应用配置
                 {
-                    case nameof(result.WorkingDirectory) when result.WorkingDirectory is not null:
-                        Lip.WorkingPath = result.WorkingDirectory;
+                    case nameof(result.WorkingDirectory) when result!.WorkingDirectory is not null:
+                        Lip!.WorkingPath = result!.WorkingDirectory;
                         break;
-                    case nameof(result.LipPath) when result.LipPath is not null:
-                        Lip.ExecutablePath = result.LipPath;
+                    case nameof(result.LipPath) when result!.LipPath is not null:
+                        Lip!.ExecutablePath = result!.LipPath;
                         TryRefreshLipPath();
                         break;
                     case nameof(result.AutoLipPath):
@@ -198,7 +198,7 @@ namespace LipUI
                 //保存
                 try
                 {
-                    var dir = Path.GetDirectoryName(fp);
+                    var dir = Path.GetDirectoryName(fp)!;
                     if (!Directory.Exists(dir))
                     {
                         Directory.CreateDirectory(dir);

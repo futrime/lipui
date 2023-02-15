@@ -20,15 +20,17 @@ public class LipRegistry
         }
     }   */
     [JsonProperty("format_version")] public int FormatVersion;
+#pragma warning disable CS8618
     [JsonProperty("index")] public IReadOnlyDictionary<string, LipRegistryItem> Index;
+#pragma warning restore CS8618
     public class LipRegistryItem
     {
-        [JsonProperty("author")] public string Author { get; set; }
-        [JsonProperty("description")] public string Description { get; set; }
-        [JsonProperty("homepage")] public string Homepage { get; set; }
-        [JsonProperty("license")] public string License { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("repository")] public string Repository { get; set; }
-        [JsonProperty("tooth")] public string Tooth { get; set; }
+        [JsonProperty("author")] public string Author { get; set; } = string.Empty;
+        [JsonProperty("description")] public string Description { get; set; } = string.Empty;
+        [JsonProperty("homepage")] public string Homepage { get; set; } = string.Empty;
+        [JsonProperty("license")] public string License { get; set; } = string.Empty;
+        [JsonProperty("name")] public string Name { get; set; } = string.Empty;
+        [JsonProperty("repository")] public string Repository { get; set; } = string.Empty;
+        [JsonProperty("tooth")] public string Tooth { get; set; } = string.Empty;
     }
 }

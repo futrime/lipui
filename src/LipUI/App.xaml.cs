@@ -72,7 +72,9 @@ namespace LipUI
         public static T GetService<T>()
             where T : class
         {
+#pragma warning disable CS8603
             return _host.Services.GetService(typeof(T)) as T;
+#pragma warning restore CS8603
         }
 
         /// <summary>
