@@ -30,7 +30,7 @@ WIP
 #### 如何使用自定义源？(默认源为LL-Package-Hub的registry)
 - 启动LipUI.exe附带参数`--registry`或`-r`，例如`LipUI.exe -r http://xxx.xxx.xxx/registry.json`，(设置修改暂不开放)。
 #### 是否跨平台？
-- 目前只支持Windows，暂无跨平台计划。如有比较好的设计方案欢迎或者重写。
+- 目前只支持Windows，暂无跨平台计划。如有比较好的设计方案欢迎pr或者重写。
 #### 运行环境？
 - Windows 7 SP1及以上（以及对应的服务器版本）且包含 .net framework 4.6.2 - 4.8运行时即可
 #### 多语言方案？

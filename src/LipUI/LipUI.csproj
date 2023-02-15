@@ -13,7 +13,6 @@
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
 		<PolySharpExcludeGeneratedTypes>System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute;System.Diagnostics.CodeAnalysis.NotNullAttribute</PolySharpExcludeGeneratedTypes>
 	</PropertyGroup>
-
 	<ItemGroup>
 		<Content Include="applicationIcon.ico" />
 	</ItemGroup>
@@ -22,12 +21,12 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="Costura.Fody" Version="5.7.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
 		<PackageReference Include="WPF-UI" Version="2.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
