@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -35,16 +36,17 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         {
             if (string.IsNullOrWhiteSpace(SearchText))
                 return ToothItems;
+            var searchLower = SearchText.ToLower();
             return new ObservableCollection<ToothItemViewModel>(ToothItems.Where(x =>
-                x.Tooth.Contains(SearchText) ||
+                x.Tooth.ToLower().Contains(searchLower) ||
                 (x.RegistryItem != null && (
-                    x.RegistryItem.Description.Contains(SearchText) ||
-                    x.RegistryItem.License.Contains(SearchText) ||
-                    x.RegistryItem.Homepage.Contains(SearchText) ||
-                    x.RegistryItem.Name.Contains(SearchText) ||
-                    x.RegistryItem.Repository.Contains(SearchText) ||
-                    x.RegistryItem.Tooth.Contains(SearchText) ||
-                    x.RegistryItem.Author.Contains(SearchText)))
+                    x.RegistryItem.Description.ToLower().Contains(searchLower) ||
+                    x.RegistryItem.License.ToLower().Contains(searchLower) ||
+                    x.RegistryItem.Homepage.ToLower().Contains(searchLower) ||
+                    x.RegistryItem.Name.ToLower().Contains(searchLower) ||
+                    x.RegistryItem.Repository.ToLower().Contains(searchLower) ||
+                    x.RegistryItem.Tooth.ToLower().Contains(searchLower) ||
+                    x.RegistryItem.Author.ToLower().Contains(searchLower)))
                 ));
         }
     }
@@ -63,8 +65,40 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     public void OnNavigatedFrom()
     {
     }
-    [NotifyPropertyChangedFor(nameof(VisibleToothItems))]
-    [ObservableProperty] private string _searchText;
+    //[NotifyPropertyChangedFor(nameof(VisibleToothItems))]
+    [ObservableProperty] string _searchText;
+    DateTime lastSearch = DateTime.Now;//上次执行搜索
+    partial void OnSearchTextChanged(string _)//输入变动
+    {//1秒的时间间隔是为了避免频繁刷新导致界面卡顿
+        void TrySearch()//执行搜索
+        {
+            //do not invoke if the last search is in 1 second 
+            var now = DateTime.Now;
+            if (now - lastSearch < TimeSpan.FromSeconds(1))
+            {
+                //delay for 1 second to invoke search
+                Task.Run(async () =>
+                {
+                    await Task.Delay(1000);
+                    await Global.DispatcherInvokeAsync(() =>
+                    {
+                        var now = DateTime.Now;
+                        //这1秒内没搜索，执行一次搜索
+                        if (now - lastSearch > TimeSpan.FromSeconds(1))
+                        {
+                            InvokeSearch();
+                            lastSearch = now;
+                        }
+                    });
+                });
+                return;
+            }
+            lastSearch = now;
+            InvokeSearch();
+        }
+
+        TrySearch();
+    }
     [ObservableProperty] private string _registryHub = "https://registry.litebds.com/index.json";
     [RelayCommand]
     protected async Task LoadAllPackages()

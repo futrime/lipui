@@ -85,7 +85,7 @@ namespace LipNETWrapperTest
         [Test]
         public async Task TestInstallPackage()
         {
-            var result = await Loader.InstallPackageAsync("github.com/tooth-hub/liteloaderbds", onOutput: s =>
+            var result = await Loader.InstallPackageAsync("github.com/tooth-hub/liteloaderbds", onOutput: (s, input) =>
             {
                 OutPut(s);
             });
