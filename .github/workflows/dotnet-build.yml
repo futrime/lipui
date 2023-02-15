@@ -19,14 +19,14 @@ jobs:
     - name: Upload LipUI.exe
       uses: actions/upload-artifact@v2
       with:
-        name: LipUI.exe
+        name: LipUI
         path: bin/default/LipUI.exe
     - name: Build with .NET 7
       run: dotnet publish --framework net7.0-windows -c Release -o bin\dotnet7 src\LipUI\LipUI.csproj
     - name: Upload LipUI dotnet7
       uses: actions/upload-artifact@v2
       with:
-        name: binaries
+        name: LipUI.NET7
         path: bin/dotnet7
         
 
