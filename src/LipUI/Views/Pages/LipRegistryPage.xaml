@@ -52,7 +52,7 @@
                                 <TextBlock Text="{Binding SelectedVersion}"/>
                             </StackPanel>
                         </Button>
-                        <ComboBox Padding="5" HorizontalAlignment="Stretch" ItemsSource="{Binding Versions}" SelectedItem="{Binding SelectedVersion}"/>
+                        <ComboBox Padding="5" PreviewMouseWheel="UIElement_OnPreviewMouseWheel" HorizontalAlignment="Stretch" ItemsSource="{Binding Versions}" SelectedItem="{Binding SelectedVersion}"/>
                     </DockPanel>
                 </controls:ToothInfoPanel>
             </DockPanel>

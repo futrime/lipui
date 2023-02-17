@@ -69,7 +69,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <ComboBox SelectedItem="{Binding ViewModel.SelectedVersion}" Margin="5" ItemsSource="{Binding ViewModel.ToothInfoPanel.Versions}">
+                            <ComboBox PreviewMouseWheel="UIElement_OnPreviewMouseWheel"  SelectedItem="{Binding ViewModel.SelectedVersion}" Margin="5" ItemsSource="{Binding ViewModel.ToothInfoPanel.Versions}">
                                 <!--<ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
