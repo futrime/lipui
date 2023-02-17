@@ -16,11 +16,11 @@
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     WindowStyle="None" AllowsTransparency="True"
-    ExtendsContentIntoTitleBar="True"
-    WindowBackdropType="Mica"
-    WindowCornerPreference="Round"
-    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <!--ExtendsContentIntoTitleBar="True"-->
+    <!--WindowBackdropType="Mica"
+    WindowCornerPreference="Round"
+    WindowStartupLocation="CenterScreen"-->
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
