@@ -14,36 +14,32 @@
     MinWidth="500" FontFamily="Microsoft YaHei UI"
     d:DataContext="{d:DesignInstance local:MainWindow,
                                      IsDesignTimeCreatable=True}"
-        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-    WindowStyle="None" AllowsTransparency="True" 
+    d:Background="{DynamicResource ApplicationBackgroundBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ExtendsContentIntoTitleBar ="True"
+    WindowCornerPreference="Round"
+     WindowBackdropType="Mica"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <!--<Window.Resources>
-        <Style TargetType="ResizeGrip">
-        </Style>
-    </Window.Resources>-->
-    <Grid
-        Background="{DynamicResource ApplicationBackgroundBrush}"
-        >
+    <Grid Background="{DynamicResource ApplicationBackgroundBrush}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <ui:NavigationCompact
-            x:Name="RootNavigation"
-            Grid.Column="0"
-            Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
-            Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
-            Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
-            <ui:TitleBar
-            Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
-            Grid.Row="0"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Margin="42,0,0,0"
-            Background="{DynamicResource ApplicationBackgroundBrush}"
-            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-            Icon="pack://application:,,,/Assets/applicationIcon-256.png">
+            <ui:NavigationCompact 
+                                  x:Name="RootNavigation"
+                                  Grid.Column="0" 
+                                  Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
+                                  Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
+                                  Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
+            <ui:TitleBar 
+                         Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
+                         Grid.Row="0"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="2"
+                         Margin="42,0,0,0"
+                         Icon="pack://application:,,,/Assets/applicationIcon-256.png">
                 <ui:TitleBar.Tray>
                     <ui:NotifyIcon
                     FocusOnLeftClick="True"
