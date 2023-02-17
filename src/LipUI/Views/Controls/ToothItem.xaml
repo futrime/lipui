@@ -35,7 +35,6 @@
                 </ui:Button>
             </DockPanel>
             <Grid  DockPanel.Dock="Top" Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="*"/>
@@ -54,10 +53,28 @@
                             <TextBlock Text="{Binding RegistryItem.License}"/>
                         </DockPanel>
                     </DockPanel>
-                </Grid>
             </Grid>
             <Grid Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource InvBooleanToVisibilityConverter}}">
-                <DockPanel>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <DockPanel >
+                    <TextBlock DockPanel.Dock="Bottom" Text="{Binding Information.Description}" TextWrapping="WrapWithOverflow"/>
+                    <TextBlock Text="{Binding Information.Name}" Style="{StaticResource Title}"/>
+                </DockPanel>
+                <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
+                    <DockPanel DockPanel.Dock="Top">
+                        <TextBlock Text="作者："/>
+                        <TextBlock Text="{Binding Information.Author}"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Visibility="{Binding Information.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                        <TextBlock Text="协议："/>
+                        <TextBlock Text="{Binding Information.License}"/>
+                    </DockPanel>
+                </DockPanel>
+
+                <!--<DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="{Binding Tooth}" Style="{StaticResource Title}"/>
                     </DockPanel>
@@ -65,7 +82,7 @@
                         <TextBlock Text="版本："/>
                         <TextBlock Text="{Binding Version}"/>
                     </DockPanel>
-                </DockPanel>
+                </DockPanel>-->
             </Grid>
         </DockPanel>
     </ui:Card>

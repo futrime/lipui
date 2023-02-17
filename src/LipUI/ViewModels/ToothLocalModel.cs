@@ -43,11 +43,7 @@ namespace LipUI.ViewModels
                 var (packages, message) = await Global.Lip.GetAllPackagesAsync();
                 foreach (var package in packages)
                 {
-                    await Global.DispatcherInvokeAsync(() => ToothItems.Add(new ToothItemViewModel(ShowInfo)
-                    {
-                        Version = package.Version,
-                        Tooth = package.Tooth
-                    }));
+                    await Global.DispatcherInvokeAsync(() => ToothItems.Add(new ToothItemViewModel(ShowInfo,package) ));
                     await Task.Delay(100);//100毫秒显示一个，假装很丝滑
                 }
             }
