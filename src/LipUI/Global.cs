@@ -171,7 +171,7 @@ namespace LipUI
             return false;//最终没能找到
         }
         /// <summary>配置文件路径</summary>
-        private static readonly string ConfigPath = Path.Combine(".lip", "config", "lipui", "config.json");
+        private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".lip", "config", "lipui", "config.json");
         private static Lazy<AppConfig> _config = //延迟加载的配置文件对象
             new(() =>
         {
