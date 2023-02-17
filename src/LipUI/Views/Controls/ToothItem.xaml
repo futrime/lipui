@@ -35,8 +35,16 @@
                 </ui:Button>
             </DockPanel>
             <Grid  DockPanel.Dock="Top" Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <DockPanel>
-                    <DockPanel DockPanel.Dock="Right" Margin="20,0,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel >
+                        <TextBlock DockPanel.Dock="Bottom" Text="{Binding RegistryItem.Description}" TextWrapping="WrapWithOverflow"/>
+                        <TextBlock Text="{Binding RegistryItem.Name}" Style="{StaticResource Title}"/>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
                         <DockPanel DockPanel.Dock="Top">
                             <TextBlock Text="作者："/>
                             <TextBlock Text="{Binding RegistryItem.Author}"/>
@@ -46,10 +54,7 @@
                             <TextBlock Text="{Binding RegistryItem.License}"/>
                         </DockPanel>
                     </DockPanel>
-                    <DockPanel DockPanel.Dock="Left">
-                        <TextBlock Text="{Binding RegistryItem.Name}" Style="{StaticResource Title}"/>
-                    </DockPanel>
-                </DockPanel>
+                </Grid>
             </Grid>
             <Grid Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource InvBooleanToVisibilityConverter}}">
                 <DockPanel>

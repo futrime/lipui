@@ -10,10 +10,11 @@
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="1100"
     Height="650"
+    ResizeMode="CanResizeWithGrip"
     MinWidth="500" FontFamily="Microsoft YaHei UI"
     d:DataContext="{d:DesignInstance local:MainWindow,
                                      IsDesignTimeCreatable=True}"
-    d:Background="{DynamicResource ApplicationBackgroundBrush}"
+    Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     WindowStyle="None" AllowsTransparency="True"
     mc:Ignorable="d">
