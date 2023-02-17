@@ -54,7 +54,7 @@ namespace LipNETWrapperTest
             Assert.Pass(result);
         }
         [Test]
-        public async Task TestLipList()
+        public async Task TestGetAllPackages()
         {
             var (packages, message) = await Loader.GetAllPackagesAsync();
             OutPut(packages.Length.ToString());

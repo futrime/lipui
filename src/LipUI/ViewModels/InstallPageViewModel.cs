@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -49,11 +50,8 @@ namespace LipUI.ViewModels
                 {
                     if (!string.IsNullOrWhiteSpace(x))
                     {
-                        if (x.StartsWith("Successfully installed all tooth files"))
-                        {
-                            Global.PopupSnackbar("安装完成", "Successfully installed all tooth files.");
-                        }
-                        if (x.StartsWith("======"))
+
+                        if (x.StartsWith("======"))//条款
                         {
                             Task.Delay(1000).ContinueWith(async _ =>
                             {
@@ -132,6 +130,14 @@ namespace LipUI.ViewModels
                         else
                         {
                             Global.DispatcherInvoke(() => OutPut.Add(x));
+                            if (x.StartsWith("Successfully installed all tooth files"))
+                            {
+                                Global.PopupSnackbar("安装完成", "Successfully installed all tooth files.");
+                            }
+                            else if (x.StartsWith("Error", true, CultureInfo.InvariantCulture))
+                            {
+                                Global.PopupSnackbarWarn("小错误", x[6..]);
+                            }
                         }
                     }
                 });

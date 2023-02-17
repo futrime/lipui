@@ -28,5 +28,21 @@ namespace LipNETWrapper.Class
     {
         [JsonProperty("tooth")] public string Tooth { get; set; } = string.Empty;
         [JsonProperty("version")] public string Version { get; set; } = string.Empty;
-    } 
+        [JsonProperty("information")] public LipPackageSimpleInformation Information { get; set; } = new();
+        public class LipPackageSimpleInformation
+        {
+            //"information": {
+            //    "author": "Igor Pavlov.",
+            //    "description": "7-Zip for Lip",
+            //    "homepage": "https://www.7-zip.org/",
+            //    "license": "LGPL-2.1",
+            //    "name": "7-Zip Lip Tool"
+            //}
+            [JsonProperty("author")] public string Author { get; set; } = string.Empty;
+            [JsonProperty("description")] public string Description { get; set; } = string.Empty;
+            [JsonProperty("homepage")] public string Homepage { get; set; } = string.Empty;
+            [JsonProperty("license")] public string License { get; set; } = string.Empty;
+            [JsonProperty("name")] public string Name { get; set; } = string.Empty;
+        }
+    }
 }

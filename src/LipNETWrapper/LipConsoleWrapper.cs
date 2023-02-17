@@ -1,8 +1,9 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Net; 
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,21 +28,22 @@ namespace LipNETWrapper
         }
         public async Task<(LipPackageSimple[] packages, string message)> GetAllPackagesAsync(CancellationToken tk = default)
         {
-            try
+            async Task<(LipPackageSimple[] packages, string message)> GetInternal()
             {
-                var text = (await new LipConsoleLoader(ExecutablePath, WorkingPath)
-                    .RunString(LipCommand.Create("list", true).WithJson(), tk: tk));
+                var text = await new LipConsoleLoader(ExecutablePath, WorkingPath)
+                    .RunString(LipCommand.Create("list", true).WithJson(), tk: tk);
+                Debug.WriteLine(text);
                 var json = text.Split('\n').First(x => x.StartsWith("[")).Trim();
                 var arr = JsonConvert.DeserializeObject<LipPackageSimple[]>(json);
                 return (arr ?? Array.Empty<LipPackageSimple>(), text);
             }
-            catch 
+            try
+            {
+                return await GetInternal();
+            }
+            catch
             { //retry once
-                var text = (await new LipConsoleLoader(ExecutablePath, WorkingPath)
-                    .RunString(LipCommand.Create("list", true).WithJson(), tk: tk));
-                var json = text.Split('\n').First(x => x.StartsWith("[")).Trim();
-                var arr = JsonConvert.DeserializeObject<LipPackageSimple[]>(json);
-                return (arr ?? Array.Empty<LipPackageSimple>(), text);
+                return await GetInternal();
             }
         }
         public async Task<(bool success, LipPackageVersions? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)

@@ -134,6 +134,10 @@ namespace LipUI
                     dialog.DialogHeight = 430;
                 });
             }
+            else
+            {
+                Lip.WorkingPath=Config.WorkingDirectory;
+            }
         }
         static bool TryRefreshLipPath()
         {
