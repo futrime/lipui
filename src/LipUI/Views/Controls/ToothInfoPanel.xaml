@@ -39,7 +39,7 @@
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top"  Visibility="{Binding Description,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                         <TextBlock Text="描述：" VerticalAlignment="Center"/>
-                        <TextBox TextWrapping="WrapWithOverflow" MinWidth="100"  IsReadOnly="True" Text="{Binding  Description,Mode=OneWay}"/>
+                        <TextBox TextWrapping="WrapWithOverflow" TextAlignment="Left"  MinWidth="100"  IsReadOnly="True" Text="{Binding  Description,Mode=OneWay}"/>
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top" Visibility="{Binding Homepage,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                         <TextBlock Text="主页：" VerticalAlignment="Center"/>
