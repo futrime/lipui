@@ -14,15 +14,16 @@
     MinWidth="500" FontFamily="Microsoft YaHei UI"
     d:DataContext="{d:DesignInstance local:MainWindow,
                                      IsDesignTimeCreatable=True}"
-    Background="{DynamicResource ApplicationBackgroundBrush}"
-    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-    WindowStyle="None" AllowsTransparency="True"
+        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    WindowStyle="None" AllowsTransparency="True" 
     mc:Ignorable="d">
-    <!--ExtendsContentIntoTitleBar="True"-->
-    <!--WindowBackdropType="Mica"
-    WindowCornerPreference="Round"
-    WindowStartupLocation="CenterScreen"-->
-    <Grid>
+    <!--<Window.Resources>
+        <Style TargetType="ResizeGrip">
+        </Style>
+    </Window.Resources>-->
+    <Grid
+        Background="{DynamicResource ApplicationBackgroundBrush}"
+        >
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -40,6 +41,8 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="42,0,0,0"
+            Background="{DynamicResource ApplicationBackgroundBrush}"
+            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
             Icon="pack://application:,,,/Assets/applicationIcon-256.png">
                 <ui:TitleBar.Tray>
                     <ui:NotifyIcon
@@ -56,7 +59,6 @@
             <Grid Grid.Column="1">
                 <Border
                 Margin="0,46,0,0"
-                Background="{DynamicResource ControlFillColorDefaultBrush}"
                 CornerRadius="8,0,0,0">
                     <Grid>
                         <Grid.RowDefinitions>
