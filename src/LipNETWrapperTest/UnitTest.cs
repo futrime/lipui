@@ -28,15 +28,19 @@ namespace LipNETWrapperTest
         [SetUp]
         public void Setup()
         {
-            foreach (var exePath in new[]
+            var (success, path) = Utils.TryGetLipFromPath();
+            if (success)
             {
-                "A:\\Documents\\GitHub\\BDS\\Latest\\lip.exe",
+                foreach (var workingDir in new[]
+                {
+                "A:\\Documents\\GitHub\\BDS\\Latest\\",
                 //put your path here
-            })
-            {
-                if (!File.Exists(exePath)) continue;
-                _loader = new LipNETWrapper.LipConsoleWrapper(exePath);
-                break;
+                })
+                {
+                    if (!Directory.Exists(workingDir)) continue;
+                    _loader = new LipNETWrapper.LipConsoleWrapper(path!, workingDir);
+                    break;
+                }
             }
             if (_loader == null)
                 Assert.Fail("please put your lip.exe path");

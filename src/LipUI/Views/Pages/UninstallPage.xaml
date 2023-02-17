@@ -41,7 +41,7 @@
                           ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}" >
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding .}"/>
+                            <TextBlock Text="{Binding .}" TextWrapping="WrapWithOverflow"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
