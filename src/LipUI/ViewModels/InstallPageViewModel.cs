@@ -50,22 +50,35 @@ namespace LipUI.ViewModels
                 {
                     if (!string.IsNullOrWhiteSpace(x))
                     {
-
-                        if (x.StartsWith("======"))//条款
+                        if (x.EndsWith("(y/n)", true, CultureInfo.InvariantCulture))//条款
                         {
                             Task.Delay(1000).ContinueWith(async _ =>
                             {
-                                var fullEula = string.Join(Environment.NewLine, OutPut).Replace("http", Environment.NewLine + "http");
-                                //remove str before === 
+                                var fullEula =
+                                    //string.Join(Environment.NewLine, OutPut)
+                                    OutPut.Last()
+                                        .Replace("(http", Environment.NewLine + "http");
+                                //.Replace("http", Environment.NewLine + "http");
+                                if (fullEula.EndsWith("(y/n)", true, CultureInfo.InvariantCulture))
                                 {
-                                    var index = fullEula.IndexOf("======\r\n", StringComparison.Ordinal);
-                                    if (index != -1) { fullEula = fullEula[(index + 8)..]; }
+                                    //remove 
+                                    fullEula = fullEula[..^5].Trim();
                                 }
+                                if (fullEula.EndsWith(")", true, CultureInfo.InvariantCulture))
+                                {
+                                    //remove 
+                                    fullEula = fullEula[..^1];
+                                }
+                                ////remove str before === 
+                                //{
+                                //    var index = fullEula.IndexOf("\r\n", StringComparison.Ordinal);
+                                //    if (index != -1) { fullEula = fullEula[(index + 8)..]; }
+                                //}
                                 _ = Global.ShowDialog("提示", await Global.DispatcherInvokeAsync(() =>
                                     {
                                         try
                                         {
-                                            StackPanel content = new();
+                                            StackPanel content = new() { Margin = new(0, 50, 0, 0) };
                                             //foreach (var data in fullEula.Split(new[] { "https" }, StringSplitOptions.None))
                                             //{
                                             //    content.Children.Add(new TextBlock() { Text = data });
@@ -101,12 +114,15 @@ namespace LipUI.ViewModels
                                                 }
                                             };
                                         }
-                                    }), ("同意！", hide =>
+                                    }), ("取消", hide =>
                                     {
                                         hide();
-                                        //input("n");
-                                        input("y");
-                                    }//todo 取消操作有效后修改
+                                        Global.PopupSnackbarWarn("取消", "安装已取消");
+                                        Task.Delay(1000).ContinueWith(_ =>
+                                        {
+                                            input("n");
+                                        });
+                                    }
                                 ), ("好的", hide =>
                                     {
                                         hide();
@@ -116,8 +132,8 @@ namespace LipUI.ViewModels
                                 {
                                     Global.DispatcherInvoke(() =>
                                     {
-                                        dialog.DialogHeight = 600;
-                                        dialog.DialogHeight = 400;
+                                        dialog.DialogHeight = 300;
+                                        dialog.DialogWidth = 500;
                                     });
                                 });
                             });
