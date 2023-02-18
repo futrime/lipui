@@ -139,10 +139,10 @@ namespace LipUI.ViewModels
                             });
                             Global.DispatcherInvoke(() => OutPut.Add(x));
                         }
+                        else if (Regex.Match(x, @"Downloading.+?(\d+%.*)") is { Success: true } match)
+                            Percentage = match.Groups[1].Value;
                         else if (x.Trim().EndsWith("|"))
-                        {
                             Percentage = x.Replace("|", "").Trim();
-                        }
                         else
                         {
                             Global.DispatcherInvoke(() => OutPut.Add(x));
