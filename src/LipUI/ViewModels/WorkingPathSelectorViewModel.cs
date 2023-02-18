@@ -45,6 +45,8 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
         if (dialog.ShowDialog() == true)
         {
             AddingWorkingDir = dialog.SelectedPath;
+            //自动添加
+            AddWorkingDir();
         }
     }
     /// <summary>

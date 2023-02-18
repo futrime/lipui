@@ -43,7 +43,7 @@
                 </Grid.Style>
             </Grid>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <ui:ProgressRing IsIndeterminate="True" Progress="80" />
+                <ui:ProgressRing IsIndeterminate="{Binding ViewModel.PercentageIsIndeterminate}" Progress="{Binding ViewModel.PercentageNumber}" />
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" >
                     <TextBlock Text="安装中..." FontSize="25"/>
                     <TextBlock Text="{Binding ViewModel.Percentage}" HorizontalAlignment="Center" FontSize="25"/>

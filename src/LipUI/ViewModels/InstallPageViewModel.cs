@@ -139,7 +139,7 @@ namespace LipUI.ViewModels
                             });
                             Global.DispatcherInvoke(() => OutPut.Add(x));
                         }
-                        else if (Regex.Match(x, @"Downloading.+?(\d+%.*)") is { Success: true } match)
+                        else if (Regex.Match(x, @"(?:Downloading|Unziping).+?(\d+%.*)") is { Success: true } match)
                             Percentage = match.Groups[1].Value;
                         else if (x.Trim().EndsWith("|"))
                             Percentage = x.Replace("|", "").Trim();
@@ -165,6 +165,7 @@ namespace LipUI.ViewModels
             }
             Ctk = null;
             Installing = false;
+            Percentage = "";
         }
         [RelayCommand]
         public async Task FetchInfo()
@@ -206,6 +207,30 @@ namespace LipUI.ViewModels
         string? _selectedVersion;
         [ObservableProperty]
         string _percentage = string.Empty;
+        partial void OnPercentageChanged(string value)
+        {
+            try
+            {
+                if (Regex.Match(value, @"(\d+?(?:\.\d+?)?)%") is { Success: true } match
+                    && double.TryParse(match.Groups[1].Value.Trim(), out var pn))
+                {
+                    _tmpPercentageNumber = pn;
+                }
+                else
+                {
+                    _tmpPercentageNumber = 0;
+                }
+            }
+            catch
+            {
+                _tmpPercentageNumber = 0;
+            }
+            OnPropertyChanged(nameof(PercentageIsIndeterminate));
+            OnPropertyChanged(nameof(PercentageNumber));
+        }
+        private double _tmpPercentageNumber = 0;
+        public double PercentageNumber => PercentageIsIndeterminate ? 80 : _tmpPercentageNumber;
+        public bool PercentageIsIndeterminate => _tmpPercentageNumber is <= 0 or >= 100;
         public bool CanCancel => Ctk is not null;
         [RelayCommand(CanExecute = nameof(CanCancel))]
         public void Cancel()
