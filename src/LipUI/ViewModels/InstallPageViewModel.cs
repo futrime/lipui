@@ -78,7 +78,7 @@ namespace LipUI.ViewModels
                                     {
                                         try
                                         {
-                                            StackPanel content = new() { Margin = new(0, 50, 0, 0) };
+                                            StackPanel content = new() { Margin = new(0, 20, 0, 0) };
                                             //foreach (var data in fullEula.Split(new[] { "https" }, StringSplitOptions.None))
                                             //{
                                             //    content.Children.Add(new TextBlock() { Text = data });
