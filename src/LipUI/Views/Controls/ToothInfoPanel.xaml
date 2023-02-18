@@ -7,11 +7,11 @@
              xmlns:viewModels="clr-namespace:LipUI.ViewModels"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              d:DataContext="{d:DesignInstance viewModels:ToothInfoPanelViewModel,IsDesignTimeCreatable=False}"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="200">
     <Grid>
         <ScrollViewer>
-            <ui:Card>
+            <ui:Card MinWidth="300"  Background="{DynamicResource ApplicationBackgroundBrush}">
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="包名：" VerticalAlignment="Center"/>

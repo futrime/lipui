@@ -16,7 +16,7 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
     <Grid Margin="20,0">
-        <Grid ZIndex="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="0" >
+        <Grid ZIndex="2" HorizontalAlignment="Center" Margin="10,0,0,0" VerticalAlignment="Center" Width="0" >
             <Grid.Style>
                 <Style>
                     <Style.Triggers>
