@@ -140,7 +140,11 @@ namespace LipUI.ViewModels
                             Global.DispatcherInvoke(() => OutPut.Add(x));
                         }
                         else if (Regex.Match(x, @"(?:Downloading|Unziping).+?(\d+%.*)") is { Success: true } match)
-                            Percentage = match.Groups[1].Value;
+                        {
+                            var str = match.Groups[1].Value;
+                            //去除匹配并去除"[==>   ] "
+                            Percentage = Regex.Replace(str, @"\[(=|>|\s)+?\]", "");
+                        }
                         else if (x.Trim().EndsWith("|"))
                             Percentage = x.Replace("|", "").Trim();
                         else
