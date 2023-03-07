@@ -60,7 +60,7 @@
                 <Button DockPanel.Dock="Right" Command="{Binding ViewModel.FetchInfoCommand}">
                     获取
                 </Button>
-                <Button Visibility="{Binding ViewModel.CanCancel}" Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.CancelCommand}">
+                <Button  Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.CancelCommand}">
                     取消
                 </Button>
                 <ui:TextBox PlaceholderText="输入齿包的地址..." Margin="5" Text="{Binding ViewModel.ToothName}"/>

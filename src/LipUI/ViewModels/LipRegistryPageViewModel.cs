@@ -38,6 +38,18 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             if (string.IsNullOrWhiteSpace(SearchText))
                 return ToothItems;
             var searchLower = Regex.Replace(SearchText.ToLower(), @"\[[\w-_]+?\]", "");
+            var tags = Array.Empty<string>();
+            try
+            {
+                tags = (
+                        from x in Regex.Matches(SearchText, @"\[([\w-_]+?)\]").Cast<Match>()
+                        select x.Groups[1].Value).Concat(OnlyFeatured ? new[] { "featured" } : Array.Empty<string>())
+                    .ToArray();
+            }
+            catch (Exception e)
+            {
+                Global.PopupSnackbarWarn("查询Tag失败", e.Message);
+            }
             var items = ToothItems.Where(x =>
                 x.Tooth.ToLower().Contains(searchLower) ||
                 (x.RegistryItem != null && (
@@ -49,17 +61,10 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
                     x.RegistryItem.Tooth.ToLower().Contains(searchLower) ||
                     x.RegistryItem.Author.ToLower().Contains(searchLower)))
             );
-            try
-            {
-                var tags = Regex.Matches(SearchText, @"\[([\w-_]+?)\]").Cast<Match>().Select(x => x.Groups[1].Value).ToArray();
+            if (tags.Length > 0)
                 items = from x in items
                         where tags.All(t => x.Tags.Contains(t))
                         select x;
-            }
-            catch (Exception e)
-            {
-                Global.PopupSnackbarWarn("查询Tag失败", e.Message);
-            }
             return new ObservableCollection<ToothItemViewModel>(items);
         }
     }
@@ -128,6 +133,9 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             return "https://registry.litebds.com/index.json";
         }
     }
+    [NotifyPropertyChangedFor(nameof(VisibleToothItems))]
+    [ObservableProperty] bool _onlyFeatured = false;
+
     [RelayCommand]
     protected async Task LoadAllPackages()
     {

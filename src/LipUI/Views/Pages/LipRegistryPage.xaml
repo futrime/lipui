@@ -136,10 +136,20 @@
                 </StatusBar>
             </Grid>
             <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5">
-                <!--<ui:Button Command="{Binding ViewModel.InvokeSearchCommand}" DockPanel.Dock="Right" Appearance="Transparent" Margin="5,0,0,0">
+                <DockPanel>
+                    <ToggleButton Padding="0" Margin="0,0,5,0" IsChecked="{Binding ViewModel.OnlyFeatured}">
+                        <ui:SymbolIcon Symbol="StarEmphasis24" Width="36" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ui:SymbolIcon.RenderTransform>
+                                <ScaleTransform  ScaleX="1.6" ScaleY="1.6" CenterX="-8" CenterY="-8"/>
+                            </ui:SymbolIcon.RenderTransform>
+                        </ui:SymbolIcon>
+                    </ToggleButton>
+                    <!--<ui:Button Command="{Binding ViewModel.InvokeSearchCommand}" DockPanel.Dock="Right" Appearance="Transparent" Margin="5,0,0,0">
                     <ui:SymbolIcon Symbol="Search24"/>
                 </ui:Button>-->
-                <ui:AutoSuggestBox PlaceholderText="查找..." Text="{Binding ViewModel.SearchText,UpdateSourceTrigger=PropertyChanged}" />
+                    <!--自动建议？-->
+                    <ui:AutoSuggestBox PlaceholderText="查找..." Text="{Binding ViewModel.SearchText,UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
             </DockPanel>
             <ScrollViewer DockPanel.Dock="Bottom">
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
