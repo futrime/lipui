@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,8 +42,8 @@ namespace LipUI
             var eulaPath = Path.Combine(ConfigFolder, "EULA.txt");
             if (File.Exists(eulaPath))
             {
-                if (File.ReadAllText(eulaPath) == eulaText)//条款已读
-                { 
+                if (File.ReadAllText(eulaPath, Encoding.UTF8) == eulaText)//条款已读
+                {
                     InitNext();
                     return;
                 }
@@ -60,7 +61,7 @@ namespace LipUI
                 _ = ShowDialog("免责条款", uie, ("同意", hide =>
                         {
                             hide();
-                            File.WriteAllText(eulaPath, eulaText);
+                            File.WriteAllText(eulaPath, eulaText, Encoding.UTF8);
                             InitNext();
                         }
                 ), ("不同意", _ =>
