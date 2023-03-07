@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace LipNETWrapper.Class;
@@ -8,14 +9,15 @@ public class LipRegistry
          * {
         "format_version": 1,
         "index": {
-            "7zip": {
-                "author": "Futrime",
-                "description": "A Lip tool adaptation of 7-Zip",
-                "homepage": "https://www.7-zip.org/",
-                "license": "LGPL-2.1-or-later",
-                "name": "7-Zip Lip Tool",
-                "repository": "github.com/Tooth-Hub/7zip",
-                "tooth": "github.com/Tooth-Hub/7zip"
+            "adaptationprotocols": {
+                "author": "QingYu",
+                "description": "Let 1.19.60/62 client into 1.19.63 server or 1.19.63 client into 1.19.61/62 server",
+                "homepage": "",
+                "license": "",
+                "name": "AdaptationProtocols",
+                "repository": "github.com/Tooth-Hub/AdaptationProtocols",
+                "tags": ["plugin", "ll"],
+                "tooth": "github.com/Tooth-Hub/AdaptationProtocols"
             }
         }
     }   */
@@ -31,6 +33,7 @@ public class LipRegistry
         [JsonProperty("license")] public string License { get; set; } = string.Empty;
         [JsonProperty("name")] public string Name { get; set; } = string.Empty;
         [JsonProperty("repository")] public string Repository { get; set; } = string.Empty;
+        [JsonProperty("tags")] public IReadOnlyList<string> Tags { get; set; } = Array.Empty<string>();
         [JsonProperty("tooth")] public string Tooth { get; set; } = string.Empty;
     }
 }
