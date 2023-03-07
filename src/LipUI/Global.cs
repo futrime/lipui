@@ -8,6 +8,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using LipNETWrapper;
 using LipUI.Models;
 using LipUI.ViewModels;
@@ -18,8 +19,63 @@ namespace LipUI
 {
     internal static class Global
     {
+        /// <summary>
+        /// Disclaimer
+        /// </summary>
+        private const string eulaText = """
+                本软件包管理器（以下简称“本软件”）是由_（以下简称“开发者”）开发和提供的。本软件旨在帮助用户管理和安装各种软件包，但不对任何软件包的内容、质量、功能、安全性或合法性负责。用户在使用本软件时，应自行判断和承担相关风险。
+                开发者不保证本软件的稳定性、可靠性、准确性或完整性。开发者不对本软件可能存在的任何缺陥、错误、病毒或其他有害成分负责。开发者不对用户使用本软件造成的任何直接或间接损失（包括但不限于数据丢失、设备损坏、利润损失等）负责。
+                开发者保留随时修改、更新或终止本软件及其相关服务的权利，无需事先通知用户。用户应自行备份重要数据，并定期检查本软件是否有更新版本。
+                用户在使用本软件时，应遵守相关法律法规，尊重他人的知识产权和隐私权，不得利用本软件进行任何违法或侵权行为。如用户违反上述规定，造成任何第三方损害或被第三方索赔，开发者不承担任何责任。
+                如果用户对本免责条款有任何疑问或意见，请联系开发者：_
+                
+                This software package manager (hereinafter referred to as "this software") is developed and provided by _ (hereinafter referred to as "the developer"). This software is designed to help users manage and install various software packages, but is not responsible for any content, quality, functionality, security or legality of any software package. Users should use this software at their own discretion and assume all related risks.
+                The developer does not guarantee the stability, reliability, accuracy or completeness of this software. The developer is not liable for any defects, errors, viruses or other harmful components that may exist in this software. The developer is not liable for any direct or indirect damages (including but not limited to data loss, device damage, profit loss etc.) caused by the use of this software.
+                The developer reserves the right to modify, update or terminate this software and its related services at any time without prior notice to users. Users should back up important data and check regularly for updates of this software.
+                Users should comply with relevant laws and regulations when using this software, respect the intellectual property rights and privacy rights of others, and not use this software for any illegal or infringing activities. If users violate the above provisions and cause any damage to any third party or are claimed by any third party, the developer does not bear any responsibility.
+                If you have any questions or comments about this disclaimer, please contact the developer: _
+                """;
         /// <summary>初始化全局变量(初始化程序)</summary>
-        internal static void Init()
+        internal static async void Init()
+        {
+            var eulaPath = Path.Combine(ConfigFolder, "EULA.txt");
+            if (File.Exists(eulaPath))
+            {
+                if (File.ReadAllText(eulaPath) == eulaText)//条款已读
+                { 
+                    InitNext();
+                    return;
+                }
+            }
+            //显示条款
+            {
+                var uie = await DispatcherInvokeAsync(() =>
+                  {
+                      return new TextBlock()
+                      {
+                          Text = eulaText,
+                          TextWrapping = TextWrapping.WrapWithOverflow
+                      };
+                  });
+                _ = ShowDialog("免责条款", uie, ("同意", hide =>
+                        {
+                            hide();
+                            File.WriteAllText(eulaPath, eulaText);
+                            InitNext();
+                        }
+                ), ("不同意", _ =>
+                {
+                    Environment.Exit(0);
+                }
+                ), dialog =>
+                {
+                    dialog.DialogHeight = 400;
+                    dialog.DialogWidth = 400;
+                });
+            }
+        }
+
+        internal static void InitNext()
         {
             // 从配置获取Lip路径
             if (!TryRefreshLipPath())
@@ -69,7 +125,7 @@ namespace LipUI
                                         });
                                     });
                                     await DispatcherInvokeAsync(() => vm.Tip = $"下载完成.");
-                                    var tmpDir = Path.Combine(Path.GetDirectoryName(ConfigPath)!, "temp");
+                                    var tmpDir = Path.Combine(ConfigFolder, "temp");
                                     if (!Directory.Exists(tmpDir)) Directory.CreateDirectory(tmpDir);
                                     var installer = Path.Combine(tmpDir, "lip_installer.exe");
                                     File.WriteAllBytes(installer, bytes);
@@ -234,7 +290,8 @@ namespace LipUI
             return false;//最终没能找到
         }
         /// <summary>配置文件路径</summary>
-        private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".lip", "config", "lipui", "config.json");
+        private static readonly string ConfigFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".lip", "config", "lipui");
+        private static readonly string ConfigPath = Path.Combine(ConfigFolder, "config.json");
         private static Lazy<AppConfig> _config = //延迟加载的配置文件对象
             new(() =>
         {
