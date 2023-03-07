@@ -47,7 +47,7 @@
                         <ItemsControl ItemsSource="{Binding Tags}" HorizontalContentAlignment="Left">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <ui:Button Padding="4" Margin="3" Content="{Binding .}" CommandParameter="{Binding .}" Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"/>
+                                    <ui:Button Opacity=".8" Padding="4" Margin="3" Content="{Binding .,Converter={StaticResource FeaturedTagConverter}}" CommandParameter="{Binding .}" Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>

@@ -119,6 +119,8 @@
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" Margin="10,0">
                                 <TextBlock Text="获取到 " Style="{StaticResource Title}"/>
+                                <TextBlock Text="{Binding ViewModel.VisibleToothItems.Count}" Style="{StaticResource Title}"/>
+                                <TextBlock Text=" / " Style="{StaticResource Title}"/>
                                 <TextBlock Text="{Binding ViewModel.ToothItems.Count}" Style="{StaticResource Title}"/>
                                 <TextBlock Text=" 个齿包" Style="{StaticResource Title}"/>
                             </StackPanel>
@@ -137,10 +139,10 @@
             </Grid>
             <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5">
                 <DockPanel>
-                    <ToggleButton Padding="0" Margin="0,0,5,0" IsChecked="{Binding ViewModel.OnlyFeatured}">
+                    <ToggleButton ToolTip="精华内容" Padding="0" Margin="0,0,5,0" IsChecked="{Binding ViewModel.OnlyFeatured}">
                         <ui:SymbolIcon Symbol="StarEmphasis24" Width="36" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <ui:SymbolIcon.RenderTransform>
-                                <ScaleTransform  ScaleX="1.6" ScaleY="1.6" CenterX="-8" CenterY="-8"/>
+                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" CenterX="-8" CenterY="-8"/>
                             </ui:SymbolIcon.RenderTransform>
                         </ui:SymbolIcon>
                     </ToggleButton>

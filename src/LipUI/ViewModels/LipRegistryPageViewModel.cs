@@ -35,7 +35,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     {
         get
         {
-            if (string.IsNullOrWhiteSpace(SearchText))
+            if (string.IsNullOrWhiteSpace(SearchText)&&!OnlyFeatured)
                 return ToothItems;
             var searchLower = Regex.Replace(SearchText.ToLower(), @"\[[\w-_]+?\]", "");
             var tags = Array.Empty<string>();

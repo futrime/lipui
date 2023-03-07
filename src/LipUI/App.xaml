@@ -26,6 +26,7 @@
             <helpers:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter" />
             <helpers:InvBooleanConverter x:Key="InvBooleanConverter" />
             <helpers:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
+            <helpers:FeaturedTagConverter x:Key="FeaturedTagConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
