@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipUI.Models;
@@ -23,6 +25,14 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
     {
         Config.WorkingDirectory = v;
         Global.CheckWorkDir();
+    }
+    [RelayCommand]
+    internal async Task Open(string v)
+    {
+        await Task.Run(() =>
+        {
+            Process.Start("explorer.exe", v)?.WaitForExit(1000);
+        });
     }
     [RelayCommand]
     void Delete(string dir)

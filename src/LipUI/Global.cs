@@ -50,15 +50,11 @@ namespace LipUI
             }
             //显示条款
             {
-                var uie = await DispatcherInvokeAsync(() =>
-                  {
-                      return new TextBlock()
-                      {
-                          Text = eulaText,
-                          TextWrapping = TextWrapping.WrapWithOverflow
-                      };
-                  });
-                _ = ShowDialog("免责条款", uie, ("同意", hide =>
+                _ = ShowDialog("免责条款", await DispatcherInvokeAsync(() => new TextBlock()
+                {
+                    Text = eulaText,
+                    TextWrapping = TextWrapping.WrapWithOverflow
+                }), ("同意", hide =>
                         {
                             hide();
                             File.WriteAllText(eulaPath, eulaText, Encoding.UTF8);

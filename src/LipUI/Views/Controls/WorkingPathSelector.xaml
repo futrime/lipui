@@ -33,21 +33,20 @@
         <ListView Margin="5" FontSize="14" ItemsSource="{Binding Config.AllWorkingDirectory}" SelectedItem="{Binding Config.WorkingDirectory}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ListViewItem>
-                        <DockPanel  Tag="{Binding .}" MouseDown="UIElement_OnMouseDown" >
+                        <DockPanel Margin="5"  >
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                 <Button Margin="5,-5"  Command="{Binding ViewModel.SelectCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}" >
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="已" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem},Path=IsSelected,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        <TextBlock Text="已" Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem},Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                         <TextBlock Text="选中"/>
                                     </StackPanel>
                                 </Button>
                                 <Button Margin="5,-5" Content="复制" Command="{Binding ViewModel.CopyCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
+                                <Button Margin="5,-5" Content="打开" Command="{Binding ViewModel.OpenCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
                                 <Button Margin="5,-5" Content="删除" Command="{Binding ViewModel.DeleteCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
                             </StackPanel>
                             <TextBlock Text="{Binding .}" DockPanel.Dock="Left" VerticalAlignment="Center"/>
                         </DockPanel>
-                    </ListViewItem>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
