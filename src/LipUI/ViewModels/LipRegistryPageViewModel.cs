@@ -200,6 +200,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     [RelayCommand]
     void AddTag(string v)
     {
-        SearchText = "[" + v + "]" + SearchText;
+        var item = "[" + v + "]";
+        SearchText = item + SearchText.Replace(item,"");
     }
 }
