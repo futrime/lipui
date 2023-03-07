@@ -43,7 +43,7 @@ namespace LipUI.ViewModels
                 var (packages, message) = await Global.Lip.GetAllPackagesAsync();
                 foreach (var package in packages)
                 {
-                    await Global.DispatcherInvokeAsync(() => ToothItems.Add(new ToothItemViewModel(ShowInfo,package) ));
+                    await Global.DispatcherInvokeAsync(() => ToothItems.Add(new ToothItemViewModel(ShowInfo, package)));
                     await Task.Delay(100);//100毫秒显示一个，假装很丝滑
                 }
             }
@@ -81,6 +81,13 @@ namespace LipUI.ViewModels
             IsShowingDetail = false;
             Global.EnqueueItem(new UninstallItem(target));
             Global.Navigate<UninstallPage, UninstallPageViewModel>();
+        }
+        [RelayCommand]
+        void Upgrade(ToothInfoPanelViewModel vm)
+        {
+            IsShowingDetail = false;
+            Global.EnqueueItem(new InstallInfo(vm.Tooth, vm, vm.Version));
+            Global.Navigate<InstallPage, InstallPageViewModel>();
         }
     }
 }

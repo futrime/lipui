@@ -13,6 +13,9 @@
         <ScrollViewer>
             <ui:Card MinWidth="300"  Background="{DynamicResource ApplicationBackgroundBrush}">
                 <DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Visibility="{Binding Version,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                        <TextBlock Text="[已安装]" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="包名：" VerticalAlignment="Center"/>
                         <Button  DockPanel.Dock="Right" Margin="4,0,0,2" Padding="8,4" VerticalAlignment="Stretch"

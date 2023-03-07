@@ -45,8 +45,8 @@ namespace LipUI.ViewModels
             {
                 var fullname = ToothName;
                 if (!string.IsNullOrWhiteSpace(SelectedVersion))
-                    fullname += "@" + SelectedVersion;
-                var exitCode = await Global.Lip.InstallPackageAsync(fullname, Ctk.Token, (x, input) =>
+                    fullname += "@" + SelectedVersion; 
+                var exitCode = await Global.Lip.InstallPackageAsync(fullname,! string.IsNullOrWhiteSpace(ToothInfoPanel?.Version), Ctk.Token, (x, input) =>
                 {
                     if (!string.IsNullOrWhiteSpace(x))
                     {

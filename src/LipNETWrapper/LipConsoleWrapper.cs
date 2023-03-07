@@ -62,10 +62,13 @@ namespace LipNETWrapper
             var obj = json is null ? null : JsonConvert.DeserializeObject<LipPackage>(json);
             return (obj is not null, obj, text);
         }
-        public Task<int> InstallPackageAsync(string packageId, CancellationToken tk = default, Action<string, Action<string>>? onOutput = null)
+        public Task<int> InstallPackageAsync(string packageId, bool upgrade = false, CancellationToken tk = default, Action<string, Action<string>>? onOutput = null)
         {
+            var cmd = LipCommand.Create("install") + "-y" + "--numeric-progress";
+            if (upgrade)
+                cmd += "--upgrade";
             return new LipConsoleLoader(ExecutablePath, WorkingPath)
-                .RunWithInput(LipCommand.Create("install") + "-y" + "--numeric-progress" + packageId, onOutput, tk);
+                .RunWithInput(cmd + packageId, onOutput, tk);
         }
 
         public Task<int> UninstallPackageAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
