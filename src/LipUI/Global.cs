@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,9 +25,9 @@ namespace LipUI
             if (!TryRefreshLipPath())
             {
                 var vm = new LipInstallerViewModel();
-                _ = ShowDialog("未找到 lip.exe", new Views.Controls.LipInstaller(vm), ("完成", hide =>
+                _ = ShowDialog("需要配置 lip.exe", new Views.Controls.LipInstaller(vm), ("完成", hide =>
                 {
-                    Config.AutoLipPath = !vm.ManualConfig;
+                    Config.AutoLipPath = !vm.ManualExe;
                     Config.LipPath = vm.LipPath;
                     if (TryRefreshLipPath())
                     {
@@ -36,12 +37,12 @@ namespace LipUI
                     else
                         PopupSnackbar("未找到lip.exe", "如已安装请重新启动LipUI");
                 }
-                ), ("下载安装程序", hide =>
+                ), ("下载", hide =>
                 {
-                    Config.AutoLipPath = !vm.ManualConfig;
-                    if (Config.AutoLipPath)
+                    Config.AutoLipPath = !vm.ManualExe;
+                    if (vm.GlobalExe)
                     {
-                        if (vm.ShowProgressBar == true)
+                        if (vm.ShowProgressBar)
                         {
                             vm.Tip = "正在下载，请等待...";
                         }
@@ -103,10 +104,68 @@ namespace LipUI
                             vm.Progress = 0;
                         }
                     }
+                    else if (vm.PortableExe)
+                    {
+                        if (vm.ShowProgressBar)
+                        {
+                            vm.Tip = "正在下载，请等待...";
+                        }
+                        else
+                        {
+                            vm.ShowProgressBar = true;
+                            Task.Run(async () =>
+                            {
+                                try
+                                {
+                                    var bytes = await Utils.DownloadLipPortable(e =>
+                                    {
+                                        DispatcherInvoke(() =>
+                                        {
+                                            vm.Progress = e.ProgressPercentage;
+                                            string BytesToStr(long val) => val switch
+                                            {
+                                                < 1024 => $"{val}B",
+                                                < 1024 * 1024 => $"{val / 1024}KB",
+                                                < 1024 * 1024 * 1024 => $"{val / 1024 / 1024}MB",
+                                                _ => $"{val / 1024 / 1024 / 1024}GB"
+                                            };
+                                            vm.Tip = $"下载中...{BytesToStr(e.BytesReceived)}/{BytesToStr(e.TotalBytesToReceive)}";
+                                        });
+                                    });
+                                    await DispatcherInvokeAsync(() => vm.Tip = $"下载完成.");
+                                    //解压缩 
+                                    // Create a memory stream from the byte array
+                                    using MemoryStream ms = new MemoryStream(bytes);
+                                    // Create a zip archive from the memory stream
+                                    using ZipArchive zip = new ZipArchive(ms, ZipArchiveMode.Read);
+                                    ZipArchiveEntry entry = zip.Entries.First(x => Path.GetFileName(x.Name) == "lip.exe")
+                                                            ?? throw new Exception("压缩包中未找到 lip.exe");
+                                    entry.ExtractToFile(Path.Combine(Directory.GetCurrentDirectory(), entry.Name));
+                                    //开启新的LipUI
+                                    Process.Start(Environment.GetCommandLineArgs()[0],
+                                        string.Join(" ",
+                                            from arg in Environment.GetCommandLineArgs().Skip(1)
+                                            select $"\"{arg}\""));
+                                    //hide();
+                                }
+                                catch (Exception e)
+                                {
+                                    await DispatcherInvokeAsync(() => vm.Tip = "失败：" + e);
+#if DEBUG
+                                    throw;
+#endif
+                                }
+                            });
+                            vm.Progress = 0;
+                        }
+                    }
                     else
-                        PopupSnackbar("无效操作", "请开启'自动获取Lip路径'", SymbolRegular.Warning16, ControlAppearance.Danger);
+                        PopupSnackbar("无效操作", "请选中安装到'全局'或者'当前目录'以下载 lip.exe", SymbolRegular.Warning16, ControlAppearance.Danger);
                 }
-                ));
+                ), modify: dialog =>
+                {
+                    dialog.DialogHeight = 300;
+                });
             }
             else
             {
@@ -131,12 +190,12 @@ namespace LipUI
                 ), modify: dialog =>
                 {
                     dialog.DialogWidth = 750;
-                    dialog.DialogHeight = 430;
+                    dialog.DialogHeight = 570;
                 });
             }
             else
             {
-                Lip.WorkingPath=Config.WorkingDirectory;
+                Lip.WorkingPath = Config.WorkingDirectory;
             }
         }
         static bool TryRefreshLipPath()

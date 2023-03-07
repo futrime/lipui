@@ -3,7 +3,9 @@ namespace LipUI.ViewModels
 {
     public partial class LipInstallerViewModel : ObservableObject
     {
-        [ObservableProperty] bool _manualConfig = false;
+        [ObservableProperty] bool _manualExe = false;
+        [ObservableProperty] bool _portableExe = true;
+        [ObservableProperty] bool _globalExe = false;
         [ObservableProperty] string _lipPath = string.Empty;
         [NotifyPropertyChangedFor(nameof(CurrentLipPath))]
         [ObservableProperty] string _tip = string.Empty;

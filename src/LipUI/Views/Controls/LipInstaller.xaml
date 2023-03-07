@@ -10,15 +10,24 @@
              d:DataContext="{d:DesignInstance viewModels:LipInstallerViewModel,
                                      IsDesignTimeCreatable=False}"
              d:DesignHeight="100" d:DesignWidth="200">
-    <StackPanel Orientation="Vertical">
-        <TextBlock Text="配置 lip.exe "/>
-        <ui:ToggleSwitch Content="手动配置" IsChecked="{Binding ManualConfig }"/>
-        <ui:TextBox Visibility="{Binding ManualConfig,Converter={StaticResource BooleanToVisibilityConverter}}" PlaceholderText="lip.exe的路径" Text="{Binding LipPath }"/>
-        <DockPanel Visibility="{Binding ManualConfig,Converter={StaticResource InvBooleanToVisibilityConverter}}">
-            <TextBlock Text="当前拟定位置："/>
-            <TextBlock Text="{Binding CurrentLipPath}"/>
-        </DockPanel>
-        <ProgressBar Value="{Binding Progress}" Visibility="{Binding ShowProgressBar,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        <TextBlock Text="{Binding Tip}"/>
-    </StackPanel>
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="配置模式：" VerticalAlignment="Center"/>
+                <StackPanel>
+                    <RadioButton IsChecked="{Binding GlobalExe }">下载并安装到全局</RadioButton>
+                    <RadioButton IsChecked="{Binding PortableExe }">下载并放置到当前目录</RadioButton>
+                    <RadioButton IsChecked="{Binding ManualExe }">手动配置路径</RadioButton>
+                </StackPanel>
+            </StackPanel>
+            <ui:TextBox Visibility="{Binding ManualExe,Converter={StaticResource BooleanToVisibilityConverter}}" PlaceholderText="lip.exe的路径" Text="{Binding LipPath }"/>
+            <DockPanel Visibility="{Binding ManualExe,Converter={StaticResource InvBooleanToVisibilityConverter}}">
+                <TextBlock Text="当前拟定位置："/>
+                <TextBlock Text="{Binding CurrentLipPath}"/>
+            </DockPanel>
+            <ProgressBar Value="{Binding Progress}" Visibility="{Binding ShowProgressBar,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBlock Text="{Binding Tip}"/>
+        </StackPanel>
+
+    </Grid>
 </UserControl>
