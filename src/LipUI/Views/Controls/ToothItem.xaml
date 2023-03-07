@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:LipUI.Views.Controls"
              xmlns:models="clr-namespace:LipUI.ViewModels"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:pages="clr-namespace:LipUI.Views.Pages"
     d:DataContext="{d:DesignInstance models:ToothItemViewModel,IsDesignTimeCreatable=False}"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="800">
@@ -35,24 +36,38 @@
                 </ui:Button>
             </DockPanel>
             <Grid  DockPanel.Dock="Top" Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <DockPanel >
-                        <TextBlock DockPanel.Dock="Bottom" Text="{Binding RegistryItem.Description}" TextWrapping="WrapWithOverflow"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <DockPanel >
+                    <TextBlock DockPanel.Dock="Bottom" Text="{Binding RegistryItem.Description}" TextWrapping="WrapWithOverflow"/>
+                    <DockPanel>
                         <TextBlock Text="{Binding RegistryItem.Name}" Style="{StaticResource Title}"/>
+                        <ItemsControl ItemsSource="{Binding Tags}" HorizontalContentAlignment="Left">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ui:Button Padding="4" Margin="3" Content="{Binding .}" CommandParameter="{Binding .}" Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
                     </DockPanel>
-                    <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
-                        <DockPanel DockPanel.Dock="Top">
-                            <TextBlock Text="作者："/>
-                            <TextBlock Text="{Binding RegistryItem.Author}"/>
-                        </DockPanel>
-                        <DockPanel DockPanel.Dock="Top" Visibility="{Binding RegistryItem.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                            <TextBlock Text="协议："/>
-                            <TextBlock Text="{Binding RegistryItem.License}"/>
-                        </DockPanel>
+                </DockPanel>
+                <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
+                    <DockPanel DockPanel.Dock="Top">
+                        <TextBlock Text="作者："/>
+                        <TextBlock Text="{Binding RegistryItem.Author}"/>
                     </DockPanel>
+                    <DockPanel DockPanel.Dock="Top" Visibility="{Binding RegistryItem.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                        <TextBlock Text="协议："/>
+                        <TextBlock Text="{Binding RegistryItem.License}"/>
+                    </DockPanel>
+                </DockPanel>
             </Grid>
             <Grid Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource InvBooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
@@ -73,7 +88,6 @@
                         <TextBlock Text="{Binding Information.License}"/>
                     </DockPanel>
                 </DockPanel>
-
                 <!--<DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="{Binding Tooth}" Style="{StaticResource Title}"/>

@@ -154,6 +154,10 @@ namespace LipUI.ViewModels
                             {
                                 Global.PopupSnackbar("安装完成", "Successfully installed all tooth files.");
                             }
+                            else if(x.StartsWith("[Info] Generating BDS Please wait for few minutes"))
+                            {
+                                Percentage = "生成BDS...";
+                            }
                             else if (x.StartsWith("Error", true, CultureInfo.InvariantCulture))
                             {
                                 Global.PopupSnackbarWarn("小错误", x[6..]);

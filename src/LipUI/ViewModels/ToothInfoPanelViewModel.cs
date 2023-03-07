@@ -25,6 +25,7 @@ namespace LipUI.ViewModels
             Name = item.Name;
             License = item.License;
             //Version = item.Version;
+            Tags = item.Tags.ToArray();
         }
         public ToothInfoPanelViewModel(LipPackageVersions ver)
         {
@@ -51,6 +52,7 @@ namespace LipUI.ViewModels
         [ObservableProperty] string _license = string.Empty;
         [ObservableProperty] string _version = string.Empty;
         [ObservableProperty] string _tooth = string.Empty;
+        [ObservableProperty] string[] _tags = Array.Empty<string>();
         public string[]? Versions => _ver.Versions;
         [RelayCommand]
         void CopyToothButton()

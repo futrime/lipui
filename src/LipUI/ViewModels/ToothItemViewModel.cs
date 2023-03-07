@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
 using LipNETWrapper.Class;
@@ -23,15 +24,18 @@ public partial class ToothItemViewModel : ObservableObject
         Detailed = true;
         Tooth = item.Tooth;
         RegistryItem = item;
+        Tags = item.Tags.ToArray();
     }
     #region Detailed
     [ObservableProperty] bool _detailed = false;//是否有具体细节 
     [ObservableProperty] LipRegistry.LipRegistryItem? _registryItem;
     [ObservableProperty] LipPackageSimple.LipPackageSimpleInformation? _Information;
+
     #endregion
     [RelayCommand(CanExecute = nameof(ExecutingShowInfo))]
     async Task ShowInfo() => await _showInfo(this);
     [ObservableProperty] private bool _executingShowInfo = true;
     [ObservableProperty] string _tooth = string.Empty;
     [ObservableProperty] string _version = string.Empty;
+    [ObservableProperty] string[] _tags = Array.Empty<string>(); 
 }

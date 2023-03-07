@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using LipNETWrapper;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using Newtonsoft.Json;
 using NUnit.Framework.Internal;
 
 namespace LipNETWrapperTest
@@ -122,7 +123,7 @@ namespace LipNETWrapperTest
             {
                 Sep();
                 OutPut(x.Key);
-                OutPut(x.Value.Tooth);
+                OutPut(JsonConvert.SerializeObject(x.Value));
             }
         }
         [Test]

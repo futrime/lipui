@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -36,8 +37,8 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         {
             if (string.IsNullOrWhiteSpace(SearchText))
                 return ToothItems;
-            var searchLower = SearchText.ToLower();
-            return new ObservableCollection<ToothItemViewModel>(ToothItems.Where(x =>
+            var searchLower = Regex.Replace(SearchText.ToLower(), @"\[[\w-_]+?\]", "");
+            var items = ToothItems.Where(x =>
                 x.Tooth.ToLower().Contains(searchLower) ||
                 (x.RegistryItem != null && (
                     x.RegistryItem.Description.ToLower().Contains(searchLower) ||
@@ -47,7 +48,19 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
                     x.RegistryItem.Repository.ToLower().Contains(searchLower) ||
                     x.RegistryItem.Tooth.ToLower().Contains(searchLower) ||
                     x.RegistryItem.Author.ToLower().Contains(searchLower)))
-                ));
+            );
+            try
+            {
+                var tags = Regex.Matches(SearchText, @"\[([\w-_]+?)\]").Cast<Match>().Select(x => x.Groups[1].Value).ToArray();
+                items = from x in items
+                        where tags.All(t => x.Tags.Contains(t))
+                        select x;
+            }
+            catch (Exception e)
+            {
+                Global.PopupSnackbarWarn("查询Tag失败", e.Message);
+            }
+            return new ObservableCollection<ToothItemViewModel>(items);
         }
     }
     [RelayCommand]
@@ -174,5 +187,11 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         if (CurrentInfo != null)
             Global.EnqueueItem(new InstallInfo(CurrentInfo.Tooth, CurrentInfo, CurrentInfo.SelectedVersion));
         Global.Navigate<InstallPage, ViewModels.InstallPageViewModel>();
+    }
+
+    [RelayCommand]
+    void AddTag(string v)
+    {
+        SearchText = "[" + v + "]" + SearchText;
     }
 }
