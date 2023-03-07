@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipUI.Models;
 using Wpf.Ui.Common;
+using Wpf.Ui.Controls;
 using Clipboard = System.Windows.Clipboard;
 
 namespace LipUI.ViewModels;
@@ -10,6 +11,7 @@ namespace LipUI.ViewModels;
 public partial class WorkingPathSelectorViewModel : ObservableObject
 {
     public AppConfig Config => Global.Config;
+
     [RelayCommand]
     void Copy(string v)
     {
@@ -28,7 +30,7 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
         Config.AllWorkingDirectory.Remove(dir);
         Global.CheckWorkDir();
     }
-    [ObservableProperty] string _addingWorkingDir=string.Empty;
+    [ObservableProperty] string _addingWorkingDir = string.Empty;
     //[ObservableProperty] string _tip;
     /// <summary>
     /// 选择目录
@@ -48,6 +50,18 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
             //自动添加
             AddWorkingDir();
         }
+    }
+
+    public bool ShowGetCurrentButton => !Global.Config.AllWorkingDirectory.Contains(Directory.GetCurrentDirectory());
+    /// <summary>
+    /// 获取当前目录
+    /// </summary>
+    [RelayCommand]
+    void GetCurrentDir()
+    {
+        AddingWorkingDir = Directory.GetCurrentDirectory();
+        //自动添加
+        AddWorkingDir();
     }
     /// <summary>
     /// 添加目录

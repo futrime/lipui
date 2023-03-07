@@ -18,9 +18,14 @@
                 </StackPanel>
             </Button>
             <Button DockPanel.Dock="Right" Margin="5" Command="{Binding SelectWorkingDirCommand }">
-                  <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
                     <TextBlock>选择</TextBlock>
                     <ui:SymbolIcon Symbol="ExpandUpRight32"/>
+                </StackPanel>
+            </Button>
+            <Button DockPanel.Dock="Right" Margin="5" Visibility="{Binding ShowGetCurrentButton,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding GetCurrentDirCommand }">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>当前目录</TextBlock>
                 </StackPanel>
             </Button>
             <TextBox Text="{Binding AddingWorkingDir}" Margin="5"/>
