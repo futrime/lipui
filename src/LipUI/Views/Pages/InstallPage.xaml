@@ -43,10 +43,14 @@
                 </Grid.Style>
             </Grid>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <ui:ProgressRing IsIndeterminate="{Binding ViewModel.PercentageIsIndeterminate}" Progress="{Binding ViewModel.PercentageNumber}" >
-                    <ui:ProgressRing.LayoutTransform>
+                <ui:ProgressRing RenderTransformOrigin=".5,.5" IsIndeterminate="{Binding ViewModel.PercentageIsIndeterminate}" Progress="{Binding ViewModel.PercentageNumber}" >
+                    <ui:ProgressRing.RenderTransform>
+                        <ScaleTransform ScaleX="-1" ScaleY="1"/>
+                    </ui:ProgressRing.RenderTransform>
+                    <ui:ProgressRing.LayoutTransform >
                         <RotateTransform Angle="-90"/>
                     </ui:ProgressRing.LayoutTransform>
+
                 </ui:ProgressRing>
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" >
                     <TextBlock Text="安装中..." FontSize="25"/>
