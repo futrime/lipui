@@ -79,17 +79,17 @@ namespace LipNETWrapper
         public async Task<LipRegistry> GetLipRegistryAsync(string registry, CancellationToken tk = default)
         {
 #if NET7_0 || NETCOREAPP
-            var client = new System.Net.Http.HttpClient();
-            var response = await client.GetAsync(registry);
+            var client = new System.Net.Http.HttpClient() { };
+            var response = await client.GetAsync(registry, tk);
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Failed to get registry: " + response.StatusCode);
             }
-            var content = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync(tk);
             return JsonConvert.DeserializeObject<LipRegistry>(content)!;
 #else
-            using var client = new WebClient();
+            using var client = new WebClient() { Encoding = Encoding.UTF8 };
             var text = await client.DownloadStringTaskAsync(registry);
             if (text is null)
             {
