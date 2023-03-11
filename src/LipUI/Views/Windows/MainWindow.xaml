@@ -40,7 +40,7 @@
                          Grid.ColumnSpan="2"
                          Margin="42,0,0,0"
                          Icon="pack://application:,,,/Assets/applicationIcon-256.png">
-                <ui:TitleBar.Tray>
+                <!--<ui:TitleBar.Tray>
                     <ui:NotifyIcon
                     FocusOnLeftClick="True"
                     Icon="pack://application:,,,/Assets/applicationIcon-256.png"
@@ -50,7 +50,7 @@
                             <ContextMenu ItemsSource="{Binding ViewModel.TrayMenuItems, Mode=OneWay}" />
                         </ui:NotifyIcon.Menu>
                     </ui:NotifyIcon>
-                </ui:TitleBar.Tray>
+                </ui:TitleBar.Tray>-->
             </ui:TitleBar>
             <Grid Grid.Column="1">
                 <Border

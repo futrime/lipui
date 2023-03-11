@@ -47,7 +47,7 @@ namespace LipUI.ViewModels
                 {
                     Content = "本地包",
                     PageTag = "local",
-                    Icon = SymbolRegular.LocalLanguage24,
+                    Icon = SymbolRegular.Box24,
                     PageType = typeof(Views.Pages.ToothLocalPage)
                 },
                 new NavigationItem()
