@@ -17,7 +17,7 @@ public partial class ToothItemViewModel : ObservableObject
         Version = package.Version;
         Tooth = package.Tooth;
         Information = package.Information;
-        Author = new ToothItemTagViewModel() { Tag = Information.Author };
+        Author.Tag = Information.Author;
     }
     public ToothItemViewModel(
         Func<ToothItemViewModel, Task> showInfo, LipRegistry.LipRegistryItem item)
@@ -30,7 +30,7 @@ public partial class ToothItemViewModel : ObservableObject
                 select new ToothItemTagViewModel() { Tag = x })
             //.Concat(new[] { new ToothItemTagViewModel() { Tag = item.Author } })
             .ToArray();
-        Author = new ToothItemTagViewModel() { Tag = item.Author };
+        Author.Tag = item.Author;
     }
     #region Detailed
     [ObservableProperty] bool _detailed = false;//是否有具体细节 
@@ -43,7 +43,7 @@ public partial class ToothItemViewModel : ObservableObject
     [ObservableProperty] string _tooth = string.Empty;
     [ObservableProperty] string _version = string.Empty;
     [ObservableProperty] ToothItemTagViewModel[] _tags = Array.Empty<ToothItemTagViewModel>();
-    [ObservableProperty] ToothItemTagViewModel _author;
+    [ObservableProperty] ToothItemTagViewModel _author = new();
 
     public partial class ToothItemTagViewModel : ObservableObject
     {
