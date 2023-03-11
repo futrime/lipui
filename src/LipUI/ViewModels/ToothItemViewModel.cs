@@ -42,7 +42,7 @@ public partial class ToothItemViewModel : ObservableObject
     [ObservableProperty] string _tooth = string.Empty;
     [ObservableProperty] string _version = string.Empty;
     [ObservableProperty] ToothItemTagViewModel[] _tags = Array.Empty<ToothItemTagViewModel>();
-    [ObservableProperty] ToothItemTagViewModel _author;
+    [ObservableProperty] ToothItemTagViewModel? _author;
 
     public partial class ToothItemTagViewModel : ObservableObject
     {
