@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipUI.Models;
+using Ookii.Dialogs.Wpf;
 using Wpf.Ui.Common;
-using Wpf.Ui.Controls;
 using Clipboard = System.Windows.Clipboard;
 
 namespace LipUI.ViewModels;
@@ -48,7 +48,7 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
     [RelayCommand]
     void SelectWorkingDir()
     {
-        var dialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog
+        var dialog = new VistaFolderBrowserDialog
         {
             SelectedPath = AddingWorkingDir,
             ShowNewFolderButton = true,

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
-using CommunityToolkit.Mvvm.Input;
+﻿using LipUI.ViewModels;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
@@ -8,13 +6,13 @@ namespace LipUI.Views.Pages
     /// <summary>
     /// Interaction logic for DashboardPage.xaml
     /// </summary>
-    public partial class DashboardPage : INavigableView<ViewModels.DashboardViewModel>
+    public partial class DashboardPage : INavigableView<DashboardViewModel>
     {
-        public ViewModels.DashboardViewModel ViewModel
+        public DashboardViewModel ViewModel
         {
             get;
         }
-        public DashboardPage(ViewModels.DashboardViewModel viewModel)
+        public DashboardPage(DashboardViewModel viewModel)
         {
             ViewModel = viewModel;
 

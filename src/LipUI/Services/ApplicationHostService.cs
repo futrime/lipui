@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Hosting;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Navigation;
+using LipUI.Views.Pages;
+using LipUI.Views.Windows;
+using Microsoft.Extensions.Hosting;
 using Wpf.Ui.Mvvm.Contracts;
 
 namespace LipUI.Services
@@ -48,11 +49,11 @@ namespace LipUI.Services
         {
             await Task.CompletedTask;
 
-            if (!Application.Current.Windows.OfType<Views.Windows.MainWindow>().Any())
+            if (!Application.Current.Windows.OfType<MainWindow>().Any())
             {
                 _navigationWindow = (_serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow)!;
                 _navigationWindow!.ShowWindow();
-                _navigationWindow.Navigate(typeof(Views.Pages.DashboardPage));
+                _navigationWindow.Navigate(typeof(DashboardPage));
             }
 
             await Task.CompletedTask;

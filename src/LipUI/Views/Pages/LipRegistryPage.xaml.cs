@@ -1,19 +1,19 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using LipUI.ViewModels;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages;
 /// <summary>
 /// Interaction logic for LipRegistryPage.xaml
 /// </summary>
-public partial class LipRegistryPage : INavigableView<ViewModels.LipRegistryPageViewModel>
+public partial class LipRegistryPage : INavigableView<LipRegistryPageViewModel>
 {
-    public ViewModels.LipRegistryPageViewModel ViewModel
+    public LipRegistryPageViewModel ViewModel
     {
         get;
     }
-    public LipRegistryPage(ViewModels.LipRegistryPageViewModel viewModel)
+    public LipRegistryPage(LipRegistryPageViewModel viewModel)
     {
         ViewModel = viewModel;
         InitializeComponent();

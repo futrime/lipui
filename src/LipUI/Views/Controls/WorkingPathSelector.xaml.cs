@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Controls;
 using LipUI.ViewModels;
 
 namespace LipUI.Views.Controls
@@ -14,7 +12,7 @@ namespace LipUI.Views.Controls
         public WorkingPathSelector()
         {
             InitializeComponent();
-            this.DataContext = new WorkingPathSelectorViewModel();
+            DataContext = new WorkingPathSelectorViewModel();
         } 
     }
 }

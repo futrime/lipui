@@ -1,10 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipNETWrapper.Class;
-using Wpf.Ui.Controls;
 
 namespace LipUI.ViewModels;
 public partial class ToothItemViewModel : ObservableObject
@@ -27,13 +26,13 @@ public partial class ToothItemViewModel : ObservableObject
         Tooth = item.Tooth;
         RegistryItem = item;
         Tags = (from x in item.Tags
-                select new ToothItemTagViewModel() { Tag = x })
+                select new ToothItemTagViewModel { Tag = x })
             //.Concat(new[] { new ToothItemTagViewModel() { Tag = item.Author } })
             .ToArray();
         Author.Tag = item.Author;
     }
     #region Detailed
-    [ObservableProperty] bool _detailed = false;//是否有具体细节 
+    [ObservableProperty] bool _detailed;//是否有具体细节 
     [ObservableProperty] LipRegistry.LipRegistryItem? _registryItem;
     [ObservableProperty] LipPackageSimple.LipPackageSimpleInformation? _Information;
     #endregion

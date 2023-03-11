@@ -1,24 +1,26 @@
 ﻿using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace LipUI.Helpers
 {
     internal class OpacityToVisibilityConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is double opacity)
             {
                 if (opacity > 0)
                 {
-                    return System.Windows.Visibility.Visible;
+                    return Visibility.Visible;
                 }
             }
-            return System.Windows.Visibility.Hidden;
+            return Visibility.Hidden;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter,
-            System.Globalization.CultureInfo culture)
+            CultureInfo culture)
         {
             //if (value is System.Windows.Visibility visibility)
             //{

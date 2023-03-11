@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using LipUI.ViewModels;
+
 namespace LipUI.Views.Controls
 {
     /// <summary>
@@ -6,7 +8,7 @@ namespace LipUI.Views.Controls
     /// </summary>
     public partial class LipInstaller : UserControl
     {
-        public LipInstaller(ViewModels.LipInstallerViewModel vm)
+        public LipInstaller(LipInstallerViewModel vm)
         {
             InitializeComponent();
             DataContext = vm;

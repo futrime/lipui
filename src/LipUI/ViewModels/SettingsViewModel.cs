@@ -1,22 +1,25 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels
 {
     public partial class SettingsViewModel : ObservableObject, INavigationAware
     {
-        private bool _isInitialized = false;
+        private bool _isInitialized;
         [ObservableProperty]
         private string _appVersion = string.Empty;
         [ObservableProperty]
         private string _lipVersion = string.Empty;
         [ObservableProperty]
-        private Wpf.Ui.Appearance.ThemeType _currentTheme = Global.Config.Theme;
-        partial void OnCurrentThemeChanged(Wpf.Ui.Appearance.ThemeType value)
+        private ThemeType _currentTheme = Global.Config.Theme;
+        partial void OnCurrentThemeChanged(ThemeType value)
         {
             Global.Config.Theme = value;
         }
@@ -67,7 +70,7 @@ namespace LipUI.ViewModels
         }
         private void InitializeViewModel()
         {
-            CurrentTheme = Wpf.Ui.Appearance.Theme.GetAppTheme();
+            CurrentTheme = Theme.GetAppTheme();
             AppVersion = $"LipUI - {GetAssemblyVersion()}";
             LipVersion = "loading ... ";
             Task.Run(async () =>
@@ -81,11 +84,11 @@ namespace LipUI.ViewModels
         private void OnOpenLipUrl()
         {
             //https://github.com/LiteLDev/Lip
-            System.Diagnostics.Process.Start("https://github.com/LiteLDev/Lip");
+            Process.Start("https://github.com/LiteLDev/Lip");
         }
         private string GetAssemblyVersion()
         {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? String.Empty;
+            return Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? String.Empty;
         }
 
         [RelayCommand]
@@ -94,20 +97,20 @@ namespace LipUI.ViewModels
             switch (parameter)
             {
                 case "theme_light":
-                    if (CurrentTheme == Wpf.Ui.Appearance.ThemeType.Light)
+                    if (CurrentTheme == ThemeType.Light)
                         break;
 
-                    Wpf.Ui.Appearance.Theme.Apply(Wpf.Ui.Appearance.ThemeType.Light);
-                    CurrentTheme = Wpf.Ui.Appearance.ThemeType.Light;
+                    Theme.Apply(ThemeType.Light);
+                    CurrentTheme = ThemeType.Light;
 
                     break;
 
                 default:
-                    if (CurrentTheme == Wpf.Ui.Appearance.ThemeType.Dark)
+                    if (CurrentTheme == ThemeType.Dark)
                         break;
 
-                    Wpf.Ui.Appearance.Theme.Apply(Wpf.Ui.Appearance.ThemeType.Dark);
-                    CurrentTheme = Wpf.Ui.Appearance.ThemeType.Dark;
+                    Theme.Apply(ThemeType.Dark);
+                    CurrentTheme = ThemeType.Dark;
 
                     break;
             }

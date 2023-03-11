@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipNETWrapper.Class;
@@ -57,7 +58,7 @@ namespace LipUI.ViewModels
         [RelayCommand]
         void CopyToothButton()
         {
-            System.Windows.Clipboard.SetText(Tooth);
+            Clipboard.SetText(Tooth);
             Global.PopupSnackbar("复制成功", Tooth);
         }
         [ObservableProperty] private string? _selectedVersion;

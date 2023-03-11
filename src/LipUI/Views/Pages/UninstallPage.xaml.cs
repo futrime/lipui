@@ -7,13 +7,13 @@ namespace LipUI.Views.Pages
     /// <summary>
     /// Interaction logic for UninstallPage.xaml
     /// </summary>
-    public partial class UninstallPage : INavigableView<ViewModels.UninstallPageViewModel>
+    public partial class UninstallPage : INavigableView<UninstallPageViewModel>
     {
-        public ViewModels.UninstallPageViewModel ViewModel
+        public UninstallPageViewModel ViewModel
         {
             get;
         }
-        public UninstallPage(ViewModels.UninstallPageViewModel viewModel)
+        public UninstallPage(UninstallPageViewModel viewModel)
         {
             ViewModel = viewModel;
             InitializeComponent();

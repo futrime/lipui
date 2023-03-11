@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@ using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Wpf.Ui.Common.Interfaces;
-using Hyperlink = Wpf.Ui.Controls.Hyperlink;
+using Wpf.Ui.Controls;
 
 namespace LipUI.ViewModels
 {
@@ -31,7 +32,7 @@ namespace LipUI.ViewModels
         [ObservableProperty]
         ToothInfoPanelViewModel? _toothInfoPanel;
         public bool InfoLoaded => ToothInfoPanel is not null;
-        [ObservableProperty] private bool _installing = false;
+        [ObservableProperty] private bool _installing;
         /// <summary>
         /// 执行安装
         /// </summary>
@@ -92,12 +93,12 @@ namespace LipUI.ViewModels
                                                 var before = fullEula[..index];
                                                 var after = fullEula[(index + length)..];
                                                 var link = new Hyperlink { NavigateUri = text, Content = text };
-                                                link.Click += (sender, e) => { System.Diagnostics.Process.Start(text); };
-                                                content.Children.Add(new TextBlock() { Text = before });
+                                                link.Click += (sender, e) => { Process.Start(text); };
+                                                content.Children.Add(new TextBlock { Text = before });
                                                 content.Children.Add(link);
                                                 fullEula = after;
                                             }
-                                            content.Children.Add(new TextBlock() { Text = fullEula });
+                                            content.Children.Add(new TextBlock { Text = fullEula });
                                             return content;
                                         }
                                         catch
@@ -210,7 +211,7 @@ namespace LipUI.ViewModels
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(CanCancel))]
         [NotifyCanExecuteChangedFor(nameof(CancelCommand))]
-        CancellationTokenSource? _ctk = null;
+        CancellationTokenSource? _ctk;
         [ObservableProperty]
         string? _selectedVersion;
         [ObservableProperty]
@@ -236,7 +237,7 @@ namespace LipUI.ViewModels
             OnPropertyChanged(nameof(PercentageIsIndeterminate));
             OnPropertyChanged(nameof(PercentageNumber));
         }
-        private double _tmpPercentageNumber = 0;
+        private double _tmpPercentageNumber;
         public double PercentageNumber => PercentageIsIndeterminate ? 80 : _tmpPercentageNumber;
         public bool PercentageIsIndeterminate => _tmpPercentageNumber is <= 0 or >= 100;
         public bool CanCancel => Ctk is not null;

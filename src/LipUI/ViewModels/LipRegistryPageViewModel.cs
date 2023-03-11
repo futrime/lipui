@@ -20,13 +20,13 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             //OnPropertyChanged(nameof(VisibleToothItems));
         };
     }
-    private bool _isInitialized = false;
+    private bool _isInitialized;
     [ObservableProperty]
-    ToothInfoPanelViewModel? _currentInfo = null;
+    ToothInfoPanelViewModel? _currentInfo;
     [ObservableProperty]
-    ToothItemViewModel? _currentSelected = null;
+    ToothItemViewModel? _currentSelected;
     [ObservableProperty]
-    bool _isShowingDetail = false;
+    bool _isShowingDetail;
     [ObservableProperty]
     //[NotifyPropertyChangedFor(nameof(VisibleToothItems))]
     ObservableCollection<ToothItemViewModel> _toothItems = new();
@@ -34,9 +34,9 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     {
         RefreshQuery();
     }
-    private bool waitingRefreshQuery = false;
-    [ObservableProperty] bool _isSearching = false;
-    int _searchingCount = 0;
+    private bool waitingRefreshQuery;
+    [ObservableProperty] bool _isSearching;
+    int _searchingCount;
 
     async void RefreshQuery()
     {
@@ -195,7 +195,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         }
     }
     //[NotifyPropertyChangedFor(nameof(VisibleToothItems))]
-    [ObservableProperty] bool _onlyFeatured = false;
+    [ObservableProperty] bool _onlyFeatured;
     partial void OnOnlyFeaturedChanged(bool value)
     {
         //RefreshQuery();
@@ -251,14 +251,14 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         }
         IsShowingDetail = true;
     }
-    [ObservableProperty] bool _isLoading = new();
+    [ObservableProperty] bool _isLoading;
     [ObservableProperty] ObservableCollection<string> _loadingOutPut = new();
     [RelayCommand]
     void GotoInstall()
     {
         if (CurrentInfo != null)
             Global.EnqueueItem(new InstallInfo(CurrentInfo.Tooth, CurrentInfo, CurrentInfo.SelectedVersion));
-        Global.Navigate<InstallPage, ViewModels.InstallPageViewModel>();
+        Global.Navigate<InstallPage, InstallPageViewModel>();
     }
 
     [RelayCommand]

@@ -1,11 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using LipUI.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LipNETWrapper.Class;
 using LipUI.Views.Pages;
@@ -17,11 +13,11 @@ namespace LipUI.ViewModels
     {
         //protected bool _isInitialized = false;
         [ObservableProperty]
-        ToothInfoPanelViewModel? _currentInfo = null;
+        ToothInfoPanelViewModel? _currentInfo;
         [ObservableProperty]
-        ToothItemViewModel? _currentSelected = null;
+        ToothItemViewModel? _currentSelected;
         [ObservableProperty]
-        bool _isShowingDetail = false;
+        bool _isShowingDetail;
         [ObservableProperty]
         ObservableCollection<ToothItemViewModel> _toothItems
             = new();

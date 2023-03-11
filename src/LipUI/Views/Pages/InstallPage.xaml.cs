@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Specialized;
+using System.Windows.Controls;
 using System.Windows.Input;
+using LipUI.ViewModels;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
@@ -7,19 +9,19 @@ namespace LipUI.Views.Pages
     /// <summary>
     /// Interaction logic for InstallPage.xaml
     /// </summary>
-    public partial class InstallPage : INavigableView<ViewModels.InstallPageViewModel>
+    public partial class InstallPage : INavigableView<InstallPageViewModel>
     {
-        public ViewModels.InstallPageViewModel ViewModel
+        public InstallPageViewModel ViewModel
         {
             get;
         }
-        public InstallPage(ViewModels.InstallPageViewModel viewModel)
+        public InstallPage(InstallPageViewModel viewModel)
         {
             ViewModel = viewModel;
             InitializeComponent();
             ViewModel.OutPut.CollectionChanged += OutPut_CollectionChanged!;
         }
-        private void OutPut_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void OutPut_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             ScrollViewer.ScrollToEnd();
         }

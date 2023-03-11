@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using LipUI.ViewModels;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
@@ -12,12 +13,12 @@ namespace LipUI.Views.Windows
     /// </summary>
     public partial class MainWindow : INavigationWindow
     {
-        public ViewModels.MainWindowViewModel ViewModel
+        public MainWindowViewModel ViewModel
         {
             get;
         }
 
-        public MainWindow(ViewModels.MainWindowViewModel viewModel, IPageService pageService, INavigationService navigationService)
+        public MainWindow(MainWindowViewModel viewModel, IPageService pageService, INavigationService navigationService)
         {
             ViewModel = viewModel;
             DataContext = this;

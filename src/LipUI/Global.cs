@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -10,11 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using LipNETWrapper;
 using LipUI.Models;
 using LipUI.ViewModels;
+using LipUI.Views.Controls;
+using LipUI.Views.Windows;
 using Wpf.Ui.Common;
 using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui.Controls;
 
 namespace LipUI
 {
@@ -50,8 +53,8 @@ namespace LipUI
             }
             //显示条款
             {
-                _ = ShowDialog("免责条款", await DispatcherInvokeAsync(() => new TextBlock()
-                {
+                _ = ShowDialog("免责条款", await DispatcherInvokeAsync(() => new TextBlock
+                    {
                     Text = eulaText,
                     TextWrapping = TextWrapping.WrapWithOverflow
                 }), ("同意", hide =>
@@ -78,7 +81,7 @@ namespace LipUI
             if (!TryRefreshLipPath())
             {
                 var vm = new LipInstallerViewModel();
-                _ = ShowDialog("需要配置 lip.exe", new Views.Controls.LipInstaller(vm), ("完成", hide =>
+                _ = ShowDialog("需要配置 lip.exe", new LipInstaller(vm), ("完成", hide =>
                 {
                     Config.AutoLipPath = !vm.ManualExe;
                     Config.LipPath = vm.LipPath;
@@ -121,7 +124,7 @@ namespace LipUI
                                             vm.Tip = $"下载中...{BytesToStr(e.BytesReceived)}/{BytesToStr(e.TotalBytesToReceive)}";
                                         });
                                     });
-                                    await DispatcherInvokeAsync(() => vm.Tip = $"下载完成.");
+                                    await DispatcherInvokeAsync(() => vm.Tip = "下载完成.");
                                     var tmpDir = Path.Combine(ConfigFolder, "temp");
                                     if (!Directory.Exists(tmpDir)) Directory.CreateDirectory(tmpDir);
                                     var installer = Path.Combine(tmpDir, "lip_installer.exe");
@@ -185,7 +188,7 @@ namespace LipUI
                                             vm.Tip = $"下载中...{BytesToStr(e.BytesReceived)}/{BytesToStr(e.TotalBytesToReceive)}";
                                         });
                                     });
-                                    await DispatcherInvokeAsync(() => vm.Tip = $"下载完成.");
+                                    await DispatcherInvokeAsync(() => vm.Tip = "下载完成.");
                                     //解压缩 
                                     // Create a memory stream from the byte array
                                     using MemoryStream ms = new MemoryStream(bytes);
@@ -229,7 +232,7 @@ namespace LipUI
         {
             if (!Directory.Exists(Config.WorkingDirectory))
             {//保存的WorkingDirectory不合法，需要手动选择 
-                _ = ShowDialog("需要指定有效的工作路径", new Views.Controls.WorkingPathSelector(), ("完成", hide =>
+                _ = ShowDialog("需要指定有效的工作路径", new WorkingPathSelector(), ("完成", hide =>
                         {
                             if (Directory.Exists(Config.WorkingDirectory))
                             {
@@ -384,7 +387,7 @@ namespace LipUI
         {
             DispatcherInvoke(() =>
             {
-                ((Views.Windows.MainWindow)Application.Current.MainWindow!).Navigate(typeof(T));
+                ((MainWindow)Application.Current.MainWindow!).Navigate(typeof(T));
             });
         }
         /// <summary>
@@ -394,7 +397,7 @@ namespace LipUI
         {
             DispatcherInvoke(() =>
             {
-                var snackbar = ((Views.Windows.MainWindow)Application.Current.MainWindow!).Snackbar;
+                var snackbar = ((MainWindow)Application.Current.MainWindow!).Snackbar;
                 snackbar.Timeout = timeout;
                 snackbar.Show(title, content, icon, appearance);
             });
@@ -415,11 +418,11 @@ namespace LipUI
             object content,
             (string, Action<Action>)? right = null,
             (string, Action<Action>)? left = null,
-            Action<Wpf.Ui.Controls.Dialog>? modify = null)
+            Action<Dialog>? modify = null)
         {
             await DispatcherInvokeAsync(async () =>
             {
-                var dialog = ((Views.Windows.MainWindow)Application.Current.MainWindow!).Dialog;
+                var dialog = ((MainWindow)Application.Current.MainWindow!).Dialog;
                 bool successAndHide = false;
                 void Hide()
                 {

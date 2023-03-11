@@ -1,18 +1,19 @@
-﻿using Wpf.Ui.Common.Interfaces;
+﻿using LipUI.ViewModels;
+using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
 {
     /// <summary>
     /// Interaction logic for SettingsPage.xaml
     /// </summary>
-    public partial class SettingsPage : INavigableView<ViewModels.SettingsViewModel>
+    public partial class SettingsPage : INavigableView<SettingsViewModel>
     {
-        public ViewModels.SettingsViewModel ViewModel
+        public SettingsViewModel ViewModel
         {
             get;
         }
 
-        public SettingsPage(ViewModels.SettingsViewModel viewModel)
+        public SettingsPage(SettingsViewModel viewModel)
         {
             ViewModel = viewModel;
             InitializeComponent();

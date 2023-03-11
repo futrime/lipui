@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using LipUI.ViewModels;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
@@ -6,13 +7,13 @@ namespace LipUI.Views.Pages
      /// <summary>
     /// Interaction logic for ToothLocalPage.xaml
     /// </summary>
-    public partial class ToothLocalPage : INavigableView<ViewModels.ToothLocalModel>
+    public partial class ToothLocalPage : INavigableView<ToothLocalModel>
     {
-        public ViewModels.ToothLocalModel ViewModel
+        public ToothLocalModel ViewModel
         {
             get;
         }
-        public ToothLocalPage(ViewModels.ToothLocalModel viewModel)
+        public ToothLocalPage(ToothLocalModel viewModel)
         {
             ViewModel = viewModel;
 

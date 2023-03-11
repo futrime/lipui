@@ -10,7 +10,7 @@ public record UninstallItem(string Tooth);
 public partial class UninstallPageViewModel : ObservableObject, INavigationAware
 {
     [ObservableProperty][NotifyPropertyChangedFor(nameof(HasTooth))] string  _tooth=string.Empty;
-    [ObservableProperty][NotifyPropertyChangedFor(nameof(HasTooth))] bool _uninstallComplete = false;
+    [ObservableProperty][NotifyPropertyChangedFor(nameof(HasTooth))] bool _uninstallComplete;
     public bool HasTooth => !string.IsNullOrWhiteSpace(Tooth);
     [ObservableProperty] ObservableCollection<string> _outPut = new();
     public void OnNavigatedTo()
@@ -23,7 +23,7 @@ public partial class UninstallPageViewModel : ObservableObject, INavigationAware
     public void OnNavigatedFrom()
     {
     }
-    [RelayCommand()]
+    [RelayCommand]
     async Task DoUninstall()
     {
         OutPut.Clear();

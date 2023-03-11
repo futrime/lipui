@@ -1,12 +1,14 @@
-﻿using LipUI.Models;
-using LipUI.Services;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
+using LipUI.Services;
+using LipUI.ViewModels;
+using LipUI.Views.Pages;
+using LipUI.Views.Windows;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Wpf.Ui.Mvvm.Contracts;
 using Wpf.Ui.Mvvm.Services;
 
@@ -43,23 +45,23 @@ namespace LipUI
                 services.AddSingleton<INavigationService, NavigationService>();
 
                 // Main window with navigation
-                services.AddScoped<INavigationWindow, Views.Windows.MainWindow>();
-                services.AddScoped<ViewModels.MainWindowViewModel>();
+                services.AddScoped<INavigationWindow, MainWindow>();
+                services.AddScoped<MainWindowViewModel>();
 
                 // Views 
-                services.AddScoped<Views.Pages.DashboardPage>();
-                services.AddScoped<Views.Pages.ToothLocalPage>();
-                services.AddScoped<Views.Pages.SettingsPage>();
-                services.AddScoped<Views.Pages.InstallPage>();
-                services.AddScoped<Views.Pages.UninstallPage>();
-                services.AddScoped<Views.Pages.LipRegistryPage>();
+                services.AddScoped<DashboardPage>();
+                services.AddScoped<ToothLocalPage>();
+                services.AddScoped<SettingsPage>();
+                services.AddScoped<InstallPage>();
+                services.AddScoped<UninstallPage>();
+                services.AddScoped<LipRegistryPage>();
                 // ViewModels
-                services.AddScoped<ViewModels.DashboardViewModel>();
-                services.AddScoped<ViewModels.ToothLocalModel>();
-                services.AddScoped<ViewModels.SettingsViewModel>();
-                services.AddScoped<ViewModels.InstallPageViewModel>();
-                services.AddScoped<ViewModels.UninstallPageViewModel>();
-                services.AddScoped<ViewModels.LipRegistryPageViewModel>();
+                services.AddScoped<DashboardViewModel>();
+                services.AddScoped<ToothLocalModel>();
+                services.AddScoped<SettingsViewModel>();
+                services.AddScoped<InstallPageViewModel>();
+                services.AddScoped<UninstallPageViewModel>();
+                services.AddScoped<LipRegistryPageViewModel>();
                 // Configuration 
                 //services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
             }).Build();
