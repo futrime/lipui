@@ -9,8 +9,10 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Wpf.Ui.Common;
+using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
 
 namespace LipUI.Views.Controls
@@ -24,6 +26,42 @@ namespace LipUI.Views.Controls
         public ToothItem()
         {
             InitializeComponent();
+        }
+        private void Timeline_OnCompleted(object sender, EventArgs e)
+        {
+            try
+            {
+                DoubleAnimation animation = new DoubleAnimation();
+                animation.From = main.ActualHeight;
+                animation.To = 0;
+                animation.Duration = TimeSpan.FromSeconds(0.4);
+
+                Storyboard storyboard = new Storyboard();
+                storyboard.Children.Add(animation);
+
+                Storyboard.SetTarget(animation, main);
+                Storyboard.SetTargetProperty(animation, new PropertyPath(HeightProperty));
+                main.Resources.Add("animation", storyboard);
+                storyboard.Begin();
+                storyboard.Completed += (s, _) =>
+                {
+                    main.Visibility = Visibility.Collapsed;
+                    try
+                    {
+                        main.Resources.Remove("animation");
+
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                };
+            }
+            catch
+            {
+                // ignored
+            }
+
         }
     }
 }

@@ -2,7 +2,8 @@
 using System.Windows.Data;
 
 namespace LipUI.Helpers;
-internal class BooleanToVisibilityConverter : IValueConverter
+
+internal class BooleanToVisibilityHiddenConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
@@ -10,7 +11,7 @@ internal class BooleanToVisibilityConverter : IValueConverter
         {
             return System.Windows.Visibility.Visible;
         }
-        return System.Windows.Visibility.Collapsed;
+        return System.Windows.Visibility.Hidden;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter,

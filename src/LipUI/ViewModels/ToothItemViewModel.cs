@@ -9,6 +9,7 @@ using Wpf.Ui.Controls;
 namespace LipUI.ViewModels;
 public partial class ToothItemViewModel : ObservableObject
 {
+    [ObservableProperty] bool _actived = true;//等待移除，用于淡出动画
     private Func<ToothItemViewModel, Task> _showInfo;
     public ToothItemViewModel(Func<ToothItemViewModel, Task> showInfo, LipPackageSimple package)
     {
@@ -30,7 +31,6 @@ public partial class ToothItemViewModel : ObservableObject
     [ObservableProperty] bool _detailed = false;//是否有具体细节 
     [ObservableProperty] LipRegistry.LipRegistryItem? _registryItem;
     [ObservableProperty] LipPackageSimple.LipPackageSimpleInformation? _Information;
-
     #endregion
     [RelayCommand(CanExecute = nameof(ExecutingShowInfo))]
     async Task ShowInfo() => await _showInfo(this);

@@ -18,7 +18,8 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     {
         ToothItems.CollectionChanged += (_, _) =>
         {
-            OnPropertyChanged(nameof(VisibleToothItems));
+            RefreshQuery();
+            //OnPropertyChanged(nameof(VisibleToothItems));
         };
     }
     private bool _isInitialized = false;
@@ -29,13 +30,19 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     [ObservableProperty]
     bool _isShowingDetail = false;
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(VisibleToothItems))]
+    //[NotifyPropertyChangedFor(nameof(VisibleToothItems))]
     ObservableCollection<ToothItemViewModel> _toothItems = new();
-    public ObservableCollection<ToothItemViewModel> VisibleToothItems
+    partial void OnToothItemsChanged(ObservableCollection<ToothItemViewModel> value)
     {
-        get
+        RefreshQuery();
+    }
+    private bool waitingRefreshQuery = false;
+
+    async void RefreshQuery()
+    {
+        IEnumerable<ToothItemViewModel> RefreshQueryInternal()
         {
-            if (string.IsNullOrWhiteSpace(SearchText)&&!OnlyFeatured)
+            if (string.IsNullOrWhiteSpace(SearchText) && !OnlyFeatured)
                 return ToothItems;
             var searchLower = Regex.Replace(SearchText.ToLower(), @"\[[\w-_]+?\]", "");
             var tags = Array.Empty<string>();
@@ -50,6 +57,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             {
                 Global.PopupSnackbarWarn("查询Tag失败", e.Message);
             }
+
             var items = ToothItems.Where(x =>
                 x.Tooth.ToLower().Contains(searchLower) ||
                 (x.RegistryItem != null && (
@@ -65,13 +73,58 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
                 items = from x in items
                         where tags.All(t => x.Tags.Contains(t))
                         select x;
-            return new ObservableCollection<ToothItemViewModel>(items);
+            var result = items.ToArray();
+            return result;
+        }
+        try
+        {
+            do
+            {
+                await Task.Delay(5);
+            } while (waitingRefreshQuery);
+            waitingRefreshQuery = true;
+            var all = RefreshQueryInternal();
+            //remove the items VisibleToothItems don't have
+            var allItems = all as ToothItemViewModel[] ?? all.ToArray();
+            var toRemove = VisibleToothItems.Except(allItems).ToArray();
+            foreach (var item in toRemove)
+            {
+                item.Actived = false;
+                await Task.Delay(5);
+            }
+            //add the items VisibleToothItems don't have
+            foreach (var item in allItems.Except(VisibleToothItems).ToArray())
+            {
+                VisibleToothItems.Add(item);
+                item.Actived = true;
+                await Task.Delay(5);
+            }
+            if (toRemove.Any())
+            {
+                await Task.Delay(1000);
+                foreach (var item in toRemove)
+                {
+                    VisibleToothItems.Remove(item);
+                    await Task.Delay(5);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Global.PopupSnackbarWarn("刷新出错", e.Message);
+        }
+        finally
+        {
+            waitingRefreshQuery = false;
         }
     }
+
+    [ObservableProperty] ObservableCollection<ToothItemViewModel> _visibleToothItems = new();
     [RelayCommand]
     void InvokeSearch()
     {
-        OnPropertyChanged(nameof(VisibleToothItems));
+        //OnPropertyChanged(nameof(VisibleToothItems));
+        RefreshQuery();
     }
     [ObservableProperty]
     bool _loading = true;
@@ -133,9 +186,12 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             return "https://registry.litebds.com/index.json";
         }
     }
-    [NotifyPropertyChangedFor(nameof(VisibleToothItems))]
+    //[NotifyPropertyChangedFor(nameof(VisibleToothItems))]
     [ObservableProperty] bool _onlyFeatured = false;
-
+    partial void OnOnlyFeaturedChanged(bool value)
+    {
+        RefreshQuery();
+    }
     [RelayCommand]
     protected async Task LoadAllPackages()
     {
@@ -159,7 +215,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             {
                 await Global.DispatcherInvokeAsync(() =>
                     ToothItems.Add(new ToothItemViewModel(ShowInfo, item.Value)));
-                await Task.Delay(100);//100毫秒显示一个，假装很丝滑
+                await Task.Delay(40);//40毫秒显示一个，假装很丝滑
             }
         }
         catch (Exception e)
@@ -201,6 +257,6 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     void AddTag(string v)
     {
         var item = "[" + v + "]";
-        SearchText = item + SearchText.Replace(item,"");
+        SearchText = item + SearchText.Replace(item, "");
     }
 }

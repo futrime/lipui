@@ -10,85 +10,130 @@
     d:DataContext="{d:DesignInstance models:ToothItemViewModel,IsDesignTimeCreatable=False}"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="800">
-    <ui:Card Margin="10" HorizontalAlignment="Stretch" >
-        <DockPanel>
-            <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
-                <ui:Button Name="ShowInfoButton" Command="{Binding ShowInfoCommand}" Background="Transparent">
-                    <ContentControl>
-                        <ContentControl.Style>
-                            <Style TargetType="ContentControl" >
-                                <Style.Triggers>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Content">
-                                            <Setter.Value>
-                                                <ProgressBar IsIndeterminate="True" Width="75"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter Property="Margin" Value="-10"/>
-                                    </Trigger>
-                                    <Trigger Property="IsEnabled" Value="True">
-                                        <Setter Property="Content" Value="详细信息"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
-                </ui:Button>
-            </DockPanel>
-            <Grid  DockPanel.Dock="Top" Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <DockPanel >
-                    <TextBlock DockPanel.Dock="Bottom" Text="{Binding RegistryItem.Description}" TextWrapping="WrapWithOverflow"/>
-                    <DockPanel>
-                        <TextBlock Text="{Binding RegistryItem.Name}" Style="{StaticResource Title}"/>
-                        <ItemsControl ItemsSource="{Binding Tags}" HorizontalContentAlignment="Left">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ui:Button Opacity=".8" Padding="4" Margin="3" Content="{Binding .,Converter={StaticResource FeaturedTagConverter}}" CommandParameter="{Binding .}" Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                    </DockPanel>
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeOut" Completed="Timeline_OnCompleted">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+        </Storyboard>
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid x:Name="main" IsEnabled="{Binding Actived,Mode=OneWay}">
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource FadeIn}"/>
+                        </Trigger.EnterActions>
+                        <Trigger.ExitActions>
+                            <BeginStoryboard Storyboard="{StaticResource FadeOut}"/>
+                        </Trigger.ExitActions>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <ui:Card x:Name="card" Margin="10" HorizontalAlignment="Stretch" >
+            <!--<ui:Card.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </ui:Card.Triggers>-->
+            <DockPanel>
+                <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
+                    <Grid>
+                        <ui:ProgressRing IsIndeterminate="True" RenderTransformOrigin=".5,.5" Margin="-5"
+                                         Visibility="{Binding IsEnabled, ElementName=ShowInfoButton,Converter={StaticResource InvBooleanToVisibilityConverter}}">
+                            <ui:ProgressRing.RenderTransform>
+                                <ScaleTransform ScaleX=".5" ScaleY=".5"/>
+                            </ui:ProgressRing.RenderTransform>
+                        </ui:ProgressRing>
+                        <ui:Button Name="ShowInfoButton" Command="{Binding ShowInfoCommand}" Content="详细信息"
+                                   Visibility="{Binding IsEnabled, ElementName=ShowInfoButton,Converter={StaticResource BooleanToVisibilityHiddenConverter}}">
+                            <!--<ContentControl>
+                                <ContentControl.Style>
+                                    <Style TargetType="ContentControl" >
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <ui:ProgressRing IsIndeterminate="True" RenderTransformOrigin=".5,.5">
+                                                            <ui:ProgressRing.RenderTransform>
+                                                                <ScaleTransform ScaleX=".5" ScaleY=".5"/>
+                                                            </ui:ProgressRing.RenderTransform>
+                                                        </ui:ProgressRing>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Margin" Value="-20"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="True">
+                                                <Setter Property="Content" Value="详细信息"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>-->
+                        </ui:Button>
+                    </Grid>
                 </DockPanel>
-                <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
-                    <DockPanel DockPanel.Dock="Top">
-                        <TextBlock Text="作者："/>
-                        <TextBlock Text="{Binding RegistryItem.Author}"/>
+                <Grid  DockPanel.Dock="Top" Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel >
+                        <TextBlock DockPanel.Dock="Bottom" Text="{Binding RegistryItem.Description}" TextWrapping="WrapWithOverflow"/>
+                        <DockPanel>
+                            <TextBlock Text="{Binding RegistryItem.Name}" Style="{StaticResource Title}"/>
+                            <ItemsControl ItemsSource="{Binding Tags}" HorizontalContentAlignment="Left">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ui:Button Opacity=".8" Padding="4" Margin="3" Content="{Binding .,Converter={StaticResource FeaturedTagConverter}}" CommandParameter="{Binding .}" Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </DockPanel>
                     </DockPanel>
-                    <DockPanel DockPanel.Dock="Top" Visibility="{Binding RegistryItem.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                        <TextBlock Text="协议："/>
-                        <TextBlock Text="{Binding RegistryItem.License}"/>
+                    <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
+                        <DockPanel DockPanel.Dock="Top">
+                            <TextBlock Text="作者："/>
+                            <TextBlock Text="{Binding RegistryItem.Author}"/>
+                        </DockPanel>
+                        <DockPanel DockPanel.Dock="Top" Visibility="{Binding RegistryItem.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                            <TextBlock Text="协议："/>
+                            <TextBlock Text="{Binding RegistryItem.License}"/>
+                        </DockPanel>
                     </DockPanel>
-                </DockPanel>
-            </Grid>
-            <Grid Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource InvBooleanToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <DockPanel >
-                    <TextBlock DockPanel.Dock="Bottom" Text="{Binding Information.Description}" TextWrapping="WrapWithOverflow"/>
-                    <TextBlock Text="{Binding Information.Name}" Style="{StaticResource Title}"/>
-                </DockPanel>
-                <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
-                    <DockPanel DockPanel.Dock="Top">
-                        <TextBlock Text="作者："/>
-                        <TextBlock Text="{Binding Information.Author}"/>
+                </Grid>
+                <Grid Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource InvBooleanToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel >
+                        <TextBlock DockPanel.Dock="Bottom" Text="{Binding Information.Description}" TextWrapping="WrapWithOverflow"/>
+                        <TextBlock Text="{Binding Information.Name}" Style="{StaticResource Title}"/>
                     </DockPanel>
-                    <DockPanel DockPanel.Dock="Top" Visibility="{Binding Information.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                        <TextBlock Text="协议："/>
-                        <TextBlock Text="{Binding Information.License}"/>
+                    <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
+                        <DockPanel DockPanel.Dock="Top">
+                            <TextBlock Text="作者："/>
+                            <TextBlock Text="{Binding Information.Author}"/>
+                        </DockPanel>
+                        <DockPanel DockPanel.Dock="Top" Visibility="{Binding Information.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                            <TextBlock Text="协议："/>
+                            <TextBlock Text="{Binding Information.License}"/>
+                        </DockPanel>
                     </DockPanel>
-                </DockPanel>
-                <!--<DockPanel>
+                    <!--<DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="{Binding Tooth}" Style="{StaticResource Title}"/>
                     </DockPanel>
@@ -97,7 +142,9 @@
                         <TextBlock Text="{Binding Version}"/>
                     </DockPanel>
                 </DockPanel>-->
-            </Grid>
-        </DockPanel>
-    </ui:Card>
+                </Grid>
+            </DockPanel>
+        </ui:Card>
+
+    </Grid>
 </UserControl>
