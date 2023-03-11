@@ -30,7 +30,7 @@ namespace LipUI.ViewModels
         [NotifyPropertyChangedFor(nameof(InfoLoaded))]
         [ObservableProperty]
         ToothInfoPanelViewModel? _toothInfoPanel;
-        public bool InfoLoaded => _toothInfoPanel is not null;
+        public bool InfoLoaded => ToothInfoPanel is not null;
         [ObservableProperty] private bool _installing = false;
         /// <summary>
         /// 执行安装
@@ -182,7 +182,7 @@ namespace LipUI.ViewModels
             Ctk = new CancellationTokenSource();
             try
             {
-                var (success, package, message) = await Global.Lip.GetPackageInfoAsync(ToothName, _ctk?.Token ?? default, x =>
+                var (success, package, message) = await Global.Lip.GetPackageInfoAsync(ToothName, Ctk?.Token ?? default, x =>
                 {
                     if (!x.StartsWith("{"))
                     {

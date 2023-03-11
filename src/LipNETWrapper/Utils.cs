@@ -1,12 +1,7 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LipNETWrapper
@@ -69,6 +64,35 @@ namespace LipNETWrapper
                 return await client.DownloadDataTaskAsync(mirrorUrl);
             }
         }
+        /*  public static class HttpClientExtensions
+        {
+            public static async Task DownloadAsync(this HttpClient client, string requestUri, Stream destination, IProgress<float> progress = null, CancellationToken cancellationToken = default)
+            {
+                // Get the http headers first to examine the content length
+                using (var response = await client.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead))
+                {
+                    var contentLength = response.Content.Headers.ContentLength;
+
+                    using (var download = await response.Content.ReadAsStreamAsync())
+                    {
+
+                        // Ignore progress reporting when no progress reporter was 
+                        // passed or when the content length is unknown
+                        if (progress == null || !contentLength.HasValue)
+                        {
+                            await download.CopyToAsync(destination);
+                            return;
+                        }
+
+                        // Convert absolute progress (bytes downloaded) into relative progress (0% - 100%)
+                        var relativeProgress = new Progress<long>(totalBytes => progress.Report((float)totalBytes / contentLength.Value));
+                        // Use extension method to report progress while downloading
+                        await download.CopyToAsync(destination, 81920, relativeProgress, cancellationToken);
+                        progress.Report(1);
+                    }
+                }
+            }
+        }*/
         public static async Task<byte[]> DownloadLipInstaller(Action<DownloadProgressChangedEventArgs> progress)
         {
             using var client = new WebClient();

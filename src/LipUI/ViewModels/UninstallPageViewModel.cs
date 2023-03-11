@@ -11,7 +11,7 @@ public partial class UninstallPageViewModel : ObservableObject, INavigationAware
 {
     [ObservableProperty][NotifyPropertyChangedFor(nameof(HasTooth))] string  _tooth=string.Empty;
     [ObservableProperty][NotifyPropertyChangedFor(nameof(HasTooth))] bool _uninstallComplete = false;
-    public bool HasTooth => !string.IsNullOrWhiteSpace(_tooth);
+    public bool HasTooth => !string.IsNullOrWhiteSpace(Tooth);
     [ObservableProperty] ObservableCollection<string> _outPut = new();
     public void OnNavigatedTo()
     {
