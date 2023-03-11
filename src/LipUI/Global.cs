@@ -24,17 +24,17 @@ namespace LipUI
         /// Disclaimer
         /// </summary>
         private const string eulaText = """
-                本软件包管理器（以下简称“本软件”）是由LLDev（以下简称“开发者”）开发和提供的。本软件旨在帮助用户管理和安装各种软件包，但不对任何软件包的内容、质量、功能、安全性或合法性负责。用户在使用本软件时，应自行判断和承担相关风险。
+                本软件包管理器（以下简称“本软件”）是由LiteLDev（以下简称“开发者”）开发和提供的。本软件旨在帮助用户管理和安装各种软件包，但不对任何软件包的内容、质量、功能、安全性或合法性负责。用户在使用本软件时，应自行判断和承担相关风险。
                 开发者不保证本软件的稳定性、可靠性、准确性或完整性。开发者不对本软件可能存在的任何缺陥、错误、病毒或其他有害成分负责。开发者不对用户使用本软件造成的任何直接或间接损失（包括但不限于数据丢失、设备损坏、利润损失等）负责。
                 开发者保留随时修改、更新或终止本软件及其相关服务的权利，无需事先通知用户。用户应自行备份重要数据，并定期检查本软件是否有更新版本。
                 用户在使用本软件时，应遵守相关法律法规，尊重他人的知识产权和隐私权，不得利用本软件进行任何违法或侵权行为。如用户违反上述规定，造成任何第三方损害或被第三方索赔，开发者不承担任何责任。
-                如果用户对本免责条款有任何疑问或意见，请联系开发者：LLDev
+                如果用户对本免责条款有任何疑问或意见，请联系开发者：LiteLDev
                 
-                This software package manager (hereinafter referred to as "this software") is developed and provided by LLDev (hereinafter referred to as "the developer"). This software is designed to help users manage and install various software packages, but is not responsible for any content, quality, functionality, security or legality of any software package. Users should use this software at their own discretion and assume all related risks.
+                This software package manager (hereinafter referred to as "this software") is developed and provided by LiteLDev (hereinafter referred to as "the developer"). This software is designed to help users manage and install various software packages, but is not responsible for any content, quality, functionality, security or legality of any software package. Users should use this software at their own discretion and assume all related risks.
                 The developer does not guarantee the stability, reliability, accuracy or completeness of this software. The developer is not liable for any defects, errors, viruses or other harmful components that may exist in this software. The developer is not liable for any direct or indirect damages (including but not limited to data loss, device damage, profit loss etc.) caused by the use of this software.
                 The developer reserves the right to modify, update or terminate this software and its related services at any time without prior notice to users. Users should back up important data and check regularly for updates of this software.
                 Users should comply with relevant laws and regulations when using this software, respect the intellectual property rights and privacy rights of others, and not use this software for any illegal or infringing activities. If users violate the above provisions and cause any damage to any third party or are claimed by any third party, the developer does not bear any responsibility.
-                If you have any questions or comments about this disclaimer, please contact the developer: LLDev
+                If you have any questions or comments about this disclaimer, please contact the developer: LiteLDev
                 """;
         /// <summary>初始化全局变量(初始化程序)</summary>
         internal static async void Init()
