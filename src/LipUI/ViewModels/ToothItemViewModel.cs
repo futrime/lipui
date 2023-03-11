@@ -27,8 +27,9 @@ public partial class ToothItemViewModel : ObservableObject
         RegistryItem = item;
         Tags = (from x in item.Tags
                 select new ToothItemTagViewModel() { Tag = x })
-            .Concat(new[] { new ToothItemTagViewModel() { Tag = item.Author } })
+            //.Concat(new[] { new ToothItemTagViewModel() { Tag = item.Author } })
             .ToArray();
+        Author = new ToothItemTagViewModel() { Tag = item.Author };
     }
     #region Detailed
     [ObservableProperty] bool _detailed = false;//是否有具体细节 
@@ -41,6 +42,8 @@ public partial class ToothItemViewModel : ObservableObject
     [ObservableProperty] string _tooth = string.Empty;
     [ObservableProperty] string _version = string.Empty;
     [ObservableProperty] ToothItemTagViewModel[] _tags = Array.Empty<ToothItemTagViewModel>();
+    [ObservableProperty] ToothItemTagViewModel _author;
+
     public partial class ToothItemTagViewModel : ObservableObject
     {
         [ObservableProperty] string _tag = string.Empty;

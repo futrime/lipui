@@ -153,6 +153,7 @@
                     <ui:AutoSuggestBox PlaceholderText="查找..." Text="{Binding ViewModel.SearchText,UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
             </DockPanel>
+            <ProgressBar Margin="0,-4" DockPanel.Dock="Top" IsIndeterminate="True" Visibility="{Binding ViewModel.IsSearching,Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
             <ScrollViewer DockPanel.Dock="Bottom">
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
                                      ItemsSource="{Binding ViewModel.VisibleToothItems, Mode=OneWay}" >

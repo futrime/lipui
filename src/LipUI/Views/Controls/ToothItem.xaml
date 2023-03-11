@@ -114,9 +114,21 @@
                         </DockPanel>
                     </DockPanel>
                     <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
-                        <DockPanel DockPanel.Dock="Top">
-                            <TextBlock Text="作者："/>
-                            <TextBlock Text="{Binding RegistryItem.Author}"/>
+                        <DockPanel DockPanel.Dock="Top" DataContext="{Binding Author}">
+                            <ToggleButton  Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity=".8" Padding="4" Margin="3" 
+                                          Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"
+                                          IsChecked="{Binding IsSelected}">
+                                <ToggleButton.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                        <Binding Path="Tag" />
+                                        <Binding Path="IsSelected"  />
+                                    </MultiBinding>
+                                </ToggleButton.CommandParameter>
+                                <StackPanel Orientation="Horizontal" >
+                                    <TextBlock Text="作者："/>
+                                    <TextBlock Text="{Binding Tag,Converter={StaticResource FeaturedTagConverter}}"/>
+                                </StackPanel>
+                            </ToggleButton>
                         </DockPanel>
                         <DockPanel DockPanel.Dock="Top" Visibility="{Binding RegistryItem.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                             <TextBlock Text="协议："/>

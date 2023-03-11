@@ -34,7 +34,7 @@ namespace LipUI.Views.Controls
                 DoubleAnimation animation = new DoubleAnimation();
                 animation.From = main.ActualHeight;
                 animation.To = 0;
-                animation.Duration = TimeSpan.FromSeconds(0.4);
+                animation.Duration = TimeSpan.FromSeconds(1);
 
                 Storyboard storyboard = new Storyboard();
                 storyboard.Children.Add(animation);
@@ -45,7 +45,7 @@ namespace LipUI.Views.Controls
                 storyboard.Begin();
                 storyboard.Completed += (s, _) =>
                 {
-                    main.Visibility = Visibility.Collapsed;
+                    //main.Visibility = Visibility.Collapsed;
                     try
                     {
                         main.Resources.Remove("animation");

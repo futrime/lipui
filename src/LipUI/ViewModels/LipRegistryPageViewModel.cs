@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LipNETWrapper.Class;
 using LipUI.Views.Pages;
 using Wpf.Ui.Common.Interfaces;
 
@@ -37,6 +35,8 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         RefreshQuery();
     }
     private bool waitingRefreshQuery = false;
+    [ObservableProperty] bool _isSearching = false;
+    int _searchingCount = 0;
 
     async void RefreshQuery()
     {
@@ -71,17 +71,20 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             );
             if (tags.Length > 0)
                 items = from x in items
-                        where tags.All(t => x.Tags.Any(y => y.Tag == t))
+                        where tags.All(t => x.Author.Tag == t || x.Tags.Any(y => y.Tag == t))
                         select x;
             var result = items.ToArray();
             return result;
         }
         try
         {
+            IsSearching = true;
+            _searchingCount++;
             do
             {
                 await Task.Delay(5);
             } while (waitingRefreshQuery);
+
             waitingRefreshQuery = true;
             var all = RefreshQueryInternal();
             //remove the items VisibleToothItems don't have
@@ -90,7 +93,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             foreach (var item in toRemove)
             {
                 item.Actived = false;
-                await Task.Delay(10);
+                //await Task.Delay(50);
             }
             //add the items VisibleToothItems don't have
             foreach (var item in allItems.Except(VisibleToothItems).ToArray())
@@ -101,7 +104,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             }
             if (toRemove.Any())
             {
-                await Task.Delay(1000);
+                await Task.Delay(2000);
                 foreach (var item in toRemove)
                 {
                     VisibleToothItems.Remove(item);
@@ -116,6 +119,11 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         finally
         {
             waitingRefreshQuery = false;
+            _searchingCount--;
+            if (_searchingCount == 0)
+            {
+                IsSearching = false;
+            }
         }
     }
 
@@ -190,7 +198,8 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     [ObservableProperty] bool _onlyFeatured = false;
     partial void OnOnlyFeaturedChanged(bool value)
     {
-        RefreshQuery();
+        //RefreshQuery();
+        AddTag(new object[] { "featured", value });
     }
     [RelayCommand]
     protected async Task LoadAllPackages()
@@ -215,7 +224,6 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             {
                 await Global.DispatcherInvokeAsync(() =>
                     ToothItems.Add(new ToothItemViewModel(ShowInfo, item.Value)));
-                await Task.Delay(40);//40毫秒显示一个，假装很丝滑
             }
         }
         catch (Exception e)
@@ -258,12 +266,16 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     {
         if (value is [string v, bool isChecked])
         {
+            if (v == "featured")
+            {
+                OnlyFeatured = isChecked;
+            }
             var item = "[" + v + "]";
             if (isChecked)
             {
                 SearchText = item + SearchText.Replace(item, "");
                 foreach (var element in ToothItems)
-                    foreach (var tag in element.Tags)
+                    foreach (var tag in element.Tags.Concat(new[] { element.Author }))
                         if (tag.Tag == v)
                             tag.IsSelected = true;
             }
@@ -271,7 +283,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             {
                 SearchText = SearchText.Replace(item, "");
                 foreach (var element in ToothItems)
-                    foreach (var tag in element.Tags)
+                    foreach (var tag in element.Tags.Concat(new[] { element.Author }))
                         if (tag.Tag == v)
                             tag.IsSelected = false;
             }
