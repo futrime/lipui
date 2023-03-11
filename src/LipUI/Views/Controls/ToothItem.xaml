@@ -92,7 +92,17 @@
                             <ItemsControl ItemsSource="{Binding Tags}" HorizontalContentAlignment="Left">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <ui:Button Opacity=".8" Padding="4" Margin="3" Content="{Binding .,Converter={StaticResource FeaturedTagConverter}}" CommandParameter="{Binding .}" Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"/>
+                                        <ToggleButton Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity=".8" Padding="4" Margin="3"
+                                  Content="{Binding Tag,Converter={StaticResource FeaturedTagConverter}}" 
+                                  Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"
+                                    IsChecked="{Binding IsSelected}">
+                                            <ToggleButton.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                                    <Binding Path="Tag" />
+                                                    <Binding Path="IsSelected"  />
+                                                </MultiBinding>
+                                            </ToggleButton.CommandParameter>
+                                        </ToggleButton>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                                 <ItemsControl.ItemsPanel>

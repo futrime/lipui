@@ -22,6 +22,7 @@
             <helpers:InvBooleanToVisibilityConverter x:Key="InvBooleanToVisibilityConverter" />
             <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <helpers:BooleanToVisibilityHiddenConverter x:Key="BooleanToVisibilityHiddenConverter" />
+            <helpers:MultiValueConverter x:Key="MultiValueConverter" />
             <helpers:OpacityToVisibilityConverter x:Key="OpacityToVisibilityConverter" />
             <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
             <helpers:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter" />

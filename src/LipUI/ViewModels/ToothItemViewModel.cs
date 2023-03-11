@@ -16,7 +16,7 @@ public partial class ToothItemViewModel : ObservableObject
         _showInfo = showInfo;
         Version = package.Version;
         Tooth = package.Tooth;
-        Information=package.Information;
+        Information = package.Information;
     }
     public ToothItemViewModel(
         Func<ToothItemViewModel, Task> showInfo, LipRegistry.LipRegistryItem item)
@@ -25,7 +25,10 @@ public partial class ToothItemViewModel : ObservableObject
         Detailed = true;
         Tooth = item.Tooth;
         RegistryItem = item;
-        Tags = item.Tags.ToArray();
+        Tags = (from x in item.Tags
+                select new ToothItemTagViewModel() { Tag = x })
+            .Concat(new[] { new ToothItemTagViewModel() { Tag = item.Author } })
+            .ToArray();
     }
     #region Detailed
     [ObservableProperty] bool _detailed = false;//是否有具体细节 
@@ -37,5 +40,10 @@ public partial class ToothItemViewModel : ObservableObject
     [ObservableProperty] private bool _executingShowInfo = true;
     [ObservableProperty] string _tooth = string.Empty;
     [ObservableProperty] string _version = string.Empty;
-    [ObservableProperty] string[] _tags = Array.Empty<string>(); 
+    [ObservableProperty] ToothItemTagViewModel[] _tags = Array.Empty<ToothItemTagViewModel>();
+    public partial class ToothItemTagViewModel : ObservableObject
+    {
+        [ObservableProperty] string _tag = string.Empty;
+        [ObservableProperty] bool _isSelected = false;
+    }
 }

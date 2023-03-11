@@ -71,7 +71,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             );
             if (tags.Length > 0)
                 items = from x in items
-                        where tags.All(t => x.Tags.Contains(t))
+                        where tags.All(t => x.Tags.Any(y => y.Tag == t))
                         select x;
             var result = items.ToArray();
             return result;
@@ -90,14 +90,14 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             foreach (var item in toRemove)
             {
                 item.Actived = false;
-                await Task.Delay(5);
+                await Task.Delay(10);
             }
             //add the items VisibleToothItems don't have
             foreach (var item in allItems.Except(VisibleToothItems).ToArray())
             {
                 VisibleToothItems.Add(item);
                 item.Actived = true;
-                await Task.Delay(5);
+                await Task.Delay(10);
             }
             if (toRemove.Any())
             {
@@ -105,7 +105,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
                 foreach (var item in toRemove)
                 {
                     VisibleToothItems.Remove(item);
-                    await Task.Delay(5);
+                    await Task.Delay(10);
                 }
             }
         }
@@ -254,9 +254,27 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
     }
 
     [RelayCommand]
-    void AddTag(string v)
+    void AddTag(object[] value)
     {
-        var item = "[" + v + "]";
-        SearchText = item + SearchText.Replace(item, "");
+        if (value is [string v, bool isChecked])
+        {
+            var item = "[" + v + "]";
+            if (isChecked)
+            {
+                SearchText = item + SearchText.Replace(item, "");
+                foreach (var element in ToothItems)
+                    foreach (var tag in element.Tags)
+                        if (tag.Tag == v)
+                            tag.IsSelected = true;
+            }
+            else
+            {
+                SearchText = SearchText.Replace(item, "");
+                foreach (var element in ToothItems)
+                    foreach (var tag in element.Tags)
+                        if (tag.Tag == v)
+                            tag.IsSelected = false;
+            }
+        }
     }
 }
