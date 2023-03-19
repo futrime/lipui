@@ -68,6 +68,9 @@ namespace LipUI
                 ), ("同意", hide =>
                         {
                             hide();
+                            var directory = Path.GetDirectoryName(eulaPath);
+                            if (directory is not null &&!Directory.Exists(directory))
+                                Directory.CreateDirectory(directory);
                             File.WriteAllText(eulaPath, eulaText, Encoding.UTF8);
                             InitNext();
                         }
