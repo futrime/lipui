@@ -54,19 +54,23 @@ namespace LipUI
             //显示条款
             {
                 _ = ShowDialog("免责条款", await DispatcherInvokeAsync(() => new TextBlock
-                    {
+                {
                     Text = eulaText,
                     TextWrapping = TextWrapping.WrapWithOverflow
-                }), ("同意", hide =>
+                }), ("不同意", _ =>
+                        {
+                            PopupSnackbarWarn("您拒绝了条款", "程序即将退出");
+                            Task.Delay(2500).ContinueWith(_ =>
+                            {
+                                Environment.Exit(0);
+                            });
+                        }
+                ), ("同意", hide =>
                         {
                             hide();
                             File.WriteAllText(eulaPath, eulaText, Encoding.UTF8);
                             InitNext();
                         }
-                ), ("不同意", _ =>
-                {
-                    Environment.Exit(0);
-                }
                 ), dialog =>
                 {
                     dialog.DialogHeight = 400;
