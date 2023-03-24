@@ -3,12 +3,17 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<Version>0.2.4</Version>
-		<TargetFrameworks>net462;net7.0-windows</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<LangVersion>11.0</LangVersion>
 		<UseWPF>true</UseWPF>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<ApplicationIcon>applicationIcon.ico</ApplicationIcon>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<TargetFrameworks>net462;</TargetFrameworks>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' != 'Debug'">
+		<TargetFrameworks>net462;net7.0-windows</TargetFrameworks>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
 		<PolySharpExcludeGeneratedTypes>System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute;System.Diagnostics.CodeAnalysis.NotNullAttribute</PolySharpExcludeGeneratedTypes>
