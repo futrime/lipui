@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="LipUI.Views.Controls.ToothJson"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LipUI.Views.Controls"
+             xmlns:lipUi="clr-namespace:LipUI"
+             xmlns:viewModels="clr-namespace:LipUI.ViewModels"
+             d:DataContext="{d:DesignInstance viewModels:ToothJsonViewModel,  IsDesignTimeCreatable=False}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel>
+        <!-- Header -->
+        <TextBlock Text="编辑tooth.json" FontWeight="Bold" Margin="10" />
+        <!-- Property Grid -->
+        <!--<StackPanel Margin="10">
+            <TextBlock Text="Format Version" />
+            <TextBox Text="{Binding Path=ToothJson.FormatVersion, Mode=TwoWay}" />
+            <TextBlock Text="Tooth" />
+            <TextBox Text="{Binding Path=ToothJson.Tooth, Mode=TwoWay}" />
+            <TextBlock Text="Version" />
+            <TextBox Text="{Binding Path=ToothJson.Version, Mode=TwoWay}" />
+            <TextBlock Text="Dependencies" />
+        </StackPanel>-->
+        <TextBlock Text="todo..." />
+    </StackPanel>
+</UserControl>
