@@ -253,7 +253,7 @@ namespace LipUI
                 ), modify: dialog =>
                 {
                     dialog.DialogWidth = 750;
-                    dialog.DialogHeight = 570;
+                    dialog.DialogHeight = 370;
                 });
             }
             else
