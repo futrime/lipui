@@ -73,7 +73,7 @@ namespace LipUI.ViewModels
                 new NavigationItem
                 {
                     Icon = SymbolRegular.DeveloperBoard24,
-                    Content = "开发者模式",
+                    Content = "开发者工具",
                     PageTag = "developer",
                     PageType = typeof(DeveloperPage)
                 }

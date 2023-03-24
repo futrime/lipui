@@ -14,7 +14,7 @@ public interface ILipWrapper
         CancellationToken tk = default, Action<string>? onOutput = null);
     Task<(bool success, LipPackage? package, string message)> GetLocalPackageInfoAsync(string packageId,
         CancellationToken tk = default);
-    Task<int> InstallPackageAsync(string packageId,bool upgrade=false,
+    Task<int> InstallPackageAsync(string packageId, bool upgrade = false, bool skipDependency = false,
         CancellationToken tk = default, Action<string, Action<string>>? onOutput = null);
     Task<int> UninstallPackageAsync(string packageId,
         CancellationToken tk = default, Action<string>? onOutput = null);

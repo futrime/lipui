@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LipUI.Models;
 using Wpf.Ui.Common.Interfaces;
 using Wpf.Ui.Controls;
 
@@ -46,8 +47,8 @@ namespace LipUI.ViewModels
             {
                 var fullname = ToothName;
                 if (!string.IsNullOrWhiteSpace(SelectedVersion))
-                    fullname += "@" + SelectedVersion; 
-                var exitCode = await Global.Lip.InstallPackageAsync(fullname,! string.IsNullOrWhiteSpace(ToothInfoPanel?.Version), Ctk.Token, (x, input) =>
+                    fullname += "@" + SelectedVersion;
+                var exitCode = await Global.Lip.InstallPackageAsync(fullname, !string.IsNullOrWhiteSpace(ToothInfoPanel?.Version), IsSkipDependency && GlobalConfig.DeveloperMode, Ctk.Token, (x, input) =>
                 {
                     if (!string.IsNullOrWhiteSpace(x))
                     {
@@ -155,7 +156,7 @@ namespace LipUI.ViewModels
                             {
                                 Global.PopupSnackbar("安装完成", "Successfully installed all tooth files.");
                             }
-                            else if(x.StartsWith("[Info] Generating BDS Please wait for few minutes"))
+                            else if (x.StartsWith("[Info] Generating BDS Please wait for few minutes"))
                             {
                                 Percentage = "生成BDS...";
                             }
@@ -241,6 +242,9 @@ namespace LipUI.ViewModels
         public double PercentageNumber => PercentageIsIndeterminate ? 80 : _tmpPercentageNumber;
         public bool PercentageIsIndeterminate => _tmpPercentageNumber is <= 0 or >= 100;
         public bool CanCancel => Ctk is not null;
+        public AppConfig GlobalConfig => Global.Config;
+
+        [ObservableProperty] private bool _isSkipDependency;
         [RelayCommand(CanExecute = nameof(CanCancel))]
         public void Cancel()
         {
@@ -259,5 +263,6 @@ namespace LipUI.ViewModels
         public void OnNavigatedFrom()
         {
         }
+
     }
 }

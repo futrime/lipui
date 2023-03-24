@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LipUI.Models;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Common.Interfaces;
 
@@ -99,21 +100,30 @@ namespace LipUI.ViewModels
                 case "theme_light":
                     if (CurrentTheme == ThemeType.Light)
                         break;
-
                     Theme.Apply(ThemeType.Light);
                     CurrentTheme = ThemeType.Light;
-
                     break;
-
                 default:
                     if (CurrentTheme == ThemeType.Dark)
                         break;
-
                     Theme.Apply(ThemeType.Dark);
                     CurrentTheme = ThemeType.Dark;
-
                     break;
             }
+        }
+        public AppConfig GlobalConfig => Global.Config;
+        public string DMConfigPath => Global.ConfigPath;
+
+        [RelayCommand]
+        private async Task ExitDeveloperMode()
+        {
+            await Global.ShowDialog("开发者模式", "是否退出开发者模式？", ("取消", hide => hide()), ("确认", hide =>
+             {
+                 Global.Config.DeveloperMode = false;
+                 Global.PopupSnackbar("开发者模式", "已退出开发者模式");
+                 hide();
+             }
+            ));
         }
     }
 }

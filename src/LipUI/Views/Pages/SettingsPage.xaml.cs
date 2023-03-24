@@ -33,7 +33,10 @@ namespace LipUI.Views.Pages
                 {
                     case 2:
                         if (Global.Config.DeveloperMode)
+                        {
+                            clickCount = 0;
                             Global.PopupSnackbar("开发者模式", "您已经在开发者模式了。");
+                        }
                         else
                             Global.PopupSnackbar("开发者模式", "再点 3 次进入开发者模式。");
                         break;
@@ -44,9 +47,14 @@ namespace LipUI.Views.Pages
                         Global.PopupSnackbar("开发者模式", "再点 1 次进入开发者模式。");
                         break;
                     case >= 5:
-                        Global.Config.DeveloperMode = true;
-                        Global.PopupSnackbar("开发者模式", "已进入开发者模式。");
-                        break;
+                        _ = Global.ShowDialog("开发者模式", "是否进入开发者模式？\n开发者模式下部分页面会有一些额外的选项，请谨慎使用。", ("取消", hide => hide()), ("确认", hide =>
+                       {
+                           Global.Config.DeveloperMode = true;
+                           Global.PopupSnackbar("开发者模式", "已进入开发者模式。");
+                           hide();
+                       }
+                        ));
+                        clickCount = 0; break;
                 }
             }
             else

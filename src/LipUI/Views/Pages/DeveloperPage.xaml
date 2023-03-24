@@ -9,6 +9,11 @@
            d:DesignHeight="450" d:DesignWidth="800"
            Title="DeveloperPage">
     <Grid>
-        <TextBlock Text="开发者模式"></TextBlock>
+        <Grid>
+            <TextBlock Text="请到设置页面连续点击5次版本号开启开发者模式"/>
+        </Grid>
+        <Grid>
+            <TextBlock Text="开发者工具制作中"></TextBlock>
+        </Grid>
     </Grid>
 </ui:UiPage>

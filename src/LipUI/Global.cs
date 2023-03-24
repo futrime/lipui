@@ -69,7 +69,7 @@ namespace LipUI
                         {
                             hide();
                             var directory = Path.GetDirectoryName(eulaPath);
-                            if (directory is not null &&!Directory.Exists(directory))
+                            if (directory is not null && !Directory.Exists(directory))
                                 Directory.CreateDirectory(directory);
                             File.WriteAllText(eulaPath, eulaText, Encoding.UTF8);
                             InitNext();
@@ -298,7 +298,7 @@ namespace LipUI
         }
         /// <summary>配置文件路径</summary>
         private static readonly string ConfigFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".lip", "config", "lipui");
-        private static readonly string ConfigPath = Path.Combine(ConfigFolder, "config.json");
+        internal static readonly string ConfigPath = Path.Combine(ConfigFolder, "config.json");
         private static Lazy<AppConfig> _config = //延迟加载的配置文件对象
             new(() =>
         {
@@ -469,8 +469,26 @@ namespace LipUI
                 //}
                 dialog.ButtonLeftClick += onDialogOnButtonLeftClick;
                 dialog.ButtonRightClick += onDialogOnButtonRightClick;
-                dialog.Title = title;
-                dialog.Content = content;
+                //dialog.Title = title;
+                if (content is not UIElement)
+                {
+                    content = new TextBlock
+                    {
+                        TextWrapping = TextWrapping.WrapWithOverflow,
+                        Text = content.ToString()
+                    };
+                }
+
+                var textBlock = new TextBlock { FontSize = 20, Text = title,Margin = new Thickness(-2,-5,-2,5)};
+                textBlock.SetValue(DockPanel.DockProperty, Dock.Top);
+                dialog.Content = new DockPanel()
+                {
+                    Children =
+                    {
+                        textBlock,
+                       (UIElement)content
+                    }
+                };
                 while (!successAndHide)
                 {
                     await dialog.ShowAndWaitAsync();

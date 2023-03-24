@@ -76,6 +76,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <ComboBox PreviewMouseWheel="UIElement_OnPreviewMouseWheel"  SelectedItem="{Binding ViewModel.SelectedVersion}" Margin="5" ItemsSource="{Binding ViewModel.ToothInfoPanel.Versions}">
                                 <!--<ComboBox.ItemTemplate>
@@ -92,6 +93,9 @@
                                     <TextBlock Text="{Binding ViewModel.SelectedVersion}"/>
                                 </StackPanel>
                             </Button>
+                            <ui:ToggleSwitch IsChecked="{Binding ViewModel.IsSkipDependency}" Margin="10,-10,0,0" Grid.Column="2" Visibility="{Binding ViewModel.GlobalConfig.DevShowSkipDependency,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Stretch">
+                                <TextBlock Margin="-55,35,0,0">跳过依赖</TextBlock>
+                            </ui:ToggleSwitch>
                         </Grid>
                         <controls:ToothInfoPanel VerticalAlignment="Top" DataContext="{Binding  ViewModel.ToothInfoPanel}" Margin="5"/>
                     </StackPanel>

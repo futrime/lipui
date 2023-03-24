@@ -15,7 +15,14 @@ namespace LipUI.Models
         [ObservableProperty] ThemeType _theme;
         [ObservableProperty] private bool _autoLipPath = true;
         [ObservableProperty] private bool _developerMode = false;
-
+        partial void OnDeveloperModeChanged(bool value)
+        {
+            if (!value)//退出开发者模式时恢复所有选项到默认
+            {
+                DevShowSkipDependency = false;
+            }
+        }
+        [ObservableProperty] private bool _devShowSkipDependency;
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
