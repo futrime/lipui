@@ -14,6 +14,8 @@ namespace LipUI.Models
         [ObservableProperty] ObservableCollection<string> _allWorkingDirectory = new();
         [ObservableProperty] ThemeType _theme;
         [ObservableProperty] private bool _autoLipPath = true;
+        [ObservableProperty] private bool _developerMode = false;
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);

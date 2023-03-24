@@ -50,6 +50,7 @@ namespace LipUI
 
                 // Views 
                 services.AddScoped<DashboardPage>();
+                services.AddScoped<DeveloperPage>();
                 services.AddScoped<ToothLocalPage>();
                 services.AddScoped<SettingsPage>();
                 services.AddScoped<InstallPage>();
@@ -57,6 +58,7 @@ namespace LipUI
                 services.AddScoped<LipRegistryPage>();
                 // ViewModels
                 services.AddScoped<DashboardViewModel>();
+                services.AddScoped<DeveloperPageViewModel>();
                 services.AddScoped<ToothLocalModel>();
                 services.AddScoped<SettingsViewModel>();
                 services.AddScoped<InstallPageViewModel>();

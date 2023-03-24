@@ -22,15 +22,14 @@ namespace LipUI.ViewModels
         [ObservableProperty]
         private ObservableCollection<INavigationControl> _navigationFooter = new();
 
-        [ObservableProperty]
-        private ObservableCollection<MenuItem> _trayMenuItems = new();
+        //[ObservableProperty]
+        //private ObservableCollection<MenuItem> _trayMenuItems = new();
 
         public MainWindowViewModel(INavigationService navigationService)
         {
             if (!_isInitialized)
                 InitializeViewModel();
-        }
-
+        } 
         private void InitializeViewModel()
         {
             ApplicationTitle = "LipUI - 齿包管理器"; 
@@ -70,6 +69,13 @@ namespace LipUI.ViewModels
                     PageTag = "registry",
                     Icon = SymbolRegular.BoxSearch24,
                     PageType = typeof(LipRegistryPage)
+                },
+                new NavigationItem
+                {
+                    Icon = SymbolRegular.DeveloperBoard24,
+                    Content = "开发者模式",
+                    PageTag = "developer",
+                    PageType = typeof(DeveloperPage)
                 }
             };
 
@@ -84,14 +90,14 @@ namespace LipUI.ViewModels
                 } 
             };
 
-            TrayMenuItems = new ObservableCollection<MenuItem>
-            {
-                new MenuItem
-                {
-                    Header = "Home",
-                    Tag = "tray_home"
-                }
-            };
+            //TrayMenuItems = new ObservableCollection<MenuItem>
+            //{
+            //    new MenuItem
+            //    {
+            //        Header = "Home",
+            //        Tag = "tray_home"
+            //    }
+            //};
 
             _isInitialized = true;
         }
