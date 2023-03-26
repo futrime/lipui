@@ -47,6 +47,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\LipNETWrapper\LipNETWrapper.csproj" />
+		<ProjectReference Include="..\LipWebApi\LipWebApi.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

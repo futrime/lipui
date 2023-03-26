@@ -26,6 +26,9 @@
     <v-overlay v-model="loading" app class="justify-center align-center">
       <v-progress-circular indeterminate size="64" />
     </v-overlay>
+    <v-overlay v-model="setup" app class="justify-center align-center">
+      <setup-connection-component />
+    </v-overlay>
     <bottom-component />
     <v-snackbar
       v-model="snackbarVisibility"
@@ -50,6 +53,7 @@
 import DrawerComponent from "@/components/DrawerComponent.vue";
 import AppBarMenuComponent from "@/components/AppBarMenuComponent.vue";
 import BottomComponent from "@/components/BottomComponent.vue";
+import SetupConnectionComponent from "@/components/SetupConnectionComponent.vue";
 import { useTheme } from "vuetify/lib/framework.mjs";
 import { useGlobal, useConfig } from "@/store";
 import {
@@ -64,6 +68,9 @@ const theme = useTheme();
 const globalStore = useGlobal();
 const configStore = useConfig();
 const drawer: Ref<boolean> = ref(false);
+const setup: ComputedRef<boolean> = computed(() => {
+  return globalStore.apiPath === undefined || globalStore.apiPath === "";
+});
 const loading: WritableComputedRef<boolean> = computed({
   get: () => globalStore.loading,
   set: (v) => globalStore.setLoading(v),

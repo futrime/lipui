@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipUI", "LipUI\LipUI.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipNETWrapper", "LipNETWrapper\LipNETWrapper.csproj", "{A274FAC9-3169-4EAB-A659-4090F8D6E568}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LipNETWrapperTest", "LipNETWrapperTest\LipNETWrapperTest.csproj", "{2245E398-21FD-4F05-87A8-C6E8E29A4685}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipNETWrapperTest", "LipNETWrapperTest\LipNETWrapperTest.csproj", "{2245E398-21FD-4F05-87A8-C6E8E29A4685}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LipWebApi", "LipWebApi\LipWebApi.csproj", "{17569CD2-D4D2-4E10-927C-BECEAECF7786}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{2245E398-21FD-4F05-87A8-C6E8E29A4685}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2245E398-21FD-4F05-87A8-C6E8E29A4685}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2245E398-21FD-4F05-87A8-C6E8E29A4685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17569CD2-D4D2-4E10-927C-BECEAECF7786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17569CD2-D4D2-4E10-927C-BECEAECF7786}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17569CD2-D4D2-4E10-927C-BECEAECF7786}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17569CD2-D4D2-4E10-927C-BECEAECF7786}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

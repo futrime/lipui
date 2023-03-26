@@ -50,6 +50,8 @@ const useGlobalStore = defineStore("global", () => {
     loading,
     progress,
     message,
+    token: ref(""),
+    apiPath: ref(""),
     setLoading,
     setProgress,
     setMessage,
