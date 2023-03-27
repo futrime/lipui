@@ -29,6 +29,9 @@
     <v-overlay v-model="setup" app class="justify-center align-center">
       <setup-connection-component />
     </v-overlay>
+    <v-overlay v-model="login" app class="justify-center align-center">
+      <login-component />
+    </v-overlay>
     <bottom-component />
     <v-snackbar
       v-model="snackbarVisibility"
@@ -54,6 +57,7 @@ import DrawerComponent from "@/components/DrawerComponent.vue";
 import AppBarMenuComponent from "@/components/AppBarMenuComponent.vue";
 import BottomComponent from "@/components/BottomComponent.vue";
 import SetupConnectionComponent from "@/components/SetupConnectionComponent.vue";
+import LoginComponent from "@/components/LoginComponent.vue";
 import { useTheme } from "vuetify/lib/framework.mjs";
 import { useGlobal, useConfig } from "@/store";
 import {
@@ -69,7 +73,12 @@ const globalStore = useGlobal();
 const configStore = useConfig();
 const drawer: Ref<boolean> = ref(false);
 const setup: ComputedRef<boolean> = computed(() => {
-  return globalStore.apiPath === undefined || globalStore.apiPath === "";
+  //是否需要初始化地址
+  return !globalStore.apiPath;
+});
+const login: ComputedRef<boolean> = computed(() => {
+  //是否需要登录
+  return !globalStore.token && !setup.value;
 });
 const loading: WritableComputedRef<boolean> = computed({
   get: () => globalStore.loading,

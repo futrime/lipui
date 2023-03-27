@@ -21,7 +21,6 @@ internal class WebApi
         return Newtonsoft.Json.JsonConvert.SerializeObject(item);
 #endif
     }
-
     [StaticRoute(HttpMethod.GET, "/ping")]
     public static async Task Ping(HttpContext ctx)
     {

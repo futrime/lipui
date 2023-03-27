@@ -56,6 +56,7 @@ namespace LipUI
                 services.AddScoped<InstallPage>();
                 services.AddScoped<UninstallPage>();
                 services.AddScoped<LipRegistryPage>();
+                services.AddScoped<LipWebPage>();
                 // ViewModels
                 services.AddScoped<DashboardViewModel>();
                 services.AddScoped<DeveloperPageViewModel>();
@@ -64,6 +65,7 @@ namespace LipUI
                 services.AddScoped<InstallPageViewModel>();
                 services.AddScoped<UninstallPageViewModel>();
                 services.AddScoped<LipRegistryPageViewModel>();
+                services.AddScoped<LipWebPageViewModel>();
                 // Configuration 
                 //services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
             }).Build();

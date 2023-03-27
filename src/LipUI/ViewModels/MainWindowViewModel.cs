@@ -29,10 +29,10 @@ namespace LipUI.ViewModels
         {
             if (!_isInitialized)
                 InitializeViewModel();
-        } 
+        }
         private void InitializeViewModel()
         {
-            ApplicationTitle = "LipUI - 齿包管理器"; 
+            ApplicationTitle = "LipUI - 齿包管理器";
             NavigationItems = new ObservableCollection<INavigationControl>
             {
                 new NavigationItem
@@ -69,6 +69,12 @@ namespace LipUI.ViewModels
                     PageTag = "registry",
                     Icon = SymbolRegular.BoxSearch24,
                     PageType = typeof(LipRegistryPage)
+                },   new NavigationItem
+                {
+                    Content = "WebUI",
+                    PageTag = "web",
+                    Icon = SymbolRegular.WebAsset24,
+                    PageType = typeof(LipWebPage)
                 },
                 new NavigationItem
                 {
@@ -87,7 +93,7 @@ namespace LipUI.ViewModels
                     PageTag = "settings",
                     Icon = SymbolRegular.Settings24,
                     PageType = typeof(SettingsPage)
-                } 
+                }
             };
 
             //TrayMenuItems = new ObservableCollection<MenuItem>
