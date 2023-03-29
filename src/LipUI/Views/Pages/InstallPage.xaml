@@ -67,7 +67,7 @@
                 <Button  Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.CancelCommand}">
                     取消
                 </Button>
-                <ui:TextBox PlaceholderText="输入齿包的地址..." Margin="5" Text="{Binding ViewModel.ToothName}"/>
+                <ui:TextBox PlaceholderText="输入Tooth包的地址..." Margin="5" Text="{Binding ViewModel.ToothName}"/>
             </DockPanel>
             <Grid Visibility="{Binding ViewModel.InfoLoaded,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter} }"  MaxWidth="{Binding ElementName=Root,Path=ActualWidth,Converter={StaticResource HalfOriginalConverter}}">
                 <ScrollViewer>

@@ -32,7 +32,7 @@ namespace LipUI.ViewModels
         }
         private void InitializeViewModel()
         {
-            ApplicationTitle = "LipUI - 齿包管理器";
+            ApplicationTitle = "LipUI - Tooth包管理器";
             NavigationItems = new ObservableCollection<INavigationControl>
             {
                 new NavigationItem
@@ -44,21 +44,21 @@ namespace LipUI.ViewModels
                 },
                 new NavigationItem
                 {
-                    Content = "本地包",
+                    Content = "本地Tooth包",
                     PageTag = "local",
                     Icon = SymbolRegular.Box24,
                     PageType = typeof(ToothLocalPage)
                 },
                 new NavigationItem
                 {
-                    Content = "安装齿包",
+                    Content = "安装Tooth包",
                     PageTag = "add",
                     Icon = SymbolRegular.Add24,
                     PageType = typeof(InstallPage)
                 },
                 new NavigationItem
                 {
-                    Content = "卸载齿包",
+                    Content = "卸载Tooth包",
                     PageTag = "remove",
                     Icon = SymbolRegular.BoxDismiss24,
                     PageType = typeof(UninstallPage)

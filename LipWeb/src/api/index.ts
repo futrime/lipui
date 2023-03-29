@@ -13,6 +13,7 @@ export interface ApiAuthResult extends ApiSuccessResult {
 }
 import { useGlobal } from "@/store";
 import axios from "axios";
+import md5 from "./tools/md5";
 const api = {
   setAxiosConfig(baseURL: string) {
     axios.defaults.baseURL = baseURL;
@@ -30,11 +31,16 @@ const api = {
   },
   async auth(
     username: string,
-    token: string
+    password: string
   ): Promise<ApiFailedResult | ApiAuthResult> {
     try {
-      this.verifyToken();
-      const result = await axios.post("/auth", { username, token });
+      console.log("login : " + username);
+      const passwordMd5 = md5(password);
+      const result = await axios.post("/auth", {
+        username: username,
+        passwordMd5: passwordMd5,
+      });
+      console.log("login result : " + result);
       return result.data as ApiAuthResult;
     } catch (error) {
       return {

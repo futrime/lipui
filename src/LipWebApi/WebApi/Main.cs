@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using HttpServerLite;
 
-namespace LipWebApi;
-internal class WebApi
+namespace LipWebApi.WebApi;
+public class Main
 {
     public static async Task SendResult(HttpResponse response, object item)
     {
@@ -11,6 +11,12 @@ internal class WebApi
         response.StatusCode = 200;
         response.ContentLength = result.Length;
         response.ContentType = "application/json";
+
+        //response.Headers["Access-Control-Allow-Origin"] = "*";
+        //response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS";
+        //response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization";
+        //response.Headers["Access-Control-Max-Age"] = "86400";
+
         await response.SendAsync(result);
     }
     static string BuildResult(object item)
@@ -21,6 +27,9 @@ internal class WebApi
         return Newtonsoft.Json.JsonConvert.SerializeObject(item);
 #endif
     }
+    /// <summary>
+    /// 验证服务端是否连接通畅
+    /// </summary>
     [StaticRoute(HttpMethod.GET, "/ping")]
     public static async Task Ping(HttpContext ctx)
     {

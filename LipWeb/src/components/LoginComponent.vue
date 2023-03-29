@@ -2,14 +2,13 @@
   <v-card class="mx-auto px-6 py-8" min-width="300">
     <v-form v-model="form" @submit.prevent="onSubmit">
       <v-text-field
-        v-model="email"
+        v-model="username"
         :readonly="loading"
         :rules="[required]"
         class="mb-2"
         clearable
         label="用户名"
       ></v-text-field>
-
       <v-text-field
         v-model="password"
         :readonly="loading"
@@ -18,9 +17,6 @@
         label="密钥"
         placeholder="输入密码"
       ></v-text-field>
-
-      <br />
-
       <v-btn
         :disabled="!form"
         :loading="loading"
@@ -30,30 +26,31 @@
         type="submit"
         variant="elevated"
       >
-        Sign In
+        登录
       </v-btn>
     </v-form>
   </v-card>
 </template>
 <script lang="ts">
+import api from "@/api";
+
 export default {
   data: () => ({
     form: false,
-    email: null,
-    password: null,
+    username: "",
+    password: "",
     loading: false,
   }),
 
   methods: {
-    onSubmit() {
+    async onSubmit() {
       if (!this.form) return;
-
       this.loading = true;
-
-      setTimeout(() => (this.loading = false), 2000);
+      await api.auth(this.username, this.password);
+      this.loading = false;
     },
     required(v: string) {
-      return !!v || "Field is required";
+      return !!v || "请输入";
     },
   },
 };

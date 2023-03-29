@@ -128,7 +128,7 @@
                             <StackPanel Orientation="Horizontal" Margin="10,0">
                                 <TextBlock Text="已安装 " Style="{StaticResource Title}"/>
                                 <TextBlock Text="{Binding ViewModel.ToothItems.Count}" Style="{StaticResource Title}"/>
-                                <TextBlock Text=" 个齿包" Style="{StaticResource Title}"/>
+                                <TextBlock Text=" 个Tooth包" Style="{StaticResource Title}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Button Margin="-10" Command="{Binding ViewModel.LoadAllPackagesCommand}">
