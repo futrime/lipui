@@ -1,4 +1,5 @@
-﻿using LipUI.ViewModels;
+﻿using System.Windows.Input;
+using LipUI.ViewModels;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.Views.Pages
@@ -16,6 +17,6 @@ namespace LipUI.Views.Pages
         {
             ViewModel = viewModel;
             InitializeComponent();
-        }
+        } 
     }
 }

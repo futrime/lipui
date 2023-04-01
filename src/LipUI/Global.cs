@@ -23,6 +23,7 @@ namespace LipUI
 {
     internal static class Global
     {
+
         /// <summary>
         /// Disclaimer
         /// </summary>
@@ -39,9 +40,26 @@ namespace LipUI
                 Users should comply with relevant laws and regulations when using this software, respect the intellectual property rights and privacy rights of others, and not use this software for any illegal or infringing activities. If users violate the above provisions and cause any damage to any third party or are claimed by any third party, the developer does not bear any responsibility.
                 If you have any questions or comments about this disclaimer, please contact the developer: LiteLDev
                 """;
+        /// <summary>
+        /// i18n
+        /// </summary>
+        internal static Language.Model I18N =>
+           Application.Current.FindResource("I18N") as Language.Model
+#if DEBUG
+           ?? throw new NullReferenceException("undefined I18N");
+#else
+           ?? i18nFallback.Value;
+        private static Lazy<Language.Model> i18nFallback = new(() => new());//资源获取失败时返回
+#endif
+        /// <summary>初始化语言</summary>
+        private static void InitLanguage()
+        {
+
+        }
         /// <summary>初始化全局变量(初始化程序)</summary>
         internal static async void Init()
         {
+            InitLanguage();
             var eulaPath = Path.Combine(ConfigFolder, "EULA.txt");
             if (File.Exists(eulaPath))
             {
@@ -237,7 +255,7 @@ namespace LipUI
         }
         internal static void CheckWorkDir()
         {
-            if ( !Directory.Exists(Config.WorkingDirectory.Directory))
+            if (!Directory.Exists(Config.WorkingDirectory.Directory))
             {//保存的WorkingDirectory不合法，需要手动选择 
                 _ = ShowDialog("需要指定有效的工作路径", new WorkingPathSelector(), ("完成", hide =>
                         {
@@ -479,7 +497,7 @@ namespace LipUI
                     };
                 }
 
-                var textBlock = new TextBlock { FontSize = 20, Text = title,Margin = new Thickness(-2,-5,-2,5)};
+                var textBlock = new TextBlock { FontSize = 20, Text = title, Margin = new Thickness(-2, -5, -2, 5) };
                 textBlock.SetValue(DockPanel.DockProperty, Dock.Top);
                 dialog.Content = new DockPanel()
                 {
