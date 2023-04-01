@@ -13,12 +13,35 @@
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
-
     <Grid Margin="56,0" VerticalAlignment="Top">
-        <StackPanel>
+        <StackPanel  Margin="0,0,0,14">
             <TextBlock Style="{StaticResource Title}">点击左边的导航栏开始吧！</TextBlock>
-            <TextBlock Margin="10,40,0,0" Style="{StaticResource Title}">工作目录：</TextBlock>
-            <controls:WorkingPathSelector/>
+            <StackPanel Margin="10,40,0,0" Orientation="Horizontal">
+                <TextBlock Style="{StaticResource Title}">工作目录：</TextBlock>
+                <ToggleButton IsChecked="{Binding ViewModel.Selector.NoEdit,Converter={StaticResource InvBooleanConverter}}">
+                    <ContentControl>
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <ui:SymbolIcon Symbol="EditOff48" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ViewModel.Selector.NoEdit}" Value="False">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <ui:SymbolIcon Symbol="Edit32" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </ToggleButton>
+            </StackPanel>
+            <controls:WorkingPathSelector DataContext="{Binding ViewModel.Selector}"/>
         </StackPanel>
     </Grid>
 </ui:UiPage>

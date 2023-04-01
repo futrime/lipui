@@ -15,7 +15,6 @@ namespace LipUI.Views.Pages
         public DashboardPage(DashboardViewModel viewModel)
         {
             ViewModel = viewModel;
-
             InitializeComponent();
         }
     }

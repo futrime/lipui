@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using Wpf.Ui.Appearance;
@@ -9,9 +10,35 @@ namespace LipUI.Models
     [Serializable]
     public partial class AppConfig : ObservableObject
     {
+        public partial class AppConfigWorkingDirectory : ObservableObject, IEquatable<AppConfigWorkingDirectory>
+        {
+            [ObservableProperty] string _directory = string.Empty;
+            [ObservableProperty] string _name = "未命名";
+            public bool Equals(AppConfigWorkingDirectory other)
+            {
+                return Directory == other.Directory;
+            }
+            public static implicit operator AppConfigWorkingDirectory(string v) => new() { Directory = v };
+        }
         [ObservableProperty] string _lipPath = "lip.exe";
-        [ObservableProperty] string _workingDirectory = string.Empty;
-        [ObservableProperty] ObservableCollection<string> _allWorkingDirectory = new();
+        [JsonIgnore]
+        public AppConfigWorkingDirectory? WorkingDirectory
+        {
+            get
+            {
+                return _allWorkingDirectory.FirstOrDefault(x => x.Directory == _workingDirectoryPath) ?? new();
+            }
+            set
+            {
+                if (value is not null)
+                {
+                    _workingDirectoryPath = value.Directory;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        [JsonProperty("WorkingDirectory")] string? _workingDirectoryPath = string.Empty;
+        [ObservableProperty] ObservableCollection<AppConfigWorkingDirectory> _allWorkingDirectory = new();
         [ObservableProperty] ThemeType _theme;
         [ObservableProperty] private bool _autoLipPath = true;
         [ObservableProperty] private bool _developerMode = false;

@@ -18,6 +18,10 @@ internal class InvBooleanConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter,
         CultureInfo culture)
     {
-        return Binding.DoNothing;
+        if (value is true)
+        {
+            return false;
+        }
+        return true;
     }
 }

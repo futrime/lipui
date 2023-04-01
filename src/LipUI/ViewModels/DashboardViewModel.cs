@@ -2,8 +2,10 @@
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels;
-public class DashboardViewModel : ObservableObject, INavigationAware
+public partial class DashboardViewModel : ObservableObject, INavigationAware
 {
+    [ObservableProperty]
+    WorkingPathSelectorViewModel _selector = new() { _noEdit = true };
     public void OnNavigatedTo()
     {
     }

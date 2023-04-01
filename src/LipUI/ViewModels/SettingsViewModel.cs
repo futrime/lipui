@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 using LipUI.Models;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Common.Interfaces;
+using static LipUI.Models.AppConfig;
 
 namespace LipUI.ViewModels
 {
@@ -50,13 +51,13 @@ namespace LipUI.ViewModels
             }
         }
         [ObservableProperty]
-        public string _workingDir = Global.Config.WorkingDirectory;
+        public AppConfigWorkingDirectory _workingDir = Global.Config.WorkingDirectory;
 
         public string CurrentLipPath => Global.Lip.ExecutablePath;
 
-        partial void OnWorkingDirChanged(string value)
+        partial void OnWorkingDirChanged(AppConfigWorkingDirectory value)
         {
-            if (Directory.Exists(value))
+            if (Directory.Exists(value.Directory))
             {
                 Global.Config.WorkingDirectory = value;
             }

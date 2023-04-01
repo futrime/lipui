@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:helpers="clr-namespace:LipUI.Helpers"
+    xmlns:language="clr-namespace:LipUI.Language"
     DispatcherUnhandledException="OnDispatcherUnhandledException"
     Exit="OnExit"
     Startup="OnStartup">
@@ -13,6 +14,7 @@
                 <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
+            <language:Model x:Key="I18N" />
             <Style TargetType="TextBlock" x:Key="Title">
                 <Setter Property="FontSize" Value="16" />
                 <Setter Property="VerticalAlignment" Value="Center" />

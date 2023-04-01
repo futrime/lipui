@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
-        <DockPanel>
+        <DockPanel Visibility="{Binding NoEdit,Converter={StaticResource InvBooleanToVisibilityConverter}}">
             <Button DockPanel.Dock="Right" Margin="5" Command="{Binding AddWorkingDirCommand }">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock>添加</TextBlock>
@@ -33,20 +33,41 @@
         <ListView Margin="5" FontSize="14" ItemsSource="{Binding Config.AllWorkingDirectory}" SelectedItem="{Binding Config.WorkingDirectory}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                        <DockPanel Margin="5"  >
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                <Button Margin="5,-5"  Command="{Binding ViewModel.SelectCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="已" Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem},Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                        <TextBlock Text="选中"/>
-                                    </StackPanel>
-                                </Button>
-                                <Button Margin="5,-5" Content="复制" Command="{Binding ViewModel.CopyCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
-                                <Button Margin="5,-5" Content="打开" Command="{Binding ViewModel.OpenCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
-                                <Button Margin="5,-5" Content="删除" Command="{Binding ViewModel.DeleteCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}"/>
+                    <DockPanel Margin="5"  >
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                            <Button Margin="5,-5" Command="{Binding ViewModel.CopyCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}">
+                                <ui:SymbolIcon Symbol="Copy24" />
+                            </Button>
+                            <Button Margin="5,-5" Command="{Binding ViewModel.OpenCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}">
+                                <ui:SymbolIcon Symbol="Open48" />
+                            </Button>
+                            <Button Margin="5,-5" Visibility="{Binding ViewModel.NoEdit,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector},Converter={StaticResource InvBooleanToVisibilityConverter}}" Command="{Binding ViewModel.DeleteCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}">
+                                <ui:SymbolIcon Symbol="Delete48" />
+                            </Button>
+                        </StackPanel>
+                        <ContentControl Visibility="{Binding ViewModel.NoEdit,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector},Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ui:SymbolIcon  Margin="0,0,12,0" DockPanel.Dock="Left" Symbol="Checkmark48" Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem},Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <ui:SymbolIcon.RenderTransform>
+                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                                </ui:SymbolIcon.RenderTransform>
+                            </ui:SymbolIcon>
+                        </ContentControl>
+                        <Button Margin="5,-5,20,0" Visibility="{Binding ViewModel.NoEdit,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector},Converter={StaticResource InvBooleanToVisibilityConverter}}"
+                                Command="{Binding ViewModel.SelectCommand,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector}}" CommandParameter="{Binding .,Mode=OneTime}" >
+                            <Button.RenderTransform>
+                                <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                            </Button.RenderTransform>
+                            <StackPanel Orientation="Horizontal">
+                                <ui:SymbolIcon DockPanel.Dock="Left" Symbol="CheckboxUnchecked24" Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem},Converter={StaticResource InvBooleanToVisibilityConverter}}"/>
+                                <ui:SymbolIcon DockPanel.Dock="Left" Symbol="CheckboxChecked24" Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem},Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </StackPanel>
-                            <TextBlock Text="{Binding .}" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                        </DockPanel>
+                        </Button>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" DockPanel.Dock="Left" VerticalAlignment="Center" Visibility="{Binding ViewModel.NoEdit,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector},Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <TextBox Text="{Binding Name}" DockPanel.Dock="Left" VerticalAlignment="Center" Visibility="{Binding ViewModel.NoEdit,RelativeSource={RelativeSource AncestorType= local:WorkingPathSelector},Converter={StaticResource InvBooleanToVisibilityConverter}}"/>
+                            <TextBlock FontSize="12" Text="{Binding Directory}" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

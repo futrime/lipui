@@ -6,36 +6,37 @@ using CommunityToolkit.Mvvm.Input;
 using LipUI.Models;
 using Ookii.Dialogs.Wpf;
 using Wpf.Ui.Common;
+using static LipUI.Models.AppConfig;
 using Clipboard = System.Windows.Clipboard;
 
 namespace LipUI.ViewModels;
 
 public partial class WorkingPathSelectorViewModel : ObservableObject
 {
+    [ObservableProperty] public bool _noEdit = false;
     public AppConfig Config => Global.Config;
-
     [RelayCommand]
-    void Copy(string v)
+    void Copy(AppConfigWorkingDirectory v)
     {
-        Clipboard.SetText(v);
-        Global.PopupSnackbar("已复制到剪切板", v);
+        Clipboard.SetText(v.Directory);
+        Global.PopupSnackbar("已复制到剪切板", v.Directory);
     }
     [RelayCommand]
-    internal void Select(string v)
+    internal void Select(AppConfigWorkingDirectory v)
     {
         Config.WorkingDirectory = v;
         Global.CheckWorkDir();
     }
     [RelayCommand]
-    internal async Task Open(string v)
+    internal async Task Open(AppConfigWorkingDirectory v)
     {
         await Task.Run(() =>
         {
-            Process.Start("explorer.exe", v)?.WaitForExit(1000);
+             Process.Start("explorer.exe", v.Directory)?.WaitForExit(1000);
         });
     }
     [RelayCommand]
-    void Delete(string dir)
+    void Delete(AppConfigWorkingDirectory dir)
     {
         Config.AllWorkingDirectory.Remove(dir);
         Global.CheckWorkDir();
@@ -61,7 +62,6 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
             AddWorkingDir();
         }
     }
-
     public bool ShowGetCurrentButton => !Global.Config.AllWorkingDirectory.Contains(Directory.GetCurrentDirectory());
     /// <summary>
     /// 获取当前目录
