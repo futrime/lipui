@@ -89,7 +89,7 @@ namespace LipUI.ViewModels
             {
                 new NavigationItem
                 {
-                    Content = "设置",
+                    Content = "设置 & 关于",
                     PageTag = "settings",
                     Icon = SymbolRegular.Settings24,
                     PageType = typeof(SettingsPage)
