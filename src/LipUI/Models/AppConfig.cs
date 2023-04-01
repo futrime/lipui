@@ -10,6 +10,13 @@ namespace LipUI.Models
     [Serializable]
     public partial class AppConfig : ObservableObject
     {
+        public AppConfig()
+        {
+            _allWorkingDirectory.CollectionChanged += (_, _) =>
+            {
+                OnPropertyChanged(nameof(WorkingDirectory));
+            };
+        } 
         public partial class AppConfigWorkingDirectory : ObservableObject, IEquatable<AppConfigWorkingDirectory>
         {
             [ObservableProperty] string _directory = string.Empty;
@@ -33,12 +40,12 @@ namespace LipUI.Models
                 if (value is not null)
                 {
                     _workingDirectoryPath = value.Directory;
-                    OnPropertyChanged();
                 }
+                OnPropertyChanged();
             }
         }
         [JsonProperty("WorkingDirectory")] string? _workingDirectoryPath = string.Empty;
-        [ObservableProperty] ObservableCollection<AppConfigWorkingDirectory> _allWorkingDirectory = new();
+        [NotifyPropertyChangedFor(nameof(WorkingDirectory))][ObservableProperty] ObservableCollection<AppConfigWorkingDirectory> _allWorkingDirectory = new();
         [ObservableProperty] ThemeType _theme;
         [ObservableProperty] private bool _autoLipPath = true;
         [ObservableProperty] private bool _developerMode = false;
