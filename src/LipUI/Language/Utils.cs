@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 namespace LipUI.Language;
@@ -20,34 +18,51 @@ public static class Utils
     public record LanguageDescriptionItem(LangId Id, string Name);
     public enum LangId
     {
+        Default,
         zh_Hans,
         en
     }
-
     public static LanguageDescriptionItem[] AvailableLanguages = new LanguageDescriptionItem[]
     {
+        new (LangId.Default,"Default (System)"),
         new (LangId.zh_Hans,"简体中文"),
         new (LangId.en,"English")
     };
-
     public static async Task SwitchLanguage(LangId target)
     {
         if (target != CurrentLangId)
         {
             Global.Config.Language = target;
         }
-
-        if (target == LangId.zh_Hans)
-        {//build-in language
-            await PopulateLanguage(SerializeToDict(new()));
-        }
-        else
+        async Task LoadLang(LangId id)
         {
-            var dict = GetLangDictionaryFromResource(target);
-            await PopulateLanguage(dict);
+            if (id == LangId.zh_Hans)
+            {//build-in language
+                await PopulateLanguage(SerializeToDict(new()));
+            }
+            else
+            {
+                var dict = GetLangDictionaryFromResource(id);
+                await PopulateLanguage(dict);
+            }
         }
+        if (target == LangId.Default)
+            await LoadLang(GetSystemLanguage());
+        else await LoadLang(target);
     }
-
+    /// <summary>
+    /// 获取系统语言
+    /// </summary>
+    /// <returns>语言ID</returns>
+    private static LangId GetSystemLanguage()
+    {
+        var lang = System.Globalization.CultureInfo.CurrentCulture.Name.ToLower();
+        if (lang == "zh-CN")
+            return LangId.zh_Hans;
+        if (lang.StartsWith("zh"))
+            return LangId.zh_Hans;
+        return LangId.en;
+    }
     public static Dictionary<string, string> GetLangDictionaryFromResource(LangId target)
     {
         var res = target switch

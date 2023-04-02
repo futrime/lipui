@@ -66,7 +66,7 @@ namespace LipUI
                     dir = Path.Combine(dir[..index], "LipUI", "Language", "Files");
                     foreach (var (id, _) in Language.Utils.AvailableLanguages)
                     {
-                        if (id == Language.Utils.LangId.zh_Hans) { continue; }
+                        if (id is Language.Utils.LangId.zh_Hans or Language.Utils.LangId.Default) { continue; }
                         var file = Path.Combine(dir, id + ".lang");
                         if (File.Exists(file))
                         {

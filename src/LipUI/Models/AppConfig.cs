@@ -17,7 +17,7 @@ namespace LipUI.Models
             {
                 OnPropertyChanged(nameof(WorkingDirectory));
             };
-        } 
+        }
         public partial class AppConfigWorkingDirectory : ObservableObject, IEquatable<AppConfigWorkingDirectory>
         {
             [ObservableProperty] string _directory = string.Empty;
@@ -45,7 +45,7 @@ namespace LipUI.Models
                 OnPropertyChanged();
             }
         }
-        [ObservableProperty] private Utils.LangId _language;
+        [ObservableProperty] private Utils.LangId _language = Utils.LangId.Default;
         [JsonProperty("WorkingDirectory")] string? _workingDirectoryPath = string.Empty;
         [NotifyPropertyChangedFor(nameof(WorkingDirectory))][ObservableProperty] ObservableCollection<AppConfigWorkingDirectory> _allWorkingDirectory = new();
         [ObservableProperty] ThemeType _theme;
