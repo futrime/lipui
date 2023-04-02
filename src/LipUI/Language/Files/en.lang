@@ -2,7 +2,7 @@
 NavigationHome=Home
 NavigationLocal=Local Tooth
 NavigationInstall=Install Tooth Pack
-NavigationRemove=Install Tooth Pack
+NavigationRemove=Remove Tooth Pack
 NavigationRegistry=Tooth Hub
 NavigationWebUI=WebUI
 NavigationDeveloper=Developer Tools
