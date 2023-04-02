@@ -16,63 +16,81 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
     <StackPanel Margin="56,0">
-        <TextBlock Margin="-24,24,0,0" FontSize="20" FontWeight="Medium"  Text="{Binding SettingsMainTitle,Source={StaticResource I18N}}" />
+        <TextBlock Margin="-24,24,0,0" FontSize="20" FontWeight="Medium"
+                       Text="{Binding SettingsMainTitle,Source={StaticResource I18N}}" />
         <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-            <TextBlock Text="{Binding SettingsLanguage,Source={StaticResource I18N}}"  Style="{StaticResource Title}"/>
-            <controls:LanguageSelector Margin="12,0,0,0"/>
+            <TextBlock Text="{Binding SettingsLanguage,Source={StaticResource I18N}}"
+                           Style="{StaticResource Title}" />
+            <controls:LanguageSelector Margin="12,0,0,0" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding SettingsTheme,Source={StaticResource I18N}}"  Style="{StaticResource Title}"/>
+            <TextBlock Text="{Binding SettingsTheme,Source={StaticResource I18N}}" Style="{StaticResource Title}" />
             <RadioButton
-            Margin="40,12,0,0"
-            Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
-            CommandParameter="theme_light"
-            Content="Light"
-            GroupName="themeSelect"
-            IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}" />
+                    Margin="40,12,0,0"
+                    Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
+                    CommandParameter="theme_light"
+                    Content="Light"
+                    GroupName="themeSelect"
+                    IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}" />
             <RadioButton
-            Margin="0,8,0,0"
-            Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
-            CommandParameter="theme_dark"
-            Content="Dark"
-            GroupName="themeSelect"
-            IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}" />
+                    Margin="0,8,0,0"
+                    Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
+                    CommandParameter="theme_dark"
+                    Content="Dark"
+                    GroupName="themeSelect"
+                    IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding SettingsLipPath,Source={StaticResource I18N}}"  Style="{StaticResource Title}"/>
-            <ui:ToggleSwitch Margin="0,0,10,0" IsChecked="{Binding ViewModel.AutoLipPath}" Content="{Binding SettingsLipPathAuto,Source={StaticResource I18N}}" />
-            <TextBox MinWidth="200" Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource InvBooleanToVisibilityConverter}}" Text="{Binding ViewModel.LipPath}"/>
-            <TextBox IsReadOnly="True" MinWidth="200" Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding ViewModel.CurrentLipPath,Mode=OneWay}"/>
+            <TextBlock Text="{Binding SettingsLipPath,Source={StaticResource I18N}}" Style="{StaticResource Title}" />
+            <ui:ToggleSwitch Margin="0,0,10,0" IsChecked="{Binding ViewModel.AutoLipPath}"
+                                 Content="{Binding SettingsLipPathAuto,Source={StaticResource I18N}}" />
+            <TextBox MinWidth="200"
+                         Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource InvBooleanToVisibilityConverter}}"
+                         Text="{Binding ViewModel.LipPath}" />
+            <TextBox IsReadOnly="True" MinWidth="200"
+                         Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource BooleanToVisibilityConverter}}"
+                         Text="{Binding ViewModel.CurrentLipPath,Mode=OneWay}" />
         </StackPanel>
         <!--<StackPanel Orientation="Horizontal">
             <TextBlock Text="工作路径："  Style="{StaticResource Title}"/>
             <TextBox MinWidth="200" Text="{Binding ViewModel.WorkingDir}"/>
         </StackPanel>-->
-        <StackPanel Margin="0,24,0,0" Visibility="{Binding ViewModel.GlobalConfig.DeveloperMode,Converter={StaticResource BooleanToVisibilityConverter}}">
-            <TextBlock Margin="-24,0,0,0" FontSize="20" FontWeight="Medium"  Text="{Binding SettingsDeveloperTitle,Source={StaticResource I18N}}" />
+        <StackPanel Margin="0,24,0,0"
+                        Visibility="{Binding ViewModel.GlobalConfig.DeveloperMode,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Margin="-24,0,0,0" FontSize="20" FontWeight="Medium"
+                           Text="{Binding SettingsDeveloperTitle,Source={StaticResource I18N}}" />
             <DockPanel Margin="3">
-                <TextBlock DockPanel.Dock="Left" Text="{Binding SettingsDeveloperConfigPath,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
-                <ui:Hyperlink DockPanel.Dock="Right" VerticalAlignment="Center" Margin="10,0" NavigateUri="{Binding ViewModel.DMConfigPath,Mode=OneWay}">
-                    <TextBlock Text="{Binding SettingsDeveloperConfigOpen,Source={StaticResource I18N}}"/>
+                <TextBlock DockPanel.Dock="Left"
+                               Text="{Binding SettingsDeveloperConfigPath,Source={StaticResource I18N}}"
+                               VerticalAlignment="Center" />
+                <ui:Hyperlink DockPanel.Dock="Right" VerticalAlignment="Center" Margin="10,0"
+                                  NavigateUri="{Binding ViewModel.DMConfigPath,Mode=OneWay}">
+                    <TextBlock Text="{Binding SettingsDeveloperConfigOpen,Source={StaticResource I18N}}" />
                 </ui:Hyperlink>
-                <TextBox DockPanel.Dock="Left" Margin="10,0" IsReadOnly="True" VerticalAlignment="Center" Text="{Binding ViewModel.DMConfigPath,Mode=OneWay}"/>
+                <TextBox DockPanel.Dock="Left" Margin="10,0" IsReadOnly="True" VerticalAlignment="Center"
+                             Text="{Binding ViewModel.DMConfigPath,Mode=OneWay}" />
             </DockPanel>
-            <ui:ToggleSwitch Margin="5" IsChecked="{Binding ViewModel.GlobalConfig.DevShowSkipDependency}" Content="{Binding SettingsDeveloperSkipDependency,Source={StaticResource I18N}}"/>
-            <Button Margin="5" Command="{Binding ViewModel.ExitDeveloperModeCommand}" Content="{Binding SettingsDeveloperExit,Source={StaticResource I18N}}"/>
+            <ui:ToggleSwitch Margin="5" IsChecked="{Binding ViewModel.GlobalConfig.DevShowSkipDependency}"
+                                 Content="{Binding SettingsDeveloperSkipDependency,Source={StaticResource I18N}}" />
+            <Button Margin="5" Command="{Binding ViewModel.ExitDeveloperModeCommand}"
+                        Content="{Binding SettingsDeveloperExit,Source={StaticResource I18N}}" />
         </StackPanel>
-        <TextBlock Margin="-24,24,0,0" FontSize="20" FontWeight="Medium"  Text="{Binding AboutTitle,Source={StaticResource I18N}}" />
+        <TextBlock Margin="-24,24,0,0" FontSize="20" FontWeight="Medium"
+                       Text="{Binding AboutTitle,Source={StaticResource I18N}}" />
         <StackPanel MouseDown="VersionNumber_OnMouseDown">
             <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                <TextBlock Text="{Binding AboutLipUIVersion,Source={StaticResource I18N}}"/>
+                <TextBlock Text="{Binding AboutLipUIVersion,Source={StaticResource I18N}}" />
                 <TextBlock Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                <TextBlock Text="{Binding AboutLipVersion,Source={StaticResource I18N}}"/>
+                <TextBlock Text="{Binding AboutLipVersion,Source={StaticResource I18N}}" />
                 <TextBlock Text="{Binding ViewModel.LipVersion, Mode=OneWay}" />
             </StackPanel>
         </StackPanel>
-        <Grid Margin="0,10"/>
-        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/LipUI" Content="{Binding AboutLipUILink,Source={StaticResource I18N}}"/>
-        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/Lip"  Content="{Binding AboutLipLink,Source={StaticResource I18N}}"/>
+        <Grid Margin="0,10" />
+        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/LipUI"
+                          Content="{Binding AboutLipUILink,Source={StaticResource I18N}}" />
+        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/Lip"
+                          Content="{Binding AboutLipLink,Source={StaticResource I18N}}" />
     </StackPanel>
 </ui:UiPage>

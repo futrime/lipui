@@ -34,11 +34,10 @@
                         <TextBlock Text="{Binding ViewModel.Tooth}"/>
                     </StackPanel>
                 </Button>
-                <ui:Hyperlink Click="Hyperlink_OnClick" FontSize="20" Visibility="{Binding ViewModel.UninstallComplete,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    返回
-                </ui:Hyperlink>
+                <ui:Hyperlink Click="Hyperlink_OnClick" FontSize="20" Visibility="{Binding ViewModel.UninstallComplete,Converter={StaticResource BooleanToVisibilityConverter}}"
+Content="{Binding UninstallBackToLocal,Source={StaticResource I18N}}"/>
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
-                          ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}" >
+                              ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}" >
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding .}" TextWrapping="WrapWithOverflow"/>

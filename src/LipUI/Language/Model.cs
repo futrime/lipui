@@ -23,11 +23,14 @@ public class Model : ObservableObject
     public string NavigationInstall { get; set; } = "安装Tooth包";
     public string NavigationRemove { get; set; } = "卸载Tooth包";
     public string NavigationRegistry { get; set; } = "包市场";
-    public string NavigationWebUI { get; set; } = "WebUI";
+    public string NavigationWebUi { get; set; } = "WebUI";
     public string NavigationDeveloper { get; set; } = "开发者工具";
     public string NavigationSettings { get; set; } = "设置 & 关于";
     public string LocalBottomInstall { get; set; } = "已安装 {0} 个Tooth包 ";
     public string LocalBottomReload { get; set; } = "重新加载";
+    public string RegistryBottomInstall { get; set; } = "获取到 {0} / {1} 个Tooth包 ";
+    public string UninstallBackToLocal { get; set; } = "返回本地包";
+    public string RegistryBottomReload { get; set; } = "重新加载";
     public string LocalButtonUpgrade { get; set; } = "升级";
     public string LocalButtonUninstall { get; set; } = "卸载";
     public string ToothItemDetailButton { get; set; } = "详细信息";

@@ -118,18 +118,22 @@
                     <StatusBarItem HorizontalContentAlignment="Stretch">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" Margin="10,0">
-                                <TextBlock Text="获取到 " Style="{StaticResource Title}"/>
-                                <TextBlock Text="{Binding ViewModel.VisibleToothItems.Count}" Style="{StaticResource Title}"/>
-                                <TextBlock Text=" / " Style="{StaticResource Title}"/>
-                                <TextBlock Text="{Binding ViewModel.ToothItems.Count}" Style="{StaticResource Title}"/>
-                                <TextBlock Text=" 个Tooth包" Style="{StaticResource Title}"/>
+                                <TextBlock Style="{StaticResource Title}">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                                            <Binding Source="{StaticResource I18N}" Path="RegistryBottomInstall"/>
+                                            <Binding Path="ViewModel.VisibleToothItems.Count"/>
+                                            <Binding Path="ViewModel.ToothItems.Count"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock> 
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Button Margin="-10" Command="{Binding ViewModel.LoadAllPackagesCommand}">
                                     <StackPanel Orientation="Horizontal">
                                         <ui:SymbolIcon Symbol="New20"
                                                        Filled="False" FontSize="32"/>
-                                        <TextBlock Text="重新加载" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding RegistryBottomReload,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

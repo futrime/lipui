@@ -57,7 +57,7 @@ namespace LipUI.ViewModels
                 Create<InstallPage>("install", SymbolRegular.Add24, nameof(Global.I18N.NavigationInstall)),
                 Create<UninstallPage>("remove", SymbolRegular.BoxDismiss24, nameof(Global.I18N.NavigationRemove)),
                 Create<LipRegistryPage>("registry", SymbolRegular.BoxSearch24, nameof(Global.I18N.NavigationRegistry)),
-                Create<LipWebPage>("web", SymbolRegular.WebAsset24, nameof(Global.I18N.NavigationWebUI)),
+                Create<LipWebPage>("web", SymbolRegular.WebAsset24, nameof(Global.I18N.NavigationWebUi)),
                 Create<DeveloperPage>("developer", SymbolRegular.DeveloperBoard24, nameof(Global.I18N.NavigationDeveloper)),
             };
 
