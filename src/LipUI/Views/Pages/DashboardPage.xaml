@@ -17,7 +17,7 @@
         <StackPanel  Margin="0,0,0,14">
             <TextBlock  Style="{StaticResource Title}" Text="{Binding HomeStartTip,Source={StaticResource I18N}}"/>
             <StackPanel Margin="10,40,0,0" Orientation="Horizontal">
-                <TextBlock Style="{StaticResource Title}">工作目录：</TextBlock>
+                <TextBlock Style="{StaticResource Title}" Text="{Binding HomeWorkingDirectoryTitle,Source={StaticResource I18N}}"></TextBlock>
                 <ToggleButton IsChecked="{Binding ViewModel.Selector.NoEdit,Converter={StaticResource InvBooleanConverter}}">
                     <ContentControl>
                         <ContentControl.Style>

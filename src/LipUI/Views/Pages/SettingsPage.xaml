@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:LipUI.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:controls="clr-namespace:LipUI.Views.Controls"
     d:DataContext="{d:DesignInstance local:SettingsPage,
                                      IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
@@ -16,8 +17,12 @@
     mc:Ignorable="d">
     <StackPanel Margin="56,0">
         <TextBlock Margin="-24,24,0,0" FontSize="20" FontWeight="Medium"  Text="主设置" />
+        <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+            <TextBlock Text="语言"  Style="{StaticResource Title}"/>
+            <controls:LanguageSelector Margin="12,0,0,0"/>
+        </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Margin="0,12,0,0" Text="主题"  Style="{StaticResource Title}"/>
+            <TextBlock Text="主题"  Style="{StaticResource Title}"/>
             <RadioButton
             Margin="40,12,0,0"
             Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"

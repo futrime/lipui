@@ -255,17 +255,17 @@ namespace LipUI
         }
         internal static void CheckWorkDir()
         {
-            if (!Directory.Exists(Config.WorkingDirectory.Directory))
+            if (!Directory.Exists(Config.WorkingDirectory?.Directory??""))
             {//保存的WorkingDirectory不合法，需要手动选择 
                 _ = ShowDialog("需要指定有效的工作路径", new WorkingPathSelector(), ("完成", hide =>
                         {
-                            if (Directory.Exists(Config.WorkingDirectory.Directory))
+                            if (Directory.Exists(Config.WorkingDirectory?.Directory ?? ""))
                             {
                                 hide();
                             }
                             else
                             {
-                                PopupSnackbar("请选择有效的工作路径", Config.WorkingDirectory.Directory, SymbolRegular.Warning16, ControlAppearance.Caution);
+                                PopupSnackbar("请选择有效的工作路径", Config.WorkingDirectory?.Directory ?? "", SymbolRegular.Warning16, ControlAppearance.Caution);
                             }
                         }
                 ), modify: dialog =>
@@ -276,7 +276,7 @@ namespace LipUI
             }
             else
             {
-                Lip.WorkingPath = Config.WorkingDirectory.Directory;
+                Lip.WorkingPath = Config.WorkingDirectory?.Directory ?? "";
             }
         }
         static bool TryRefreshLipPath()

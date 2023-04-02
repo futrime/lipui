@@ -33,7 +33,7 @@ namespace LipUI.Models
         {
             get
             {
-                return _allWorkingDirectory.FirstOrDefault(x => x.Directory == _workingDirectoryPath) ?? new();
+                return AllWorkingDirectory.FirstOrDefault(x => x.Directory == _workingDirectoryPath) ?? new();
             }
             set
             {

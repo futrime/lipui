@@ -51,7 +51,7 @@ namespace LipUI.ViewModels
             }
         }
         [ObservableProperty]
-        public AppConfigWorkingDirectory _workingDir = Global.Config.WorkingDirectory;
+        public AppConfigWorkingDirectory _workingDir = Global.Config.WorkingDirectory ?? new();
 
         public string CurrentLipPath => Global.Lip.ExecutablePath;
 

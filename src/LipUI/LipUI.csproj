@@ -55,4 +55,20 @@
 		<Resource Include="Assets\applicationIcon-256.png" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Language\LanguageFiles.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>LanguageFiles.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Language\LanguageFiles.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>LanguageFiles.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+ 
+
 </Project>

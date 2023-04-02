@@ -5,7 +5,7 @@ namespace LipUI.ViewModels;
 public partial class DashboardViewModel : ObservableObject, INavigationAware
 {
     [ObservableProperty]
-    WorkingPathSelectorViewModel _selector = new() { _noEdit = true };
+    WorkingPathSelectorViewModel _selector = new() { NoEdit = true };
     public void OnNavigatedTo()
     {
     }
