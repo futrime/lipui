@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using LipUI.Language;
 using Newtonsoft.Json;
 using Wpf.Ui.Appearance;
 
@@ -44,6 +45,7 @@ namespace LipUI.Models
                 OnPropertyChanged();
             }
         }
+        [ObservableProperty] private Utils.LangId _language;
         [JsonProperty("WorkingDirectory")] string? _workingDirectoryPath = string.Empty;
         [NotifyPropertyChangedFor(nameof(WorkingDirectory))][ObservableProperty] ObservableCollection<AppConfigWorkingDirectory> _allWorkingDirectory = new();
         [ObservableProperty] ThemeType _theme;

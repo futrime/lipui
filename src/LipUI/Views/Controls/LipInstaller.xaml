@@ -15,9 +15,9 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="配置模式：" VerticalAlignment="Center"/>
                 <StackPanel>
-                    <RadioButton IsChecked="{Binding GlobalExe}" Content="{Binding LipIntallerGlobalExe,Source={StaticResource I18N}}"/>
-                    <RadioButton IsChecked="{Binding PortableExe}" Content="{Binding LipIntallerPortableExe,Source={StaticResource I18N}}"/>
-                    <RadioButton IsChecked="{Binding ManualExe}" Content="{Binding LipIntallerManualExe,Source={StaticResource I18N}}"/>
+                    <RadioButton IsChecked="{Binding GlobalExe}" Content="{Binding LipInstallerGlobalExe,Source={StaticResource I18N}}"/>
+                    <RadioButton IsChecked="{Binding PortableExe}" Content="{Binding LipInstallerPortableExe,Source={StaticResource I18N}}"/>
+                    <RadioButton IsChecked="{Binding ManualExe}" Content="{Binding LipInstallerManualExe,Source={StaticResource I18N}}"/>
                 </StackPanel>
             </StackPanel>
             <ui:TextBox Visibility="{Binding ManualExe,Converter={StaticResource BooleanToVisibilityConverter}}" PlaceholderText="lip.exe的路径" Text="{Binding LipPath }"/>

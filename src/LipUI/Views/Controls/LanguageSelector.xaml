@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ComboBox MinWidth="100" ItemsSource="{Binding AvailableLanguages}" OpacityMask="White">
+        <ComboBox MinWidth="100" ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding CurrentLanguage}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Background="Transparent" >

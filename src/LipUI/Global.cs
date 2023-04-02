@@ -51,15 +51,44 @@ namespace LipUI
            ?? i18nFallback.Value;
         private static Lazy<Language.Model> i18nFallback = new(() => new());//资源获取失败时返回
 #endif
-        /// <summary>初始化语言</summary>
-        private static void InitLanguage()
-        {
 
+        /// <summary>初始化语言</summary>
+        private static async Task InitLanguage()
+        {
+#if DEBUG
+           _=  Task.Run(() =>
+            {
+                //调试模式自动保存语言文件
+                var dir = Path.Combine(Environment.CurrentDirectory);
+                var index = dir.LastIndexOf("LipUI", StringComparison.Ordinal);
+                if (index != -1)
+                {
+                    dir = Path.Combine(dir[..index], "LipUI", "Language", "Files");
+                    foreach (var (id, _) in Language.Utils.AvailableLanguages)
+                    {
+                        if (id == Language.Utils.LangId.zh_Hans) { continue; }
+                        var file = Path.Combine(dir, id + ".lang");
+                        if (File.Exists(file))
+                        {
+                            File.WriteAllText(file,
+                                Language.Utils.SerializeToStr(
+                                    Language.Utils.SerializeToDict(
+                                        Language.Utils.DeserializeFromDict(
+                                            Language.Utils.GetLangDictionaryFromResource(id)
+                                        )
+                                    )
+                                ), Encoding.UTF8);//刷入类并写入新项
+                        }
+                    }
+                }
+            }).ConfigureAwait(false);
+#endif
+          await  Language.Utils.SwitchLanguage(Config.Language);
         }
         /// <summary>初始化全局变量(初始化程序)</summary>
-        internal static async void Init()
+        internal static async Task Init()
         {
-            InitLanguage();
+            await Global.InitLanguage();
             var eulaPath = Path.Combine(ConfigFolder, "EULA.txt");
             if (File.Exists(eulaPath))
             {
@@ -255,7 +284,7 @@ namespace LipUI
         }
         internal static void CheckWorkDir()
         {
-            if (!Directory.Exists(Config.WorkingDirectory?.Directory??""))
+            if (!Directory.Exists(Config.WorkingDirectory?.Directory ?? ""))
             {//保存的WorkingDirectory不合法，需要手动选择 
                 _ = ShowDialog("需要指定有效的工作路径", new WorkingPathSelector(), ("完成", hide =>
                         {

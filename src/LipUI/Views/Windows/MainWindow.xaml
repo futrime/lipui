@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="clr-namespace:LipUI.Views.Pages"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="1100"
     Height="650"
     ResizeMode="CanResizeWithGrip" 
@@ -20,6 +19,7 @@
     WindowCornerPreference="Round"
      WindowBackdropType="Mica"
     WindowStartupLocation="CenterScreen"
+    Title="{Binding ApplicationTitle,Source={StaticResource I18N}}"
     mc:Ignorable="d">
     <Grid Background="{DynamicResource ApplicationBackgroundBrush}">
         <Grid>
@@ -34,7 +34,7 @@
                                   Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
                                   Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
             <ui:TitleBar 
-                         Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
+                        Title="{Binding ApplicationTitle,Source={StaticResource I18N}}"
                          Grid.Row="0"
                          Grid.Column="0"
                          Grid.ColumnSpan="2"
@@ -68,7 +68,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="28"
-                        Navigation="{Binding ElementName=RootNavigation, Mode=OneWay}" />
+                        Navigation="{Binding ElementName=RootNavigation}" />
                     </Grid>
                 </Border>
             </Grid>

@@ -16,13 +16,13 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
     <StackPanel Margin="56,0">
-        <TextBlock Margin="-24,24,0,0" FontSize="20" FontWeight="Medium"  Text="主设置" />
+        <TextBlock Margin="-24,24,0,0" FontSize="20" FontWeight="Medium"  Text="{Binding SettingsMainTitle,Source={StaticResource I18N}}" />
         <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-            <TextBlock Text="语言"  Style="{StaticResource Title}"/>
+            <TextBlock Text="{Binding SettingsLanguage,Source={StaticResource I18N}}"  Style="{StaticResource Title}"/>
             <controls:LanguageSelector Margin="12,0,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="主题"  Style="{StaticResource Title}"/>
+            <TextBlock Text="{Binding SettingsTheme,Source={StaticResource I18N}}"  Style="{StaticResource Title}"/>
             <RadioButton
             Margin="40,12,0,0"
             Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
@@ -39,10 +39,8 @@
             IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Lip路径："  Style="{StaticResource Title}"/>
-            <ui:ToggleSwitch Margin="0,0,10,0" IsChecked="{Binding ViewModel.AutoLipPath}">
-                自动获取
-            </ui:ToggleSwitch>
+            <TextBlock Text="{Binding SettingsLipPath,Source={StaticResource I18N}}"  Style="{StaticResource Title}"/>
+            <ui:ToggleSwitch Margin="0,0,10,0" IsChecked="{Binding ViewModel.AutoLipPath}" Content="{Binding SettingsLipPathAuto,Source={StaticResource I18N}}" />
             <TextBox MinWidth="200" Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource InvBooleanToVisibilityConverter}}" Text="{Binding ViewModel.LipPath}"/>
             <TextBox IsReadOnly="True" MinWidth="200" Visibility="{Binding ViewModel.AutoLipPath,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding ViewModel.CurrentLipPath,Mode=OneWay}"/>
         </StackPanel>
@@ -51,32 +49,30 @@
             <TextBox MinWidth="200" Text="{Binding ViewModel.WorkingDir}"/>
         </StackPanel>-->
         <StackPanel Margin="0,24,0,0" Visibility="{Binding ViewModel.GlobalConfig.DeveloperMode,Converter={StaticResource BooleanToVisibilityConverter}}">
-            <TextBlock Margin="-24,0,0,0" FontSize="20" FontWeight="Medium"  Text="开发者选项" />
+            <TextBlock Margin="-24,0,0,0" FontSize="20" FontWeight="Medium"  Text="{Binding SettingsDeveloperTitle,Source={StaticResource I18N}}" />
             <DockPanel Margin="3">
-                <TextBlock DockPanel.Dock="Left" Text="配置文件位置：" VerticalAlignment="Center"/>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding SettingsDeveloperConfigPath,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
                 <ui:Hyperlink DockPanel.Dock="Right" VerticalAlignment="Center" Margin="10,0" NavigateUri="{Binding ViewModel.DMConfigPath,Mode=OneWay}">
-                    <TextBlock Text="打开"/>
+                    <TextBlock Text="{Binding SettingsDeveloperConfigOpen,Source={StaticResource I18N}}"/>
                 </ui:Hyperlink>
                 <TextBox DockPanel.Dock="Left" Margin="10,0" IsReadOnly="True" VerticalAlignment="Center" Text="{Binding ViewModel.DMConfigPath,Mode=OneWay}"/>
             </DockPanel>
-            <ui:ToggleSwitch Margin="5" IsChecked="{Binding ViewModel.GlobalConfig.DevShowSkipDependency}">
-                安装界面显示"跳过依赖"选项
-            </ui:ToggleSwitch>
-            <Button Margin="5" Command="{Binding ViewModel.ExitDeveloperModeCommand}">退出开发者模式</Button>
+            <ui:ToggleSwitch Margin="5" IsChecked="{Binding ViewModel.GlobalConfig.DevShowSkipDependency}" Content="{Binding SettingsDeveloperSkipDependency,Source={StaticResource I18N}}"/>
+            <Button Margin="5" Command="{Binding ViewModel.ExitDeveloperModeCommand}" Content="{Binding SettingsDeveloperExit,Source={StaticResource I18N}}"/>
         </StackPanel>
-        <TextBlock Margin="-24,24,0,0" FontSize="20" FontWeight="Medium"  Text="关于" />
+        <TextBlock Margin="-24,24,0,0" FontSize="20" FontWeight="Medium"  Text="{Binding AboutTitle,Source={StaticResource I18N}}" />
         <StackPanel MouseDown="VersionNumber_OnMouseDown">
             <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                <TextBlock Text="LipUI版本："/>
+                <TextBlock Text="{Binding AboutLipUIVersion,Source={StaticResource I18N}}"/>
                 <TextBlock Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                <TextBlock Text="Lip版本："/>
+                <TextBlock Text="{Binding AboutLipVersion,Source={StaticResource I18N}}"/>
                 <TextBlock Text="{Binding ViewModel.LipVersion, Mode=OneWay}" />
             </StackPanel>
         </StackPanel>
         <Grid Margin="0,10"/>
-        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/LipUI">LipUI 的 GitHub 项目地址</ui:Hyperlink>
-        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/Lip">Lip 的 GitHub 项目地址</ui:Hyperlink>
+        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/LipUI" Content="{Binding AboutLipUILink,Source={StaticResource I18N}}"/>
+        <ui:Hyperlink NavigateUri="https://github.com/LiteLDev/Lip"  Content="{Binding AboutLipLink,Source={StaticResource I18N}}"/>
     </StackPanel>
 </ui:UiPage>

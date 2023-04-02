@@ -1,15 +1,25 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using LipUI.Language;
 using LipUI.Models;
 
 namespace LipUI.ViewModels;
 public class LanguageSelectorViewModel : ObservableObject
 {
-    public record LanguageDescriptionItem(string Id, string Name);
     public AppConfig Config => Global.Config;
-    public ObservableCollection<LanguageDescriptionItem> AvailableLanguages => new()
+    public Utils.LanguageDescriptionItem[] AvailableLanguages => Language.Utils.AvailableLanguages;
+    public Utils.LanguageDescriptionItem? CurrentLanguage
     {
-        new("zh_Hans","简体中文"),
-        new("en","English")
-    };
+        get
+        {
+            return AvailableLanguages.FirstOrDefault(x => x.Id == Config.Language);
+        }
+        set
+        {
+            if (value is not null)
+            {
+                Utils.CurrentLangId = value.Id;
+            }
+        }
+    }
 }

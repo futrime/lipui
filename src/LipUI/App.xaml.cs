@@ -19,6 +19,9 @@ namespace LipUI
     /// </summary>
     public partial class App
     {
+        public App()
+        {
+        }
         // The.NET Generic Host provides dependency injection, configuration, logging, and other services.
         // https://docs.microsoft.com/dotnet/core/extensions/generic-host
         // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
@@ -82,13 +85,12 @@ namespace LipUI
             return _host.Services.GetService(typeof(T)) as T;
 #pragma warning restore CS8603
         }
-
         /// <summary>
         /// Occurs when the application is loading.
         /// </summary>
         private async void OnStartup(object sender, StartupEventArgs e)
         {
-            Global.Init();
+            await Global.Init();
             await _host.StartAsync();
         }
 
