@@ -52,7 +52,7 @@
                                 <ScaleTransform ScaleX=".5" ScaleY=".5"/>
                             </ui:ProgressRing.RenderTransform>
                         </ui:ProgressRing>
-                        <ui:Button Name="ShowInfoButton" Command="{Binding ShowInfoCommand}" Content="详细信息"
+                        <ui:Button Name="ShowInfoButton" Command="{Binding ShowInfoCommand}" Content="{Binding ToothItemDetailButton,Source={StaticResource I18N}}"
                                    Visibility="{Binding IsEnabled, ElementName=ShowInfoButton,Converter={StaticResource BooleanToVisibilityHiddenConverter}}">
                             <!--<ContentControl>
                                 <ContentControl.Style>
@@ -125,13 +125,13 @@
                                     </MultiBinding>
                                 </ToggleButton.CommandParameter>
                                 <StackPanel Orientation="Horizontal" >
-                                    <TextBlock Text="作者："/>
+                                    <TextBlock Text="{Binding ToothItemAuthor,Source={StaticResource I18N}}"/>
                                     <TextBlock Text="{Binding Tag,Converter={StaticResource FeaturedTagConverter}}"/>
                                 </StackPanel>
                             </ToggleButton>
                         </DockPanel>
                         <DockPanel DockPanel.Dock="Top" Visibility="{Binding RegistryItem.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                            <TextBlock Text="协议："/>
+                            <TextBlock Text="{Binding ToothItemLicense,Source={StaticResource I18N}}"/>
                             <TextBlock Text="{Binding RegistryItem.License}"/>
                         </DockPanel>
                     </DockPanel>
@@ -147,11 +147,11 @@
                     </DockPanel>
                     <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
                         <DockPanel DockPanel.Dock="Top">
-                            <TextBlock Text="作者："/>
+                            <TextBlock Text="{Binding ToothItemAuthor,Source={StaticResource I18N}}"/>
                             <TextBlock Text="{Binding Information.Author}"/>
                         </DockPanel>
                         <DockPanel DockPanel.Dock="Top" Visibility="{Binding Information.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                            <TextBlock Text="协议："/>
+                            <TextBlock Text="{Binding ToothItemLicense,Source={StaticResource I18N}}"/>
                             <TextBlock Text="{Binding Information.License}"/>
                         </DockPanel>
                     </DockPanel>
@@ -167,6 +167,5 @@
                 </Grid>
             </DockPanel>
         </ui:Card>
-
     </Grid>
 </UserControl>

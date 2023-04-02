@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace LipUI.Language;
+
 /// <summary>
 /// 多语言类
 /// 添加规则：
@@ -24,6 +26,13 @@ public class Model : ObservableObject
     public string NavigationWebUI { get; set; } = "WebUI";
     public string NavigationDeveloper { get; set; } = "开发者工具";
     public string NavigationSettings { get; set; } = "设置 & 关于";
+    public string LocalBottomInstall { get; set; } = "已安装 {0} 个Tooth包 ";
+    public string LocalBottomReload { get; set; } = "重新加载";
+    public string LocalButtonUpgrade { get; set; } = "升级";
+    public string LocalButtonUninstall { get; set; } = "卸载";
+    public string ToothItemDetailButton { get; set; } = "详细信息";
+    public string ToothItemAuthor { get; set; } = "作者：";
+    public string ToothItemLicense { get; set; } = "协议：";
     public string SettingsMainTitle { get; set; } = "主设置";
     public string SettingsTheme { get; set; } = "主题";
     public string SettingsLipPath { get; set; } = "Lip路径：";
@@ -41,7 +50,29 @@ public class Model : ObservableObject
     public string AboutLipLink { get; set; } = "Lip 的 GitHub 项目地址";
     public string HomeStartTip { get; set; } = "点击左边的导航栏开始吧！";
     public string HomeWorkingDirectoryTitle { get; set; } = "工作目录：";
+    public string LipInstallerConfigMode { get; set; } = "配置模式：";
+    public string LipInstallerAssumedPath { get; set; } = "当前拟定位置：";
     public string LipInstallerGlobalExe { get; set; } = "下载并安装到全局";
     public string LipInstallerPortableExe { get; set; } = "下载并放置到当前目录";
     public string LipInstallerManualExe { get; set; } = "手动配置路径";
+    public string RegistryTagFeatured { get; set; } = "精华";
+    public string RegistryTagIntegration { get; set; } = "整合";
+    public string RegistryTagModule { get; set; } = "模块";
+    public string RegistryTagPlugin { get; set; } = "插件";
+    public string RegistryTagAntiCheat { get; set; } = "反作弊";
+    public string InstallSkipDependency { get; set; } = "跳过依赖";
+    public string InstallButton { get; set; } = "安装 {0}";
+    public string InstallFetchButton { get; set; } = "获取";
+    public string InstallFetchCancelButton { get; set; } = "取消";
+    public string ToothInfoInstalled { get; set; } = "[已安装]";
+    public string ToothInfoPackName { get; set; } = "包名：";
+    public string ToothInfoPackVersion { get; set; } = "版本：";
+    public string ToothInfoName { get; set; } = "名称：";
+    public string ToothInfoAuthor { get; set; } = "作者：";
+    public string ToothInfoLicense { get; set; } = "协议：";
+    public string ToothInfoDescription { get; set; } = "描述：";
+    public string ToothInfoHomePage { get; set; } = "主页：";
+    public string ToothInfoHomePageOpenLink { get; set; } = "打开";
+    //public string ToothInfoPackT { get; set; } = "版本：";
+    //public string ToothInfoPackT { get; set; } = "版本：";
 }

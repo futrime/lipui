@@ -31,6 +31,7 @@
             <helpers:InvBooleanConverter x:Key="InvBooleanConverter" />
             <helpers:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
             <helpers:FeaturedTagConverter x:Key="FeaturedTagConverter" />
+            <helpers:StringFormatConverter  x:Key="StringFormatConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

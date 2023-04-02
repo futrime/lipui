@@ -61,12 +61,8 @@
         </Grid>
         <DockPanel Margin="56,0" x:Name="Root">
             <DockPanel Dock="Top">
-                <Button DockPanel.Dock="Right" Command="{Binding ViewModel.FetchInfoCommand}">
-                    获取
-                </Button>
-                <Button  Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.CancelCommand}">
-                    取消
-                </Button>
+                <Button DockPanel.Dock="Right" Command="{Binding ViewModel.FetchInfoCommand}" Content="{Binding InstallFetchButton,Source={StaticResource I18N}}"/>
+                <Button  Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.CancelCommand}" Content="{Binding InstallFetchCancelButton,Source={StaticResource I18N}}"/>
                 <ui:TextBox PlaceholderText="输入Tooth包的地址..." Margin="5" Text="{Binding ViewModel.ToothName}"/>
             </DockPanel>
             <Grid Visibility="{Binding ViewModel.InfoLoaded,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter} }"  MaxWidth="{Binding ElementName=Root,Path=ActualWidth,Converter={StaticResource HalfOriginalConverter}}">
@@ -89,15 +85,21 @@
                             </ComboBox>
                             <Button Grid.Column="1" Padding="8" Margin="5" HorizontalAlignment="Stretch" Command="{Binding ViewModel.InstallCommand}">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock>安装</TextBlock>
-                                    <TextBlock Text="{Binding ViewModel.SelectedVersion}"/>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                                                <Binding Source="{StaticResource I18N}" Path="InstallButton"/>
+                                                <Binding Path="ViewModel.SelectedVersion"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </StackPanel>
                             </Button>
                             <ui:ToggleSwitch IsChecked="{Binding ViewModel.IsSkipDependency}" Margin="10,-10,0,0" Grid.Column="2" Visibility="{Binding ViewModel.GlobalConfig.DevShowSkipDependency,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Stretch">
-                                <TextBlock Margin="-55,35,0,0">跳过依赖</TextBlock>
+                                <TextBlock Margin="-55,35,0,0" Text="{Binding InstallSkipDependency,Source={StaticResource I18N}}"/>
                             </ui:ToggleSwitch>
                         </Grid>
-                        <controls:ToothInfoPanel VerticalAlignment="Top" DataContext="{Binding  ViewModel.ToothInfoPanel}" Margin="5"/>
+                        <controls:ToothInfoPanel VerticalAlignment="Top" DataContext="{Binding  ViewModel.ToothInfoPanel}" Margin="5" />
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
@@ -106,7 +108,7 @@
                       ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding .}" TextWrapping="WrapWithOverflow"/>
+                            <TextBlock Text="{Binding}" TextWrapping="WrapWithOverflow"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

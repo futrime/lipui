@@ -13,7 +13,7 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="配置模式：" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding LipInstallerConfigMode}" VerticalAlignment="Center"/>
                 <StackPanel>
                     <RadioButton IsChecked="{Binding GlobalExe}" Content="{Binding LipInstallerGlobalExe,Source={StaticResource I18N}}"/>
                     <RadioButton IsChecked="{Binding PortableExe}" Content="{Binding LipInstallerPortableExe,Source={StaticResource I18N}}"/>
@@ -22,7 +22,7 @@
             </StackPanel>
             <ui:TextBox Visibility="{Binding ManualExe,Converter={StaticResource BooleanToVisibilityConverter}}" PlaceholderText="lip.exe的路径" Text="{Binding LipPath }"/>
             <DockPanel Visibility="{Binding ManualExe,Converter={StaticResource InvBooleanToVisibilityConverter}}">
-                <TextBlock Text="当前拟定位置："/>
+                <TextBlock Text="{Binding LipInstallerAssumedPath}"/>
                 <TextBlock Text="{Binding CurrentLipPath}"/>
             </DockPanel>
             <ProgressBar Value="{Binding Progress}" Visibility="{Binding ShowProgressBar,Converter={StaticResource BooleanToVisibilityConverter}}"/>

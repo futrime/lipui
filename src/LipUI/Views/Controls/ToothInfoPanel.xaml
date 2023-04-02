@@ -14,10 +14,10 @@
             <ui:Card MinWidth="300"  Background="{DynamicResource ApplicationBackgroundBrush}">
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top" Visibility="{Binding Version,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                        <TextBlock Text="[已安装]" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding ToothInfoInstalled,Source={StaticResource I18N}}" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top">
-                        <TextBlock Text="包名：" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ToothInfoPackName,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
                         <Button  DockPanel.Dock="Right" Margin="4,0,0,2" Padding="8,4" VerticalAlignment="Stretch"
                                  Command="{Binding CopyToothButtonCommand}">
                             <ui:SymbolIcon Symbol="CopySelect20"/>
@@ -25,30 +25,28 @@
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Tooth,Mode=OneWay}"/>
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top" Visibility="{Binding Version,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                        <TextBlock Text="版本：" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding ToothInfoPackVersion,Source={StaticResource I18N}}" VerticalAlignment="Center" />
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Version,Mode=OneWay}"/>
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top" Visibility="{Binding Name,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                        <TextBlock Text="名称：" VerticalAlignment="Center"/>
-                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Name,Mode=OneWay}"/>
+                        <TextBlock Text="{Binding ToothInfoName,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
+                        <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding Name,Mode=OneWay}"/>
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top" Visibility="{Binding Author,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                        <TextBlock Text="作者：" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ToothInfoAuthor,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Author,Mode=OneWay}"/>
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top" Visibility="{Binding License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                        <TextBlock Text="协议：" VerticalAlignment="Center"/>
-                        <TextBox MinWidth="100"  IsReadOnly="True" Text="{Binding  License,Mode=OneWay}"/>
+                        <TextBlock Text="{Binding ToothInfoLicense,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
+                        <TextBox MinWidth="100"  IsReadOnly="True" Text="{Binding License,Mode=OneWay}"/>
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top"  Visibility="{Binding Description,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                        <TextBlock Text="描述：" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ToothInfoDescription,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
                         <TextBox TextWrapping="WrapWithOverflow" TextAlignment="Left"  MinWidth="100"  IsReadOnly="True" Text="{Binding  Description,Mode=OneWay}"/>
                     </DockPanel>
                     <DockPanel DockPanel.Dock="Top" Visibility="{Binding Homepage,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                        <TextBlock Text="主页：" VerticalAlignment="Center"/>
-                        <ui:Hyperlink VerticalAlignment="Center" NavigateUri="{Binding Homepage,Mode=OneWay}">
-                            打开
-                        </ui:Hyperlink>
+                        <TextBlock Text="{Binding ToothInfoHomePage,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
+                        <ui:Hyperlink VerticalAlignment="Center" NavigateUri="{Binding Homepage,Mode=OneWay}" Content="{Binding ToothInfoHomePageOpenLink,Source={StaticResource I18N}}"/>
                         <TextBox MinWidth="100" IsReadOnly="True" Text="{Binding  Homepage,Mode=OneWay}"/>
                     </DockPanel>
                     <DockPanel >

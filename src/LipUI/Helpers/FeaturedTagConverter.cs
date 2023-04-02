@@ -10,11 +10,11 @@ internal class FeaturedTagConverter : IValueConverter
     {
         return value switch
         {
-            "featured" => "精华",
-            "integration" => "整合",
-            "module" => "模块",
-            "plugin" => "插件",
-            "anti-cheat" => "反作弊",
+            "featured" => Global.I18N.RegistryTagFeatured,
+            "integration" => Global.I18N.RegistryTagIntegration,
+            "module" => Global.I18N.RegistryTagModule,
+            "plugin" => Global.I18N.RegistryTagPlugin,
+            "anti-cheat" => Global.I18N.RegistryTagAntiCheat,
             _ => value
         };
     }

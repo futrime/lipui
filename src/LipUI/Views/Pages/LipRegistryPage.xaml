@@ -127,7 +127,7 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Button Margin="-10" Command="{Binding ViewModel.LoadAllPackagesCommand}">
                                     <StackPanel Orientation="Horizontal">
-                                        <ui:SymbolIcon Symbol="Feed16"
+                                        <ui:SymbolIcon Symbol="New20"
                                                        Filled="False" FontSize="32"/>
                                         <TextBlock Text="重新加载" VerticalAlignment="Center"/>
                                     </StackPanel>
