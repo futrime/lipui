@@ -7,7 +7,7 @@
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
             xmlns:controls="clr-namespace:LipUI.Views.Controls"
-           d:DataContext="{d:DesignInstance local:InstallPage,  IsDesignTimeCreatable=False}"
+           d:DataContext="{d:DesignInstance local:InstallPage,IsDesignTimeCreatable=False}"
            d:DesignHeight="450"
            d:DesignWidth="800"
            d:Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -53,17 +53,17 @@
 
                 </ui:ProgressRing>
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" >
-                    <TextBlock Text="安装中..." FontSize="25"/>
+                    <TextBlock Text="{Binding InstallInvoking,Source={StaticResource I18N}}" FontSize="25"/>
                     <TextBlock Text="{Binding ViewModel.Percentage}" HorizontalAlignment="Center" FontSize="25"/>
                 </StackPanel>
-                <Button Content="终止安装（危险）" HorizontalAlignment="Center" Command="{Binding ViewModel.CancelCommand}"/>
+                <Button Content="{Binding InstallTerminate,Source={StaticResource I18N}}" HorizontalAlignment="Center" Command="{Binding ViewModel.CancelCommand}"/>
             </StackPanel>
         </Grid>
         <DockPanel Margin="56,0" x:Name="Root">
             <DockPanel Dock="Top">
                 <Button DockPanel.Dock="Right" Command="{Binding ViewModel.FetchInfoCommand}" Content="{Binding InstallFetchButton,Source={StaticResource I18N}}"/>
                 <Button  Margin="0,0,5,0" DockPanel.Dock="Right" Command="{Binding ViewModel.CancelCommand}" Content="{Binding InstallFetchCancelButton,Source={StaticResource I18N}}"/>
-                <ui:TextBox PlaceholderText="输入Tooth包的地址..." Margin="5" Text="{Binding ViewModel.ToothName}"/>
+                <ui:TextBox PlaceholderText="{Binding InstallInputToothAddress,Source={StaticResource I18N}}" Margin="5" Text="{Binding ViewModel.ToothName}"/>
             </DockPanel>
             <Grid Visibility="{Binding ViewModel.InfoLoaded,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter} }"  MaxWidth="{Binding ElementName=Root,Path=ActualWidth,Converter={StaticResource HalfOriginalConverter}}">
                 <ScrollViewer>

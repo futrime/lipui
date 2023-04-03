@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using LipUI.ViewModels;
 using Wpf.Ui.Common.Interfaces;
@@ -35,22 +36,23 @@ namespace LipUI.Views.Pages
                         if (Global.Config.DeveloperMode)
                         {
                             clickCount = 0;
-                            Global.PopupSnackbar("开发者模式", "您已经在开发者模式了。");
+                            Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, Global.I18N.DeveloperAlreadyIn);
                         }
                         else
-                            Global.PopupSnackbar("开发者模式", "再点 3 次进入开发者模式。");
+                            Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, string.Format(Global.I18N.DeveloperSnackbarSubtitle, 3));
                         break;
                     case 3:
-                        Global.PopupSnackbar("开发者模式", "再点 2 次进入开发者模式。");
+                        Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, string.Format(Global.I18N.DeveloperSnackbarSubtitle, 2));
                         break;
                     case 4:
-                        Global.PopupSnackbar("开发者模式", "再点 1 次进入开发者模式。");
+                        Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, string.Format(Global.I18N.DeveloperSnackbarSubtitle, 1));
                         break;
                     case >= 5:
-                        _ = Global.ShowDialog("开发者模式", "是否进入开发者模式？\n开发者模式下部分页面会有一些额外的选项，请谨慎使用。", ("取消", hide => hide()), ("确认", hide =>
+                        _ = Global.ShowDialog(Global.I18N.DeveloperSnackbarTitle, Global.I18N.DeveloperDialog
+                        , (Global.I18N.DeveloperDialogCancel, hide => hide()), (Global.I18N.DeveloperDialogConfirm, hide =>
                        {
                            Global.Config.DeveloperMode = true;
-                           Global.PopupSnackbar("开发者模式", "已进入开发者模式。");
+                           Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, Global.I18N.DeveloperEnterSuccess);
                            hide();
                        }
                         ));

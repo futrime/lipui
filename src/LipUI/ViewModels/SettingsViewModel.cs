@@ -38,16 +38,16 @@ namespace LipUI.ViewModels
             if (File.Exists(value))
             {
                 Global.Config.LipPath = value;
-                Global.PopupSnackbar("设置成功", value);
+                Global.PopupSnackbar(Global.I18N.SettingsSuccessTitle, value);
             }
             else if (File.Exists(Path.Combine(value, "lip.exe")))
             {
                 Global.Config.LipPath = Path.Combine(value, "lip.exe");
-                Global.PopupSnackbar("设置成功", Global.Config.LipPath);
+                Global.PopupSnackbar(Global.I18N.SettingsSuccessTitle, Global.Config.LipPath);
             }
             else
             {
-                Global.PopupSnackbarWarn("路径不存在", value);
+                Global.PopupSnackbarWarn(Global.I18N.SettingsFailedTitle,value);
             }
         }
         [ObservableProperty]
@@ -118,10 +118,10 @@ namespace LipUI.ViewModels
         [RelayCommand]
         private async Task ExitDeveloperMode()
         {
-            await Global.ShowDialog("开发者模式", "是否退出开发者模式？", ("取消", hide => hide()), ("确认", hide =>
+            await Global.ShowDialog(Global.I18N.DeveloperDialog, Global.I18N.DeveloperDialogExit , (Global.I18N.DeveloperDialogCancel, hide => hide()), (Global.I18N.DeveloperDialogConfirm, hide =>
              {
                  Global.Config.DeveloperMode = false;
-                 Global.PopupSnackbar("开发者模式", "已退出开发者模式");
+                 Global.PopupSnackbar(Global.I18N.DeveloperDialog, Global.I18N.DeveloperDialogExited);
                  hide();
              }
             ));

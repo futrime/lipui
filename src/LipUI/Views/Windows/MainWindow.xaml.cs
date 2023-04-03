@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using LipUI.ViewModels;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.Common;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 
@@ -25,7 +27,7 @@ namespace LipUI.Views.Windows
 
             InitializeComponent();
             SetPageService(pageService);
-             
+
             navigationService.SetNavigationControl(RootNavigation);
 
             //从配置获取主题
@@ -57,6 +59,19 @@ namespace LipUI.Views.Windows
 
             // Make sure that closing this window will begin the process of closing the application.
             Application.Current.Shutdown();
+        }
+
+        private void RootNavigation_OnNavigated(INavigation sender, RoutedNavigationEventArgs e)
+        {
+            if (RootNavigation?.Current is { } navigationItem)
+            {
+                string? text = navigationItem.Content as string;
+                if (!string.IsNullOrEmpty(text))
+                {
+                    Breadcrumb.SetBinding(TextBlock.TextProperty,
+                        new Binding(nameof(navigationItem.Content)) { Source = navigationItem });
+                }
+            }
         }
     }
 }

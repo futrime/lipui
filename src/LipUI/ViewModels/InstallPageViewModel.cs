@@ -76,7 +76,7 @@ namespace LipUI.ViewModels
                                 //    var index = fullEula.IndexOf("\r\n", StringComparison.Ordinal);
                                 //    if (index != -1) { fullEula = fullEula[(index + 8)..]; }
                                 //}
-                                _ = Global.ShowDialog("提示", await Global.DispatcherInvokeAsync(() =>
+                                _ = Global.ShowDialog(Global.I18N.InstallYNDialog, await Global.DispatcherInvokeAsync(() =>
                                     {
                                         try
                                         {
@@ -116,16 +116,16 @@ namespace LipUI.ViewModels
                                                 }
                                             };
                                         }
-                                    }), ("取消", hide =>
+                                    }), (Global.I18N.InstallYNDialogDeny, hide =>
                                     {
                                         hide();
-                                        Global.PopupSnackbarWarn("取消", "安装已取消");
+                                        Global.PopupSnackbarWarn(Global.I18N.InstallYNCanceledTitle, Global.I18N.InstallYNCanceled);
                                         Task.Delay(1000).ContinueWith(_ =>
                                         {
                                             input("n");
                                         });
                                     }
-                                ), ("好的", hide =>
+                                ), (Global.I18N.InstallYNDialogGrant, hide =>
                                     {
                                         hide();
                                         input("y");
@@ -154,15 +154,15 @@ namespace LipUI.ViewModels
                             Global.DispatcherInvoke(() => OutPut.Add(x));
                             if (x.StartsWith("Successfully installed all tooth files"))
                             {
-                                Global.PopupSnackbar("安装完成", "Successfully installed all tooth files.");
+                                Global.PopupSnackbar(Global.I18N.InstallSuccessTitle, Global.I18N.InstallSuccess);
                             }
                             else if (x.StartsWith("[Info] Generating BDS Please wait for few minutes"))
                             {
-                                Percentage = "生成BDS...";
+                                Percentage = Global.I18N.InstallGeneratingBDSLib;
                             }
                             else if (x.StartsWith("Error", true, CultureInfo.InvariantCulture))
                             {
-                                Global.PopupSnackbarWarn("小错误", x[6..]);
+                                Global.PopupSnackbarWarn(Global.I18N.InstallErrorTitle, x[6..]);
                             }
                         }
                     }
@@ -200,7 +200,7 @@ namespace LipUI.ViewModels
                 }
                 else
                 {
-                    Global.PopupSnackbarWarn("获取失败", message);
+                    Global.PopupSnackbarWarn(Global.I18N.InstallFetchFailed, message);
                 }
             }
             catch (Exception ex)

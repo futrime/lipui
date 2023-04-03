@@ -59,7 +59,7 @@ namespace LipUI.ViewModels
         void CopyToothButton()
         {
             Clipboard.SetText(Tooth);
-            Global.PopupSnackbar("复制成功", Tooth);
+            Global.PopupSnackbar(Global.I18N.CopyToClipboard, Tooth);
         }
         [ObservableProperty] private string? _selectedVersion;
     }

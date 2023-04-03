@@ -45,7 +45,7 @@ namespace LipUI.ViewModels
             }
             catch (Exception e)
             {
-                Global.PopupSnackbarWarn("小错误，请尝试重新获取", e.Message);
+                Global.PopupSnackbarWarn(Global.I18N.LocalFetchRetry, e.Message);
 #if DEBUG
                 throw;
 #endif
@@ -66,7 +66,7 @@ namespace LipUI.ViewModels
             }
             else
             {
-                Global.PopupSnackbarWarn("获取失败", message);
+                Global.PopupSnackbarWarn(Global.I18N.LocalFetchFailed, message);
             }
             IsShowingDetail = true;
         }

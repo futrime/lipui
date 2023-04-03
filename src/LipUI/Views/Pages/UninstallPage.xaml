@@ -15,27 +15,27 @@
            mc:Ignorable="d">
     <StackPanel Margin="56,0">
         <StackPanel Orientation="Horizontal" Visibility="{Binding ViewModel.HasTooth,Converter={StaticResource InvBooleanToVisibilityConverter}}">
-            <TextBlock Style="{StaticResource Title}">
-            请在
-            </TextBlock>
-            <ui:Hyperlink Click="Hyperlink_OnClick" FontSize="20">
-                本地包
-            </ui:Hyperlink>
-            <TextBlock Style="{StaticResource Title}">
-            页面点击详细信息，然后点击删除
-            </TextBlock>
+            <TextBlock Style="{StaticResource Title}" Text="{Binding UninstallTip1,Source={StaticResource I18N}}"/>
+            <ui:Hyperlink Click="Hyperlink_OnClick" FontSize="20" Content="{Binding UninstallLocalLink,Source={StaticResource I18N}}"/>
+            <TextBlock Style="{StaticResource Title}" Text="{Binding UninstallTip2,Source={StaticResource I18N}}"/>
         </StackPanel>
         <TextBlock HorizontalAlignment="Center" Text="{Binding ViewModel.Tooth}" Style="{StaticResource Title}"/>
         <ScrollViewer DockPanel.Dock="Bottom" IsEnabled="{Binding ViewModel.HasTooth}">
             <StackPanel>
                 <Button Margin="10" HorizontalAlignment="Stretch" Command="{Binding ViewModel.DoUninstallCommand}">
                     <StackPanel Orientation="Horizontal" Opacity="{Binding ViewModel.DoUninstallCommand.IsRunning,Converter={StaticResource BooleanToOpacityConverter},ConverterParameter='0.5'}">
-                        <TextBlock Text="确认删除"/>
-                        <TextBlock Text="{Binding ViewModel.Tooth}"/>
+                        <TextBlock Style="{StaticResource Title}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                                    <Binding Source="{StaticResource I18N}" Path="UninstallConfirm"/>
+                                    <Binding Path="ViewModel.Tooth"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock> 
                     </StackPanel>
                 </Button>
                 <ui:Hyperlink Click="Hyperlink_OnClick" FontSize="20" Visibility="{Binding ViewModel.UninstallComplete,Converter={StaticResource BooleanToVisibilityConverter}}"
-Content="{Binding UninstallBackToLocal,Source={StaticResource I18N}}"/>
+                Content="{Binding UninstallBackToLocal,Source={StaticResource I18N}}"/>
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
                               ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}" >
                     <ItemsControl.ItemTemplate>

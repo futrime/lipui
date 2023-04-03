@@ -21,7 +21,7 @@ namespace LipUI.Models
         public partial class AppConfigWorkingDirectory : ObservableObject, IEquatable<AppConfigWorkingDirectory>
         {
             [ObservableProperty] string _directory = string.Empty;
-            [ObservableProperty] string _name = "未命名";
+            [ObservableProperty] string _name = Global.I18N.AppConfigWorkingDirectoryUnnamed;
             public bool Equals(AppConfigWorkingDirectory other)
             {
                 return Directory == other.Directory;

@@ -10,9 +10,9 @@
            mc:Ignorable="d" 
            d:DesignHeight="450" d:DesignWidth="800"
            Title="DeveloperPage">
-    <Grid>
+    <Grid Margin="56,0,0,0">
         <Grid Visibility="{Binding ViewModel.GlobalConfig.DeveloperMode,Converter={StaticResource InvBooleanToVisibilityConverter}}">
-            <TextBlock Text="请到设置页面连续点击5次版本号开启开发者模式"/>
+            <TextBlock Text="{Binding DeveloperEnterTip,Source={StaticResource I18N}}" Style="{StaticResource Title}" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top"/>
         </Grid>
         <Grid Visibility="{Binding ViewModel.GlobalConfig.DeveloperMode,Converter={StaticResource BooleanToVisibilityConverter}}">
             <controls:ToothJson DataContext="{Binding ViewModel.ToothJson}" />

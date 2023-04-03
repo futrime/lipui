@@ -9,7 +9,7 @@ public partial class SourceSelectorViewModel : ObservableObject
     void Copy(string v)
     {
         Clipboard.SetText(v);
-        Global.PopupSnackbar("已复制到剪切板", v);
+        Global.PopupSnackbar(Global.I18N.CopyToClipboard, v);
     }
     [RelayCommand]
     void Select(string v)

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -56,34 +59,34 @@ namespace LipUI
         private static async Task InitLanguage()
         {
 #if DEBUG
-           _=  Task.Run(() =>
-            {
-                //调试模式自动保存语言文件
-                var dir = Path.Combine(Environment.CurrentDirectory);
-                var index = dir.LastIndexOf("LipUI", StringComparison.Ordinal);
-                if (index != -1)
-                {
-                    dir = Path.Combine(dir[..index], "LipUI", "Language", "Files");
-                    foreach (var (id, _) in Language.Utils.AvailableLanguages)
-                    {
-                        if (id is Language.Utils.LangId.zh_Hans or Language.Utils.LangId.Default) { continue; }
-                        var file = Path.Combine(dir, id + ".lang");
-                        if (File.Exists(file))
-                        {
-                            File.WriteAllText(file,
-                                Language.Utils.SerializeToStr(
-                                    Language.Utils.SerializeToDict(
-                                        Language.Utils.DeserializeFromDict(
-                                            Language.Utils.GetLangDictionaryFromResource(id)
-                                        )
-                                    )
-                                ), Encoding.UTF8);//刷入类并写入新项
-                        }
-                    }
-                }
-            }).ConfigureAwait(false);
+            _ = Task.Run(() =>
+             {
+                 //调试模式自动保存语言文件
+                 var dir = Path.Combine(Environment.CurrentDirectory);
+                 var index = dir.LastIndexOf("LipUI", StringComparison.Ordinal);
+                 if (index != -1)
+                 {
+                     dir = Path.Combine(dir[..index], "LipUI", "Language", "Files");
+                     foreach (var (id, _) in Language.Utils.AvailableLanguages)
+                     {
+                         if (id is Language.Utils.LangId.zh_Hans or Language.Utils.LangId.Default) { continue; }
+                         var file = Path.Combine(dir, id + ".lang");
+                         if (File.Exists(file))
+                         {
+                             File.WriteAllText(file,
+                                 Language.Utils.SerializeToStr(
+                                     Language.Utils.SerializeToDict(
+                                         Language.Utils.DeserializeFromDict(
+                                             Language.Utils.GetLangDictionaryFromResource(id)
+                                         )
+                                     )
+                                 ), Encoding.UTF8);//刷入类并写入新项
+                         }
+                     }
+                 }
+             }).ConfigureAwait(false);
 #endif
-          await  Language.Utils.SwitchLanguage(Config.Language);
+            await Language.Utils.SwitchLanguage(Config.Language);
         }
         /// <summary>初始化全局变量(初始化程序)</summary>
         internal static async Task Init()
@@ -354,6 +357,22 @@ namespace LipUI
                 ? AppConfig.FromString(File.ReadAllText(fp))
                 : new AppConfig();
             //订阅属性更改，并应用属性
+            void Save()
+            {
+                try
+                {
+                    var dir = Path.GetDirectoryName(fp)!;
+                    if (!Directory.Exists(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+                    File.WriteAllText(fp, result.ToString());
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
             result.PropertyChanged += (s, e) =>
             {
                 switch (e.PropertyName)//修改后应用配置
@@ -370,20 +389,41 @@ namespace LipUI
                         break;
                 }
                 //保存
-                try
-                {
-                    var dir = Path.GetDirectoryName(fp)!;
-                    if (!Directory.Exists(dir))
-                    {
-                        Directory.CreateDirectory(dir);
-                    }
-                    File.WriteAllText(fp, result.ToString());
-                }
-                catch
-                {
-                    // ignored
-                }
+                Save();
             };
+            //遍历所有子属性，订阅属性更改
+            var props = result.GetType().GetProperties();
+
+            void PropertyChangedHandler(object sender, PropertyChangedEventArgs e) => Save();
+            void CollectionChangeHandler(object sender, NotifyCollectionChangedEventArgs e)
+            {
+                Save();
+                foreach (var item in e.NewItems)
+                {
+                    Subscribe(item);
+                }
+            }
+            void Subscribe(object? sub)
+            {
+                if (sub is INotifyPropertyChanged subProp)
+                {
+                    subProp.PropertyChanged -= PropertyChangedHandler;
+                    subProp.PropertyChanged += PropertyChangedHandler;
+                }
+                if (sub is INotifyCollectionChanged subCol)
+                {
+                    subCol.CollectionChanged -= CollectionChangeHandler;
+                    subCol.CollectionChanged += CollectionChangeHandler;
+                }
+            }
+            foreach (var prop in props)
+            {
+                if (prop.PropertyType.IsClass && prop.PropertyType != typeof(string))
+                {
+                    var sub = prop.GetValue(result);
+                    Subscribe(sub);
+                }
+            }
             return result;
         });
         /// <summary>

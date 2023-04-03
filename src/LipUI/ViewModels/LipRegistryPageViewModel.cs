@@ -55,7 +55,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             }
             catch (Exception e)
             {
-                Global.PopupSnackbarWarn("查询Tag失败", e.Message);
+                Global.PopupSnackbarWarn(Global.I18N.RegistrySearchTagFailed, e.Message);
             }
 
             var items = ToothItems.Where(x =>
@@ -114,7 +114,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         }
         catch (Exception e)
         {
-            Global.PopupSnackbarWarn("刷新出错", e.Message);
+            Global.PopupSnackbarWarn(Global.I18N.RegistryTipRefreshFailed, e.Message);
         }
         finally
         {
@@ -210,7 +210,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
             {
                 IsLoading = true;
                 LoadingOutPut.Clear();
-                LoadingOutPut.Add("正在加载所有包");
+                LoadingOutPut.Add(Global.I18N.RegistryTipFetchAll);
                 LoadingOutPut.Add(RegistryHub);
                 ToothItems.Clear();
             });
@@ -228,7 +228,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         }
         catch (Exception e)
         {
-            Global.PopupSnackbarWarn("获取失败", e.Message);
+            Global.PopupSnackbarWarn(Global.I18N.RegistryTipFetchFailed, e.Message);
         }
     }
     protected void InitializeViewModel()
@@ -247,7 +247,7 @@ public partial class LipRegistryPageViewModel : ObservableRecipient, INavigation
         }
         else
         {
-            Global.PopupSnackbarWarn("获取失败", message);
+            Global.PopupSnackbarWarn(Global.I18N.RegistryTipFetchFailed, message);
         }
         IsShowingDetail = true;
     }

@@ -19,7 +19,7 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
     void Copy(AppConfigWorkingDirectory v)
     {
         Clipboard.SetText(v.Directory);
-        Global.PopupSnackbar("已复制到剪切板", v.Directory);
+        Global.PopupSnackbar(Global.I18N.CopyToClipboard, v.Directory);
     }
     [RelayCommand]
     internal void Select(AppConfigWorkingDirectory v)
@@ -53,7 +53,7 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
         {
             SelectedPath = AddingWorkingDir,
             ShowNewFolderButton = true,
-            Description = "选择工作目录"
+            Description = Global.I18N.WorkingPathSelectorTitle
         };
         if (dialog.ShowDialog() == true)
         {
@@ -86,19 +86,19 @@ public partial class WorkingPathSelectorViewModel : ObservableObject
             if (Config.AllWorkingDirectory.Contains(AddingWorkingDir))
             {
                 Config.WorkingDirectory = AddingWorkingDir;
-                Global.PopupSnackbar("目录已添加", AddingWorkingDir, SymbolRegular.Warning16, ControlAppearance.Caution);
+                Global.PopupSnackbar(Global.I18N.WorkingPathSelectorAlreadyAdded, AddingWorkingDir, SymbolRegular.Warning16, ControlAppearance.Caution);
             }
             else
             {
                 Config.AllWorkingDirectory.Add(AddingWorkingDir);
                 Config.WorkingDirectory = AddingWorkingDir;
                 AddingWorkingDir = "";
-                Global.PopupSnackbar("添加成功", AddingWorkingDir);
+                Global.PopupSnackbar(Global.I18N.WorkingPathSelectorAdded, AddingWorkingDir);
             }
         }
         else
         {
-            Global.PopupSnackbar("目录不存在", AddingWorkingDir, SymbolRegular.Warning16, ControlAppearance.Caution);
+            Global.PopupSnackbar(Global.I18N.WorkingPathSelectorNotExist, AddingWorkingDir, SymbolRegular.Warning16, ControlAppearance.Caution);
         }
     }
 }
