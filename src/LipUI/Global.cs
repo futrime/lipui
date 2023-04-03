@@ -487,7 +487,7 @@ namespace LipUI
         /// <summary>
         /// 弹出底部提示
         /// </summary>
-        public static void PopupSnackbar(string title, string content, SymbolRegular icon = SymbolRegular.Info16, ControlAppearance appearance = ControlAppearance.Secondary, int timeout = 2000)
+        public static void PopupSnackbar(string title, string content, SymbolRegular icon = SymbolRegular.Info16, ControlAppearance appearance = ControlAppearance.Secondary, int timeout = 4000)
         {
             DispatcherInvoke(() =>
             {
@@ -497,7 +497,7 @@ namespace LipUI
             });
         }
         public static void PopupSnackbarWarn(string title, string content)
-            => PopupSnackbar(title, content, SymbolRegular.Warning16, ControlAppearance.Caution);
+            => PopupSnackbar(title, content, SymbolRegular.Warning16, ControlAppearance.Caution,8000);
         /// <summary>
         /// 弹出对话框
         /// </summary>
