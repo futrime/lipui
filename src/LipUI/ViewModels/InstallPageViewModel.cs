@@ -193,10 +193,21 @@ namespace LipUI.ViewModels
                 });
                 if (success)
                 {
-                    ToothInfoPanel = new ToothInfoPanelViewModel(package!)
+                    if (ToothInfoPanel.Tooth != ToothName)
                     {
-                        Tooth = ToothName
-                    };
+                        ToothInfoPanel = new ToothInfoPanelViewModel(package!)
+                        {
+                            Tooth = ToothName
+                        };
+                    }
+                    else
+                    {
+                        ToothInfoPanel.RefreshVersion(package!);
+                        if (package?.Versions?.FirstOrDefault() is not null and var v)
+                        {
+                            SelectedVersion = v;
+                        }
+                    }
                 }
                 else
                 {
@@ -251,13 +262,14 @@ namespace LipUI.ViewModels
             Ctk?.Cancel();
             Ctk = null;
         }
-        public void OnNavigatedTo()
+        public async void OnNavigatedTo()
         {
             if (Global.TryDequeueItem<InstallInfo>(out var item))
             {
                 ToothName = item.Tooth;
                 ToothInfoPanel = item.data;
                 SelectedVersion = item.Version ?? item.data.Versions?.FirstOrDefault();
+                await FetchInfo();
             }
         }
         public void OnNavigatedFrom()

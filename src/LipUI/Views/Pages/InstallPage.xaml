@@ -95,9 +95,12 @@
                                     </TextBlock>
                                 </StackPanel>
                             </Button>
-                            <ui:ToggleSwitch IsChecked="{Binding ViewModel.IsSkipDependency}" Margin="10,-10,0,0" Grid.Column="2" Visibility="{Binding ViewModel.GlobalConfig.DevShowSkipDependency,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Stretch">
-                                <TextBlock Margin="-55,35,0,0" Text="{Binding InstallSkipDependency,Source={StaticResource I18N}}"/>
-                            </ui:ToggleSwitch>
+                            <DockPanel Grid.Column="2" VerticalAlignment="Center">
+                                <Grid DockPanel.Dock="Top" HorizontalAlignment="Center">
+                                    <ui:ToggleSwitch IsChecked="{Binding ViewModel.IsSkipDependency}" Visibility="{Binding ViewModel.GlobalConfig.DevShowSkipDependency,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Stretch"/>
+                                </Grid>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding InstallSkipDependency,Source={StaticResource I18N}}"/>
+                            </DockPanel>
                         </Grid>
                         <controls:ToothInfoPanel VerticalAlignment="Top" DataContext="{Binding  ViewModel.ToothInfoPanel}" Margin="5" />
                     </StackPanel>

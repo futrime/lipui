@@ -86,7 +86,7 @@ public static class Utils
     public static LangId CurrentLangId
     {
         get => Global.Config.Language;
-        set => SwitchLanguage(value);
+        set => _=SwitchLanguage(value);
     }
 
     public static Model DeserializeFromDict(Dictionary<string, string> dict)

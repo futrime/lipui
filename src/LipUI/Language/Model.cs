@@ -121,4 +121,11 @@ public class Model : ObservableObject
     public string WorkingPathSelectorNotExist { get; set; } = "目录不存在";
     public string LocalFetchRetry { get; set; } = "小错误，请尝试重新获取";
     public string LocalFetchFailed { get; set; } = "获取失败";
+    public string WorkingPathSelectorAddButton { get; set; } = "添加";
+    public string WorkingPathSelectorSelectButton { get; set; } = "选择";
+    public string WorkingPathSelectorCurrent { get; set; } = "当前目录";
+    public string WorkingPathSelectorItemCopy { get; set; } = "复制";
+    public string WorkingPathSelectorItemOpen { get; set; } = "打开文件夹";
+    public string WorkingPathSelectorItemDelete { get; set; } = "删除当前项";
+    public string HomeWorkingDirectoryEditToggle { get; set; } = "开启编辑";
 }

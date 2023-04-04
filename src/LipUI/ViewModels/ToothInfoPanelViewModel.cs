@@ -11,7 +11,7 @@ namespace LipUI.ViewModels
     {
         private readonly LipPackage? _info;
         private readonly LipRegistry.LipRegistryItem? _registryItem;
-        private readonly LipPackageVersions _ver;
+        private LipPackageVersions _ver;
         public ToothInfoPanelViewModel(LipPackage info) : this((LipPackageVersions)info)
         {
             Tooth = info.Tooth;
@@ -55,6 +55,12 @@ namespace LipUI.ViewModels
         [ObservableProperty] string _tooth = string.Empty;
         [ObservableProperty] string[] _tags = Array.Empty<string>();
         public string[]? Versions => _ver.Versions;
+
+        public void RefreshVersion(LipPackageVersions ver)
+        {
+            _ver = ver;
+            OnPropertyChanged(nameof(Versions));
+        }
         [RelayCommand]
         void CopyToothButton()
         {

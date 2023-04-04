@@ -33,7 +33,7 @@
                 </Style.Triggers>
             </Style>
         </Grid.Style>
-        <ui:Card x:Name="card" Margin="10" HorizontalAlignment="Stretch" >
+        <ui:CardAction x:Name="card"  Command="{Binding ShowInfoCommand}" Margin="10" HorizontalAlignment="Stretch" >
             <!--<ui:Card.Triggers>
                 <EventTrigger RoutedEvent="Loaded">
                     <BeginStoryboard>
@@ -43,119 +43,111 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </ui:Card.Triggers>-->
-            <DockPanel>
-                <DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
+            <Grid>
+                <ui:ProgressRing Margin="-10,-10,0,-10" VerticalAlignment="Center" HorizontalAlignment="Right" RenderTransformOrigin=".5,.5" IsIndeterminate="True" Opacity=".8" IsEnabled="True"
+                             Visibility="{Binding IsEnabled, ElementName=card,Converter={StaticResource InvBooleanToVisibilityConverter}}">
+                    <ui:ProgressRing.RenderTransform>
+                        <ScaleTransform ScaleX=".6" ScaleY=".6"/>
+                    </ui:ProgressRing.RenderTransform>
+                </ui:ProgressRing>
+                <DockPanel>
+                    <!--<DockPanel Margin="10,0,0,0" DockPanel.Dock="Right">
                     <Grid>
-                        <ui:ProgressRing IsIndeterminate="True" RenderTransformOrigin=".5,.5" Margin="-5"
+                        <ProgressBar IsIndeterminate="True" RenderTransformOrigin=".5,.5" Margin="-5"
                                          Visibility="{Binding IsEnabled, ElementName=ShowInfoButton,Converter={StaticResource InvBooleanToVisibilityConverter}}">
-                            <ui:ProgressRing.RenderTransform>
+                            <ProgressBar.RenderTransform>
                                 <ScaleTransform ScaleX=".5" ScaleY=".5"/>
-                            </ui:ProgressRing.RenderTransform>
-                        </ui:ProgressRing>
-                        <ui:Button Name="ShowInfoButton" Command="{Binding ShowInfoCommand}" Content="{Binding ToothItemDetailButton,Source={StaticResource I18N}}"
+                            </ProgressBar.RenderTransform>
+                        </ProgressBar>
+                        <ui:Button Name="ShowInfoButton" Opacity="0" Command="{Binding ShowInfoCommand}" Content="{Binding ToothItemDetailButton,Source={StaticResource I18N}}"
                                    Visibility="{Binding IsEnabled, ElementName=ShowInfoButton,Converter={StaticResource BooleanToVisibilityHiddenConverter}}">
-                            <!--<ContentControl>
-                                <ContentControl.Style>
-                                    <Style TargetType="ContentControl" >
-                                        <Style.Triggers>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Content">
-                                                    <Setter.Value>
-                                                        <ui:ProgressRing IsIndeterminate="True" RenderTransformOrigin=".5,.5">
-                                                            <ui:ProgressRing.RenderTransform>
-                                                                <ScaleTransform ScaleX=".5" ScaleY=".5"/>
-                                                            </ui:ProgressRing.RenderTransform>
-                                                        </ui:ProgressRing>
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Setter Property="Margin" Value="-20"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="True">
-                                                <Setter Property="Content" Value="详细信息"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ContentControl.Style>
-                            </ContentControl>-->
                         </ui:Button>
                     </Grid>
-                </DockPanel>
-                <Grid  DockPanel.Dock="Top" Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <DockPanel >
-                        <TextBlock DockPanel.Dock="Bottom" Text="{Binding RegistryItem.Description}" TextWrapping="WrapWithOverflow"/>
+                </DockPanel>-->
+                    <Grid DockPanel.Dock="Top"
+                          Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
                         <DockPanel>
-                            <TextBlock Text="{Binding RegistryItem.Name}" Style="{StaticResource Title}"/>
-                            <ItemsControl ItemsSource="{Binding Tags}" HorizontalContentAlignment="Left">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <ToggleButton Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity=".8" Padding="4" Margin="3"
-                                  Content="{Binding Tag,Converter={StaticResource FeaturedTagConverter}}" 
-                                  Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"
-                                    IsChecked="{Binding IsSelected}">
-                                            <ToggleButton.CommandParameter>
-                                                <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                                                    <Binding Path="Tag" />
-                                                    <Binding Path="IsSelected"  />
-                                                </MultiBinding>
-                                            </ToggleButton.CommandParameter>
-                                        </ToggleButton>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
+                            <TextBlock DockPanel.Dock="Bottom" Text="{Binding RegistryItem.Description}"
+                                       TextWrapping="WrapWithOverflow" />
+                            <DockPanel>
+                                <TextBlock Text="{Binding RegistryItem.Name}" Style="{StaticResource Title}" />
+                                <ItemsControl ItemsSource="{Binding Tags}" HorizontalContentAlignment="Left">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <ToggleButton Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                                          Opacity=".8" Padding="4" Margin="3"
+                                                          Content="{Binding Tag,Converter={StaticResource FeaturedTagConverter}}"
+                                                          Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"
+                                                          IsChecked="{Binding IsSelected}">
+                                                <ToggleButton.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                                        <Binding Path="Tag" />
+                                                        <Binding Path="IsSelected" />
+                                                    </MultiBinding>
+                                                </ToggleButton.CommandParameter>
+                                            </ToggleButton>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </DockPanel>
                         </DockPanel>
-                    </DockPanel>
-                    <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
-                        <DockPanel DockPanel.Dock="Top" DataContext="{Binding Author}">
-                            <ToggleButton  Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity=".8" Padding="4" Margin="3" 
-                                          Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"
-                                          IsChecked="{Binding IsSelected}">
-                                <ToggleButton.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                                        <Binding Path="Tag" />
-                                        <Binding Path="IsSelected"  />
-                                    </MultiBinding>
-                                </ToggleButton.CommandParameter>
-                                <StackPanel Orientation="Horizontal" >
-                                    <TextBlock Text="{Binding ToothItemAuthor,Source={StaticResource I18N}}"/>
-                                    <TextBlock Text="{Binding Tag,Converter={StaticResource FeaturedTagConverter}}"/>
-                                </StackPanel>
-                            </ToggleButton>
+                        <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
+                            <DockPanel DockPanel.Dock="Top" DataContext="{Binding Author}">
+                                <ToggleButton Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity=".8"
+                                              Padding="4" Margin="3"
+                                              Command="{Binding ViewModel.AddTagCommand,RelativeSource={RelativeSource FindAncestor,AncestorType=pages:LipRegistryPage}}"
+                                              IsChecked="{Binding IsSelected}">
+                                    <ToggleButton.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                            <Binding Path="Tag" />
+                                            <Binding Path="IsSelected" />
+                                        </MultiBinding>
+                                    </ToggleButton.CommandParameter>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding ToothItemAuthor,Source={StaticResource I18N}}" />
+                                        <TextBlock Text="{Binding Tag,Converter={StaticResource FeaturedTagConverter}}" />
+                                    </StackPanel>
+                                </ToggleButton>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top"
+                                       Visibility="{Binding RegistryItem.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                                <TextBlock Text="{Binding ToothItemLicense,Source={StaticResource I18N}}" />
+                                <TextBlock Text="{Binding RegistryItem.License}" />
+                            </DockPanel>
                         </DockPanel>
-                        <DockPanel DockPanel.Dock="Top" Visibility="{Binding RegistryItem.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                            <TextBlock Text="{Binding ToothItemLicense,Source={StaticResource I18N}}"/>
-                            <TextBlock Text="{Binding RegistryItem.License}"/>
+                    </Grid>
+                    <Grid
+                        Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource InvBooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom" Text="{Binding Information.Description}"
+                                       TextWrapping="WrapWithOverflow" />
+                            <TextBlock Text="{Binding Information.Name}" Style="{StaticResource Title}" />
                         </DockPanel>
-                    </DockPanel>
-                </Grid>
-                <Grid Visibility="{Binding Detailed,Mode=OneTime,Converter={StaticResource InvBooleanToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <DockPanel >
-                        <TextBlock DockPanel.Dock="Bottom" Text="{Binding Information.Description}" TextWrapping="WrapWithOverflow"/>
-                        <TextBlock Text="{Binding Information.Name}" Style="{StaticResource Title}"/>
-                    </DockPanel>
-                    <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
-                        <DockPanel DockPanel.Dock="Top">
-                            <TextBlock Text="{Binding ToothItemAuthor,Source={StaticResource I18N}}"/>
-                            <TextBlock Text="{Binding Information.Author}"/>
+                        <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
+                            <DockPanel DockPanel.Dock="Top">
+                                <TextBlock Text="{Binding ToothItemAuthor,Source={StaticResource I18N}}" />
+                                <TextBlock Text="{Binding Information.Author}" />
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top"
+                                       Visibility="{Binding Information.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
+                                <TextBlock Text="{Binding ToothItemLicense,Source={StaticResource I18N}}" />
+                                <TextBlock Text="{Binding Information.License}" />
+                            </DockPanel>
                         </DockPanel>
-                        <DockPanel DockPanel.Dock="Top" Visibility="{Binding Information.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
-                            <TextBlock Text="{Binding ToothItemLicense,Source={StaticResource I18N}}"/>
-                            <TextBlock Text="{Binding Information.License}"/>
-                        </DockPanel>
-                    </DockPanel>
-                    <!--<DockPanel>
+                        <!--<DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <TextBlock Text="{Binding Tooth}" Style="{StaticResource Title}"/>
                     </DockPanel>
@@ -164,8 +156,9 @@
                         <TextBlock Text="{Binding Version}"/>
                     </DockPanel>
                 </DockPanel>-->
-                </Grid>
-            </DockPanel>
-        </ui:Card>
+                    </Grid>
+                </DockPanel>
+            </Grid>
+        </ui:CardAction>
     </Grid>
 </UserControl>

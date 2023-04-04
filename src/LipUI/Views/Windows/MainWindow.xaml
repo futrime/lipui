@@ -28,20 +28,8 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <ui:NavigationCompact 
-                                  x:Name="RootNavigation"
-                                  Grid.Column="0" 
-                                  Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
-                                  Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
-                                  Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" 
-                                  Navigated="RootNavigation_OnNavigated"/>
-            <ui:TitleBar 
-                        Title="{Binding ApplicationTitle,Source={StaticResource I18N}}"
-                         Grid.Row="0"
-                         Grid.Column="0"
-                         Grid.ColumnSpan="2"
-                         Margin="42,0,0,0"
-                         Icon="pack://application:,,,/Assets/applicationIcon-256.png">
+            <ui:NavigationCompact  x:Name="RootNavigation" Grid.Column="0"  Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}" Frame="{Binding ElementName=RootFrame, Mode=OneWay}" Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}"  Navigated="RootNavigation_OnNavigated"/>
+            <ui:TitleBar  Title="{Binding ApplicationTitle,Source={StaticResource I18N}}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="42,0,0,0" Icon="pack://application:,,,/Assets/applicationIcon-256.png">
                 <!--<ui:TitleBar.Tray>
                     <ui:NotifyIcon
                     FocusOnLeftClick="True"
@@ -64,14 +52,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Frame x:Name="RootFrame" Grid.Row="1" />
-                        <TextBlock
-                        Name="Breadcrumb"
-                        Grid.Row="0"
-                        Margin="16"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontSize="28"
-                        />
+                        <TextBlock Name="Breadcrumb" Grid.Row="0" Margin="16" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="28" />
                     </Grid>
                 </Border>
             </Grid>
