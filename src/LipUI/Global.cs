@@ -267,11 +267,12 @@ namespace LipUI
                                                                 I18N.LipInstallerLipNotFound);
                                     entry.ExtractToFile(Path.Combine(Directory.GetCurrentDirectory(), entry.Name));
                                     //开启新的LipUI
-                                    Process.Start(Environment.GetCommandLineArgs()[0],
-                                        string.Join(" ",
-                                            from arg in Environment.GetCommandLineArgs().Skip(1)
-                                            select $"\"{arg}\""));
-                                    //hide();
+                                    //Process.Start(Environment.GetCommandLineArgs()[0],
+                                    //    string.Join(" ",
+                                    //        from arg in Environment.GetCommandLineArgs().Skip(1)
+                                    //        select $"\"{arg}\""));
+                                    //Environment.Exit(0);
+                                    hide();
                                 }
                                 catch (Exception e)
                                 {
