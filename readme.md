@@ -1,6 +1,9 @@
 # LipUI - Tooth Pack Manager with UI
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/LL-Package-Hub/LipUI)](
-Work In Progress
+### Work In Progress
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LiteLDev/LipUI?include_prereleases)
+![GitHub all releases](https://img.shields.io/github/downloads/LiteLDev/LipUI/total)
+![GitHub](https://img.shields.io/github/license/LiteLDev/LipUI)
+
 ### How to build
 - Visual Studio 2022
 - .Net Framework 4.6.2 SDK
