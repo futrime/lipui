@@ -54,7 +54,7 @@ public static class Utils
     /// 获取系统语言
     /// </summary>
     /// <returns>语言ID</returns>
-    private static LangId GetSystemLanguage()
+    public static LangId GetSystemLanguage()
     {
         var lang = System.Globalization.CultureInfo.CurrentCulture.Name.ToLower();
         if (lang == "zh-CN")

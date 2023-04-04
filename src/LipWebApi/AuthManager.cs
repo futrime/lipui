@@ -76,17 +76,20 @@ internal static class AuthManager
         //return;
         var raw = Encoding.UTF8.GetString(ctx.Request.DataAsBytes);
         var jobj = JObject.Parse(raw);
-        var username = jobj.Value<string>("username");
-        var passwordMd5 = jobj.Value<string>("passwordMd5");
-        bool CheckUsernameAndPassword()//检查用户名是否有效
+        var username = jobj.Value<string>("username")!;
+        var passwordMd5 = jobj.Value<string>("passwordMd5")!;
+        bool CheckUsernameAndPassword()//检查用户名和密码
         {
-            if (_userTokens.TryGetValue(username, out string token))
-            {
-                if (_validTokens.TryGetValue(token, out DateTime expiration) && expiration > DateTime.UtcNow)
-                {
-                    return true;
-                }
-            }
+            //if (_userTokens.TryGetValue(username, out string token))//已经登录
+            //{
+            //    if (_validTokens.TryGetValue(token, out DateTime expiration) && expiration > DateTime.UtcNow)
+            //    {
+            //        //验证用户
+            //        return true;
+            //    }
+            //}
+            //_userTokens.TryRemove(username, out _);//移除旧验证
+            
             return false;
         }
         bool isValid = CheckUsernameAndPassword();

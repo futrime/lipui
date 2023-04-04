@@ -30,13 +30,14 @@ namespace LipUI
         /// <summary>
         /// Disclaimer
         /// </summary>
-        private const string eulaText = """
-                本软件包管理器（以下简称“本软件”）是由LiteLDev（以下简称“开发者”）开发和提供的。本软件旨在帮助用户管理和安装各种软件包，但不对任何软件包的内容、质量、功能、安全性或合法性负责。用户在使用本软件时，应自行判断和承担相关风险。
+        private const string eulaTextCN = """
+                    本软件包管理器（以下简称“本软件”）是由LiteLDev（以下简称“开发者”）开发和提供的。本软件旨在帮助用户管理和安装各种软件包，但不对任何软件包的内容、质量、功能、安全性或合法性负责。用户在使用本软件时，应自行判断和承担相关风险。
                 开发者不保证本软件的稳定性、可靠性、准确性或完整性。开发者不对本软件可能存在的任何缺陥、错误、病毒或其他有害成分负责。开发者不对用户使用本软件造成的任何直接或间接损失（包括但不限于数据丢失、设备损坏、利润损失等）负责。
                 开发者保留随时修改、更新或终止本软件及其相关服务的权利，无需事先通知用户。用户应自行备份重要数据，并定期检查本软件是否有更新版本。
                 用户在使用本软件时，应遵守相关法律法规，尊重他人的知识产权和隐私权，不得利用本软件进行任何违法或侵权行为。如用户违反上述规定，造成任何第三方损害或被第三方索赔，开发者不承担任何责任。
                 如果用户对本免责条款有任何疑问或意见，请联系开发者：LiteLDev
-                
+                """;
+        private const string eulaTextEN = """
                 This software package manager (hereinafter referred to as "this software") is developed and provided by LiteLDev (hereinafter referred to as "the developer"). This software is designed to help users manage and install various software packages, but is not responsible for any content, quality, functionality, security or legality of any software package. Users should use this software at their own discretion and assume all related risks.
                 The developer does not guarantee the stability, reliability, accuracy or completeness of this software. The developer is not liable for any defects, errors, viruses or other harmful components that may exist in this software. The developer is not liable for any direct or indirect damages (including but not limited to data loss, device damage, profit loss etc.) caused by the use of this software.
                 The developer reserves the right to modify, update or terminate this software and its related services at any time without prior notice to users. Users should back up important data and check regularly for updates of this software.
@@ -93,6 +94,14 @@ namespace LipUI
         {
             await Global.InitLanguage();
             var eulaPath = Path.Combine(ConfigFolder, "EULA.txt");
+            var eulaText = (Config.Language is Language.Utils.LangId.Default
+                    ? Language.Utils.GetSystemLanguage()
+                    : Config.Language) switch
+            {
+                Language.Utils.LangId.zh_Hans => eulaTextCN,
+                //Language.Utils.LangId.en => ,
+                _ => eulaTextEN
+            };
             if (File.Exists(eulaPath))
             {
                 if (File.ReadAllText(eulaPath, Encoding.UTF8) == eulaText)//条款已读
@@ -103,19 +112,19 @@ namespace LipUI
             }
             //显示条款
             {
-                _ = ShowDialog("免责条款", await DispatcherInvokeAsync(() => new TextBlock
+                _ = ShowDialog(I18N.Eula, await DispatcherInvokeAsync(() => new TextBlock
                 {
                     Text = eulaText,
                     TextWrapping = TextWrapping.WrapWithOverflow
-                }), ("不同意", _ =>
+                }), (I18N.EulaDeny, _ =>
                         {
-                            PopupSnackbarWarn("您拒绝了条款", "程序即将退出");
+                            PopupSnackbarWarn(I18N.EulaDeniedTitle, I18N.EulaDeniedContent);
                             Task.Delay(2500).ContinueWith(_ =>
                             {
                                 Environment.Exit(0);
                             });
                         }
-                ), ("同意", hide =>
+                ), (I18N.EulaAccept, hide =>
                         {
                             hide();
                             var directory = Path.GetDirectoryName(eulaPath);
@@ -138,7 +147,7 @@ namespace LipUI
             if (!TryRefreshLipPath())
             {
                 var vm = new LipInstallerViewModel();
-                _ = ShowDialog("需要配置 lip.exe", new LipInstaller(vm), ("完成", hide =>
+                _ = ShowDialog(I18N.LipInstallerDialog, new LipInstaller(vm), (I18N.LipInstallerDialogComplete, hide =>
                 {
                     Config.AutoLipPath = !vm.ManualExe;
                     Config.LipPath = vm.LipPath;
@@ -148,16 +157,16 @@ namespace LipUI
                         CheckWorkDir();
                     }
                     else
-                        PopupSnackbar("未找到lip.exe", "如已安装请重新启动LipUI");
+                        PopupSnackbar(I18N.LipInstallerSnackbarLipNotFound, I18N.LipInstallerSnackbarLipNotFoundTip);
                 }
-                ), ("下载", hide =>
+                ), (I18N.LipInstallerDialogDownload, hide =>
                 {
                     Config.AutoLipPath = !vm.ManualExe;
                     if (vm.GlobalExe)
                     {
                         if (vm.ShowProgressBar)
                         {
-                            vm.Tip = "正在下载，请等待...";
+                            vm.Tip = I18N.LipInstallerLipDownloading;
                         }
                         else
                         {
@@ -178,10 +187,11 @@ namespace LipUI
                                                 < 1024 * 1024 * 1024 => $"{val / 1024 / 1024}MB",
                                                 _ => $"{val / 1024 / 1024 / 1024}GB"
                                             };
-                                            vm.Tip = $"下载中...{BytesToStr(e.BytesReceived)}/{BytesToStr(e.TotalBytesToReceive)}";
+                                            vm.Tip = string.Format(I18N.LipInstallerLipDownloadingProgress, BytesToStr(e.BytesReceived),
+                                                BytesToStr(e.TotalBytesToReceive));
                                         });
                                     });
-                                    await DispatcherInvokeAsync(() => vm.Tip = "下载完成.");
+                                    await DispatcherInvokeAsync(() => vm.Tip = I18N.LipInstallerLipDownloadedSuccess);
                                     var tmpDir = Path.Combine(ConfigFolder, "temp");
                                     if (!Directory.Exists(tmpDir)) Directory.CreateDirectory(tmpDir);
                                     var installer = Path.Combine(tmpDir, "lip_installer.exe");
@@ -208,7 +218,7 @@ namespace LipUI
                                 }
                                 catch (Exception e)
                                 {
-                                    await DispatcherInvokeAsync(() => vm.Tip = "失败：" + e);
+                                    await DispatcherInvokeAsync(() => vm.Tip = string.Format(I18N.LipInstallerDownloadFailed, e));
 #if DEBUG
                                     throw;
 #endif
@@ -221,7 +231,7 @@ namespace LipUI
                     {
                         if (vm.ShowProgressBar)
                         {
-                            vm.Tip = "正在下载，请等待...";
+                            vm.Tip = I18N.LipInstallerLipDownloading;
                         }
                         else
                         {
@@ -242,17 +252,19 @@ namespace LipUI
                                                 < 1024 * 1024 * 1024 => $"{val / 1024 / 1024}MB",
                                                 _ => $"{val / 1024 / 1024 / 1024}GB"
                                             };
-                                            vm.Tip = $"下载中...{BytesToStr(e.BytesReceived)}/{BytesToStr(e.TotalBytesToReceive)}";
+                                            vm.Tip = string.Format(I18N.LipInstallerLipDownloadingProgress, BytesToStr(e.BytesReceived),
+                                                BytesToStr(e.TotalBytesToReceive));
                                         });
                                     });
-                                    await DispatcherInvokeAsync(() => vm.Tip = "下载完成.");
+                                    await DispatcherInvokeAsync(() => vm.Tip = I18N.LipInstallerLipDownloadedSuccess);
                                     //解压缩 
                                     // Create a memory stream from the byte array
                                     using MemoryStream ms = new MemoryStream(bytes);
                                     // Create a zip archive from the memory stream
                                     using ZipArchive zip = new ZipArchive(ms, ZipArchiveMode.Read);
                                     ZipArchiveEntry entry = zip.Entries.First(x => Path.GetFileName(x.Name) == "lip.exe")
-                                                            ?? throw new Exception("压缩包中未找到 lip.exe");
+                                                            ?? throw new Exception(
+                                                                I18N.LipInstallerLipNotFound);
                                     entry.ExtractToFile(Path.Combine(Directory.GetCurrentDirectory(), entry.Name));
                                     //开启新的LipUI
                                     Process.Start(Environment.GetCommandLineArgs()[0],
@@ -263,7 +275,7 @@ namespace LipUI
                                 }
                                 catch (Exception e)
                                 {
-                                    await DispatcherInvokeAsync(() => vm.Tip = "失败：" + e);
+                                    await DispatcherInvokeAsync(() => vm.Tip = string.Format(I18N.LipInstallerDownloadFailed, e));
 #if DEBUG
                                     throw;
 #endif
@@ -273,7 +285,7 @@ namespace LipUI
                         }
                     }
                     else
-                        PopupSnackbar("无效操作", "请选中安装到'全局'或者'当前目录'以下载 lip.exe", SymbolRegular.Warning16, ControlAppearance.Danger);
+                        PopupSnackbar(I18N.LipInstallerInvalidOperation, I18N.LipInstallerInvalidOperationTip, SymbolRegular.Warning16, ControlAppearance.Danger);
                 }
                 ), modify: dialog =>
                 {
@@ -289,7 +301,8 @@ namespace LipUI
         {
             if (!Directory.Exists(Config.WorkingDirectory?.Directory ?? ""))
             {//保存的WorkingDirectory不合法，需要手动选择 
-                _ = ShowDialog("需要指定有效的工作路径", new WorkingPathSelector(), ("完成", hide =>
+                _ = ShowDialog(I18N.WorkingPathSelectorInitDialog, new WorkingPathSelector(), (
+                        I18N.WorkingPathSelectorInitDialogComplete, hide =>
                         {
                             if (Directory.Exists(Config.WorkingDirectory?.Directory ?? ""))
                             {
@@ -297,7 +310,7 @@ namespace LipUI
                             }
                             else
                             {
-                                PopupSnackbar("请选择有效的工作路径", Config.WorkingDirectory?.Directory ?? "", SymbolRegular.Warning16, ControlAppearance.Caution);
+                                PopupSnackbar(I18N.WorkingPathSelectorInitErr, Config.WorkingDirectory?.Directory ?? "", SymbolRegular.Warning16, ControlAppearance.Caution);
                             }
                         }
                 ), modify: dialog =>
@@ -497,7 +510,7 @@ namespace LipUI
             });
         }
         public static void PopupSnackbarWarn(string title, string content)
-            => PopupSnackbar(title, content, SymbolRegular.Warning16, ControlAppearance.Caution,8000);
+            => PopupSnackbar(title, content, SymbolRegular.Warning16, ControlAppearance.Caution, 8000);
         /// <summary>
         /// 弹出对话框
         /// </summary>
@@ -566,7 +579,7 @@ namespace LipUI
                     };
                 }
 
-                var textBlock = new TextBlock { FontSize = 20, Text = title, Margin = new Thickness(-2, -5, -2, 5) };
+                var textBlock = new TextBlock { FontSize = 20, Text = title, Margin = new Thickness(0, 0, 0, 5) };
                 textBlock.SetValue(DockPanel.DockProperty, Dock.Top);
                 dialog.Content = new DockPanel()
                 {

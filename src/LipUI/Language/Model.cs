@@ -129,4 +129,24 @@ public class Model : ObservableObject
     public string WorkingPathSelectorItemOpen { get; set; } = "打开文件夹";
     public string WorkingPathSelectorItemDelete { get; set; } = "删除当前项";
     public string HomeWorkingDirectoryEditToggle { get; set; } = "开启编辑";
+    public string Eula { get; set; } = "条款";
+    public string EulaDeny { get; set; } = "不同意";
+    public string EulaAccept { get; set; } = "同意";
+    public string EulaDeniedTitle { get; set; } = "您拒绝了条款";
+    public string EulaDeniedContent { get; set; } = "程序即将退出";
+    public string LipInstallerDialog { get; set; } = "需要配置 lip.exe";
+    public string LipInstallerDialogComplete { get; set; } = "完成";
+    public string LipInstallerSnackbarLipNotFound { get; set; } = "未找到lip.exe";
+    public string LipInstallerSnackbarLipNotFoundTip { get; set; } = "如已安装请重新启动LipUI";
+    public string LipInstallerDialogDownload { get; set; } = "下载";
+    public string LipInstallerLipDownloading { get; set; } = "正在下载，请等待...";
+    public string LipInstallerLipDownloadingProgress { get; set; } = "下载中...{0}/{1}";
+    public string LipInstallerLipDownloadedSuccess { get; set; } = "下载完成.";
+    public string LipInstallerDownloadFailed { get; set; } = "失败：{0}";
+    public string LipInstallerLipNotFound { get; set; } = "压缩包中未找到 lip.exe";
+    public string LipInstallerInvalidOperation { get; set; } = "无效操作";
+    public string LipInstallerInvalidOperationTip { get; set; } = "请选中安装到'全局'或者'当前目录'以下载 lip.exe";
+    public string WorkingPathSelectorInitDialog { get; set; } = "需要指定有效的工作路径";
+    public string WorkingPathSelectorInitDialogComplete { get; set; } = "完成";
+    public string WorkingPathSelectorInitErr { get; set; } = "请选择有效的工作路径";
 }
