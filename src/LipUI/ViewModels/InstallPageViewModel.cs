@@ -193,7 +193,7 @@ namespace LipUI.ViewModels
                 });
                 if (success)
                 {
-                    if (ToothInfoPanel.Tooth != ToothName)
+                    if (ToothInfoPanel?.Tooth != ToothName)
                     {
                         ToothInfoPanel = new ToothInfoPanelViewModel(package!)
                         {

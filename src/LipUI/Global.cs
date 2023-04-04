@@ -379,7 +379,7 @@ namespace LipUI
                     {
                         Directory.CreateDirectory(dir);
                     }
-                    File.WriteAllText(fp, result.ToString());
+                    File.WriteAllText(fp, result?.ToString());
                 }
                 catch
                 {
