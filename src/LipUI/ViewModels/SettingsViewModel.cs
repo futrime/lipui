@@ -118,10 +118,10 @@ namespace LipUI.ViewModels
         [RelayCommand]
         private async Task ExitDeveloperMode()
         {
-            await Global.ShowDialog(Global.I18N.DeveloperDialog, Global.I18N.DeveloperDialogExit , (Global.I18N.DeveloperDialogCancel, hide => hide()), (Global.I18N.DeveloperDialogConfirm, hide =>
+            await Global.ShowDialog(Global.I18N.DeveloperTitle, Global.I18N.DeveloperDialogExit , (Global.I18N.DeveloperDialogCancel, hide => hide()), (Global.I18N.DeveloperDialogConfirm, hide =>
              {
                  Global.Config.DeveloperMode = false;
-                 Global.PopupSnackbar(Global.I18N.DeveloperDialog, Global.I18N.DeveloperDialogExited);
+                 Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, Global.I18N.DeveloperDialogExited);
                  hide();
              }
             ));

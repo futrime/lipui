@@ -75,6 +75,7 @@ RegistryTipFetchFailed=Fetch failed
 RegistryTipRefreshFailed=Refresh error
 RegistrySearchTagFailed=Tag query failed
 DeveloperSnackbarTitle=Developer mode
+DeveloperTitle=Developer Mode
 DeveloperSnackbarSubtitle=Tap {0} more times to enter developer mode.
 DeveloperDialog=Do you want to enter developer mode? \nSome extra options will be available on some pages in developer mode, please use with caution.
 DeveloperDialogConfirm=Confirm

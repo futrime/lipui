@@ -48,7 +48,7 @@ namespace LipUI.Views.Pages
                         Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, string.Format(Global.I18N.DeveloperSnackbarSubtitle, 1));
                         break;
                     case >= 5:
-                        _ = Global.ShowDialog(Global.I18N.DeveloperSnackbarTitle, Global.I18N.DeveloperDialog
+                        _ = Global.ShowDialog(Global.I18N.DeveloperTitle, Global.I18N.DeveloperDialog
                         , (Global.I18N.DeveloperDialogCancel, hide => hide()), (Global.I18N.DeveloperDialogConfirm, hide =>
                        {
                            Global.Config.DeveloperMode = true;

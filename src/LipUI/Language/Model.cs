@@ -94,6 +94,7 @@ public class Model : ObservableObject
     public string RegistryTipRefreshFailed { get; set; } = "刷新出错";
     public string RegistrySearchTagFailed { get; set; } = "查询Tag失败";
     public string DeveloperSnackbarTitle { get; set; } = "开发者模式";
+    public string DeveloperTitle { get; set; } = "开发者模式";
     public string DeveloperSnackbarSubtitle { get; set; } = "再点 {0} 次进入开发者模式。";
     public string DeveloperDialog { get; set; } = "是否进入开发者模式？\n开发者模式下部分页面会有一些额外的选项，请谨慎使用。";
     public string DeveloperDialogConfirm { get; set; } = "确认";
@@ -112,7 +113,7 @@ public class Model : ObservableObject
     public string InstallFetchFailed { get; set; } = "获取失败";
     public string SettingsSuccessTitle { get; set; } = "设置成功";
     public string SettingsFailedTitle { get; set; } = "路径不存在";
-    public object DeveloperDialogExit { get; set; } = "是否退出开发者模式？";
+    public string DeveloperDialogExit { get; set; } = "是否退出开发者模式？";
     public string DeveloperDialogExited { get; set; } = "已退出开发者模式";
     public string CopyToClipboard { get; set; } = "已复制到剪切板";
     public string WorkingPathSelectorTitle { get; set; } = "选择工作目录";
