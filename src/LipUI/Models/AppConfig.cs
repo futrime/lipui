@@ -59,6 +59,8 @@ namespace LipUI.Models
             }
         }
         [ObservableProperty] private bool _devShowSkipDependency;
+        [ObservableProperty] private bool _webUIEnabled;
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);

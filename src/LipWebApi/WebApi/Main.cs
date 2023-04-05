@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using HttpServerLite;
 
 namespace LipWebApi.WebApi;
@@ -10,13 +9,7 @@ public class Main
         string result = BuildResult(item);
         response.StatusCode = 200;
         response.ContentLength = result.Length;
-        response.ContentType = "application/json";
-
-        //response.Headers["Access-Control-Allow-Origin"] = "*";
-        //response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS";
-        //response.Headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization";
-        //response.Headers["Access-Control-Max-Age"] = "86400";
-
+        response.ContentType = "application/json"; 
         await response.SendAsync(result);
     }
     static string BuildResult(object item)

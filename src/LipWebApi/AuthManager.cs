@@ -89,7 +89,13 @@ internal static class AuthManager
             //    }
             //}
             //_userTokens.TryRemove(username, out _);//移除旧验证
-            
+            if (Launcher.Auth.TryGetValue(username, out string? pwd))
+            {
+                if (pwd == passwordMd5)
+                {
+                    return true;
+                }
+            }
             return false;
         }
         bool isValid = CheckUsernameAndPassword();

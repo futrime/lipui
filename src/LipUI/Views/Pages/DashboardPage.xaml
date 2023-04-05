@@ -89,7 +89,7 @@
                                      ItemsSource="{Binding ViewModel.LocalRef.ToothItems, Mode=OneWay}" >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <ui:Card Margin="5" HorizontalAlignment="Right">
+                                <ui:Card Margin="5" HorizontalAlignment="Right" >
                                     <ui:Card.Triggers>
                                         <EventTrigger RoutedEvent="Loaded">
                                             <BeginStoryboard>

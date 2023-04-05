@@ -13,7 +13,6 @@ namespace LipUI.Views.Pages
             ViewModel = viewModel;
             InitializeComponent();
         }
-
         public LipWebPageViewModel ViewModel { get; }
     }
 }
