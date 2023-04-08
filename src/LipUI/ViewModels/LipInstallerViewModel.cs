@@ -10,7 +10,6 @@ namespace LipUI.ViewModels
         [ObservableProperty] string _lipPath = string.Empty;
         [NotifyPropertyChangedFor(nameof(CurrentLipPath))]
         [ObservableProperty] string _tip = string.Empty;
-
         [ObservableProperty] bool _showProgressBar;
         [ObservableProperty] double _progress;
         public string CurrentLipPath => Global.Lip.ExecutablePath;

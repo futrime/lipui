@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LipUI.Views.Pages;
-using Microsoft.Win32;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
@@ -16,16 +14,12 @@ namespace LipUI.ViewModels
     public partial class MainWindowViewModel : ObservableObject
     {
         private bool _isInitialized; 
-
         [ObservableProperty]
         private ObservableCollection<INavigationControl> _navigationItems = new();
-
         [ObservableProperty]
         private ObservableCollection<INavigationControl> _navigationFooter = new();
-
         //[ObservableProperty]
         //private ObservableCollection<MenuItem> _trayMenuItems = new();
-
         public MainWindowViewModel(INavigationService navigationService)
         {
             if (!_isInitialized)

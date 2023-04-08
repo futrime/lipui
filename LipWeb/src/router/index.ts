@@ -48,15 +48,15 @@ router.beforeEach(
   ) => {
     const globalStore = useGlobal();
     // Show Loading
-    globalStore.setLoading(true);
+    globalStore.loading = true;
     // Hide snack bar
-    globalStore.setMessage("");
+    globalStore.message = "";
     await nextTick();
     next();
   }
 );
 router.afterEach(() => {
   const globalStore = useGlobal();
-  globalStore.setLoading(false);
+  globalStore.loading = false;
 });
 export default router;

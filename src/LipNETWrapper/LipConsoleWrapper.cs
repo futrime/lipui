@@ -14,6 +14,10 @@ namespace LipNETWrapper
 {
     public class LipConsoleWrapper : ILipWrapper
     {
+        public LipConsoleWrapper Clone()
+        {
+            return new LipConsoleWrapper(ExecutablePath, WorkingPath);
+        }
         public LipConsoleWrapper(string executablePath = "lip.exe", string? workingDir = null)
         {
             ExecutablePath = executablePath;

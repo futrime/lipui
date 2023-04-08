@@ -1,6 +1,12 @@
 ﻿using System;
+using LipNETWrapper;
 using LipWebApi;
-var launcher= new Launcher();
+
+var (success, path) = LipNETWrapper.Utils.TryGetLipFromPath();
+var launcher = new Launcher(workingDir =>
+    success
+        ? new LipConsoleWrapper(path!, workingDir)
+        : new LipConsoleWrapper(workingDir: workingDir), "LipWebConsole");
 launcher.Load(v =>
 {
     foreach (var x in v.ToString().Replace("\r", "").Split('\n'))

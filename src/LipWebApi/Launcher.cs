@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using HttpServerLite;
 using LipWebApi.Models;
@@ -9,50 +14,98 @@ using Newtonsoft.Json;
 namespace LipWebApi;
 public class Launcher
 {
+    private static string CalcMd5(string sDataIn)
+    {
+        var md5 = MD5.Create();
+        byte[] bytHash = md5.ComputeHash(Encoding.UTF8.GetBytes(sDataIn));
+        md5.Clear();
+        var sb = new StringBuilder();
+        for (int i = 0, loopTo = bytHash.Length - 1; i <= loopTo; i++)
+        {
+            sb.Append(bytHash[i].ToString("X").PadLeft(2, '0'));
+        }
+        return sb.ToString();
+    }
     public static Webserver? Server;
-    public static AuthData Auth;
-    public static ConfigData Config;
-    private void LoadData<T>(string name, ref T data) where T : new()
+    public static AuthData Auth = default!;
+    public static ConfigData Config = default!;
+    public static UsersData UsersData = default!;
+    private static void LoadData<T>(string name, ref T data) where T : new()
     {
         var path = Path.Combine(Global.ConfigFolder, name);
-        if (File.Exists(path))
-        {
-            data = JsonConvert.DeserializeObject<T>(File.ReadAllText(path))!;
-        }
-        else
-        {
-            data = new T();
-        }
+        data = File.Exists(path) ? JsonConvert.DeserializeObject<T>(File.ReadAllText(path))! : new T();
     }
-    private void SaveData<T>(string name, T data)
+    private static void SaveData<T>(string name, T data)
     {
         var path = Path.Combine(Global.ConfigFolder, name);
         string dataStr = JsonConvert.SerializeObject(data);
-        File.WriteAllText(path, dataStr);
+        if (Path.GetDirectoryName(path) is { } dir)
+        {
+            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            File.WriteAllText(path, dataStr);
+        }
     }
     private const string PathAuth = "auth.json";
+    private const string PathUsersData = "users.json";
     private const string PathConfig = "config.json";
-    public void LoadAuth() => LoadData(PathAuth, ref Auth);
-    public void SaveAuth() => SaveData(PathAuth, Auth);
-    public void LoadConfig() => LoadData(PathConfig, ref Config);
-    public void SaveConfig() => SaveData(PathConfig, Config);
-    public Launcher()
+    public static void LoadUsersData() => LoadData(PathUsersData, ref UsersData);
+    public static void SaveUsersData() => SaveData(PathUsersData, UsersData);
+    public static void LoadAuth() => LoadData(PathAuth, ref Auth);
+    public static void SaveAuth() => SaveData(PathAuth, Auth);
+    public static void LoadConfig() => LoadData(PathConfig, ref Config);
+    public static void SaveConfig() => SaveData(PathConfig, Config);
+    private static Func<string, LipNETWrapper.ILipWrapper> LipFunc = default!;
+    public static LipNETWrapper.ILipWrapper GetLip(string user)
+    {
+        if (!UsersData.UserToDirectory.TryGetValue(user, out var workingDir))
+        {
+            return LipFunc(UsersData.WorkingDirectories.FirstOrDefault()?.Directory ??
+                           throw new NullReferenceException("Working directory not found"));
+        }
+        return LipFunc(workingDir);
+    }
+    public static void SetUserWorkingDir(string user, string workingDir)
+    {
+        if (UsersData.UserToDirectory.ContainsKey(user))
+        {
+            UsersData.UserToDirectory[user] = workingDir;
+        }
+        else
+        {
+            UsersData.UserToDirectory.TryAdd(user, workingDir);
+        }
+    }
+    public static string backendInfo = "";
+    public void UpdateWorkingDir(IEnumerable<UsersData.DirectoryInfo> workingDirs)
+    {
+        UsersData.WorkingDirectories.Clear();
+        UsersData.WorkingDirectories.AddRange(workingDirs);
+        SaveUsersData();
+    }
+    public Launcher(Func<string, LipNETWrapper.ILipWrapper> getLip, string v)
     {
         LoadConfig();
         LoadAuth();
+        LoadUsersData();
+        LipFunc = getLip;
+        backendInfo = v;
+    }
+    public static void WriteLine(string v)
+    {
+        Server?.Events.Logger(v);
     }
     public Task Load(Action<object> output, bool debug = true)
     {
         return Task.Run([MethodImpl(MethodImplOptions.Synchronized)] () =>
         {
             var host = Config.Host;
-            short port = Config.Port;
+            ushort port = Config.Port;
             if (Server is not null)
             {
                 Server.Stop();
                 Server.Dispose();
+                Server = null;
             }
-
             Server = new Webserver(host, port, false, null, null,
                 async Task (ctx) =>
                 {
@@ -90,6 +143,51 @@ public class Launcher
             Server.Start();
             SaveConfig();
             SaveAuth();
+            SaveUsersData();
         });
+    }
+    public Task Stop()
+    {
+        return Task.Run(() =>
+        {
+            Server?.Stop();
+            Server?.Dispose();
+            Server = null;
+        });
+    }
+    public static bool AddUser(string? username, string? password)
+    {
+        lock (Auth)
+        {
+            if (username is null || password is null) return false;
+            if (Auth.ContainsKey(username))
+            {
+                return false;
+            }
+            string passwordMd5 = CalcMd5(password);
+            //if (Auth.ContainsKey(username))
+            //    DeleteUser(username);
+            if (!Auth.ContainsKey(username))
+            {
+                Auth.Add(username, passwordMd5);
+            }
+            else
+            {
+                Auth[username] = passwordMd5;
+            }
+            // AuthManager.RefreshToken(username);
+            SaveAuth();
+            return true;
+        }
+    }
+    public static bool DeleteUser(string? username)
+    {
+        lock (Auth)
+        {
+            if (username is null) return false;
+            var result = Auth.Remove(username);
+            SaveAuth();
+            return result;
+        }
     }
 }

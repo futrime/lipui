@@ -33,7 +33,7 @@
 </template>
 <script lang="ts">
 import api from "@/api";
-
+import { useGlobal } from "@/store";
 export default {
   data: () => ({
     form: false,
@@ -41,12 +41,17 @@ export default {
     password: "",
     loading: false,
   }),
-
   methods: {
     async onSubmit() {
       if (!this.form) return;
       this.loading = true;
-      await api.auth(this.username, this.password);
+      const result = await api.base.auth(this.username, this.password);
+      if (result.success) {
+        useGlobal().token = result.token;
+        useGlobal().message = "登录成功";
+      } else {
+        useGlobal().message = result.message;
+      }
       this.loading = false;
     },
     required(v: string) {

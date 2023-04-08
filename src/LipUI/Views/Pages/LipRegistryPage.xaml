@@ -162,7 +162,7 @@
                     <!--自动建议？-->
                     <ui:AutoSuggestBox PlaceholderText="{Binding RegistrySearchPlaceholder,Source={StaticResource I18N}}" Text="{Binding ViewModel.SearchText,UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
-            </DockPanel>
+            </DockPanel> 
             <ProgressBar Margin="0,-4" DockPanel.Dock="Top" IsIndeterminate="True" Visibility="{Binding ViewModel.IsSearching,Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
             <ScrollViewer DockPanel.Dock="Bottom">
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
@@ -175,7 +175,7 @@
                 </ItemsControl>
             </ScrollViewer>
         </DockPanel>
-        <ui:LoadingScreen Margin="-10" Visibility="{Binding ViewModel.IsLoading,Converter={StaticResource BooleanToVisibilityConverter},Mode=OneWay}">
+        <ui:LoadingScreen Margin="-10" Visibility="{Binding ViewModel.IsLoading,Converter={StaticResource BooleanToVisibilityConverter},Mode=OneWay}" d:IsHidden="True">
             <ScrollViewer DockPanel.Dock="Bottom">
                 <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
                               ItemsSource="{Binding ViewModel.LoadingOutPut, Mode=OneWay}" >

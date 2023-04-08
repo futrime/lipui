@@ -11,6 +11,7 @@
       <v-spacer />
       <app-bar-menu-component />
       <v-progress-linear
+        class="top-progress-linear"
         v-show="loading"
         :active="loading"
         :indeterminate="progress === null"
@@ -34,6 +35,7 @@
     </v-overlay>
     <bottom-component />
     <v-snackbar
+      app
       v-model="snackbarVisibility"
       @update:model-value="onSnackbarChanged"
     >
@@ -82,7 +84,7 @@ const login: ComputedRef<boolean> = computed(() => {
 });
 const loading: WritableComputedRef<boolean> = computed({
   get: () => globalStore.loading,
-  set: (v) => globalStore.setLoading(v),
+  set: (v) => (globalStore.loading = v),
 });
 const isDark: ComputedRef<string> = computed(() =>
   configStore._themeDark ? "dark" : "light"
@@ -107,5 +109,12 @@ const progress: ComputedRef<number | null> = computed(
 <style lang="scss">
 ::-webkit-scrollbar {
   display: none; //hide scrollbar
+}
+.top-progress-linear {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }
 </style>

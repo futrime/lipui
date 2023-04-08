@@ -1,15 +1,23 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 using HttpServerLite;
 
 namespace LipWebApi.WebApi;
 public class Main
 {
+    public static T GetBody<T>(HttpContext ctx)
+    {
+        var u8str = Encoding.UTF8.GetString(ctx.Request.DataAsBytes);
+        return typeof(T) == typeof(string)
+            ? (T)(object)u8str
+            : Newtonsoft.Json.JsonConvert.DeserializeObject<T>(u8str)!;
+    }
     public static async Task SendResult(HttpResponse response, object item)
     {
-        string result = BuildResult(item);
+        var result = Encoding.UTF8.GetBytes(BuildResult(item));
         response.StatusCode = 200;
         response.ContentLength = result.Length;
-        response.ContentType = "application/json"; 
+        response.ContentType = "application/json";
         await response.SendAsync(result);
     }
     static string BuildResult(object item)

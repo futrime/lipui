@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -14,16 +13,16 @@ internal static class AuthManager
     /// key : token
     /// value : expired time
     /// </summary>
-    private static readonly ConcurrentDictionary<string, DateTime> _validTokens = new();
+    private static readonly ConcurrentDictionary<Guid, DateTime> _validTokens = new();
     /// <summary>
     /// key : username
     /// value : token
     /// </summary>
-    private static readonly ConcurrentDictionary<string, string> _userTokens = new();
-    private static readonly RandomNumberGenerator _rng = RandomNumberGenerator.Create();
-    private static void StoreToken(string token)
+    private static readonly ConcurrentDictionary<string, Guid> _userTokens = new();
+    private static void StoreToken(string username,Guid token)
     {
         RemoveExpiredTokens();
+        _userTokens[username] = token;
         _validTokens[token] = DateTime.UtcNow.AddHours(1);
     }
     private static void RemoveExpiredTokens()
@@ -42,15 +41,41 @@ internal static class AuthManager
             }
         }
     }
-    private static string GenerateToken()
+    private static Guid GenerateToken()
     {
-        var bytes = new byte[16];
-        _rng.GetBytes(bytes);
-        return new Guid(bytes).ToString();
+        return Guid.NewGuid();
     }
-    public static bool CheckToken(string token)
+    private static bool CheckToken(Guid token)
     {
         return _validTokens.TryGetValue(token, out DateTime expiration) && expiration > DateTime.UtcNow;
+    }
+    public static async Task<(bool success, string user)> CheckRequest(HttpContext v)
+    {
+        try
+        {
+            //Launcher.WriteLine(v.Request.Headers["Authorization"]);
+            var token = Guid.Parse(v.Request.Headers["Authorization"]);
+            if (!CheckToken(token))
+            {
+                await SendResult(v.Response, new
+                {
+                    error = true,
+                    message = "token not valid"
+                });
+                return (false, null!);
+            }
+            return (true, _userTokens.First(x => x.Value == token).Key);
+        }
+        catch (Exception e)
+        {
+            Launcher.WriteLine(e.ToString());
+            await SendResult(v.Response, new
+            {
+                error = true,
+                message = "auth error : " + e.Message
+            });
+            return (false, null!);
+        }
     }
     //sample:
     //     http://locolhost:9000/auth?username=admin&passwordMd5=pwd
@@ -91,7 +116,7 @@ internal static class AuthManager
             //_userTokens.TryRemove(username, out _);//移除旧验证
             if (Launcher.Auth.TryGetValue(username, out string? pwd))
             {
-                if (pwd == passwordMd5)
+                if (string.Equals(pwd, passwordMd5, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
@@ -99,11 +124,13 @@ internal static class AuthManager
             return false;
         }
         bool isValid = CheckUsernameAndPassword();
+        Launcher.WriteLine(jobj.ToString());
+
         //bool isValid = true;
         if (isValid)
         {
-            string token = GenerateToken();
-            StoreToken(token);
+            var token = GenerateToken();
+            StoreToken( username,token);
             await SendResult(ctx.Response, new
             {
                 success = true,
@@ -115,11 +142,10 @@ internal static class AuthManager
             await SendResult(ctx.Response, new
             {
                 success = false,
-                message = "Invalid username or password"
+                message = "用户名或密钥无效"
             });
         }
-    }
-
+    } 
     [StaticRoute(HttpMethod.POST, "/verify")]
     public static async Task VerifyToken(HttpContext ctx)
     {

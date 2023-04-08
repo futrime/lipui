@@ -57,8 +57,8 @@ export default {
         try {
           if (!value) return "请填写后端地址";
           if (!value.startsWith("http")) return "请填写一个完整的后端http地址";
-          api.setAxiosConfig(value);
-          if (await api.verifyBackend()) {
+          api.base.setAxiosConfig(value);
+          if (await api.base.verifyBackend()) {
             this.message = "连接成功";
             useGlobalStore().apiPath = value;
           } else return "后端地址无法访问";

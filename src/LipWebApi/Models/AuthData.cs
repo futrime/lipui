@@ -1,6 +1,7 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Collections.Generic;
+
 namespace LipWebApi.Models;
-public class AuthData : ConcurrentDictionary<string, string>
+public class AuthData : Dictionary<string, string>
 {
-     
+
 }

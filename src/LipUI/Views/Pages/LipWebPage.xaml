@@ -7,15 +7,93 @@
            d:DataContext="{d:DesignInstance local:LipWebPage, IsDesignTimeCreatable=False}"
            xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
            mc:Ignorable="d" 
-           d:DesignHeight="450" d:DesignWidth="800"
+           d:DesignHeight="450" d:DesignWidth="800" 
            Title="LipWebPage">
-    <Grid>
-        <ItemsControl ItemsSource="{Binding ViewModel.AuthData}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBox Text="{Binding Username}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+    <ui:UiPage.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </ui:UiPage.Resources>
+    <DockPanel Margin="10,0,10,10">
+        <ui:ToggleSwitch Margin="10,0,10,10" DockPanel.Dock="Top"  Command="{Binding ViewModel.ToggleCommand}" IsChecked="{Binding ViewModel.GlobalConfig.WebUIEnabled}">
+            <TextBlock Text="开启LipWeb服务器"/>
+        </ui:ToggleSwitch>
+        <TabControl>
+            <TabItem Header="测试">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top">
+                        <Grid Margin="20,10" IsEnabled="{Binding ViewModel.GlobalConfig.WebUIEnabled,Converter={StaticResource InvBooleanConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <DockPanel>
+                                <TextBlock Text="绑定地址:"/>
+                                <TextBox Margin="10,0,0,0" Text="{Binding ViewModel.Host,UpdateSourceTrigger=PropertyChanged}"/>
+                            </DockPanel>
+                            <DockPanel Grid.Column="2">
+                                <TextBlock Text="端口:"/>
+                                <TextBox Margin="10,0,0,0" Text="{Binding ViewModel.Port,UpdateSourceTrigger=PropertyChanged}"/>
+                            </DockPanel>
+                        </Grid>
+                        <Grid Margin="20,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <DockPanel>
+                                <TextBlock Text="用户名:"/>
+                                <TextBox Margin="10,0,0,0" Text="{Binding ViewModel.Username,UpdateSourceTrigger=PropertyChanged}" />
+                            </DockPanel>
+                            <DockPanel Grid.Column="2">
+                                <TextBlock Text="密码:"/>
+                                <TextBox Margin="10,0,0,0" Text="{Binding ViewModel.Password,UpdateSourceTrigger=PropertyChanged}"/>
+                            </DockPanel>
+                            <Button Margin="10,0,0,0" Grid.Column="3" Content="添加" Command="{Binding ViewModel.AddUserCommand}"/>
+                        </Grid>
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding ViewModel.AuthData}" Margin="5">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Content="删除" 
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=local:LipWebPage},Path=ViewModel.RemoveUserCommand}" 
+                                CommandParameter="{Binding Username,Mode=OneWay}"/>
+                                    <Grid Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Text="{Binding Username,Mode=OneWay}" IsReadOnly="True"/>
+                                        <TextBox Grid.Column="2" Text="{Binding PasswordMd5,Mode=OneWay}" IsReadOnly="True"/>
+                                    </Grid>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="日志" >
+                <DockPanel>
+                    <Button DockPanel.Dock="Bottom" Content="清空" HorizontalAlignment="Stretch" Command="{Binding ViewModel.ClearOutPutCommand}" Margin="10,0,10,10"/>
+                    <ScrollViewer Margin="10" DockPanel.Dock="Bottom" x:Name="ScrollViewer">
+                        <ItemsControl Padding="0" HorizontalContentAlignment="Stretch" 
+                                  ItemsSource="{Binding ViewModel.OutPut, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextWrapping="WrapWithOverflow"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
 </ui:UiPage>

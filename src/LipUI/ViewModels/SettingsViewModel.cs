@@ -47,7 +47,7 @@ namespace LipUI.ViewModels
             }
             else
             {
-                Global.PopupSnackbarWarn(Global.I18N.SettingsFailedTitle,value);
+                Global.PopupSnackbarWarn(Global.I18N.SettingsFailedTitle, value);
             }
         }
         [ObservableProperty]
@@ -73,7 +73,7 @@ namespace LipUI.ViewModels
         private void InitializeViewModel()
         {
             CurrentTheme = Theme.GetAppTheme();
-            AppVersion = $"LipUI - {GetAssemblyVersion()}";
+            AppVersion = $"LipUI - {Global.GetAssemblyVersion()}";
             LipVersion = "loading ... ";
             Task.Run(async () =>
             {
@@ -87,10 +87,6 @@ namespace LipUI.ViewModels
         {
             //https://github.com/LiteLDev/Lip
             Process.Start("https://github.com/LiteLDev/Lip");
-        }
-        private string GetAssemblyVersion()
-        {
-            return Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? String.Empty;
         }
 
         [RelayCommand]
@@ -118,7 +114,7 @@ namespace LipUI.ViewModels
         [RelayCommand]
         private async Task ExitDeveloperMode()
         {
-            await Global.ShowDialog(Global.I18N.DeveloperTitle, Global.I18N.DeveloperDialogExit , (Global.I18N.DeveloperDialogCancel, hide => hide()), (Global.I18N.DeveloperDialogConfirm, hide =>
+            await Global.ShowDialog(Global.I18N.DeveloperTitle, Global.I18N.DeveloperDialogExit, (Global.I18N.DeveloperDialogCancel, hide => hide()), (Global.I18N.DeveloperDialogConfirm, hide =>
              {
                  Global.Config.DeveloperMode = false;
                  Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, Global.I18N.DeveloperDialogExited);

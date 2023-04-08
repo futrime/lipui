@@ -21,4 +21,6 @@ public interface ILipWrapper
     Task<LipRegistry> GetLipRegistryAsync(string registry, CancellationToken tk = default);
 
     Task CachePurge();
+      LipConsoleWrapper Clone();
+
 }
