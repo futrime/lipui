@@ -15,7 +15,7 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
         <DataTemplate x:Key="TabItemHeaderTemplate">
-            <TextBlock Text="{Binding}"  FontSize="16" TextAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0" />
+            <TextBlock Text="{Binding}"  FontSize="16" TextAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,-50,0" />
         </DataTemplate>
     </ui:UiPage.Resources>
     <DockPanel Margin="10,0,10,10">
@@ -26,22 +26,32 @@
             <TabItem Header="测试" HeaderTemplate="{StaticResource TabItemHeaderTemplate}">
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Top">
-                        <Grid Margin="20,10" IsEnabled="{Binding ViewModel.GlobalConfig.WebUIEnabled,Converter={StaticResource InvBooleanConverter}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <DockPanel>
-                                <TextBlock Text="绑定地址:"/>
-                                <TextBox Margin="10,0,0,0" Text="{Binding ViewModel.Host,UpdateSourceTrigger=PropertyChanged}"/>
-                            </DockPanel>
-                            <DockPanel Grid.Column="2">
-                                <TextBlock Text="端口:"/>
-                                <TextBox Margin="10,0,0,0" Text="{Binding ViewModel.Port,UpdateSourceTrigger=PropertyChanged}"/>
-                            </DockPanel>
-                        </Grid>
+                        <DockPanel>
+                            <Grid DockPanel.Dock="Right" Visibility="{Binding ViewModel.GlobalConfig.WebUIEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Grid HorizontalAlignment="Center"  >
+                                    <Grid Margin="0,0,10,0" VerticalAlignment="Center"  >
+                                        <ui:Hyperlink NavigateUri="http://localhost:3000/" Content="打开"/>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid  Margin="20,10" IsEnabled="{Binding ViewModel.GlobalConfig.WebUIEnabled,Converter={StaticResource InvBooleanConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <DockPanel>
+                                    <TextBlock Text="绑定地址:"/>
+                                    <TextBox Margin="10,0,0,0" Text="{Binding ViewModel.Host,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DockPanel>
+                                <DockPanel Grid.Column="2">
+                                    <TextBlock Text="端口:"/>
+                                    <TextBox Margin="10,0,0,0" Text="{Binding ViewModel.Port,UpdateSourceTrigger=PropertyChanged}"/>
+                                </DockPanel>
+                            </Grid>
+                         
+                        </DockPanel>
                         <Grid Margin="20,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -96,9 +106,6 @@
                         </ItemsControl>
                     </ScrollViewer>
                 </DockPanel>
-            </TabItem>
-            <TabItem Header="预览" HeaderTemplate="{StaticResource TabItemHeaderTemplate}">
-                <WebBrowser Source="http://localhost:3000" />
             </TabItem>
         </TabControl>
     </DockPanel>

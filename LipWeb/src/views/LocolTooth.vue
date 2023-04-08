@@ -2,36 +2,28 @@
   <div>
     <v-btn style="margin: 5px" @click="refresh">刷新 </v-btn>
     <span style="vertical-align: middle"> 当前：{{ currentPathName }} </span>
-    <div v-if="toothlist">
-      <v-scroll-x-transition
-        class="tooth-item-card"
+    <v-virtual-scroll :height="300">
+      <v-dialog-top-transition
+        v-if="toothlist"
         v-for="pkg in toothlist.packages"
       >
-        <v-card
-          :title="pkg.information.name + '@' + pkg.version"
-          :subtitle="pkg.information.description"
-        >
-          <div style="margin: 20px; margin-top: 0px">
-            <p>作者：{{ pkg.information.author }}</p>
-            <p v-if="pkg.information.homepage">
-              主页：{{ pkg.information.homepage }}
-            </p>
-            <p v-if="pkg.information.license">
-              协议：{{ pkg.information.license }}
-            </p>
-          </div>
-        </v-card>
-      </v-scroll-x-transition>
-    </div>
-    <div v-else>
-      <v-overlay>
-        <v-progress-circular indeterminate color="primary" />
-      </v-overlay>
+        <div class="tooth-item-card">
+          <tooth-item v-bind:value="pkg" v-bind:actions="buttons" />
+        </div>
+      </v-dialog-top-transition>
+    </v-virtual-scroll>
+    <div v-if="!toothlist">
+      <v-progress-circular
+        class="progress-circular"
+        indeterminate
+        color="blue-accent-3"
+      />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import api from "@/api";
+import ToothItem from "@/components/ToothItem.vue";
 import { ToothItemResult } from "@/api/models";
 import { useGlobal } from "@/store";
 import { computed, ref } from "vue";
@@ -61,9 +53,30 @@ const refresh = () => {
       data.message = e;
     });
 };
+const buttons = [
+  {
+    color: "primary",
+    text: "更新",
+    callback: () => {
+      console.log("更新");
+    },
+  },
+  {
+    color: "secondary",
+    text: "卸载",
+    callback: () => {
+      console.log("卸载");
+    },
+  },
+];
 </script>
 <style scoped>
 .tooth-item-card {
   margin: 10px;
+}
+.progress-circular {
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 </style>

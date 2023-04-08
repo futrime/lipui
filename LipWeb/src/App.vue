@@ -8,7 +8,6 @@
       <v-app-bar-title tag="h1"
         >LipWeb - {{ $router.currentRoute.value.meta.title }}</v-app-bar-title
       >
-      <v-spacer />
       <app-bar-menu-component />
       <v-progress-linear
         class="top-progress-linear"

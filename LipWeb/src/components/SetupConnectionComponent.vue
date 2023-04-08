@@ -10,7 +10,7 @@
       <v-sheet width="300" class="mx-auto">
         <v-form ref="form" @submit.prevent>
           <v-text-field
-            v-model="firstName"
+            v-model="url"
             clearable
             :rules="[checkValid]"
             label="后端地址"
@@ -38,20 +38,19 @@
 <script lang="ts">
 import api from "@/api";
 import useGlobalStore from "@/store/GlobalStore";
+let currentUrl = window.location.protocol + "//" + window.location.host;
 export default {
   data: (): {
     message: string | undefined;
     connecting: boolean;
-    firstName: string;
+    url: string;
   } => ({
     message: "填写后端地址后会自动完成连接",
     connecting: false,
-    firstName: "",
+    url: currentUrl,
   }),
   methods: {
-    async checkValid(value: string) {
-      this.connecting = true;
-      this.message = "正在连接";
+    async tryConnect(value: string) {
       (this.$refs as any).form.resetValidation();
       const result = await (async () => {
         try {
@@ -67,10 +66,23 @@ export default {
           return "错误：" + error;
         }
       })();
-      this.message = undefined;
-      this.connecting = false;
       return result;
     },
+    async checkValid(value: string) {
+      try {
+        this.connecting = true;
+        this.message = "正在连接";
+        return await this.tryConnect(value);
+      } finally {
+        this.message = undefined;
+        this.connecting = false;
+      }
+    },
+  },
+  mounted() {
+    this.tryConnect(currentUrl).catch((e) => {
+      console.error(e);
+    });
   },
 };
 </script>

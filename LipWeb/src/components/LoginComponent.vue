@@ -48,7 +48,7 @@ export default {
       const result = await api.base.auth(this.username, this.password);
       if (result.success) {
         useGlobal().token = result.token;
-        useGlobal().message = "登录成功";
+        //  useGlobal().message = "登录成功";
       } else {
         useGlobal().message = result.message;
       }

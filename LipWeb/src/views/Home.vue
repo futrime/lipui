@@ -1,9 +1,10 @@
 <template>
   <v-card subtitle="已连接到Lip" text="前往其他页面进行操作" variant="tonal" />
   <div class="main">
-    选择工作目录：{{ data.currentPath }}
+    选择工作目录：
+    {{ global.currentPath }}
     <working-path-selector
-      v-bind:source="data.allPath"
+      v-bind:source="global.allPath"
       v-model:value="currentPath"
     />
   </div>
@@ -13,44 +14,47 @@ import { useGlobal } from "@/store";
 import WorkingPathSelector from "@/components/WorkingPathSelector.vue";
 import { computed, watch } from "vue";
 import api from "@/api";
-const data = useGlobal();
+const global = useGlobal();
 const currentPath = computed({
-  get: () => data.currentPath,
+  get: () => global.currentPath,
   set: (v: string) => {
-    data.loading = true;
+    global.loading = true;
     api
       .setWorkingDirectory(v)
       .then((result) => {
-        data.currentPath = result.value;
-        data.allPath = result.directories;
+        global.currentPath = result.value;
+        global.allPath = result.directories;
       })
       .catch((e) => {
-        data.message = e;
+        global.message = e;
       })
       .finally(() => {
-        data.loading = false;
+        global.loading = false;
       });
   },
 });
 watch(
-  () => data.token,
+  () => global.token,
   (v) => {
     if (v) {
       api
         .getWorkingDirectory()
         .then((result) => {
-          data.currentPath = result.current ?? result.directories[0].value;
-          data.allPath = result.directories;
+          global.currentPath = result.current ?? result.directories[0].value;
+          global.allPath = result.directories;
         })
         .catch((e) => {
-          data.message = e;
+          global.message = e;
         });
     }
   }
 );
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 div.main {
   margin: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

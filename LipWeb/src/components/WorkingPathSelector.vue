@@ -38,7 +38,6 @@ export default {
       this.$emit("update:value", currentPath);
     },
   },
-  data() {},
   computed: {
     items() {
       return this.source.map((item) => {
