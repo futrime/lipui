@@ -7,11 +7,13 @@
     >
       <template #title="{ item: { value: itemvalue, name: name } }">
         <v-list-item-title>
-          <v-icon
-            icon="mdi-check"
-            v-if="itemvalue === value"
-            style="opacity: 0.7"
-          />
+          <v-slide-x-transition>
+            <v-icon
+              icon="mdi-check"
+              v-if="itemvalue === value"
+              style="opacity: 0.7"
+            />
+          </v-slide-x-transition>
           {{ name }}
         </v-list-item-title>
       </template>

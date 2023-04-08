@@ -47,7 +47,9 @@ public static class LipSettings
             await SendResult(ctx.Response, new
             {
                 success = true,
-                value = dir
+                value = dir,
+                directories = from x in Launcher.UsersData.WorkingDirectories
+                              select new { name = x.Name, value = x.Directory }
             });
         }
     }

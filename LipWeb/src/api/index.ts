@@ -14,6 +14,7 @@ export interface ApiAuthResult extends ApiSuccessResult {
 import { useGlobal } from "@/store";
 import axiosbase from "axios";
 import md5 from "./tools/md5";
+import { ToothItemResult } from "./models";
 const axios = axiosbase.create();
 axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
@@ -93,10 +94,16 @@ const api = {
     const result = await axios.get("/directories");
     return result.data;
   },
-  async setWorkingDirectory(
-    dir: string
-  ): Promise<{ success: true; value: string }> {
+  async setWorkingDirectory(dir: string): Promise<{
+    success: true;
+    value: string;
+    directories: { name: string; value: string }[];
+  }> {
     const result = await axios.post("/directory", dir);
+    return result.data;
+  },
+  async getToothList(): Promise<ToothItemResult> {
+    const result = await axios.get("/toothlist");
     return result.data;
   },
 };
