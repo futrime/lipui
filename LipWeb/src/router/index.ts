@@ -21,15 +21,6 @@ const router = createRouter({
       component: HomePanel,
     },
     {
-      path: "/about",
-      name: "about",
-      meta: {
-        title: "关于",
-        icon: "mdi-information",
-      },
-      component: () => import("../views/About.vue"),
-    },
-    {
       path: "/local",
       name: "local",
       meta: {
@@ -37,6 +28,15 @@ const router = createRouter({
         icon: "mdi-package",
       },
       component: () => import("../views/LocolTooth.vue"),
+    },
+    {
+      path: "/about",
+      name: "about",
+      meta: {
+        title: "关于",
+        icon: "mdi-information",
+      },
+      component: () => import("../views/About.vue"),
     },
   ],
 });

@@ -17,6 +17,7 @@
         style="align-items: center"
         :color="item.color + ' lighten-1'"
         variant="text"
+        @click="item.callback"
       >
         {{ item.text }}
       </v-btn>

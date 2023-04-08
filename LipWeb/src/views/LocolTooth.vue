@@ -1,24 +1,17 @@
 <template>
   <div>
-    <v-btn style="margin: 5px" @click="refresh">刷新 </v-btn>
-    <span style="vertical-align: middle"> 当前：{{ currentPathName }} </span>
-    <v-virtual-scroll :height="300">
-      <v-dialog-top-transition
-        v-if="toothlist"
-        v-for="pkg in toothlist.packages"
-      >
-        <div class="tooth-item-card">
-          <tooth-item v-bind:value="pkg" v-bind:actions="buttons" />
-        </div>
-      </v-dialog-top-transition>
-    </v-virtual-scroll>
-    <div v-if="!toothlist">
-      <v-progress-circular
-        class="progress-circular"
-        indeterminate
-        color="blue-accent-3"
-      />
+    <div v-if="!toothlist" class="progress-circular">
+      <v-progress-linear size="64" indeterminate color="blue-accent-3" />
     </div>
+    <div style="margin-left: 20px; margin-top: 20px">
+      <v-btn variant="text" @click="refresh">点击刷新 </v-btn>
+      <span style="vertical-align: middle"> 当前：{{ currentPathName }} </span>
+    </div>
+    <v-fade-transition v-if="toothlist" v-for="pkg in toothlist.packages">
+      <div class="tooth-item-card">
+        <tooth-item v-bind:value="pkg" v-bind:actions="buttons" />
+      </div>
+    </v-fade-transition>
   </div>
 </template>
 <script lang="ts" setup>
@@ -56,9 +49,9 @@ const refresh = () => {
 const buttons = [
   {
     color: "primary",
-    text: "更新",
+    text: "检查更新",
     callback: () => {
-      console.log("更新");
+      console.log("检查更新");
     },
   },
   {
@@ -74,9 +67,8 @@ const buttons = [
 .tooth-item-card {
   margin: 10px;
 }
+
 .progress-circular {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: fixed;
 }
 </style>
