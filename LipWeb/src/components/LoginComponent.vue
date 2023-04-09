@@ -2,6 +2,7 @@
   <v-card class="mx-auto px-6 py-8" min-width="300">
     <v-form v-model="form" @submit.prevent="onSubmit">
       <v-text-field
+        id="username-tb"
         v-model="username"
         :readonly="loading"
         :rules="[required]"
@@ -57,6 +58,11 @@ export default {
     required(v: string) {
       return !!v || "请输入";
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      document.getElementById("username-tb")?.focus();
+    });
   },
 };
 </script>
