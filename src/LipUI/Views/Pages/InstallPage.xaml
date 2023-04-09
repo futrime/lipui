@@ -95,9 +95,9 @@
                                     </TextBlock>
                                 </StackPanel>
                             </Button>
-                            <DockPanel Grid.Column="2" VerticalAlignment="Center">
+                            <DockPanel Grid.Column="2" VerticalAlignment="Center" Visibility="{Binding ViewModel.GlobalConfig.DevShowSkipDependency,Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <Grid DockPanel.Dock="Top" HorizontalAlignment="Center">
-                                    <ui:ToggleSwitch IsChecked="{Binding ViewModel.IsSkipDependency}" Visibility="{Binding ViewModel.GlobalConfig.DevShowSkipDependency,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Stretch"/>
+                                    <ui:ToggleSwitch IsChecked="{Binding ViewModel.IsSkipDependency}" HorizontalAlignment="Stretch"/>
                                 </Grid>
                                 <TextBlock HorizontalAlignment="Center" Text="{Binding InstallSkipDependency,Source={StaticResource I18N}}"/>
                             </DockPanel>
