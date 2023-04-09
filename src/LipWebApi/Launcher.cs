@@ -106,15 +106,10 @@ public class Launcher
                 Server.Dispose();
                 Server = null;
             }
+
+
             Server = new Webserver(host, port, false, null, null,
-                async Task (ctx) =>
-                {
-                    string resp = "404 - NotFound";
-                    ctx.Response.StatusCode = 404;
-                    ctx.Response.ContentLength = resp.Length;
-                    ctx.Response.ContentType = "text/plain";
-                    await ctx.Response.SendAsync(resp);
-                });
+                DefaultRoute);
             Server.Settings.Headers.Host = host;
             Server.Events.Logger = output;
             Server.Routes.Preflight = async ctx =>
@@ -190,4 +185,32 @@ public class Launcher
             return result;
         }
     }
+    async static Task DefaultRoute(HttpContext ctx)
+    {
+        #region Web
+        if (ctx.Request.Method == HttpMethod.GET)
+        {
+            var requestUrl = ctx.Request.Url.WithoutQuery.Replace("/..", "").TrimStart('/');
+            var extension = Path.GetExtension(requestUrl);
+            if (!wwwroot.wwwMap.dict.TryGetValue(requestUrl, out var data))
+            {
+                data = wwwroot.wwwMap.dict["index.html"];
+                extension = ".html";
+            }
+            var response = ctx.Response;
+            response.ContentType = MimeTypes.GetFromExtension(extension);
+            var bytes = data();
+            ctx.Response.ContentLength = bytes.Length;
+            ctx.Response.StatusCode = 200;
+            await ctx.Response.SendAsync(bytes);
+            return;
+        }
+        #endregion
+        string resp = "404 - NotFound";
+        ctx.Response.StatusCode = 404;
+        ctx.Response.ContentLength = resp.Length;
+        ctx.Response.ContentType = "text/plain";
+        await ctx.Response.SendAsync(resp);
+    }
+
 }

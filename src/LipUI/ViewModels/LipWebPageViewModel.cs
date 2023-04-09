@@ -18,11 +18,13 @@ public partial class LipWebPageViewModel : ObservableRecipient, INavigationAware
         lip.WorkingPath = wd;
         return lip;
     }, $"LipUI - {Global.GetAssemblyVersion()}");
-    [ObservableProperty] private string _host = "localhost";
+
+    public string NavigateUri => $"http://{Host}:{Port}/";
+    [NotifyPropertyChangedFor(nameof(NavigateUri))][ObservableProperty] private string _host = "localhost";
     //partial void OnHostChanged(string value)
     //{
     //}
-    [ObservableProperty] private ushort _port = 0;
+    [NotifyPropertyChangedFor(nameof(NavigateUri))][ObservableProperty] private ushort _port = 0;
     //partial void OnPortChanged(string value)
     //{
     //}
@@ -43,6 +45,7 @@ public partial class LipWebPageViewModel : ObservableRecipient, INavigationAware
     public IEnumerable<AuthDataItem> AuthData => Launcher.Auth.Select(x =>
         new AuthDataItem(x.Key, x.Value.Remove(8) + new string('*', x.Value.Length - 8)));
     public Models.AppConfig GlobalConfig => Global.Config;
+
     [ObservableProperty] private string _username = "";
     [ObservableProperty] private string _password = "";
     [ObservableProperty] private bool _isRunning = false;
@@ -62,7 +65,7 @@ public partial class LipWebPageViewModel : ObservableRecipient, INavigationAware
                                        {
                                            Directory = x.Directory,
                                            Name = x.Name
-                                       }); 
+                                       });
             Launcher.Config.Host = Host;
             Launcher.Config.Port = Port;
             await _launcher.Load(v =>
