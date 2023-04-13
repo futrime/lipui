@@ -17,7 +17,7 @@ permissions:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
@@ -30,13 +30,12 @@ jobs:
       - name: Build with .NET Framework 4.6.2
         run: |
           dotnet publish --framework net462 -c Release --sc true -o build/net462 \
-            -r win10-x64 -p:EnableWindowsTargeting=true src/LipUI/LipUI.csproj
+            -r win10-x64 src/LipUI/LipUI.csproj
 
       - name: Build with .NET 7.0
         run: |
           dotnet publish --framework net7.0-windows -c Release --sc true \
-            -o build/net7.0-windows -r win10-x64 -p:EnableWindowsTargeting=true \
-            src/LipUI/LipUI.csproj
+            -o build/net7.0-windows -r win10-x64 src/LipUI/LipUI.csproj
 
       - name: Pack artifacts
         run: |
