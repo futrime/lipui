@@ -35,22 +35,37 @@ jobs:
         run: |
           dotnet publish --framework net7.0-windows -c Release --sc true -o build/net7.0-windows -r win10-x64 src/LipUI/LipUI.csproj
 
-      - name: Pack artifacts
-        shell: bash
-        run: |
-          zip -9r LipUI-net462-win10-x64.zip build/net462
-          zip -9r LipUI-net7.0-windows-win10-x64.zip build/net7.0-windows
-
-      - name: Upload artifacts
+      - name: Upload artifact built with .NET Framework 4.6.2
         uses: actions/upload-artifact@v3
         with:
+          name: LipUI-net462-win10-x64
           path: |
-            LipUI-net462-win10-x64.zip
-            LipUI-net7.0-win10-x64.zip
-            
+            build/net462/
+
+      - name: Upload artifact built with .NET 7.0
+        uses: actions/upload-artifact@v3
+        with:
+          name: LipUI-net7.0-win10-x64
+          path: |
+            build/net7.0-windows/
+
+  upload-to-release:
+    name: Upload to release
+    needs: 
+      - build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Pack artifacts
+        run: |
+          zip -9r LipUI-net462-win10-x64.zip LipUI-net462-win10-x64
+          zip -9r LipUI-net7.0-win10-x64.zip LipUI-net7.0-win10-x64
+
       - name: Upload release assets
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             LipUI-net462-win10-x64.zip
