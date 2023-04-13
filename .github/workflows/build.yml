@@ -29,13 +29,11 @@ jobs:
 
       - name: Build with .NET Framework 4.6.2
         run: |
-          dotnet publish --framework net462 -c Release --sc true -o build/net462 \
-            -r win10-x64 src/LipUI/LipUI.csproj
+          dotnet publish --framework net462 -c Release --sc true -o build/net462 -r win10-x64 src/LipUI/LipUI.csproj
 
       - name: Build with .NET 7.0
         run: |
-          dotnet publish --framework net7.0-windows -c Release --sc true \
-            -o build/net7.0-windows -r win10-x64 src/LipUI/LipUI.csproj
+          dotnet publish --framework net7.0-windows -c Release --sc true -o build/net7.0-windows -r win10-x64 src/LipUI/LipUI.csproj
 
       - name: Pack artifacts
         run: |
