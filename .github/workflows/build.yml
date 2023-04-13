@@ -36,9 +36,17 @@ jobs:
           dotnet publish --framework net7.0-windows -c Release --sc true -o build/net7.0-windows -r win10-x64 src/LipUI/LipUI.csproj
 
       - name: Pack artifacts
+        shell: bash
         run: |
           zip -9r LipUI-net462-win10-x64.zip build/net462
           zip -9r LipUI-net7.0-windows-win10-x64.zip build/net7.0-windows
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            LipUI-net462-win10-x64.zip
+            LipUI-net7.0-win10-x64.zip
             
       - name: Upload release assets
         uses: softprops/action-gh-release@v1
