@@ -54,7 +54,7 @@ jobs:
 
       - name: Copy essential files
         run: |
-          cp LICENSE README.md artifacts/
+          cp CHANGELOG.md LICENSE README.md artifacts/
 
       - name: Pack artifacts
         run: |
