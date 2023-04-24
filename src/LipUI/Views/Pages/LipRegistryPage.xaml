@@ -1,0 +1,191 @@
+﻿<ui:UiPage x:Class="LipUI.Views.Pages.LipRegistryPage"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:helpers="clr-namespace:LipUI.Helpers"
+           xmlns:local="clr-namespace:LipUI.Views.Pages"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+           xmlns:controls="clr-namespace:LipUI.Views.Controls"
+           d:DataContext="{d:DesignInstance local:LipRegistryPage,
+                                     IsDesignTimeCreatable=False}"
+           d:DesignHeight="450"
+           d:DesignWidth="800"
+           d:Background="{DynamicResource ApplicationBackgroundBrush}"
+           Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+           mc:Ignorable="d">
+    <Grid Margin="20,0">
+        <Grid ZIndex="2" HorizontalAlignment="Center" Margin="10,0,0,0" VerticalAlignment="Center" Width="0" >
+            <Grid.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ViewModel.IsShowingDetail}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="(FrameworkElement.Width)"
+                                            To="400" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard >
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="(FrameworkElement.Width)"
+                                            To="0" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <DockPanel>
+                <controls:ToothInfoPanel DockPanel.Dock="Top" DataContext="{Binding ViewModel.CurrentInfo}">
+                    <DockPanel Margin="0,10,0,0">
+                        <TextBlock Text="{Binding RegistryItemVersionButton,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
+                        <Button Command="{Binding ViewModel.GotoInstallCommand,RelativeSource={RelativeSource AncestorType=local:LipRegistryPage}}" Margin="5,0,0,0" HorizontalAlignment="Stretch" DockPanel.Dock="Right">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                                            <Binding Source="{StaticResource I18N}" Path="RegistryItemInstallButton"/>
+                                            <Binding Path="SelectedVersion"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <ComboBox Padding="5" PreviewMouseWheel="UIElement_OnPreviewMouseWheel" HorizontalAlignment="Stretch" ItemsSource="{Binding Versions}" SelectedItem="{Binding SelectedVersion}"/>
+                    </DockPanel>
+                </controls:ToothInfoPanel>
+            </DockPanel>
+        </Grid>
+        <Grid MouseDown="UIElement_OnMouseDown" TouchDown="UIElement_OnTouchDown" ZIndex="1" Opacity="0" Visibility="{Binding Opacity, RelativeSource={RelativeSource Self},Converter={StaticResource OpacityToVisibilityConverter}}"
+            Background="{DynamicResource ApplicationBackgroundBrush}">
+            <Grid.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ViewModel.IsShowingDetail}" Value="True">
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard >
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                                            To="0" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard >
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="(FrameworkElement.Opacity)"
+                                            To=".75" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+        </Grid>
+        <DockPanel>
+            <Grid x:Name="StatusBar" DockPanel.Dock="Bottom"  Height="60">
+                <Grid.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ViewModel.IsShowingDetail}" Value="True">
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard >
+                                            <DoubleAnimation
+                                                Storyboard.TargetProperty="(FrameworkElement.Height)"
+                                                To="60" Duration="0:0:0.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard >
+                                            <DoubleAnimation
+                                            Storyboard.TargetProperty="(FrameworkElement.Height)"
+                                            To="0" Duration="0:0:0.5"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <StatusBar>
+                    <StatusBarItem HorizontalContentAlignment="Stretch">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" Margin="10,0">
+                                <TextBlock Style="{StaticResource Title}">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource StringFormatConverter}">
+                                            <Binding Source="{StaticResource I18N}" Path="RegistryBottomInstall"/>
+                                            <Binding Path="ViewModel.VisibleToothItems.Count"/>
+                                            <Binding Path="ViewModel.ToothItems.Count"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Margin="-10" Command="{Binding ViewModel.LoadAllPackagesCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:SymbolIcon Symbol="New20"
+                                                       Filled="False" FontSize="32"/>
+                                        <TextBlock Text="{Binding RegistryBottomReload,Source={StaticResource I18N}}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </DockPanel>
+                    </StatusBarItem>
+                </StatusBar>
+            </Grid>
+            <DockPanel DockPanel.Dock="Top" Margin="0,0,0,5">
+                <DockPanel>
+                    <ToggleButton ToolTip="{Binding RegistryFeaturedFilter,Source={StaticResource I18N}}" Padding="0" Margin="0,0,5,0" IsChecked="{Binding ViewModel.OnlyFeatured}">
+                        <ui:SymbolIcon Symbol="StarEmphasis24" Width="36" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ui:SymbolIcon.RenderTransform>
+                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" CenterX="-8" CenterY="-8"/>
+                            </ui:SymbolIcon.RenderTransform>
+                        </ui:SymbolIcon>
+                    </ToggleButton>
+                    <!--<ui:Button Command="{Binding ViewModel.InvokeSearchCommand}" DockPanel.Dock="Right" Appearance="Transparent" Margin="5,0,0,0">
+                    <ui:SymbolIcon Symbol="Search24"/>
+                </ui:Button>-->
+                    <!--自动建议？-->
+                    <ui:AutoSuggestBox PlaceholderText="{Binding RegistrySearchPlaceholder,Source={StaticResource I18N}}" Text="{Binding ViewModel.SearchText,UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+            </DockPanel>
+            <ProgressBar Margin="0,-4" DockPanel.Dock="Top" IsIndeterminate="True" Visibility="{Binding ViewModel.IsSearching,Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
+            <ScrollViewer DockPanel.Dock="Bottom">
+                <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
+                                     ItemsSource="{Binding ViewModel.VisibleToothItems, Mode=OneWay}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ToothItem DataContext="{Binding Path=., Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+        <ui:LoadingScreen Margin="-10" Visibility="{Binding ViewModel.IsLoading,Converter={StaticResource BooleanToVisibilityConverter},Mode=OneWay}">
+            <ScrollViewer DockPanel.Dock="Bottom">
+                <ItemsControl Padding="0" HorizontalContentAlignment="Stretch"
+                              ItemsSource="{Binding ViewModel.LoadingOutPut, Mode=OneWay}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="18" Text="{Binding .}" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </ui:LoadingScreen>
+    </Grid>
+</ui:UiPage>

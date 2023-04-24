@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<Version>0.2.6</Version>
+		<Nullable>enable</Nullable>
+		<LangVersion>11.0</LangVersion>
+		<UseWPF>true</UseWPF>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ApplicationIcon>applicationIcon.ico</ApplicationIcon>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<TargetFrameworks>net462;</TargetFrameworks>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' != 'Debug'">
+		<TargetFrameworks>net462;net7.0-windows</TargetFrameworks>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
+		<PolySharpExcludeGeneratedTypes>System.Diagnostics.CodeAnalysis.NotNullIfNotNullAttribute;System.Diagnostics.CodeAnalysis.NotNullAttribute</PolySharpExcludeGeneratedTypes>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="applicationIcon.ico" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+		<PackageReference Include="PolySharp" Version="1.12.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive; compile</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Release' And '$(TargetFramework)' == 'net462'">
+		<PackageReference Include="Costura.Fody" Version="5.7.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive; compile</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+		<PackageReference Include="WPF-UI" Version="2.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Assets\applicationIcon-1024.png" />
+		<None Remove="Assets\applicationIcon-256.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\LipNETWrapper\LipNETWrapper.csproj" />
+		<ProjectReference Include="..\LipWebApi\LipWebApi.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Assets\applicationIcon-1024.png" />
+		<Resource Include="Assets\applicationIcon-256.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Language\LanguageFiles.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>LanguageFiles.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Language\LanguageFiles.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>LanguageFiles.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+
+</Project>

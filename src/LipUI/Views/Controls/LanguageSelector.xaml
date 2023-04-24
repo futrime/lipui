@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="LipUI.Views.Controls.LanguageSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LipUI.Views.Controls"
+             xmlns:viewModels="clr-namespace:LipUI.ViewModels"
+             d:DataContext="{d:DesignInstance viewModels:LanguageSelectorViewModel,
+                                     IsDesignTimeCreatable=False}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ComboBox MinWidth="100" ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding CurrentLanguage}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Background="Transparent" >
+                        <TextBlock DockPanel.Dock="Left" Text="{Binding Name}"/>
+                        <TextBlock DockPanel.Dock="Right" FontStyle="Italic" Text="{Binding Id}" Margin="10,0,0,0" HorizontalAlignment="Right"/>
+                    </DockPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </Grid>
+</UserControl>

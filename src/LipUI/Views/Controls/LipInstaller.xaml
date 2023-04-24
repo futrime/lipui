@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="LipUI.Views.Controls.LipInstaller"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LipUI.Views.Controls"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:viewModels="clr-namespace:LipUI.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:LipInstallerViewModel,
+                                     IsDesignTimeCreatable=False}"
+             d:DesignHeight="100" d:DesignWidth="300">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding LipInstallerConfigMode}" VerticalAlignment="Center"/>
+                <StackPanel>
+                    <RadioButton IsChecked="{Binding GlobalExe}" Content="{Binding LipInstallerGlobalExe,Source={StaticResource I18N}}"/>
+                    <RadioButton IsChecked="{Binding PortableExe}" Content="{Binding LipInstallerPortableExe,Source={StaticResource I18N}}"/>
+                    <RadioButton IsChecked="{Binding ManualExe}" Content="{Binding LipInstallerManualExe,Source={StaticResource I18N}}"/>
+                </StackPanel>
+            </StackPanel>
+            <ui:TextBox Visibility="{Binding ManualExe,Converter={StaticResource BooleanToVisibilityConverter}}" PlaceholderText="lip.exe的路径" Text="{Binding LipPath }"/>
+            <DockPanel Visibility="{Binding ManualExe,Converter={StaticResource InvBooleanToVisibilityConverter}}">
+                <TextBlock Text="{Binding LipInstallerAssumedPath}"/>
+                <TextBlock Text="{Binding CurrentLipPath}"/>
+            </DockPanel>
+            <ProgressBar Value="{Binding Progress}" Visibility="{Binding ShowProgressBar,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBlock Text="{Binding Tip}"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>
