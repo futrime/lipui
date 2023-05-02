@@ -103,7 +103,7 @@ namespace LipNETWrapper
             return JsonConvert.DeserializeObject<LipRegistry>(text)!;
 #endif
         }
-        public Task CachePurge()
+        public Task  CachePurge()
         {
             return new LipConsoleLoader(ExecutablePath, WorkingPath)
                 .Run(LipCommand.Create("cache") + "purge", null, CancellationToken.None);

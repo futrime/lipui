@@ -59,6 +59,8 @@
                         Visibility="{Binding ViewModel.GlobalConfig.DeveloperMode,Converter={StaticResource BooleanToVisibilityConverter}}">
             <TextBlock Margin="-24,0,0,0" FontSize="20" FontWeight="Medium"
                            Text="{Binding SettingsDeveloperTitle,Source={StaticResource I18N}}" />
+            <Button Margin="5" Command="{Binding ViewModel.ClearCacheCommand}"
+                    Content="{Binding SettingsClearCache,Source={StaticResource I18N}}" />
             <DockPanel Margin="3">
                 <TextBlock DockPanel.Dock="Left"
                                Text="{Binding SettingsDeveloperConfigPath,Source={StaticResource I18N}}"
