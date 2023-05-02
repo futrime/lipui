@@ -1,0 +1,34 @@
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        framework:
+          - net462
+          - net7.0-windows
+        runtime:
+          - win10-x64
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Build
+        run: |
+          dotnet publish src/LipUI/LipUI.csproj -c Release -f ${{ matrix.framework }} -o build/ -r ${{ matrix.runtime }} --sc true
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.framework }}-${{ matrix.runtime }}
+          path: |
+            build/
