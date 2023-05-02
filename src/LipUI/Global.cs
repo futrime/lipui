@@ -412,10 +412,9 @@ namespace LipUI
             void CollectionChangeHandler(object sender, NotifyCollectionChangedEventArgs e)
             {
                 Save();
-                foreach (var item in e.NewItems)
-                {
-                    Subscribe(item);
-                }
+                if (e.NewItems is not null)
+                    foreach (var item in e.NewItems)
+                        Subscribe(item);
             }
             void Subscribe(object? sub)
             {
