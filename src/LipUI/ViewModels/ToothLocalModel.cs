@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -36,7 +37,8 @@ namespace LipUI.ViewModels
             try
             {
                 await Global.DispatcherInvokeAsync(() => ToothItems.Clear());
-                var (packages, message) = await Global.Lip.GetAllPackagesAsync();
+                var (packages, _) = await Global.Lip.GetAllPackagesAsync();
+                //Debug.WriteLine(message);
                 foreach (var package in packages)
                 {
                     await Global.DispatcherInvokeAsync(() => ToothItems.Add(new ToothItemViewModel(ShowInfo, package)));

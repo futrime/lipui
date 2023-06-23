@@ -34,7 +34,7 @@ public partial class ToothItemViewModel : ObservableObject
     #region Detailed
     [ObservableProperty] bool _detailed;//是否有具体细节 
     [ObservableProperty] LipRegistry.LipRegistryItem? _registryItem;
-    [ObservableProperty] LipPackage? _Information;
+    [ObservableProperty] LipPackage? _information;
     #endregion
     [RelayCommand(CanExecute = nameof(ExecutingShowInfo))]
     async Task ShowInfo() => await _showInfo(this);

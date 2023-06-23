@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Wpf.Ui.Common.Interfaces;
 
 namespace LipUI.ViewModels;
@@ -23,7 +21,6 @@ public partial class DashboardViewModel : ObservableObject, INavigationAware
             LocalRef.OnNavigatedTo();
         }
     }
-
     public void OnNavigatedFrom()
     {
         Global.Config.PropertyChanged -= OnConfigOnPropertyChanged;

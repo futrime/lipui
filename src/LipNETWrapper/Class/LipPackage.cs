@@ -22,7 +22,7 @@ public partial class LipPackage
     public Commands Commands { get; set; }
 
     [JsonProperty("dependencies")]
-    public Dictionary<string,string> Dependencies { get; set; }
+    public Dictionary<string, string> Dependencies { get; set; }
 
     [JsonProperty("files")]
     public Files Files { get; set; }
@@ -32,7 +32,7 @@ public partial class Commands
 {
     [JsonProperty("post_install")]
     public string[] PostInstall { get; set; }
-} 
+}
 public partial class Files
 {
     [JsonProperty("place")]
