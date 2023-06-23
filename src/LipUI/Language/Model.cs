@@ -149,4 +149,10 @@ public class Model : ObservableObject
     public string WorkingPathSelectorInitDialog { get; set; } = "需要指定有效的工作路径";
     public string WorkingPathSelectorInitDialogComplete { get; set; } = "完成";
     public string WorkingPathSelectorInitErr { get; set; } = "请选择有效的工作路径";
+    public string SettingsClearCache { get; set; } = "清除Lip的缓存";
+    public string SettingsClearCacheTitle { get; set; } = "清除Lip的缓存";
+    public string SettingsClearCacheContent { get; set; } = "确认清除缓存";
+    public string SettingsClearCacheConfirm { get; set; } = "确定";
+    public string SettingsClearCacheCancel { get; set; } = "取消";
+    public string SettingsClearCacheCompleted { get; set; } = "清除缓存执行完成";
 }

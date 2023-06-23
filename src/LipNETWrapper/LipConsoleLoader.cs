@@ -22,7 +22,8 @@ namespace LipNETWrapper
             var instance = new LipCommand();
             if (quiet)
             {
-                instance.Add("-q");
+                //todo ? 
+                //instance.Add("-q");
             }
             return instance.Add(cmd);
         }

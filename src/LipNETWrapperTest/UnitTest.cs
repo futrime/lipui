@@ -36,7 +36,7 @@ namespace LipNETWrapperTest
             //}
             foreach (var workingDir in new[]
                      {
-                         "A:\\Documents\\GitHub\\BDS\\Latest\\",
+                         "A:\\Documents\\GitHub\\LipUI\\src\\LipUI\\bin\\Debug\\net462",
                          //put your path here
                      })
             {
@@ -76,17 +76,15 @@ namespace LipNETWrapperTest
         public async Task TestGetPackageInfo()
         {
             //github.com/tooth-hub/liteloaderbds
-            var (success, package, message) = await Loader.GetPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
+            var (success, versions, message) = await Loader.GetPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
             OutPut(success.ToString());
             if (success)
             {
-                if (package!.Versions is not null)
-                {
-                    foreach (var v in package!.Versions)
+                if (versions is not null)
+                    foreach (var v in versions)
                     {
                         OutPut(v);
                     }
-                }
             }
             OutPut("----------");
             OutPut(message);
@@ -98,7 +96,7 @@ namespace LipNETWrapperTest
             //github.com/tooth-hub/liteloaderbds
             var (success, package, message) = await Loader.GetLocalPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
             OutPut(success.ToString());
-            OutPut(package?.Name);
+            OutPut(package?.Info.Name);
             OutPut(package?.Version);
             OutPut("----------");
             OutPut(message);

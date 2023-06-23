@@ -52,7 +52,7 @@ namespace LipUI.ViewModels
                 {
                     if (!string.IsNullOrWhiteSpace(x))
                     {
-                        if (x.EndsWith("(y/n)", true, CultureInfo.InvariantCulture))//条款
+                        if (x.EndsWith("[y/N]", true, CultureInfo.InvariantCulture))//条款
                         {
                             Task.Delay(1000).ContinueWith(async _ =>
                             {
@@ -61,7 +61,7 @@ namespace LipUI.ViewModels
                                     OutPut.Last()
                                         .Replace("(http", Environment.NewLine + "http");
                                 //.Replace("http", Environment.NewLine + "http");
-                                if (fullEula.EndsWith("(y/n)", true, CultureInfo.InvariantCulture))
+                                if (fullEula.EndsWith("[y/N]", true, CultureInfo.InvariantCulture))
                                 {
                                     //remove 
                                     fullEula = fullEula[..^5].Trim();
@@ -184,7 +184,7 @@ namespace LipUI.ViewModels
             Ctk = new CancellationTokenSource();
             try
             {
-                var (success, package, message) = await Global.Lip.GetPackageInfoAsync(ToothName, Ctk?.Token ?? default, x =>
+                var (success, versions, message) = await Global.Lip.GetPackageInfoAsync(ToothName, Ctk?.Token ?? default, x =>
                 {
                     if (!x.StartsWith("{"))
                     {
@@ -195,15 +195,15 @@ namespace LipUI.ViewModels
                 {
                     if (ToothInfoPanel?.Tooth != ToothName)
                     {
-                        ToothInfoPanel = new ToothInfoPanelViewModel(package!)
+                        ToothInfoPanel = new ToothInfoPanelViewModel(versions!)
                         {
                             Tooth = ToothName
                         };
                     }
                     else
                     {
-                        ToothInfoPanel.RefreshVersion(package!);
-                        if (package?.Versions?.FirstOrDefault() is not null and var v)
+                        ToothInfoPanel.RefreshVersion(versions!);
+                        if (versions?.FirstOrDefault() is not null and var v)
                         {
                             SelectedVersion = v;
                         }

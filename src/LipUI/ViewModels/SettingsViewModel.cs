@@ -114,12 +114,29 @@ namespace LipUI.ViewModels
         [RelayCommand]
         private async Task ExitDeveloperMode()
         {
-            await Global.ShowDialog(Global.I18N.DeveloperTitle, Global.I18N.DeveloperDialogExit, (Global.I18N.DeveloperDialogCancel, hide => hide()), (Global.I18N.DeveloperDialogConfirm, hide =>
-             {
-                 Global.Config.DeveloperMode = false;
-                 Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, Global.I18N.DeveloperDialogExited);
-                 hide();
-             }
+            await Global.ShowDialog(Global.I18N.DeveloperTitle, Global.I18N.DeveloperDialogExit,
+                (Global.I18N.DeveloperDialogCancel, hide => hide()), (Global.I18N.DeveloperDialogConfirm, hide =>
+                 {
+                     Global.Config.DeveloperMode = false;
+                     Global.PopupSnackbar(Global.I18N.DeveloperSnackbarTitle, Global.I18N.DeveloperDialogExited);
+                     hide();
+                 }
+            ));
+        }
+
+        [RelayCommand]
+        private async Task ClearCache()
+        {
+            await Global.ShowDialog(Global.I18N.SettingsClearCacheTitle, Global.I18N.SettingsClearCacheContent,
+                (Global.I18N.SettingsClearCacheCancel, hide => hide()), (Global.I18N.SettingsClearCacheConfirm, hide =>
+                    {
+                        hide();
+                        Global.Lip.CachePurge().ContinueWith(_ =>
+                        {
+                            Global.PopupSnackbar(Global.I18N.SettingsClearCacheTitle,
+                                Global.I18N.SettingsClearCacheCompleted);
+                        });
+                    }
             ));
         }
     }
