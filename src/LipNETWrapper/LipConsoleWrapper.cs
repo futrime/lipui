@@ -1,6 +1,5 @@
 ﻿#nullable enable
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -26,16 +25,15 @@ namespace LipNETWrapper
             return (await new LipConsoleLoader(ExecutablePath, WorkingPath)
                 .RunString(LipCommand.Create("-V"), tk: tk)).Trim();
         }
-        public async Task<(LipPackageSimple[] packages, string message)> GetAllPackagesAsync(CancellationToken tk = default)
+        public async Task<(LipPackage[] packages, string message)> GetAllPackagesAsync(CancellationToken tk = default)
         {
-            async Task<(LipPackageSimple[] packages, string message)> GetInternal()
+            async Task<(LipPackage[] packages, string message)> GetInternal()
             {
-                var text = await new LipConsoleLoader(ExecutablePath, WorkingPath)
+                var json = await new LipConsoleLoader(ExecutablePath, WorkingPath)
                     .RunString(LipCommand.Create("list", true).WithJson(), tk: tk);
-                Debug.WriteLine(text);
-                var json = text.Split('\n').First(x => x.StartsWith("[")).Trim();
-                var arr = JsonConvert.DeserializeObject<LipPackageSimple[]>(json);
-                return (arr ?? Array.Empty<LipPackageSimple>(), text);
+                Debug.WriteLine(json);
+                var arr = JsonConvert.DeserializeObject<LipPackage[]>(json);
+                return (arr ?? Array.Empty<LipPackage>(), json);
             }
             try
             {
@@ -46,25 +44,23 @@ namespace LipNETWrapper
                 return await GetInternal();
             }
         }
-        public async Task<(bool success, LipPackageVersions? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
+        public async Task<(bool success, LipPackageItem? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
         {
-            var text = await new LipConsoleLoader(ExecutablePath, WorkingPath)
+            var json = await new LipConsoleLoader(ExecutablePath, WorkingPath)
                 .RunString(LipCommand.Create("show", onOutput is null).WithJson() + "--available" + packageId, onOutput, tk);
-            var json = text.Split('\n').FirstOrDefault(x => x.StartsWith("{"))?.Trim();
-            var obj = json is null ? null : JsonConvert.DeserializeObject<LipPackage>(json);
-            return (obj is not null, obj, text);
+            var obj = JsonConvert.DeserializeObject<LipPackageItem>(json);
+            return (obj is not null, obj, json);
         }
         public async Task<(bool success, LipPackage? package, string message)> GetLocalPackageInfoAsync(string packageId, CancellationToken tk = default)
         {
-            var text = await new LipConsoleLoader(ExecutablePath, WorkingPath)
+            var json = await new LipConsoleLoader(ExecutablePath, WorkingPath)
                 .RunString(LipCommand.Create("show", true).WithJson() + packageId, tk: tk);
-            var json = text.Split('\n').FirstOrDefault(x => x.StartsWith("{"))?.Trim();
-            var obj = json is null ? null : JsonConvert.DeserializeObject<LipPackage>(json);
-            return (obj is not null, obj, text);
+            var obj = JsonConvert.DeserializeObject<LipPackageItem>(json)?.Package;
+            return (obj is not null, obj, json);
         }
         public Task<int> InstallPackageAsync(string packageId, bool upgrade = false, bool skipDependency = false, CancellationToken tk = default, Action<string, Action<string>>? onOutput = null)
         {
-            var cmd = LipCommand.Create("install") + "-y" + "--numeric-progress";
+            var cmd = LipCommand.Create("install") + "-y" /*+ "--numeric-progress"*/;
             if (upgrade)
                 cmd += "--upgrade";
             if (skipDependency)
