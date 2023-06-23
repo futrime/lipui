@@ -52,7 +52,7 @@ namespace LipUI.ViewModels
                 {
                     if (!string.IsNullOrWhiteSpace(x))
                     {
-                        if (x.EndsWith("(y/n)", true, CultureInfo.InvariantCulture))//条款
+                        if (x.EndsWith("[y/N]", true, CultureInfo.InvariantCulture))//条款
                         {
                             Task.Delay(1000).ContinueWith(async _ =>
                             {
@@ -61,7 +61,7 @@ namespace LipUI.ViewModels
                                     OutPut.Last()
                                         .Replace("(http", Environment.NewLine + "http");
                                 //.Replace("http", Environment.NewLine + "http");
-                                if (fullEula.EndsWith("(y/n)", true, CultureInfo.InvariantCulture))
+                                if (fullEula.EndsWith("[y/N]", true, CultureInfo.InvariantCulture))
                                 {
                                     //remove 
                                     fullEula = fullEula[..^5].Trim();
