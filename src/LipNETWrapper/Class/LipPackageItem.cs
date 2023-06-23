@@ -9,6 +9,11 @@ namespace LipNETWrapper.Class;
 
 public class LipPackageItem
 {
-    [JsonProperty("available_versions")] public string[] AvailableVersions { get; set; }
+    [JsonProperty("available_versions")] public LipPackageVersions AvailableVersions { get; set; }
     [JsonProperty("metadata")] public LipPackage Package { get; set; }
+}
+
+public class LipPackageVersions : List<string>
+{
+
 }

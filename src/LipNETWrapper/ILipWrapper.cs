@@ -10,7 +10,7 @@ public interface ILipWrapper
     string? WorkingPath { get; set; }
     Task<string> GetLipVersion(CancellationToken tk = default);
     Task<(LipPackage[] packages, string message)> GetAllPackagesAsync(CancellationToken tk = default);
-    Task<(bool success, LipPackageItem? package, string message)> GetPackageInfoAsync(string packageId,
+    Task<(bool success, LipPackageVersions? package, string message)> GetPackageInfoAsync(string packageId,
         CancellationToken tk = default, Action<string>? onOutput = null);
     Task<(bool success, LipPackage? package, string message)> GetLocalPackageInfoAsync(string packageId,
         CancellationToken tk = default);

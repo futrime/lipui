@@ -10,13 +10,13 @@ public partial class ToothItemViewModel : ObservableObject
 {
     [ObservableProperty] bool _actived = true;//等待移除，用于淡出动画
     private Func<ToothItemViewModel, Task> _showInfo;
-    public ToothItemViewModel(Func<ToothItemViewModel, Task> showInfo, LipPackageSimple package)
+    public ToothItemViewModel(Func<ToothItemViewModel, Task> showInfo, LipPackage package)
     {
         _showInfo = showInfo;
         Version = package.Version;
         Tooth = package.Tooth;
-        Information = package.Information;
-        Author.Tag = Information.Author;
+        Information = package;
+        Author.Tag = Information.Info.Author;
     }
     public ToothItemViewModel(
         Func<ToothItemViewModel, Task> showInfo, LipRegistry.LipRegistryItem item)
@@ -34,7 +34,7 @@ public partial class ToothItemViewModel : ObservableObject
     #region Detailed
     [ObservableProperty] bool _detailed;//是否有具体细节 
     [ObservableProperty] LipRegistry.LipRegistryItem? _registryItem;
-    [ObservableProperty] LipPackageSimple.LipPackageSimpleInformation? _Information;
+    [ObservableProperty] LipPackage? _Information;
     #endregion
     [RelayCommand(CanExecute = nameof(ExecutingShowInfo))]
     async Task ShowInfo() => await _showInfo(this);

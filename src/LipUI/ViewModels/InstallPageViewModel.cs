@@ -184,7 +184,7 @@ namespace LipUI.ViewModels
             Ctk = new CancellationTokenSource();
             try
             {
-                var (success, package, message) = await Global.Lip.GetPackageInfoAsync(ToothName, Ctk?.Token ?? default, x =>
+                var (success, versions, message) = await Global.Lip.GetPackageInfoAsync(ToothName, Ctk?.Token ?? default, x =>
                 {
                     if (!x.StartsWith("{"))
                     {
@@ -195,15 +195,15 @@ namespace LipUI.ViewModels
                 {
                     if (ToothInfoPanel?.Tooth != ToothName)
                     {
-                        ToothInfoPanel = new ToothInfoPanelViewModel(package!)
+                        ToothInfoPanel = new ToothInfoPanelViewModel(versions!)
                         {
                             Tooth = ToothName
                         };
                     }
                     else
                     {
-                        ToothInfoPanel.RefreshVersion(package!);
-                        if (package?.Versions?.FirstOrDefault() is not null and var v)
+                        ToothInfoPanel.RefreshVersion(versions!);
+                        if (versions?.FirstOrDefault() is not null and var v)
                         {
                             SelectedVersion = v;
                         }

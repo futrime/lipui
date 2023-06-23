@@ -9,16 +9,19 @@ namespace LipUI.ViewModels
 {
     public partial class ToothInfoPanelViewModel : ObservableObject
     {
-        private readonly LipPackage? _info;
-        private readonly LipRegistry.LipRegistryItem? _registryItem;
-        private LipPackageVersions _ver;
-        public ToothInfoPanelViewModel(LipPackage info) : this((LipPackageVersions)info)
+        private LipPackageVersions? _ver;
+        public ToothInfoPanelViewModel(LipPackage info)  
         {
             Tooth = info.Tooth;
+            Author = info.Info.Author;
+            Description = info.Info.Description;
+            Homepage = "undefined";
+            Name = info.Info.Name;
+            License = "";
+            Version = info.Version;
         }
         public ToothInfoPanelViewModel(LipPackageVersions info, LipRegistry.LipRegistryItem item) : this(info)
         {
-            _registryItem = item;
             Tooth = item.Tooth;
             Author = item.Author;
             Description = item.Description;
@@ -30,21 +33,12 @@ namespace LipUI.ViewModels
         }
         public ToothInfoPanelViewModel(LipPackageVersions ver)
         {
-            _ver = ver;
-            if (ver is LipPackage info)
-            {
-                _info = info;
-                Author = info.Author;
-                Description = info.Description;
-                Homepage = info.Homepage;
-                Name = info.Name;
-                License = info.License;
-                Version = info.Version;
-            }
             if (Versions?.FirstOrDefault() is not null and var v)
             {
                 SelectedVersion = v;
             }
+
+            _ver = ver;
         }
         [ObservableProperty] string _author = string.Empty;
         [ObservableProperty] string _description = string.Empty;
@@ -54,8 +48,7 @@ namespace LipUI.ViewModels
         [ObservableProperty] string _version = string.Empty;
         [ObservableProperty] string _tooth = string.Empty;
         [ObservableProperty] string[] _tags = Array.Empty<string>();
-        public string[]? Versions => _ver.Versions;
-
+        public string[]? Versions => _ver?.ToArray();
         public void RefreshVersion(LipPackageVersions ver)
         {
             _ver = ver;

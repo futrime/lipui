@@ -76,17 +76,15 @@ namespace LipNETWrapperTest
         public async Task TestGetPackageInfo()
         {
             //github.com/tooth-hub/liteloaderbds
-            var (success, package, message) = await Loader.GetPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
+            var (success, versions, message) = await Loader.GetPackageInfoAsync("github.com/tooth-hub/liteloaderbds");
             OutPut(success.ToString());
             if (success)
             {
-                if (package!.AvailableVersions is not null)
-                {
-                    foreach (var v in package!.AvailableVersions)
+                if (versions is not null)
+                    foreach (var v in versions)
                     {
                         OutPut(v);
                     }
-                }
             }
             OutPut("----------");
             OutPut(message);

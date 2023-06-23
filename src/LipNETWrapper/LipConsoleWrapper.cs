@@ -44,11 +44,11 @@ namespace LipNETWrapper
                 return await GetInternal();
             }
         }
-        public async Task<(bool success, LipPackageItem? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
+        public async Task<(bool success, LipPackageVersions? package, string message)> GetPackageInfoAsync(string packageId, CancellationToken tk = default, Action<string>? onOutput = null)
         {
             var json = await new LipConsoleLoader(ExecutablePath, WorkingPath)
                 .RunString(LipCommand.Create("show", onOutput is null).WithJson() + "--available" + packageId, onOutput, tk);
-            var obj = JsonConvert.DeserializeObject<LipPackageItem>(json);
+            var obj = JsonConvert.DeserializeObject<LipPackageItem>(json)?.AvailableVersions;
             return (obj is not null, obj, json);
         }
         public async Task<(bool success, LipPackage? package, string message)> GetLocalPackageInfoAsync(string packageId, CancellationToken tk = default)
