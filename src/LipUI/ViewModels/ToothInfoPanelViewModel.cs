@@ -33,12 +33,11 @@ namespace LipUI.ViewModels
         }
         public ToothInfoPanelViewModel(LipPackageVersions ver)
         {
+            _ver = ver;
             if (Versions?.FirstOrDefault() is not null and var v)
             {
                 SelectedVersion = v;
             }
-
-            _ver = ver;
         }
         [ObservableProperty] string _author = string.Empty;
         [ObservableProperty] string _description = string.Empty;

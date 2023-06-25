@@ -147,6 +147,11 @@ namespace LipUI.ViewModels
                             //去除匹配并去除"[==>   ] "
                             Percentage = Regex.Replace(str, @"\[(=|>|\s)+?\]", "");
                         }
+                        //  79% |███████████████████████████████         | (101/126 kB, 151 kB/s) [0s:0s]
+                        else if (Regex.Match(x, @"(\d+%)") is { Success: true })
+                        {
+                            Percentage = Regex.Replace(x, @"\|(█|\s)+\|", "").Trim();
+                        }
                         else if (x.Trim().EndsWith("|"))
                             Percentage = x.Replace("|", "").Trim();
                         else
