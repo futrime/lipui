@@ -105,7 +105,7 @@
                                     </ui:Card.Triggers>
                                     <DockPanel>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                            <TextBlock Text="{Binding Information.Name}" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Text="{Binding Information.Info.Name}" TextTrimming="CharacterEllipsis"/>
                                             <TextBlock Text=" @ v"  TextTrimming="CharacterEllipsis"/>
                                             <TextBlock Text="{Binding Version}"  TextTrimming="CharacterEllipsis"/>
                                         </StackPanel>

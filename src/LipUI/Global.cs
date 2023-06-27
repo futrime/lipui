@@ -534,7 +534,10 @@ namespace LipUI
                 void Hide()
                 {
                     successAndHide = true;
+                    DispatcherInvoke(() =>
+                    {
                     dialog.Hide();
+                    });
                 }
                 RoutedEventHandler onDialogOnButtonLeftClick = (_, e) => Hide();
                 RoutedEventHandler onDialogOnButtonRightClick = (_, e) => Hide();

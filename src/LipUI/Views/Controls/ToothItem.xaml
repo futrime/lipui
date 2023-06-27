@@ -132,20 +132,20 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <DockPanel>
-                            <TextBlock DockPanel.Dock="Bottom" Text="{Binding Information.Description}"
+                            <TextBlock DockPanel.Dock="Bottom" Text="{Binding Information.Info.Description}"
                                        TextWrapping="WrapWithOverflow" />
-                            <TextBlock Text="{Binding Information.Name}" Style="{StaticResource Title}" />
+                            <TextBlock Text="{Binding Information.Info.Name}" Style="{StaticResource Title}" />
                         </DockPanel>
                         <DockPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center">
                             <DockPanel DockPanel.Dock="Top">
                                 <TextBlock Text="{Binding ToothItemAuthor,Source={StaticResource I18N}}" />
-                                <TextBlock Text="{Binding Information.Author}" />
+                                <TextBlock Text="{Binding Information.Info.Author}" />
                             </DockPanel>
-                            <DockPanel DockPanel.Dock="Top"
+                            <!--<DockPanel DockPanel.Dock="Top"
                                        Visibility="{Binding Information.License,Converter={StaticResource StringNotEmptyToVisibilityConverter}}">
                                 <TextBlock Text="{Binding ToothItemLicense,Source={StaticResource I18N}}" />
                                 <TextBlock Text="{Binding Information.License}" />
-                            </DockPanel>
+                            </DockPanel>-->
                         </DockPanel>
                         <!--<DockPanel>
                     <DockPanel DockPanel.Dock="Top">
