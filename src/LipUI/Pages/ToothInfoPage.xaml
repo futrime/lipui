@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="LipUI.Pages.ToothInfoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LipUI.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="240"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border 
+            Grid.Row="0"
+            x:Name="TitleBorder"
+            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+            <StackPanel
+                Margin="24,24,24,36"
+                Spacing="12">
+
+                <StackPanel 
+                    Height="44"
+                    Orientation="Horizontal" 
+                    Spacing="8">
+
+                    <TextBlock 
+                        x:Name="Title" 
+                        Style="{StaticResource TitleTextBlockStyle}" 
+                        Foreground="{ThemeResource TextFillColorPrimary}"/>
+
+                    <HyperlinkButton 
+                        NavigateUri="{x:Bind ToothRepoUri}">
+
+                        <TextBlock 
+                            x:Name="RepoPath" 
+                            Style="{StaticResource SubtitleTextBlockStyle}" 
+                            Foreground="{ThemeResource TextFillColorSecondary}"/>
+
+                    </HyperlinkButton>
+
+                    <Button 
+                        x:Name="CopyRepoPathButton"
+                        Height="44"
+                        Width="44"
+                        Background="{ThemeResource TextBoxBackgroundThemeBrush}"
+                        Click="CopyRepoPathButton_Click">
+                        <SymbolIcon Symbol="Copy"/>
+                    </Button>
+
+                </StackPanel>
+
+                <TextBlock 
+                    Height="20"
+                    x:Name="Description" 
+                    Style="{StaticResource BodyTextBlockStyle}" 
+                    Foreground="{ThemeResource TextFillColorSecondary}"/>
+
+                <TextBlock
+                    Height="20"
+                    x:Name="Author" 
+                    Style="{StaticResource BodyStrongTextBlockStyle}" 
+                    Foreground="{ThemeResource TextFillColorSecondary}"/>
+
+                <StackPanel 
+                    Height="16"
+                    Orientation="Horizontal" 
+                    Spacing="12">
+
+                    <TextBlock 
+                        x:Name="LatestVersion" 
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Foreground="{ThemeResource TextFillColorSecondary}"/>
+
+                    <TextBlock 
+                        x:Name="LatestReleaseTime" 
+                        Style="{StaticResource CaptionTextBlockStyle}" 
+                        Foreground="{ThemeResource TextFillColorSecondary}"/>
+
+                    <TextBlock 
+                        x:Name="DownloadCount" 
+                        Style="{StaticResource CaptionTextBlockStyle}" 
+                        Foreground="{ThemeResource TextFillColorSecondary}"/>
+
+                </StackPanel>
+
+                <StackPanel 
+                    Height="32"
+                    Orientation="Horizontal" 
+                    Spacing="8">
+
+                    <DropDownButton
+                        x:Name="ToothVersionSelectButton"
+                        Loaded="ToothVersionSelectButton_Loaded"
+                        Height="32"/>
+
+                    <Button 
+                        x:Name="InstallButton"
+                        Background="{ThemeResource SystemAccentColorLight2}"
+                        Height="32"
+                        Click="InstallButton_Click">
+
+                        <TextBlock Text="i18n.install"/>
+
+                    </Button>
+
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer 
+            Grid.Row="1"
+            x:Name="MarkdownViewer"
+            Loaded="MarkdownViewer_Loaded"/>
+
+
+    </Grid>
+</Page>
