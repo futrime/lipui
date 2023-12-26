@@ -3,6 +3,7 @@ using LipUI.VIews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -37,7 +38,7 @@ public sealed partial class HomePage : Page
 
     private void ShowLipInstallerPageIfNotExist()
     {
-        if (File.Exists(Main.Config.Settings.LipPath)) 
+        if (File.Exists(Main.Config.Settings.LipPath))
         {
             return;
         }
@@ -52,5 +53,26 @@ public sealed partial class HomePage : Page
         {
             await dialog.ShowAsync();
         });
+    }
+
+    private void StartServerButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (Main.Config.SelectedServer is null)
+            return;
+
+        var dir = Main.Config.SelectedServer.WorkingDirectory;
+        var path = Path.Combine(dir, "bedrock_server_mod.exe");
+
+        if (File.Exists(path)) 
+        {
+            Process.Start(path);
+            return;
+        }
+
+        path = Path.Combine(dir, "bedrock_server.exe");
+        if(File.Exists(path))
+        {
+            Process.Start(path);
+        }
     }
 }

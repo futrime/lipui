@@ -9,7 +9,7 @@
 
   <Identity
     Name="b34acd6e-13d6-4570-985a-e8e9c0461b27"
-    Publisher="CN=minec"
+    Publisher="CN=lippkg"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="b34acd6e-13d6-4570-985a-e8e9c0461b27" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>

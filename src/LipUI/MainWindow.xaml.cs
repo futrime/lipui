@@ -146,7 +146,7 @@ public sealed partial class MainWindow : Window
 
             // Create the policy object.
             m_configurationSource = new SystemBackdropConfiguration();
-            Activated += WindowActivated;
+            //Activated += WindowActivated;
             Closed += WindowClosed;
             ((FrameworkElement)Content).ActualThemeChanged += WindowThemeChanged;
 
@@ -184,7 +184,7 @@ public sealed partial class MainWindow : Window
             m_backdropController.Dispose();
             m_backdropController = null;
         }
-        Activated -= WindowActivated;
+        //Activated -= WindowActivated;
         m_configurationSource = null;
     }
 

@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
@@ -70,6 +71,22 @@ internal sealed partial class ServerInstanceEditView : UserControl
         Server.Description = DescriptionInput.Text;
         Server.Version = VersionInput.Text;
         Server.WorkingDirectory = WorkingDirectoryInput.Text;
+
+        if (iconPath is not null)
+        {
+            var dir = Path.Combine(Server.WorkingDirectory, DefaultSettings.DataDirectory);
+
+            if (Directory.Exists(dir) is false)
+                Directory.CreateDirectory(dir);
+
+            var dest = Path.Combine(dir, $"icon{new FileInfo(iconPath).Extension}");
+
+            File.Copy(iconPath, dest);
+
+            Server.Icon = dest;
+            return;
+        }
+
         Server.Icon = iconPath;
     }
 }

@@ -57,7 +57,8 @@
                     <Button
                         x:Name="StartServerButton"
                         Width="192"
-                        Height="40">
+                        Height="40"
+                        Click="StartServerButton_Click">
                         <TextBlock Text="i18n.startServer"/>
                     </Button>
 
