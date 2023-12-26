@@ -18,10 +18,10 @@ jobs:
 
       - name: Build
         run: |
-          dotnet publish src/LipUI.sln -c Release -o build/
+          dotnet publish src/LipUI.sln -c Release
 
       - uses: actions/upload-artifact@v3
         with:
           name: net7.0-windows-win10-x64
           path: |
-            build/
+            src/LipUI/bin/Release/net7.0-windows10.0.19041.0/win10-x64/publish/
