@@ -148,7 +148,8 @@ internal sealed partial class LipInstallerView : UserControl
         progressRing.Visibility = Visibility.Visible;
 
         CancelButton.IsEnabled = false;
-        ViewGrid.Children.Remove(ButtonGrid);
+        InstallButton.IsEnabled = false;
+        //ViewGrid.Children.Remove(ButtonGrid);
 
         var info = await RequestLipInstallerInfo();
 

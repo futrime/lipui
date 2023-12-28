@@ -42,7 +42,11 @@
             Grid.Column="0"
             x:Name="ToothInfoPanel"
             CornerRadius="5"
-            Background="{ThemeResource CardBackgroundFillColorSecondary}"/>
+            Spacing="4"
+            Padding="12,8,12,8"
+            Background="{ThemeResource CardBackgroundFillColorSecondary}">
+
+        </StackPanel>
 
         <Grid
             Grid.Row="1"

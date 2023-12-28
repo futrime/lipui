@@ -2,18 +2,14 @@
 
 using CommunityToolkit.WinUI.UI.Controls;
 using LipUI.Models;
-using LipUI.Models.Lip;
 using LipUI.Protocol;
-using LipUI.VIews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Security.Authentication.Identity.Core;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,

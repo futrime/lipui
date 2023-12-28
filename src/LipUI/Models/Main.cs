@@ -1,5 +1,4 @@
-﻿using LipUI.Language;
-using LipUI.Models.Lip;
+﻿using LipUI.Models.Lip;
 using LipUI.VIews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,7 +15,6 @@ internal static class Main
 {
     static Main() => Initialize();
 
-    private static readonly object _lock = new();
 
 
     public static Config Config { get; private set; }
@@ -63,36 +61,33 @@ internal static class Main
         }
     }
 
-    public static async ValueTask<Lip.LipConsole?> CreateLipConsole(XamlRoot xamlRoot)
+    public static async ValueTask<LipConsole?> CreateLipConsole(XamlRoot xamlRoot)
     {
-        var server = Config.SelectedServer;
-        if (server is null)
-            return null;
-
         var (success, path) = await TryGetLipConsolePathAsync(xamlRoot);
         if (success is false)
             return null;
 
-        return new Lip.LipConsole(path!, server.WorkingDirectory);
+        var server = Config.SelectedServer;
+        if (server is null)
+            return null;
+
+        return new LipConsole(path!, server.WorkingDirectory);
     }
 
     public static async ValueTask SaveConfigAsync()
     {
-        lock (_lock)
+        var path = Path.Combine(WorkingDirectory, DefaultSettings.ConfigFileName);
+        if (File.Exists(path)) File.Delete(path);
+
+        using var file = File.Create(path);
+        using var writer = new StreamWriter(file);
+
+
+        await writer.WriteAsync(JsonSerializer.Serialize(Config, new JsonSerializerOptions()
         {
-            var path = Path.Combine(WorkingDirectory, DefaultSettings.ConfigFileName);
-            if (File.Exists(path)) File.Delete(path);
-
-            using var file = File.Create(path);
-            using var writer = new StreamWriter(file);
-
-            writer.Write(JsonSerializer.Serialize(Config, new JsonSerializerOptions()
-            {
-                WriteIndented = true,
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            }));
-        }
-        await Task.Yield();
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        }));
     }
 
     public static async ValueTask<(bool, string)> TryGetLipConsolePathAsync(XamlRoot xamlRoot)

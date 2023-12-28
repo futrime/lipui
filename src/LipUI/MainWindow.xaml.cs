@@ -1,5 +1,4 @@
-﻿using LipUI.Language;
-using LipUI.Models;
+﻿using LipUI.Models;
 using LipUI.Pages;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;

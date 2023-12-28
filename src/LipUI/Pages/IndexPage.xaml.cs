@@ -1,4 +1,3 @@
-using LipUI.Language;
 using LipUI.Models;
 using LipUI.Protocol;
 using LipUI.VIews;
@@ -29,6 +28,7 @@ public sealed partial class IndexPage : Page
     private void ReloadLipIndex()
     {
         TeethScrollViewer.Content = new ProgressRing();
+        ToothListView.Items.Clear();
 
         DispatcherQueue.TryEnqueue(async () =>
         {

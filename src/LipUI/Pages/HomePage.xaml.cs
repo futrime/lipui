@@ -63,14 +63,14 @@ public sealed partial class HomePage : Page
         var dir = Main.Config.SelectedServer.WorkingDirectory;
         var path = Path.Combine(dir, "bedrock_server_mod.exe");
 
-        if (File.Exists(path)) 
+        if (File.Exists(path))
         {
             Process.Start(path);
             return;
         }
 
         path = Path.Combine(dir, "bedrock_server.exe");
-        if(File.Exists(path))
+        if (File.Exists(path))
         {
             Process.Start(path);
         }

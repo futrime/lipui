@@ -26,12 +26,17 @@ public sealed partial class LocalPackagePage : Page
     private void ReloadPackage()
     {
         TeethScrollViewer.Content = new ProgressRing();
+        ToothListView.Items.Clear();
 
         DispatcherQueue.TryEnqueue(async () =>
         {
             var lip = await Main.CreateLipConsole(XamlRoot);
+
             if (lip is null)
+            {
+                ((ProgressRing)TeethScrollViewer.Content).IsActive = false;
                 return;
+            }
 
             var cmd = LipCommand.CreateCommand();
 

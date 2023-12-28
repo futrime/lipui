@@ -1,29 +1,21 @@
+using LipUI.Models;
+using LipUI.Models.Lip;
 using LipUI.Protocol;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using System.Collections.Specialized;
-
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using Windows.UI;
 using static LipUI.Models.Lip.LipCommand;
 using static LipUI.Models.Lip.LipCommandOption;
-using LipUI.Models;
-using LipUI.Models.Lip;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using Microsoft.UI.Dispatching;
 using static LipUI.Protocol.LipIndex.LipIndexData;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -94,15 +86,18 @@ internal sealed partial class LipExecutionPanelPage : Page
         {
             dispatcherQueue.TryEnqueue(async () =>
             {
-                var server = Main.Config.SelectedServer;
-                if (server is null)
-                    return;
+                lip = await Main.CreateLipConsole(page.XamlRoot);
+                if (lip is null)
+                {
+                    var bar = page.TaskProgressBar;
+                    bar.IsIndeterminate = false;
+                    bar.Value = 0;
 
-                var (success, path) = await Main.TryGetLipConsolePathAsync(page.XamlRoot);
-                if (success is false)
+                    page.LipWorkingInfoText.Text = string.Empty;
+                    page.ProgressRateText.Text = string.Empty;
                     return;
+                }
 
-                lip = new LipConsole(path!, server.WorkingDirectory);
 
                 lip.Output += OutputHandler;
 
@@ -294,6 +289,9 @@ internal sealed partial class LipExecutionPanelPage : Page
         var args = (InitArguments)e.Parameter;
         Mode = args.Mode;
 
+        var style = (Style)Application.Current.Resources["CaptionTextBlockStyle"];
+        var brush = new SolidColorBrush((Color)Application.Current.Resources["TextFillColorSecondary"]);
+
         switch (args.Mode)
         {
             case ExecutionMode.Install:
@@ -302,12 +300,38 @@ internal sealed partial class LipExecutionPanelPage : Page
                     Tooth = tooth;
                     ToothItem = toothItem;
                     SelectedVersion = selectedVersion;
+
+                    ToothInfoPanel.Children.Add(new TextBlock()
+                    {
+                        Text = ToothItem.RepoName,
+                        Style = style,
+                        Foreground = brush
+                    });
+                    ToothInfoPanel.Children.Add(new TextBlock()
+                    {
+                        Text = SelectedVersion,
+                        Style = style,
+                        Foreground = brush
+                    });
                 }
                 break;
             case ExecutionMode.Delete:
             case ExecutionMode.Update:
                 {
                     Package = (ToothPackage)args.Parameter;
+
+                    ToothInfoPanel.Children.Add(new TextBlock()
+                    {
+                        Text = Package.Tooth,
+                        Style = style,
+                        Foreground = brush
+                    });
+                    ToothInfoPanel.Children.Add(new TextBlock()
+                    {
+                        Text = Package.Version,
+                        Style = style,
+                        Foreground = brush
+                    });
                 }
                 break;
         }
