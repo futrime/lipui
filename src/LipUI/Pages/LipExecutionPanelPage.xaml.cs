@@ -95,6 +95,15 @@ internal sealed partial class LipExecutionPanelPage : Page
 
                     page.LipWorkingInfoText.Text = string.Empty;
                     page.ProgressRateText.Text = string.Empty;
+
+                    var dialog = new ContentDialog()
+                    {
+                        XamlRoot = page.XamlRoot,
+                        Content = "i18n.nullServerPath",
+                        CloseButtonText = "OK"
+                    };
+
+                    await dialog.ShowAsync();
                     return;
                 }
 
@@ -138,7 +147,7 @@ internal sealed partial class LipExecutionPanelPage : Page
         [GeneratedRegex("Download complete!|Unzip complete!")]
         private static partial Regex BDSDownloader_DownloadComplete_Regex();
 
-        [GeneratedRegex(@"Done\.")]
+        [GeneratedRegex(@"Done\.|ERROR: aborted")]
         private static partial Regex Done_Regex();
 
         [GeneratedRegex(@"\s+(?<percent>[0-9]+%)\s+\|[¨€|\s]+\|\s+\((?<progress>.*?),(?<rate>.*?)\)\s+\[(?<elapsed>[0-9a-z]+):(?<estimated>[0-9a-z]+)\]")]

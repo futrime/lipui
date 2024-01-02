@@ -1,7 +1,10 @@
 using LipUI.Models;
+using LipUI.Pages.HomePageModules;
 using LipUI.VIews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -75,4 +78,22 @@ public sealed partial class HomePage : Page
             Process.Start(path);
         }
     }
+
+    private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
+        => throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+
+    private void ContentFrame_Loading(FrameworkElement sender, object args)
+        => ContentFrame.Navigate(typeof(ModulesPage));
+
+    private void BackButton_PointerEntered(object sender, PointerRoutedEventArgs e)
+        => AnimatedIcon.SetState(BackAnimatedIcon, "PointerOver");
+
+    private void BackButton_PointerExited(object sender, PointerRoutedEventArgs e)
+        => AnimatedIcon.SetState(BackAnimatedIcon, "Normal");
+
+    private void BackButton_Click(object sender, RoutedEventArgs e)
+    => ContentFrame.GoBack();
+
+    private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
+        => BackButton.IsEnabled = ContentFrame.CanGoBack;
 }

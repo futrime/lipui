@@ -35,6 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Pages\HomePage.xaml" />
+    <None Remove="Pages\HomePageModules\BdsPropertiesEditorPage.xaml" />
+    <None Remove="Pages\HomePageModules\ModulesPage.xaml" />
     <None Remove="Pages\IndexPage.xaml" />
     <None Remove="Pages\LipExecutionPanelPage.xaml" />
     <None Remove="Pages\LocalPackagePage.xaml" />
@@ -47,6 +49,7 @@
     <None Remove="VIews\LipIndexToothView.xaml" />
     <None Remove="VIews\LipInstallerView.xaml" />
     <None Remove="VIews\LocalToothView.xaml" />
+    <None Remove="VIews\ModuleIcon.xaml" />
     <None Remove="VIews\ServerInstanceEditView.xaml" />
     <None Remove="VIews\ServerInstanceView.xaml" />
     <None Remove="VIews\ToothVersionView.xaml" />
@@ -111,6 +114,16 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageFiles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="VIews\ModuleIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\HomePageModules\BdsPropertiesEditorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="VIews\LocalToothView.xaml">
@@ -188,6 +201,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="VIews\LipIndexToothView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\HomePageModules\ModulesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
