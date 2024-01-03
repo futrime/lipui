@@ -1,7 +1,6 @@
 using LipUI.Models;
 using LipUI.VIews;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,

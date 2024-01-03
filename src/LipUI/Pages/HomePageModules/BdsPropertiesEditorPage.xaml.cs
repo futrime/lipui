@@ -1,21 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using LipUI.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.Devices.Radios;
-using Windows.UI;
-using Microsoft.UI.Xaml.Input;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.System;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -54,19 +49,42 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         base.OnNavigatedTo(e);
     }
 
+    private void ShowInfoBar(
+        string? title,
+        string? message,
+        InfoBarSeverity severity,
+        UIElement? barContent = null,
+        Action? completed = null)
+    {
+        var timer = DispatcherQueue.CreateTimer();
+        timer.Interval = TimeSpan.FromSeconds(2);
+        timer.Tick += (sender, e) =>
+        {
+            Info.IsOpen = false;
+            InfoBarPopOutStoryboard.Begin();
+            timer.Stop();
+            completed?.Invoke();
+        };
+
+        Info.Title = title;
+        Info.Message = message;
+        Info.Severity = severity;
+        Info.IsClosable = false;
+        Info.IsOpen = true;
+        Info.Content = barContent;
+
+        InfoBarPopInStoryboard.Begin();
+        timer.Start();
+    }
+
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         if (Server is null)
         {
-            var dialog = new ContentDialog()
-            {
-                XamlRoot = XamlRoot,
-                Content = "i18n.nullServerPath",
-                CloseButtonText = "OK"
-            };
-            await dialog.ShowAsync();
-            Frame.GoBack();
-        }
+            await Task.Delay(500);
+            ShowInfoBar("i18n.nullServerPath", null, InfoBarSeverity.Error, null, Frame.GoBack);
+            return;
+        };
 
         Viewer.Content = new ProgressRing();
         DispatcherQueue.TryEnqueue(LoadPropertiesAndCreateUI);
@@ -74,30 +92,57 @@ internal sealed partial class BdsPropertiesEditorPage : Page
 
     private async ValueTask SaveAsync()
     {
-        if (BindingSettings.Count is 0)
-            return;
-
-        var path = Path.Combine(Server!.WorkingDirectory, "server.properties");
-        var lines = await File.ReadAllLinesAsync(path);
-
-        for (int i = 0; i < lines.Length; i++)
+        try
         {
-            string? line = lines[i];
-            if (line.StartsWith('#') || string.IsNullOrWhiteSpace(line))
-                continue;
+            ShowInfoBar("i18n.save", null,
+                InfoBarSeverity.Informational,
+                new ProgressBar()
+                {
+                    IsIndeterminate = true
+                });
 
-            var key = line[..line.IndexOf('=')];
-            if (BindingSettings.TryGetValue(key, out var value))
-                lines[i] = $"{key}={value}";
+            if (BindingSettings.Count is not 0)
+            {
+                var path = Path.Combine(Server!.WorkingDirectory, "server.properties");
+                var lines = await File.ReadAllLinesAsync(path);
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string? line = lines[i];
+                    if (line.StartsWith('#') || string.IsNullOrWhiteSpace(line))
+                        continue;
+
+                    var key = line[..line.IndexOf('=')];
+                    if (BindingSettings.TryGetValue(key, out var value))
+                        lines[i] = $"{key}={value}";
+                }
+
+                await File.WriteAllLinesAsync(path, lines);
+            }
+
+            await Task.Delay(500);
+            ShowInfoBar("i18n.completed", null, InfoBarSeverity.Success);
         }
-
-        await File.WriteAllLinesAsync(path, lines);
+        catch (Exception ex)
+        {
+            ShowInfoBar("i18n.error", ex.Message, InfoBarSeverity.Error);
+        }
     }
 
     private async void LoadPropertiesAndCreateUI()
     {
         var path = Path.Combine(Server!.WorkingDirectory, "server.properties");
-        var lines = await File.ReadAllLinesAsync(path);
+        string[] lines;
+
+        try
+        {
+            lines = await File.ReadAllLinesAsync(path);
+        }
+        catch (Exception ex)
+        {
+            ShowInfoBar("i18n.failed", ex.Message, InfoBarSeverity.Error, null, Frame.GoBack);
+            return;
+        }
 
         string? currentPropertiesLine, nextPropertiesLine = null;
         var notes = new List<string>();
@@ -311,8 +356,7 @@ internal sealed partial class BdsPropertiesEditorPage : Page
             return;
         }
 
-        if (ctrlPressed && e.Key is VirtualKey.S)
-            await SaveAsync();
+        if (ctrlPressed && e.Key is VirtualKey.S) await SaveAsync();
     }
 
     private void Page_KeyUp(object sender, KeyRoutedEventArgs e)

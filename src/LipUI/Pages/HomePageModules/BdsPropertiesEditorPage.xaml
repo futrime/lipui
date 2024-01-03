@@ -58,14 +58,29 @@
 
             </Button>
 
-            <InfoBar
-                x:Name="Bar">
-                
-            </InfoBar>
-            
-            
-            
         </StackPanel>
+
+        <InfoBar
+            Grid.Row="0"
+            x:Name="Info"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom">
+
+            <InfoBar.Resources>
+
+                <Storyboard
+                    x:Name="InfoBarPopInStoryboard">
+                    <PopInThemeAnimation TargetName="Info"/>
+                </Storyboard>
+
+                <Storyboard
+                    x:Name="InfoBarPopOutStoryboard">
+                    <PopOutThemeAnimation TargetName="Info"/>
+                </Storyboard>
+
+            </InfoBar.Resources>
+
+        </InfoBar>
 
     </Grid>
 </Page>

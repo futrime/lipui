@@ -78,6 +78,7 @@ internal sealed partial class LipInstallerView : UserControl
         using var client = new HttpClient(
             new HttpClientHandler() { ClientCertificateOptions = ClientCertificateOption.Automatic })
         {
+            Timeout = TimeSpan.FromSeconds(2),
             DefaultRequestHeaders = { ExpectContinue = false }
         };
 
@@ -89,7 +90,7 @@ internal sealed partial class LipInstallerView : UserControl
         }
         catch
         {
-            response = await client.GetAsync($"https://mirror.ghproxy.com/{info.AssetUrl}");
+            response = await client.GetAsync($"https://github.moeyy.xyz/{info.AssetUrl}");
         }
 
         var input = await response.Content.ReadAsStreamAsync();
