@@ -2,7 +2,7 @@
 using LipUI.Pages;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Windowing;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -12,6 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.System;
 using WinRT;
 using static PInvoke.User32;
 
@@ -52,6 +55,8 @@ public sealed partial class MainWindow : Window
         AppWindow.Resize(new(1600, 900));
 
         Closed += MainWindow_Closed;
+
+        Helpers.MainWindow = this;
     }
 
     private async void MainWindow_Closed(object sender, WindowEventArgs args)
@@ -171,7 +176,7 @@ public sealed partial class MainWindow : Window
 
     private void WindowActivated(object sender, WindowActivatedEventArgs args)
     {
-        m_configurationSource!.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
+        //m_configurationSource!.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
     }
 
     private void WindowClosed(object sender, WindowEventArgs args)
@@ -269,7 +274,7 @@ public sealed partial class MainWindow : Window
         Type preNavPageType = ContentFrame.CurrentSourcePageType;
 
         // Only navigate if the selected page isn't currently loaded.
-        if (navPageType is not null && !Type.Equals(preNavPageType, navPageType))
+        if (navPageType is not null && !Equals(preNavPageType, navPageType))
         {
             ContentFrame.Navigate(navPageType, null, transitionInfo);
         }
@@ -321,6 +326,90 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    internal void ShowInfoBar(
+        string? title,
+        string? message,
+        InfoBarSeverity severity,
+        TimeSpan interval = default,
+        UIElement? barContent = null,
+        Action? completed = null)
+    {
+        Task.Run(() =>
+        {
+            var timer = DispatcherQueue.CreateTimer();
+            timer.Interval = interval == default ? TimeSpan.FromSeconds(3) : interval;
+            timer.Tick += (sender, e) =>
+            {
+                GlobalInfoBar.IsOpen = false;
+                InfoBarPopOutStoryboard.Begin();
+                timer.Stop();
+                completed?.Invoke();
+            };
+
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                GlobalInfoBar.Title = title;
+                GlobalInfoBar.Message = message;
+                GlobalInfoBar.Severity = severity;
+                GlobalInfoBar.IsClosable = false;
+                GlobalInfoBar.IsOpen = true;
+                GlobalInfoBar.Content = barContent;
+                InfoBarPopInStoryboard.Begin();
+            });
+
+            timer.Start();
+        });
+    }
+
+    internal async ValueTask ShowInfoBarAsync(string? title,
+        string? message,
+        InfoBarSeverity severity,
+        TimeSpan interval = default,
+        UIElement? barContent = null)
+    {
+        await Task.Run(async () =>
+        {
+            var mre = new ManualResetEvent(false);
+
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                GlobalInfoBar.Title = title;
+                GlobalInfoBar.Message = message;
+                GlobalInfoBar.Severity = severity;
+                GlobalInfoBar.IsClosable = false;
+                GlobalInfoBar.Content = barContent;
+                GlobalInfoBar.IsOpen = true;
+
+                void task(object? sender, object e)
+                {
+                    InfoBarPopInStoryboard.Completed -= task;
+                    mre.Set();
+                }
+                InfoBarPopInStoryboard.Completed += task;
+
+                InfoBarPopInStoryboard.Begin();
+            });
+            mre.WaitOne();
+
+            await Task.Delay(interval);
+
+            mre.Reset();
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                GlobalInfoBar.IsOpen = false;
+                InfoBarPopOutStoryboard.Begin();
+
+                void task(object? sender, object e)
+                {
+                    InfoBarPopOutStoryboard.Completed -= task;
+                    mre.Set();
+                }
+                InfoBarPopOutStoryboard.Completed += task;
+            });
+            mre.WaitOne();
+            mre.Dispose();
+        });
+    }
 }
 
 class WindowsSystemDispatcherQueueHelper

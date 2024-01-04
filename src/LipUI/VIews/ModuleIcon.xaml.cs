@@ -1,37 +1,62 @@
-using LipUI.Pages.HomePageModules;
+using LipUI.Models;
+using LipUI.Pages;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace LipUI.VIews
+namespace LipUI.VIews;
+
+public sealed partial class ModuleIcon : UserControl
 {
-    public sealed partial class ModuleIcon : UserControl
+
+    public static Dictionary<Type, ILipUIModulesNonGeneric> Modules { get; private set; } = new();
+
+    public Type? PageType { get; private set; }
+
+    public ModuleIcon(Type moduleType)
     {
-        private readonly UIElement iconElement;
-        private readonly Type pageType;
-        private readonly object? parameter;
-        private readonly Page modulesPage;
+        InitializeComponent();
 
-
-        public ModuleIcon(ModulesPage page, UIElement element, Type pageType, object? parameter = null)
+        ILipUIModulesNonGeneric? module;
+        try
         {
-            InitializeComponent();
+            module = Modules.TryGetValue(moduleType, out var _module) ? _module : Activator.CreateInstance(moduleType) as ILipUIModulesNonGeneric;
 
-            modulesPage = page;
-            iconElement = element;
-            this.pageType = pageType;
-            this.parameter = parameter;
+            if (module is not null)
+            {
+                PageType = module.PageType;
+
+                ModuleName.Text = module.ModuleName;
+
+                var icon = module.IconContent;
+                IconView.Child = icon;
+
+                ElementBorder.Background = module.IconBackground;
+
+                IconView.Child ??= (icon = new SymbolIcon(Symbol.More));
+                IconView.Height = icon!.Height;
+                IconView.Width = icon!.Width;
+
+                ElementBorder.Background ??= new SolidColorBrush(Colors.White);
+
+                Modules.TryAdd(PageType, module);
+
+                module.OnIconInitialze(this);
+            }
+
         }
-
-        private void ModuleIcon_Loading(FrameworkElement sender, object args)
+        catch (Exception ex)
         {
-            ElementBorder.Child = iconElement;
+            Helpers.ShowInfoBar(ex);
+            return;
         }
-
-        public void Navigate()
-            => modulesPage.Frame.Navigate(pageType, parameter);
     }
 }

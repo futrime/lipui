@@ -25,6 +25,7 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <DefaultLanguage>zh-CN</DefaultLanguage>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\applicationIcon-1024.png" />
@@ -35,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Pages\HomePage.xaml" />
+    <None Remove="Pages\HomePageModules\AllowListViewerPage.xaml" />
     <None Remove="Pages\HomePageModules\BdsPropertiesEditorPage.xaml" />
     <None Remove="Pages\HomePageModules\ModulesPage.xaml" />
     <None Remove="Pages\IndexPage.xaml" />
@@ -87,11 +89,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Images.resx</DependentUpon>
     </Compile>
-    <Compile Update="Language\LanguageFiles.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>LanguageFiles.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\Images.Designer.cs">
@@ -110,10 +107,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Images.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Language\LanguageFiles.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LanguageFiles.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\HomePageModules\AllowListViewerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="VIews\ModuleIcon.xaml">

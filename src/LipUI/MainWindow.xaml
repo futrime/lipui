@@ -7,7 +7,8 @@
     xmlns:local="using:LipUI.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Activated="WindowActivated">
 
     <Grid>
 
@@ -23,7 +24,8 @@
                    Width="16" Height="16" 
                    Margin="8,0"/>
 
-            <TextBlock x:Name="AppTitleTextBlock" Text="i18n.lipui.title"
+            <TextBlock x:Name="AppTitleTextBlock" 
+                       x:Uid="lipuiTitle"
                        TextWrapping="NoWrap"
                        Style="{StaticResource CaptionTextBlockStyle}" 
                        VerticalAlignment="Center"
@@ -45,16 +47,55 @@
 
             <NavigationView.MenuItems>
 
-                <NavigationViewItem Icon="Home" Tag="{x:Bind NavigationPage.HomePage}" Content="i18n.home"/>
-                <NavigationViewItem Icon="AllApps" Tag="{x:Bind NavigationPage.LocalPackagePage}" Content="i18n.local_packages"/>
-                <NavigationViewItem Icon="Add" Tag="{x:Bind NavigationPage.PackToothPage}" Content="i18n.pack_a_new_tooth"/>
-                <NavigationViewItem Icon="Find" Tag="{x:Bind NavigationPage.IndexPage}" Content="i18n.teeth_index"/>
+                <NavigationViewItem 
+                    Icon="Home" 
+                    Tag="{x:Bind NavigationPage.HomePage}"
+                    x:Uid="navigationView$home"/>
+
+                <NavigationViewItem 
+                    Icon="AllApps" 
+                    Tag="{x:Bind NavigationPage.LocalPackagePage}" 
+                    x:Uid="navigationView$localPackages"/>
+
+                <NavigationViewItem 
+                    Icon="Add" 
+                    Tag="{x:Bind NavigationPage.PackToothPage}"
+                    x:Uid="navigationView$packTooth"/>
+
+                <NavigationViewItem 
+                    Icon="Find"
+                    Tag="{x:Bind NavigationPage.IndexPage}" 
+                    x:Uid="navigationView$packageIndex"/>
 
             </NavigationView.MenuItems>
 
             <Frame x:Name="ContentFrame" IsTabStop="True" NavigationFailed="ContentFrame_NavigationFailed" CornerRadius="5"/>
 
         </NavigationView>
+
+        <InfoBar
+            Grid.Row="1"
+            x:Name="GlobalInfoBar"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Margin="8">
+
+            <InfoBar.Resources>
+
+                <Storyboard
+                    x:Name="InfoBarPopInStoryboard">
+                    <PopInThemeAnimation TargetName="GlobalInfoBar"/>
+                </Storyboard>
+
+                <Storyboard
+                    x:Name="InfoBarPopOutStoryboard">
+                    <PopOutThemeAnimation TargetName="GlobalInfoBar"/>
+                </Storyboard>
+
+            </InfoBar.Resources>
+
+        </InfoBar>
+
     </Grid>
 
 </Window>

@@ -17,9 +17,9 @@
         </Grid.RowDefinitions>
 
         <Grid 
-         Grid.Row="0"
-         Margin="4"
-         ColumnSpacing="4">
+            Grid.Row="0"
+            Margin="4"
+            ColumnSpacing="4">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48"/>
@@ -27,54 +27,54 @@
             </Grid.ColumnDefinitions>
 
             <ToggleButton 
-             Grid.Column="0"
-             x:Name="FeaturedFilterButton"
-             Height="48"
-             Width="48"
-             Checked="FeaturedFilterButton_Checked"
-             Unchecked="FeaturedFilterButton_Unchecked">
+                Grid.Column="0"
+                x:Name="FeaturedFilterButton"
+                Height="48"
+                Width="48"
+                Checked="FeaturedFilterButton_Checked"
+                Unchecked="FeaturedFilterButton_Unchecked">
                 <SymbolIcon Symbol="OutlineStar"/>
             </ToggleButton>
 
             <AutoSuggestBox 
-             x:Name="SuggestBox"
-             Grid.Column="1"
-             Height="48"
-             QueryIcon="Find"
-             PlaceholderText="i18n.search"
-             TextChanged="AutoSuggestBox_TextChanged"
-             QuerySubmitted="AutoSuggestBox_QuerySubmitted"
-             SuggestionChosen="AutoSuggestBox_SuggestionChosen">
+                x:Name="SuggestBox"
+                Grid.Column="1"
+                Height="48"
+                QueryIcon="Find"
+                x:Uid="autoSuggestBox$search"
+                TextChanged="AutoSuggestBox_TextChanged"
+                QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+                SuggestionChosen="AutoSuggestBox_SuggestionChosen">
             </AutoSuggestBox>
 
         </Grid>
 
         <ScrollViewer 
-         Grid.Row="1"
-         x:Name="TeethScrollViewer">
+            Grid.Row="1"
+            x:Name="TeethScrollViewer">
 
             <ListView 
-             x:Name="ToothListView"
-             CharacterSpacing="8"
-             Margin="24,12,24,12"/>
+                x:Name="ToothListView"
+                CharacterSpacing="8"
+                Margin="24,12,24,12"/>
 
         </ScrollViewer>
 
 
         <StackPanel 
-         Grid.Row="2"
-         Margin="4"
-         Spacing="4"
-         HorizontalAlignment="Right" 
-         Orientation="Horizontal">
+            Grid.Row="2"
+            Margin="4"
+            Spacing="4"
+            HorizontalAlignment="Right" 
+            Orientation="Horizontal">
 
             <Button 
-             x:Name="ReloadPackageButton" 
-             Grid.Column="1"
-             Height="48"
-             Width="48"
-             HorizontalAlignment="Right"
-             Click="ReloadPackageButton_Click">
+                x:Name="ReloadPackageButton" 
+                Grid.Column="1"
+                Height="48"
+                Width="48"
+                HorizontalAlignment="Right"
+                Click="ReloadPackageButton_Click">
                 <SymbolIcon Symbol="Refresh"/>
 
             </Button>

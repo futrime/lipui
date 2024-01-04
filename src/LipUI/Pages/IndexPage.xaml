@@ -41,7 +41,7 @@
                 Grid.Column="1"
                 Height="48"
                 QueryIcon="Find"
-                PlaceholderText="i18n.search"
+                x:Uid="autoSuggestBox$search"
                 TextChanged="AutoSuggestBox_TextChanged"
                 QuerySubmitted="AutoSuggestBox_QuerySubmitted"
                 SuggestionChosen="AutoSuggestBox_SuggestionChosen">

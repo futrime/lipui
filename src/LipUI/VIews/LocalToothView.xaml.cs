@@ -23,8 +23,8 @@ internal sealed partial class LocalToothView : UserControl
 
         ToothName.Text = tooth.Info.Name;
         ToothDescription.Text = tooth.Info.Description;
-        UpdateButtonText.Text = "i18n.update";
-        DeleteButtonText.Text = "i18n.delete";
+        UpdateButtonText.Text = "localTooth$update".GetLocalized();
+        DeleteButtonText.Text = "localTooth$uninstall".GetLocalized();
 
         UpdateButton.Content = new ProgressRing()
         {

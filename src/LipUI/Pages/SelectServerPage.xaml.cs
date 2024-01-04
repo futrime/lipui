@@ -234,8 +234,8 @@ public sealed partial class SelectServerPage : Page
                 {
                     XamlRoot = XamlRoot,
                     Content = editView,
-                    CloseButtonText = "i18n.cancel",
-                    PrimaryButtonText = "i18n.confirm"
+                    CloseButtonText = "server$editor$cancel".GetLocalized(),
+                    PrimaryButtonText = "server$editor$confirm".GetLocalized()
                 };
                 DispatcherQueue.TryEnqueue(async () =>
                 {

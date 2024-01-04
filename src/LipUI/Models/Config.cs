@@ -1,5 +1,4 @@
-﻿using LipUI.Language;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.Json.Serialization;
 
@@ -25,8 +24,6 @@ internal static class DefaultSettings
     public const string GitHubApiKey = "api.github.com";
 
     public const string LipExecutableFileName = "lip.exe";
-
-    public const I18nHelper.LangId Language = I18nHelper.LangId.Default;
 }
 
 internal class Config
@@ -45,9 +42,6 @@ internal class Config
 
     public class Setting
     {
-        [JsonPropertyName("language")]
-        public I18nHelper.LangId Language { get; set; }
-
         [JsonPropertyName("lip_path")]
         public string LipPath { get; set; }
 
@@ -68,7 +62,6 @@ internal class Config
     {
         Settings = new()
         {
-            Language = DefaultSettings.Language,
             LipPath = Path.Combine(workingDir, DefaultSettings.LipExecutableFileName),
             LipIndexApiKey = DefaultSettings.LipIndexApiKey,
             GithubApiKey = DefaultSettings.GitHubApiKey,

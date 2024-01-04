@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Diagnostics;
 using System.IO;
+using Windows.ApplicationModel.Resources;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -31,6 +32,8 @@ public sealed partial class HomePage : Page
     {
         ServerInstance? instance = Main.Config.SelectedServer;
         ServerIconImage.Source = await ServerIcon.GetIcon(instance);
+        ServerDesc.Text = instance is null || string.IsNullOrWhiteSpace(instance.Description) ?
+            "home$emptyDesc".GetLocalized() : instance.Description;
     }
 
     private void SelectServerButton_Click(object sender, RoutedEventArgs e)
@@ -95,5 +98,21 @@ public sealed partial class HomePage : Page
     => ContentFrame.GoBack();
 
     private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
-        => BackButton.IsEnabled = ContentFrame.CanGoBack;
+    {
+        BackButton.IsEnabled = ContentFrame.CanGoBack;
+        var type = e.Content.GetType();
+
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            try
+            {
+                InternalFrameTitle.Text = type != typeof(ModulesPage) ?
+                ModuleIcon.Modules[type].ModuleName : "modules$title$modulePage".GetLocalized();
+            }
+            catch (Exception ex)
+            {
+                Helpers.ShowInfoBar(ex);
+            }
+        });
+    }
 }

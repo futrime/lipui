@@ -42,15 +42,25 @@ public sealed partial class LocalPackagePage : Page
 
             var json = await lip.RunAndGetString(cmd + LipCommand.List + LipCommandOption.Json);
 
-            var arr = JsonSerializer.Deserialize<ToothPackage[]>(json);
-
-            foreach (var item in arr!)
+            ToothPackage[]? arr = null;
+            try
             {
-                ToothListView.Items.Add(new LocalToothView(this, item));
+                arr = JsonSerializer.Deserialize<ToothPackage[]>(json);
+            }
+            catch (Exception ex)
+            {
+                Helpers.ShowInfoBar(ex);
+            }
+
+            if (arr is not null)
+            {
+                foreach (var item in arr!)
+                {
+                    ToothListView.Items.Add(new LocalToothView(this, item));
+                }
+                RefreshUpgradableTeeth();
             }
             TeethScrollViewer.Content = ToothListView;
-
-            RefreshUpgradableTeeth();
         });
     }
 
@@ -63,7 +73,17 @@ public sealed partial class LocalPackagePage : Page
 
             var cmd = LipCommand.CreateCommand();
             var json = await lip.RunAndGetString(cmd + LipCommand.List + LipCommandOption.Upgradable + LipCommandOption.Json);
-            var arr = JsonSerializer.Deserialize<ToothPackage[]>(json)!;
+
+            ToothPackage[] arr;
+            try
+            {
+                arr = JsonSerializer.Deserialize<ToothPackage[]>(json)!;
+            }
+            catch (Exception ex)
+            {
+                await Helpers.ShowInfoBarAsync(ex);
+                return;
+            }
 
             HashSet<string> strings = new();
 

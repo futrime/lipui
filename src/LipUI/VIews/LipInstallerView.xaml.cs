@@ -1,3 +1,4 @@
+using CommunityToolkit.WinUI;
 using LipUI.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -23,7 +24,7 @@ internal sealed partial class LipInstallerView : UserControl
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        InfoText.Text = "i18n.startDownloadLipProtable";
+        InfoText.Text = "lipInstaller$installLip".GetLocalized();
         ProgressRingBorder.Child = new ProgressRing()
         {
             Visibility = Visibility.Collapsed,
@@ -160,7 +161,7 @@ internal sealed partial class LipInstallerView : UserControl
 
         UnzipAndCopyLipEXE(bytes);
 
-        DispatcherQueue.TryEnqueue(() => InfoText.Text = "i18n.downloadCompelete");
+        DispatcherQueue.TryEnqueue(() => InfoText.Text = "lipInstaller$installCompleted".GetLocalized());
 
         await Task.Delay(1000);
 

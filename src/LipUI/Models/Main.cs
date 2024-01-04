@@ -19,17 +19,14 @@ internal static class Main
 
     public static Config Config { get; private set; }
 
-    //public static I18nInstance I18N { get; private set; }
-
     public static string WorkingDirectory { get; private set; }
 
 
-    [MemberNotNull(nameof(Config), /*nameof(I18N),*/ nameof(WorkingDirectory))]
+    [MemberNotNull(nameof(Config), nameof(WorkingDirectory))]
     private static void Initialize()
     {
         InitializeWorkingDir();
         InitializeConfig();
-        //I18N = new();
     }
 
     [MemberNotNull(nameof(WorkingDirectory))]

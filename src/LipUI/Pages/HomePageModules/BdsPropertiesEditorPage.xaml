@@ -12,16 +12,6 @@
     KeyDown="Page_KeyDown"
     KeyUp="Page_KeyUp">
 
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="ButtonDisabledBorderThemeBrush" Color="Transparent"/>
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -54,33 +44,12 @@
 
                 <SymbolIcon 
                     Symbol="Save"
-                    Height="18"/>
+                    Height="18"
+                    Foreground="{ThemeResource ControlFillColorSecondary}"/>
 
             </Button>
 
         </StackPanel>
-
-        <InfoBar
-            Grid.Row="0"
-            x:Name="Info"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Bottom">
-
-            <InfoBar.Resources>
-
-                <Storyboard
-                    x:Name="InfoBarPopInStoryboard">
-                    <PopInThemeAnimation TargetName="Info"/>
-                </Storyboard>
-
-                <Storyboard
-                    x:Name="InfoBarPopOutStoryboard">
-                    <PopOutThemeAnimation TargetName="Info"/>
-                </Storyboard>
-
-            </InfoBar.Resources>
-
-        </InfoBar>
 
     </Grid>
 </Page>

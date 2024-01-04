@@ -10,7 +10,8 @@
     Background="Transparent">
 
     <GridView
-        Padding="12,8,12,8"
+        Padding="24,16,24,16"
+        CharacterSpacing="16"
         x:Name="ModulesView"
         IsItemClickEnabled="True"
         ItemClick="ModulesView_ItemClick">

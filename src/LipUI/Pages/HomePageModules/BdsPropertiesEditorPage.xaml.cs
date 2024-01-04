@@ -1,4 +1,5 @@
 using LipUI.Models;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -11,11 +12,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI;
+using static LipUI.Pages.Helpers;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace LipUI.Pages.HomePageModules;
+
+[LipUIModule]
+internal class BdsPropertiesEditorPage_Module : ILipUIModules<BdsPropertiesEditorPage_Module>
+{
+    public string ModuleName => "modules$title$propertiesEditor".GetLocalized();
+
+    public FrameworkElement IconContent
+        => new SymbolIcon(Symbol.Setting) { Height = 32, Width = 32 };
+
+    public Brush IconBackground => new SolidColorBrush(Colors.AntiqueWhite);
+
+    public Type PageType => typeof(BdsPropertiesEditorPage);
+}
 
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
@@ -36,53 +51,19 @@ internal sealed partial class BdsPropertiesEditorPage : Page
 
     public Dictionary<string, string> BindingSettings { get; private set; } = new();
 
-
     public BdsPropertiesEditorPage()
     {
         InitializeComponent();
     }
 
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        Server = e.Parameter as ServerInstance;
-
-        base.OnNavigatedTo(e);
-    }
-
-    private void ShowInfoBar(
-        string? title,
-        string? message,
-        InfoBarSeverity severity,
-        UIElement? barContent = null,
-        Action? completed = null)
-    {
-        var timer = DispatcherQueue.CreateTimer();
-        timer.Interval = TimeSpan.FromSeconds(2);
-        timer.Tick += (sender, e) =>
-        {
-            Info.IsOpen = false;
-            InfoBarPopOutStoryboard.Begin();
-            timer.Stop();
-            completed?.Invoke();
-        };
-
-        Info.Title = title;
-        Info.Message = message;
-        Info.Severity = severity;
-        Info.IsClosable = false;
-        Info.IsOpen = true;
-        Info.Content = barContent;
-
-        InfoBarPopInStoryboard.Begin();
-        timer.Start();
-    }
-
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        Server = Main.Config.SelectedServer;
+
         if (Server is null)
         {
             await Task.Delay(500);
-            ShowInfoBar("i18n.nullServerPath", null, InfoBarSeverity.Error, null, Frame.GoBack);
+            await ShowInfoBarAsync("propertiesEditor$nullServerPath".GetLocalized(), null, InfoBarSeverity.Error, default, null);
             return;
         };
 
@@ -94,8 +75,11 @@ internal sealed partial class BdsPropertiesEditorPage : Page
     {
         try
         {
-            ShowInfoBar("i18n.save", null,
+            await ShowInfoBarAsync(
+                "propertiesEditor$saving",
+                null,
                 InfoBarSeverity.Informational,
+                default,
                 new ProgressBar()
                 {
                     IsIndeterminate = true
@@ -121,11 +105,11 @@ internal sealed partial class BdsPropertiesEditorPage : Page
             }
 
             await Task.Delay(500);
-            ShowInfoBar("i18n.completed", null, InfoBarSeverity.Success);
+            ShowInfoBar("propertiesEditor$saveCompleted".GetLocalized(), null, InfoBarSeverity.Success);
         }
         catch (Exception ex)
         {
-            ShowInfoBar("i18n.error", ex.Message, InfoBarSeverity.Error);
+            ShowInfoBar(ex);
         }
     }
 
@@ -140,7 +124,8 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         }
         catch (Exception ex)
         {
-            ShowInfoBar("i18n.failed", ex.Message, InfoBarSeverity.Error, null, Frame.GoBack);
+            await ShowInfoBarAsync(ex, default, null);
+            Frame.GoBack();
             return;
         }
 

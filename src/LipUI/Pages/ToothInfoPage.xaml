@@ -104,7 +104,8 @@
                         Height="32"
                         Click="InstallButton_Click">
 
-                        <TextBlock Text="i18n.install"/>
+                        <TextBlock 
+                            x:Uid="tooth$install"/>
 
                     </Button>
 

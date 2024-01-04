@@ -11,6 +11,19 @@
     mc:Ignorable="d"
     Loaded="Page_Loaded">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="MyButtonBackgroundDisabledBrush" Color="Transparent"/>
+                    <SolidColorBrush x:Key="ButtonDisabledBorderThemeBrush" Color="Transparent"/>
+                    <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="MyButtonBackgroundDisabledBrush"/>
+                    <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="MyButtonBackgroundDisabledBrush"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -46,8 +59,7 @@
                     <TextBlock 
                         HorizontalAlignment="Center"
                         x:Name="ServerDesc"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="i18n.desc"/>
+                        Style="{StaticResource CaptionTextBlockStyle}"/>
 
                 </StackPanel>
 
@@ -61,7 +73,7 @@
                         Width="192"
                         Height="40"
                         Click="StartServerButton_Click">
-                        <TextBlock Text="i18n.startServer"/>
+                        <TextBlock x:Uid="startServer"/>
                     </Button>
 
                     <Button
@@ -69,7 +81,7 @@
                         Width="192"
                         Height="32"
                         Click="SelectServerButton_Click">
-                        <TextBlock Text="i18n.selectServer"/>
+                        <TextBlock x:Uid="selectServer"/>
                     </Button>
 
                 </StackPanel>
@@ -120,9 +132,14 @@
 
                 <TextBlock
                     Grid.Column="1"
-                    Foreground="{ThemeResource TextFillColorPrimary}"
+                    Foreground="{ThemeResource TextFillColorSecondary}"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="Title"/>
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="2"
+                    x:Name="InternalFrameTitle">
+                    
+                </TextBlock>
 
             </Grid>
 

@@ -96,14 +96,11 @@ internal sealed partial class LipExecutionPanelPage : Page
                     page.LipWorkingInfoText.Text = string.Empty;
                     page.ProgressRateText.Text = string.Empty;
 
-                    var dialog = new ContentDialog()
-                    {
-                        XamlRoot = page.XamlRoot,
-                        Content = "i18n.nullServerPath",
-                        CloseButtonText = "OK"
-                    };
+                    await Helpers.ShowInfoBarAsync(
+                        "infobar$error".GetLocalized(),
+                        "lipExecution$nullServerPath".GetLocalized(),
+                         InfoBarSeverity.Error);
 
-                    await dialog.ShowAsync();
                     return;
                 }
 
@@ -168,8 +165,8 @@ internal sealed partial class LipExecutionPanelPage : Page
                     {
                         Text = match.Groups["string"].Value
                     },
-                    CloseButtonText = "i18n.eula.deny",
-                    PrimaryButtonText = "i18n.eula.accept"
+                    CloseButtonText = "eula$deny".GetLocalized(),
+                    PrimaryButtonText = "eula$accept".GetLocalized()
                 };
 
                 var operation = await contentDialog.ShowAsync();

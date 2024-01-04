@@ -43,14 +43,14 @@
                 Grid.Column="0"
                 HorizontalAlignment="Center"
                 x:Name="InstallButton"
-                Content="i18n.install"
+                x:Uid="lipInstaller$install"
                 Click="InstallButton_Click"/>
 
             <Button
                 Grid.Column="1"
                 HorizontalAlignment="Center"
                 x:Name="CancelButton"
-                Content="i18n.cancel"
+                x:Uid="lipInstaller$cancel"
                 Click="CancelButton_Click"/>
 
         </Grid>

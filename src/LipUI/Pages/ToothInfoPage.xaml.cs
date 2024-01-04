@@ -93,7 +93,7 @@ public sealed partial class ToothInfoPage : Page
             {
                 MarkdownViewer.Content = new TextBlock()
                 {
-                    Text = "i18n.readme.notfound",
+                    Text = "readme$notfound".GetLocalized(),
                     Foreground = Application.Current.Resources["TextFillColorSecondary"] as SolidColorBrush,
                     Style = Application.Current.Resources["SubtitleTextBlockStyle"] as Style
                 };
