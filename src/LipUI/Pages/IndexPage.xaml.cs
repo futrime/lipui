@@ -4,8 +4,12 @@ using LipUI.VIews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using static LipUI.Protocol.LipIndex.LipIndexData;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -18,28 +22,39 @@ namespace LipUI.Pages;
 public sealed partial class IndexPage : Page
 {
 
-    private LipIndex? LipIndex { get; set; }
+    private LipIndex? lipIndex;
 
     public IndexPage()
     {
         InitializeComponent();
     }
 
-    private void ReloadLipIndex()
+    private void ReloadLipIndex(IEnumerable<LipToothItem>? items = null)
     {
-        TeethScrollViewer.Content = new ProgressRing();
-        ToothListView.Items.Clear();
-
         DispatcherQueue.TryEnqueue(async () =>
         {
-            LipIndex = await RequestLipIndexAsync(Main.Config.Settings.LipIndexApiKey);
+            TeethScrollViewer.Content = new ProgressRing();
+            ToothListView.Items.Clear();
 
-            foreach (var item in LipIndex.Data.Items)
+            if (items is null)
             {
-                ToothListView.Items.Add(new LipIndexToothView(item));
+                lipIndex = await RequestLipIndexAsync(Main.Config.Settings.LipIndexApiKey);
+                items = lipIndex.Data.Items;
+            }
+
+            var handler = AuthorButton_Click;
+            foreach (var item in items)
+            {
+                ToothListView.Items.Add(new LipIndexToothView(item, handler));
             }
             TeethScrollViewer.Content = ToothListView;
         });
+    }
+
+    private void AuthorButton_Click(string author)
+    {
+        DispatcherQueue.TryEnqueue(() => SuggestBox.Text = author);
+        QuerySubmitted(author);
     }
 
     private void IndexPage_Loaded(object sender, RoutedEventArgs e)
@@ -75,13 +90,62 @@ public sealed partial class IndexPage : Page
 
     private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
+        if (args.Reason is not AutoSuggestionBoxTextChangeReason.UserInput)
+            return;
 
+        var str = sender.Text.ToLower();
+
+        Task.Run(async () =>
+        {
+            try
+            {
+                lock (lipIndex!.Data.Items)
+                {
+                    var dataset = from tooth in lipIndex.Data.Items
+                                  where tooth.Name.ToLower().Contains(str)
+                                  || tooth.Author.ToLower().Contains(str)
+                                  select tooth.Name;
+
+                    DispatcherQueue.TryEnqueue(() => sender.ItemsSource = dataset);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Helpers.ShowInfoBarAsync(ex);
+            }
+        });
     }
 
     private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-    {
+        => QuerySubmitted(args.QueryText);
 
-    }
+    private void QuerySubmitted(string queryText)
+        => Task.Run(async () =>
+        {
+            try
+            {
+                var query = queryText.ToLower();
+
+                if (string.IsNullOrWhiteSpace(query))
+                {
+                    ReloadLipIndex();
+                    return;
+                }
+                lock (lipIndex!.Data.Items)
+                {
+                    var selectedTeeth = from tooth in lipIndex.Data.Items
+                                        where tooth.Name.ToLower().Contains(query)
+                                        || tooth.Author.ToLower().Contains(query)
+                                        select tooth;
+
+                    ReloadLipIndex(selectedTeeth);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Helpers.ShowInfoBarAsync(ex);
+            }
+        });
 
     private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
     {
@@ -105,5 +169,8 @@ public sealed partial class IndexPage : Page
     }
 
     private void ReloadPackageButton_Click(object sender, RoutedEventArgs e)
-        => ReloadLipIndex();
+    {
+        SuggestBox.Text = null;
+        ReloadLipIndex();
+    }
 }

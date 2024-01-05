@@ -1,5 +1,5 @@
-using CommunityToolkit.WinUI;
 using LipUI.Models;
+using LipUI.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -79,7 +79,7 @@ internal sealed partial class LipInstallerView : UserControl
         using var client = new HttpClient(
             new HttpClientHandler() { ClientCertificateOptions = ClientCertificateOption.Automatic })
         {
-            Timeout = TimeSpan.FromSeconds(2),
+            //Timeout = TimeSpan.FromSeconds(2),
             DefaultRequestHeaders = { ExpectContinue = false }
         };
 

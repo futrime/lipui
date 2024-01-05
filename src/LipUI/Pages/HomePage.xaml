@@ -46,13 +46,13 @@
 
                 <StackPanel
                     Grid.Row="0"
-                    Spacing="8"
+                    Spacing="16"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
 
                     <Image 
-                        Height="64"
-                        Width="64"
+                        Height="84"
+                        Width="84"
                         x:Name="ServerIconImage"
                         Loading="ServerIconImage_Loading"/>
 

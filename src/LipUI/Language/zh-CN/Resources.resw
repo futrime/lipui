@@ -169,7 +169,7 @@
     <value>组件</value>
   </data>
   <data name="modules$title$propertiesEditor" xml:space="preserve">
-    <value>properties editor</value>
+    <value>服务器配置</value>
   </data>
   <data name="navigationView$home.Content" xml:space="preserve">
     <value>主页</value>
@@ -203,6 +203,21 @@
   </data>
   <data name="server$editor$confirm" xml:space="preserve">
     <value>确认</value>
+  </data>
+  <data name="serverEditView$placeholder$desc.PlaceholderText" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="serverEditView$placeholder$name.PlaceholderText" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="serverEditView$placeholder$version.PlaceholderText" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="serverEditView$placeholder$workingDir.PlaceholderText" xml:space="preserve">
+    <value>工作目录</value>
+  </data>
+  <data name="serverSelection$existed" xml:space="preserve">
+    <value>服务器路径已存在！</value>
   </data>
   <data name="startServer.Text" xml:space="preserve">
     <value>启动服务器</value>

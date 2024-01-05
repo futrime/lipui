@@ -54,6 +54,9 @@ internal static class Helpers
         TimeSpan interval = default,
         UIElement? barContent = null)
     {
+        if (interval == default)
+            interval = TimeSpan.FromSeconds(3);
+
         if (MainWindow is not null)
             await MainWindow.ShowInfoBarAsync(title, message, severity, interval, barContent);
     }

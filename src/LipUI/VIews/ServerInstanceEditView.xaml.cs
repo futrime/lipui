@@ -81,7 +81,7 @@ internal sealed partial class ServerInstanceEditView : UserControl
 
             var dest = Path.Combine(dir, $"icon{new FileInfo(iconPath).Extension}");
 
-            File.Copy(iconPath, dest);
+            File.Copy(iconPath, dest, true);
 
             Server.Icon = dest;
             return;

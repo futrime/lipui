@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -37,7 +38,7 @@ public sealed partial class HomePage : Page
     }
 
     private void SelectServerButton_Click(object sender, RoutedEventArgs e)
-        => Frame.Navigate(typeof(SelectServerPage), () => { DispatcherQueue.TryEnqueue(() => { RefreshIcon(); }); });
+        => Frame.Navigate(typeof(ServerSelectionPage), () => { DispatcherQueue.TryEnqueue(() => { RefreshIcon(); }); });
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
         => ShowLipInstallerPageIfNotExist();
@@ -55,9 +56,10 @@ public sealed partial class HomePage : Page
             Content = new LipInstallerView()
         };
 
-        DispatcherQueue.TryEnqueue(async () =>
+        Task.Run(() =>
         {
-            await dialog.ShowAsync();
+            Task.Delay(100);
+            DispatcherQueue.TryEnqueue(async () => await dialog.ShowAsync());
         });
     }
 
@@ -102,7 +104,7 @@ public sealed partial class HomePage : Page
         BackButton.IsEnabled = ContentFrame.CanGoBack;
         var type = e.Content.GetType();
 
-        DispatcherQueue.TryEnqueue(() =>
+        DispatcherQueue.TryEnqueue(async () =>
         {
             try
             {
@@ -111,7 +113,7 @@ public sealed partial class HomePage : Page
             }
             catch (Exception ex)
             {
-                Helpers.ShowInfoBar(ex);
+                await Helpers.ShowInfoBarAsync(ex);
             }
         });
     }

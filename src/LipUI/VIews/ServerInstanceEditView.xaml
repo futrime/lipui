@@ -36,10 +36,22 @@
                 </Button>
             </Grid>
 
-            <TextBox x:Name="NameInput"/>
-            <TextBox x:Name="DescriptionInput"/>
-            <TextBox x:Name="VersionInput" TextChanged="VersionInput_TextChanged"/>
-            <TextBox x:Name="WorkingDirectoryInput"/>
+            <TextBox 
+                x:Name="NameInput"
+                x:Uid="serverEditView$placeholder$name"/>
+
+            <TextBox 
+                x:Name="DescriptionInput"
+                x:Uid="serverEditView$placeholder$desc"/>
+
+            <TextBox 
+                x:Name="VersionInput" 
+                x:Uid="serverEditView$placeholder$version"
+                TextChanged="VersionInput_TextChanged"/>
+
+            <TextBox 
+                x:Name="WorkingDirectoryInput"
+                x:Uid="serverEditView$placeholder$workingDir"/>
 
         </StackPanel>
 

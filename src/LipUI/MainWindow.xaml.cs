@@ -396,12 +396,12 @@ public sealed partial class MainWindow : Window
             mre.Reset();
             DispatcherQueue.TryEnqueue(() =>
             {
-                GlobalInfoBar.IsOpen = false;
                 InfoBarPopOutStoryboard.Begin();
 
                 void task(object? sender, object e)
                 {
                     InfoBarPopOutStoryboard.Completed -= task;
+                    GlobalInfoBar.IsOpen = false;
                     mre.Set();
                 }
                 InfoBarPopOutStoryboard.Completed += task;

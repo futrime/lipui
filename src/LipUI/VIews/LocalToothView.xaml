@@ -18,9 +18,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="12*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel
@@ -50,34 +49,39 @@
             Style="{StaticResource BodyTextBlockStyle}" 
             Foreground="{ThemeResource TextFillColorSecondary}"/>
 
-        <Button
+        <StackPanel
             Grid.Row="0"
             Grid.Column="1"
             Grid.RowSpan ="2"
-            x:Name="UpdateButton"
-            HorizontalAlignment="Right"
-            IsEnabled="False"
-            VerticalAlignment="Center"
-            Click="UpdateButton_Click">
-
-            <TextBlock 
-                x:Name="UpdateButtonText"
-                Style="{StaticResource CaptionTextBlockStyle}"/>
-        </Button>
-
-        <Button
-            Grid.Row="0"
-            Grid.Column="2"
-            Grid.RowSpan ="2"
-            x:Name="DeleteButton"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            Click="DeleteButton_Click">
+            Orientation="Horizontal"
+            Spacing="8">
 
-            <TextBlock 
-                x:Name="DeleteButtonText"
-                Style="{StaticResource CaptionTextBlockStyle}"/>
-        </Button>
+            <Button
+                x:Name="UpdateButton"
+                IsEnabled="False"
+                VerticalAlignment="Center"
+                Click="UpdateButton_Click">
+
+                <TextBlock 
+                    x:Name="UpdateButtonText"
+                    Style="{StaticResource CaptionTextBlockStyle}"/>
+
+            </Button>
+
+            <Button
+                x:Name="DeleteButton"
+                VerticalAlignment="Center"
+                Click="DeleteButton_Click">
+
+                <TextBlock 
+                    x:Name="DeleteButtonText"
+                    Style="{StaticResource CaptionTextBlockStyle}"/>
+
+            </Button>
+
+        </StackPanel>
 
     </Grid>
 

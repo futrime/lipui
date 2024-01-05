@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -55,7 +56,7 @@ public sealed partial class ModuleIcon : UserControl
         }
         catch (Exception ex)
         {
-            Helpers.ShowInfoBar(ex);
+            Task.Run(() => Helpers.ShowInfoBarAsync(ex));
             return;
         }
     }

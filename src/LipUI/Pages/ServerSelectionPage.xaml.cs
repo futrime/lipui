@@ -21,7 +21,7 @@ namespace LipUI.Pages;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class SelectServerPage : Page
+public sealed partial class ServerSelectionPage : Page
 {
     private ToggleButton DeleteButton;
     private Button ApplyDeleteButton;
@@ -34,7 +34,7 @@ public sealed partial class SelectServerPage : Page
 
     private readonly HashSet<ServerInstanceView> selectedViews = new();
 
-    public SelectServerPage()
+    public ServerSelectionPage()
     {
         InitializeComponent();
         InitButtons();
@@ -189,15 +189,27 @@ public sealed partial class SelectServerPage : Page
 
             foreach (var instance in Main.Config.ServerInstances)
             {
-                if (instance == server) return;
+                if (instance == server)
+                {
+                    await Helpers.ShowInfoBarAsync(
+                        "infoBar$error".GetLocalized(),
+                        "serverSelection$existed".GetLocalized(),
+                        InfoBarSeverity.Error);
+
+                    return;
+                }
             }
 
             Main.Config.ServerInstances.Add(server);
 
             ServerGridView.DispatcherQueue.TryEnqueue(async () =>
             {
-                ServerGridView.Items.Add(new ServerInstanceView(server));
-                await Main.SaveConfigAsync();
+                var view = new ServerInstanceView(server);
+                ServerGridView.Items.Add(view);
+
+                await Task.Delay(500);
+
+                ShowEditView(view);
             });
         }
     }
@@ -229,37 +241,53 @@ public sealed partial class SelectServerPage : Page
             }
             else
             {
-                var editView = new ServerInstanceEditView(view.ServerInstance);
-                var dialog = new ContentDialog()
-                {
-                    XamlRoot = XamlRoot,
-                    Content = editView,
-                    CloseButtonText = "server$editor$cancel".GetLocalized(),
-                    PrimaryButtonText = "server$editor$confirm".GetLocalized()
-                };
-                DispatcherQueue.TryEnqueue(async () =>
-                {
-                    var operation = await dialog.ShowAsync();
-                    switch (operation)
-                    {
-                        case ContentDialogResult.Primary:
-
-                            editView.CommitServerProperies();
-
-                            if (editView.CustomIcon is not null)
-                                view.SetIconImageSource(editView.CustomIcon);
-
-                            view.RefreshUI();
-                            await Main.SaveConfigAsync();
-
-                            return;
-                        case ContentDialogResult.None:
-                        case ContentDialogResult.Secondary:
-                            return;
-                    }
-                });
+                ShowEditView(view);
             }
         }
+    }
+
+    private void ShowEditView(ServerInstanceView view)
+    {
+        var editView = new ServerInstanceEditView(view.ServerInstance);
+        var dialog = new ContentDialog()
+        {
+            XamlRoot = XamlRoot,
+            Content = editView,
+            CloseButtonText = "server$editor$cancel".GetLocalized(),
+            PrimaryButtonText = "server$editor$confirm".GetLocalized()
+        };
+        DispatcherQueue.TryEnqueue(async () =>
+        {
+            var operation = await dialog.ShowAsync();
+            switch (operation)
+            {
+                case ContentDialogResult.Primary:
+
+                    editView.CommitServerProperies();
+
+                    if (editView.CustomIcon is not null)
+                        view.SetIconImageSource(editView.CustomIcon);
+
+                    view.RefreshUI();
+                    await Main.SaveConfigAsync();
+
+                    return;
+                case ContentDialogResult.None:
+                case ContentDialogResult.Secondary:
+
+                    if (ItemClickMode is not Mode.Edit)
+                    {
+                        lock (Main.Config)
+                        {
+                            ServerGridView.Items.Remove(view);
+                            Main.Config.ServerInstances.Remove(view.ServerInstance);
+                            if (Main.Config.SelectedServer == view.ServerInstance)
+                                Main.Config.SelectedServer = null;
+                        }
+                    }
+                    return;
+            }
+        });
     }
 
     private void EditButton_Click(object sender, RoutedEventArgs e)

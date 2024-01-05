@@ -56,7 +56,8 @@
             Grid.RowSpan ="2"
             x:Name="AuthorButton"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center">
+            VerticalAlignment="Center"
+            Click="AuthorButton_Click">
 
             <TextBlock 
                 x:Name="AuthorButtonText"

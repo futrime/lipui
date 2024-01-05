@@ -5,8 +5,10 @@ using LipUI.VIews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -23,13 +25,16 @@ public sealed partial class LocalPackagePage : Page
         InitializeComponent();
     }
 
-    private void ReloadPackage()
-    {
-        TeethScrollViewer.Content = new ProgressRing();
-        ToothListView.Items.Clear();
+    private ToothPackage[]? teeth;
+    private object _lock = new();
 
+    private void ReloadPackage(IEnumerable<ToothPackage>? items = null)
+    {
         DispatcherQueue.TryEnqueue(async () =>
         {
+            TeethScrollViewer.Content = new ProgressRing();
+            ToothListView.Items.Clear();
+
             var lip = await Main.CreateLipConsole(XamlRoot);
 
             if (lip is null)
@@ -40,17 +45,22 @@ public sealed partial class LocalPackagePage : Page
 
             var cmd = LipCommand.CreateCommand();
 
-            var json = await lip.RunAndGetString(cmd + LipCommand.List + LipCommandOption.Json);
+
 
             ToothPackage[]? arr = null;
-            try
-            {
-                arr = JsonSerializer.Deserialize<ToothPackage[]>(json);
-            }
-            catch (Exception ex)
-            {
-                Helpers.ShowInfoBar(ex);
-            }
+
+            if (items is not null)
+                arr = items.ToArray();
+            else
+                try
+                {
+                    var json = await lip.RunAndGetString(cmd + LipCommand.List + LipCommandOption.Json);
+                    teeth = arr = JsonSerializer.Deserialize<ToothPackage[]>(json);
+                }
+                catch (Exception ex)
+                {
+                    await Helpers.ShowInfoBarAsync(ex);
+                }
 
             if (arr is not null)
             {
@@ -72,11 +82,11 @@ public sealed partial class LocalPackagePage : Page
             if (lip is null) return;
 
             var cmd = LipCommand.CreateCommand();
-            var json = await lip.RunAndGetString(cmd + LipCommand.List + LipCommandOption.Upgradable + LipCommandOption.Json);
 
             ToothPackage[] arr;
             try
             {
+                var json = await lip.RunAndGetString(cmd + LipCommand.List + LipCommandOption.Upgradable + LipCommandOption.Json);
                 arr = JsonSerializer.Deserialize<ToothPackage[]>(json)!;
             }
             catch (Exception ex)
@@ -106,11 +116,59 @@ public sealed partial class LocalPackagePage : Page
 
     private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
+        if (args.Reason is not AutoSuggestionBoxTextChangeReason.UserInput)
+            return;
+
+        var str = sender.Text.ToLower();
+
+        Task.Run(async () =>
+        {
+            try
+            {
+                lock (_lock)
+                {
+                    var dataset = from tooth in teeth
+                                  where tooth.Info.Name.ToLower().Contains(str)
+                                  || tooth.Info.Author.ToLower().Contains(str)
+                                  select tooth.Info.Name;
+
+                    DispatcherQueue.TryEnqueue(() => sender.ItemsSource = dataset);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Helpers.ShowInfoBarAsync(ex);
+            }
+        });
     }
 
     private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
+        var query = args.QueryText.ToLower();
+        Task.Run(async () =>
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(query))
+                {
+                    ReloadPackage();
+                    return;
+                }
+                lock (_lock)
+                {
+                    var selectedTeeth = from tooth in teeth
+                                        where tooth.Info.Name.ToLower().Contains(query)
+                                        || tooth.Info.Author.ToLower().Contains(query)
+                                        select tooth;
 
+                    ReloadPackage(selectedTeeth);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Helpers.ShowInfoBarAsync(ex);
+            }
+        });
     }
 
     private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)

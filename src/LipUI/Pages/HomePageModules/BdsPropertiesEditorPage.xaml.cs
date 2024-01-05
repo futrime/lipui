@@ -63,7 +63,8 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         if (Server is null)
         {
             await Task.Delay(500);
-            await ShowInfoBarAsync("propertiesEditor$nullServerPath".GetLocalized(), null, InfoBarSeverity.Error, default, null);
+            await ShowInfoBarAsync("propertiesEditor$nullServerPath".GetLocalized(), null, InfoBarSeverity.Error);
+            Frame.GoBack();
             return;
         };
 
@@ -76,7 +77,7 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         try
         {
             await ShowInfoBarAsync(
-                "propertiesEditor$saving",
+                "propertiesEditor$saving".GetLocalized(),
                 null,
                 InfoBarSeverity.Informational,
                 default,
@@ -105,11 +106,11 @@ internal sealed partial class BdsPropertiesEditorPage : Page
             }
 
             await Task.Delay(500);
-            ShowInfoBar("propertiesEditor$saveCompleted".GetLocalized(), null, InfoBarSeverity.Success);
+            await ShowInfoBarAsync("propertiesEditor$saveCompleted".GetLocalized(), null, InfoBarSeverity.Success);
         }
         catch (Exception ex)
         {
-            ShowInfoBar(ex);
+            await ShowInfoBarAsync(ex);
         }
     }
 
