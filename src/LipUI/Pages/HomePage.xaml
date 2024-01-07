@@ -8,13 +8,12 @@
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Loaded="Page_Loaded">
+    mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
+                <ResourceDictionary x:Key="Default">
                     <SolidColorBrush x:Key="MyButtonBackgroundDisabledBrush" Color="Transparent"/>
                     <SolidColorBrush x:Key="ButtonDisabledBorderThemeBrush" Color="Transparent"/>
                     <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="MyButtonBackgroundDisabledBrush"/>

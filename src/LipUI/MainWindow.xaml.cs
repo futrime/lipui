@@ -56,11 +56,14 @@ public sealed partial class MainWindow : Window
 
         Closed += MainWindow_Closed;
 
-        Helpers.MainWindow = this;
+        Services.MainWindow = this;
     }
 
     private async void MainWindow_Closed(object sender, WindowEventArgs args)
-        => await Main.SaveConfigAsync();
+    {
+        Services.OnWindowClosed();
+        await Main.SaveConfigAsync();
+    }
 
     private NativeMethods.WinProc? newWndProc = null;
     private nint oldWndProc = nint.Zero;
@@ -297,7 +300,7 @@ public sealed partial class MainWindow : Window
              NavView.DisplayMode is NavigationViewDisplayMode.Minimal))
             return false;
 
-        ContentFrame.GoBack();
+        ContentFrame.TryGoBack();
         return true;
     }
 

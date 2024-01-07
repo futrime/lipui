@@ -191,7 +191,7 @@ public sealed partial class ServerSelectionPage : Page
             {
                 if (instance == server)
                 {
-                    await Helpers.ShowInfoBarAsync(
+                    await Services.ShowInfoBarAsync(
                         "infoBar$error".GetLocalized(),
                         "serverSelection$existed".GetLocalized(),
                         InfoBarSeverity.Error);
@@ -219,7 +219,7 @@ public sealed partial class ServerSelectionPage : Page
         Main.Config.SelectedServer = (e.ClickedItem as ServerInstanceView)!.ServerInstance;
         refreshIcon!();
         await Main.SaveConfigAsync();
-        Frame.GoBack();
+        Frame.TryGoBack();
     }
 
     private void ItemClick_EditMode(object sender, ItemClickEventArgs e)

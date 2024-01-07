@@ -129,6 +129,9 @@
   <data name="home$emptyDesc" xml:space="preserve">
     <value>无描述</value>
   </data>
+  <data name="home$nullServerPath" xml:space="preserve">
+    <value>未选择服务器</value>
+  </data>
   <data name="infoBar$error" xml:space="preserve">
     <value>错误</value>
   </data>
@@ -138,8 +141,8 @@
   <data name="infoBar$warning" xml:space="preserve">
     <value>警告</value>
   </data>
-  <data name="lipExecution$nullServerPath" xml:space="preserve">
-    <value>未知的服务器路径！</value>
+  <data name="lipExecution$nullLipPath" xml:space="preserve">
+    <value>未知的Lip路径！</value>
   </data>
   <data name="lipInstaller$cancel.Content" xml:space="preserve">
     <value>取消</value>

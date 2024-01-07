@@ -1,5 +1,4 @@
 using LipUI.Models;
-using LipUI.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -79,7 +78,7 @@ internal sealed partial class LipInstallerView : UserControl
         using var client = new HttpClient(
             new HttpClientHandler() { ClientCertificateOptions = ClientCertificateOption.Automatic })
         {
-            //Timeout = TimeSpan.FromSeconds(2),
+            Timeout = TimeSpan.FromSeconds(5),
             DefaultRequestHeaders = { ExpectContinue = false }
         };
 
@@ -145,28 +144,36 @@ internal sealed partial class LipInstallerView : UserControl
 
     private async void InstallButton_Click(object sender, RoutedEventArgs e)
     {
-        var progressRing = ((ProgressRing)ProgressRingBorder.Child);
-        progressRing.IsActive = true;
-        progressRing.Visibility = Visibility.Visible;
+        try
+        {
+            var progressRing = ((ProgressRing)ProgressRingBorder.Child);
+            progressRing.IsActive = true;
+            progressRing.Visibility = Visibility.Visible;
 
-        CancelButton.IsEnabled = false;
-        InstallButton.IsEnabled = false;
-        //ViewGrid.Children.Remove(ButtonGrid);
+            CancelButton.IsEnabled = false;
+            InstallButton.IsEnabled = false;
+            //ViewGrid.Children.Remove(ButtonGrid);
 
-        var info = await RequestLipInstallerInfo();
+            var info = await RequestLipInstallerInfo();
 
-        ChangeProgressRingMode(info);
+            ChangeProgressRingMode(info);
 
-        var bytes = await DownloadLipPortable(info);
+            var bytes = await DownloadLipPortable(info);
 
-        UnzipAndCopyLipEXE(bytes);
+            UnzipAndCopyLipEXE(bytes);
 
-        DispatcherQueue.TryEnqueue(() => InfoText.Text = "lipInstaller$installCompleted".GetLocalized());
+            DispatcherQueue.TryEnqueue(() => InfoText.Text = "lipInstaller$installCompleted".GetLocalized());
 
-        await Task.Delay(1000);
+            await Task.Delay(1000);
 
-        var dialog = Parent as ContentDialog;
-        dialog!.Hide();
+            var dialog = Parent as ContentDialog;
+            dialog!.Hide();
+        }
+        catch (Exception ex)
+        {
+            await Services.ShowInfoBarAsync(ex);
+            (Parent as ContentDialog)!.Hide();
+        }
     }
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)

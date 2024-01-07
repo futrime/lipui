@@ -111,7 +111,7 @@ public sealed partial class IndexPage : Page
             }
             catch (Exception ex)
             {
-                await Helpers.ShowInfoBarAsync(ex);
+                await Services.ShowInfoBarAsync(ex);
             }
         });
     }
@@ -143,7 +143,7 @@ public sealed partial class IndexPage : Page
             }
             catch (Exception ex)
             {
-                await Helpers.ShowInfoBarAsync(ex);
+                await Services.ShowInfoBarAsync(ex);
             }
         });
 

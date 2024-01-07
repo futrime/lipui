@@ -59,7 +59,7 @@ public sealed partial class LocalPackagePage : Page
                 }
                 catch (Exception ex)
                 {
-                    await Helpers.ShowInfoBarAsync(ex);
+                    await Services.ShowInfoBarAsync(ex);
                 }
 
             if (arr is not null)
@@ -91,7 +91,7 @@ public sealed partial class LocalPackagePage : Page
             }
             catch (Exception ex)
             {
-                await Helpers.ShowInfoBarAsync(ex);
+                await Services.ShowInfoBarAsync(ex);
                 return;
             }
 
@@ -137,7 +137,7 @@ public sealed partial class LocalPackagePage : Page
             }
             catch (Exception ex)
             {
-                await Helpers.ShowInfoBarAsync(ex);
+                await Services.ShowInfoBarAsync(ex);
             }
         });
     }
@@ -166,7 +166,7 @@ public sealed partial class LocalPackagePage : Page
             }
             catch (Exception ex)
             {
-                await Helpers.ShowInfoBarAsync(ex);
+                await Services.ShowInfoBarAsync(ex);
             }
         });
     }

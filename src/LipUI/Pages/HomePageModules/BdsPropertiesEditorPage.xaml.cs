@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI;
-using static LipUI.Pages.Helpers;
+using static LipUI.Services;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -64,7 +64,7 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         {
             await Task.Delay(500);
             await ShowInfoBarAsync("propertiesEditor$nullServerPath".GetLocalized(), null, InfoBarSeverity.Error);
-            Frame.GoBack();
+            Frame.TryGoBack();
             return;
         };
 
@@ -126,7 +126,7 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         catch (Exception ex)
         {
             await ShowInfoBarAsync(ex, default, null);
-            Frame.GoBack();
+            Frame.TryGoBack();
             return;
         }
 

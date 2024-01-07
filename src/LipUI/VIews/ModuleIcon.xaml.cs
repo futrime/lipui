@@ -1,5 +1,4 @@
 using LipUI.Models;
-using LipUI.Pages;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -56,8 +55,16 @@ public sealed partial class ModuleIcon : UserControl
         }
         catch (Exception ex)
         {
-            Task.Run(() => Helpers.ShowInfoBarAsync(ex));
+            Task.Run(() => Services.ShowInfoBarAsync(ex));
             return;
+        }
+    }
+
+    internal static void OnExit(Type type)
+    {
+        if (Modules.TryGetValue(type, out var module))
+        {
+            module.OnExit();
         }
     }
 }

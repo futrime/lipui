@@ -33,35 +33,16 @@ public sealed partial class HomePage : Page
     {
         ServerInstance? instance = Main.Config.SelectedServer;
         ServerIconImage.Source = await ServerIcon.GetIcon(instance);
-        ServerDesc.Text = instance is null || string.IsNullOrWhiteSpace(instance.Description) ?
-            "home$emptyDesc".GetLocalized() : instance.Description;
+        ServerDesc.Text = 
+            instance is null ?
+                "home$nullServerPath".GetLocalized() :
+                string.IsNullOrWhiteSpace(instance.Description) ?
+                    "home$emptyDesc".GetLocalized() : 
+                    instance.Description;
     }
 
     private void SelectServerButton_Click(object sender, RoutedEventArgs e)
         => Frame.Navigate(typeof(ServerSelectionPage), () => { DispatcherQueue.TryEnqueue(() => { RefreshIcon(); }); });
-
-    private void Page_Loaded(object sender, RoutedEventArgs e)
-        => ShowLipInstallerPageIfNotExist();
-
-    private void ShowLipInstallerPageIfNotExist()
-    {
-        if (File.Exists(Main.Config.Settings.LipPath))
-        {
-            return;
-        }
-
-        var dialog = new ContentDialog()
-        {
-            XamlRoot = XamlRoot,
-            Content = new LipInstallerView()
-        };
-
-        Task.Run(() =>
-        {
-            Task.Delay(100);
-            DispatcherQueue.TryEnqueue(async () => await dialog.ShowAsync());
-        });
-    }
 
     private void StartServerButton_Click(object sender, RoutedEventArgs e)
     {
@@ -97,7 +78,10 @@ public sealed partial class HomePage : Page
         => AnimatedIcon.SetState(BackAnimatedIcon, "Normal");
 
     private void BackButton_Click(object sender, RoutedEventArgs e)
-    => ContentFrame.GoBack();
+    {
+        ModuleIcon.OnExit(ContentFrame.Content.GetType());
+        ContentFrame.TryGoBack();
+    }
 
     private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
     {
@@ -113,7 +97,7 @@ public sealed partial class HomePage : Page
             }
             catch (Exception ex)
             {
-                await Helpers.ShowInfoBarAsync(ex);
+                await Services.ShowInfoBarAsync(ex);
             }
         });
     }

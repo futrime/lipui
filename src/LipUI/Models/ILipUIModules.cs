@@ -16,11 +16,13 @@ public interface ILipUIModulesNonGeneric
 
     public Type PageType { get; }
 
-    public FrameworkElement? IconContent { get; }
+    public FrameworkElement? IconContent { get => null; }
 
-    public Brush? IconBackground { get; }
+    public Brush? IconBackground { get => null; }
 
     public void OnIconInitialze(ModuleIcon icon) { }
+
+    public void OnExit() { }
 }
 
 public interface ILipUIModules<TSelf> : ILipUIModulesNonGeneric

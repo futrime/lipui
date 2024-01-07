@@ -11,7 +11,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
+                <ResourceDictionary x:Key="Default">
                     <SolidColorBrush x:Key="ToggleButtonBackgroundChecked" Color="{ThemeResource LayerOnAcrylicFillColorDefault}"/>
                     <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPointerOver" Color="{ThemeResource LayerOnAcrylicFillColorDefault}"/>
                     <SolidColorBrush x:Key="ToggleButtonBackgroundCheckedPressed" Color="{ThemeResource LayerOnAcrylicFillColorDefault}"/>

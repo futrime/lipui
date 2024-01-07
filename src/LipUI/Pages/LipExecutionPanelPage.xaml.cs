@@ -84,6 +84,14 @@ internal sealed partial class LipExecutionPanelPage : Page
 
         public void Run()
         {
+            Action closed = null!;
+            closed = () =>
+            {
+                process?.Kill();
+                Services.WindowClosed -= closed;
+            };
+            Services.WindowClosed += closed;
+
             dispatcherQueue.TryEnqueue(async () =>
             {
                 lip = await Main.CreateLipConsole(page.XamlRoot);
@@ -96,9 +104,9 @@ internal sealed partial class LipExecutionPanelPage : Page
                     page.LipWorkingInfoText.Text = string.Empty;
                     page.ProgressRateText.Text = string.Empty;
 
-                    await Helpers.ShowInfoBarAsync(
+                    await Services.ShowInfoBarAsync(
                         "infobar$error".GetLocalized(),
-                        "lipExecution$nullServerPath".GetLocalized(),
+                        "lipExecution$nullLipPath".GetLocalized(),
                          InfoBarSeverity.Error);
 
                     return;
@@ -127,6 +135,7 @@ internal sealed partial class LipExecutionPanelPage : Page
 
                         break;
                 }
+                Services.WindowClosed -= closed;
 
             });
         }

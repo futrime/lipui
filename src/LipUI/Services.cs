@@ -6,16 +6,29 @@ using System.IO;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Threading.Tasks;
 
-namespace LipUI.Pages;
+namespace LipUI;
 
-public static class ResourceExtensions
+internal static class ResourceExtensions
 {
     private static readonly ResourceLoader _resourceLoader = new();
 
     public static string GetLocalized(this string resourceKey) => _resourceLoader.GetString(resourceKey);
 }
 
-internal static class Helpers
+internal static class FrameExtensions
+{
+    public static bool TryGoBack(this Frame frame)
+    {
+        if (frame.CanGoBack)
+        {
+            frame.GoBack();
+            return true;
+        }
+        return false;
+    }
+}
+
+internal static class Services
 {
     public static BitmapImage CreateImageFromBytes(byte[] bytes)
     {
@@ -70,4 +83,8 @@ internal static class Helpers
             interval = TimeSpan.FromSeconds(5);
         await ShowInfoBarAsync(ex.GetType().Name, ex.Message, InfoBarSeverity.Error, interval, barContent);
     }
+
+    public static event Action? WindowClosed;
+
+    internal static void OnWindowClosed() => WindowClosed?.Invoke();
 }

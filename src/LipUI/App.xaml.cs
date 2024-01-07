@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
+using System.IO;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -15,7 +16,7 @@ namespace LipUI
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -24,12 +25,15 @@ namespace LipUI
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            //Main.Initialize();
 
             m_window = new MainWindow();
             m_window.Activate();
 
-            //ExtendAcrylicIntoTitleBar();
+            UnhandledException += App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
         }
 
         internal Window? m_window;
