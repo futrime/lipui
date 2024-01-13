@@ -667,17 +667,25 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
     private async void CheckBox_Checked(object sender, RoutedEventArgs e)
     {
-        ImageBackgroundEnabledPanel.Visibility = Visibility.Visible;
-        Main.Config.PersonalizationSettings.EnableImageBackground = true;
-        await Main.SaveConfigAsync();
+        try
+        {
+            ImageBackgroundEnabledPanel.Visibility = Visibility.Visible;
+            Main.Config.PersonalizationSettings.EnableImageBackground = true;
+            await Main.SaveConfigAsync();
 
-        var image = Services.CreateImageFromBytes(await File.ReadAllBytesAsync(Main.Config.PersonalizationSettings.BackgroundImagePath ?? ""));
-        image.DecodePixelType = DecodePixelType.Logical;
-        image.DecodePixelWidth = 256;
-        PreviewImage.Source = image;
+            var path = Main.Config.PersonalizationSettings.BackgroundImagePath;
+            if (path is not null)
+            {
+                var image = Services.CreateImageFromBytes(await File.ReadAllBytesAsync(path));
+                image.DecodePixelType = DecodePixelType.Logical;
+                image.DecodePixelWidth = 256;
+                PreviewImage.Source = image;
 
-        image = Services.CreateImageFromBytes(await File.ReadAllBytesAsync(Main.Config.PersonalizationSettings.BackgroundImagePath ?? ""));
-        MyRes.ApplicationBackgroundImage = new ImageBrush() { ImageSource = image, Stretch = Stretch.UniformToFill };
+                image = Services.CreateImageFromBytes(await File.ReadAllBytesAsync(path));
+                MyRes.ApplicationBackgroundImage = new ImageBrush() { ImageSource = image, Stretch = Stretch.UniformToFill };
+            }
+        }
+        catch (Exception ex) { await Services.ShowInfoBarAsync(ex); }
     }
 
     private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
