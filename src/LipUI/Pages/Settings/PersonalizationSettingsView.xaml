@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="LipUI.Pages.Settings.PersonalizationSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LipUI.Pages.Settings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+
+        <Flyout 
+            x:Key="ColorPickerFlyout"
+            x:Name="MyColorPickerFlyout"
+             Opening="MyColorPickerFlyout_Opening">
+            <RelativePanel>
+
+                <ColorPicker 
+                    x:Name="ColorPicker"
+                    IsAlphaEnabled="True"
+                    ColorSpectrumShape="Ring"
+                    Background="{ThemeResource LayerOnAcrylicFillColorDefault}"/>
+
+                <Grid 
+                    RelativePanel.Below="ColorPicker"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button 
+                        Content="OK" 
+                        Click="ConfirmColorButton_Click"
+                        Margin="0,12,2,0" 
+                       HorizontalAlignment="Stretch"/>
+
+                    <Button 
+                        Content="Cancel" 
+                        Click="CancelColorButton_Click"
+                        Margin="2,12,0,0" 
+                        HorizontalAlignment="Stretch"
+                        Grid.Column="1"/>
+                </Grid>
+
+            </RelativePanel>
+        </Flyout>
+
+    </UserControl.Resources>
+
+    <StackPanel
+        Spacing="24">
+
+        <!--background settings-->
+        <StackPanel
+            Padding="8"
+            Spacing="4"
+            CornerRadius="5"
+            Background="{StaticResource LayerOnMicaBaseAltFillColorDefault}">
+
+            <RadioButtons
+                x:Name="BackgroundStyleRadioButtons"
+                Header="i18n.background"
+                MaxColumns="4"
+                Loading="BackgroundStyleRadioButtons_Loading"
+                SelectionChanged="BackgroundStyleRadioButtons_SelectionChanged"/>
+
+            <Grid>
+
+                <StackPanel
+                    x:Name="BackdropControllerSettingsPanel"
+                    Visibility="Collapsed"
+                    HorizontalAlignment="Left"
+                    Width="256">
+
+                    <Slider 
+                        Header="i18n.luminosityOpacity"
+                        Maximum="100"
+                        Minimum="0"
+                        x:Name="LuminosityOpacitySlider"
+                        ValueChanged="LuminosityOpacitySlider_ValueChanged"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </StackPanel>
+
+        <!--theme settings-->
+        <StackPanel
+            Padding="8"
+            Spacing="4"
+            CornerRadius="5"
+            Background="{StaticResource LayerOnMicaBaseAltFillColorDefault}">
+
+            <DropDownButton
+                x:Name="ColorThemeSelectionButton">
+
+                <DropDownButton.Flyout>
+                    
+                    <MenuFlyout 
+                        Placement="BottomEdgeAlignedLeft">
+
+                        <MenuFlyoutItem 
+                            Text="i18n.default"
+                            Tag="default"
+                            Click="MenuFlyoutItem_Click"/>
+
+                        <MenuFlyoutItem 
+                            Text="i18n.light" 
+                            Tag="light"
+                            Click="MenuFlyoutItem_Click"/>
+
+                        <MenuFlyoutItem
+                            Text="i18n.dark"  
+                            Tag="dark"
+                            Click="MenuFlyoutItem_Click"/>
+
+                    </MenuFlyout>
+
+                </DropDownButton.Flyout>
+
+            </DropDownButton>
+
+        </StackPanel>
+
+        <!--color settings-->
+        <StackPanel
+            Padding="8"
+            Spacing="4"
+            CornerRadius="5"
+            Background="{StaticResource LayerOnMicaBaseAltFillColorDefault}">
+
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="12">
+
+                <Button
+                    x:Name="BackgroundBrushSettingsPanel_ColorPickerButton"
+                    BorderBrush="{ThemeResource ButtonBackgroundThemeBrush}"
+                    Height="40"
+                    Width="40"
+                    BorderThickness="2"
+                    Flyout="{StaticResource ColorPickerFlyout}"
+                    Loading="BackgroundBrushSettingsPanel_ColorPickerButton_Loading">
+                </Button>
+
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Text="i18n.backgroundColor"/>
+
+            </StackPanel>
+
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="12">
+
+                <Button
+                    x:Name="NavigationViewContentBackgroundBrush_ColorPickerButton"
+                    BorderBrush="{ThemeResource ButtonBackgroundThemeBrush}"
+                    Background="White"
+                    Height="40"
+                    Width="40"
+                    BorderThickness="2"
+                    Flyout="{StaticResource ColorPickerFlyout}"
+                    Loading="NavigationViewContentBackgroundBrush_ColorPickerButton_Loading">
+                </Button>
+
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Text="i18n.navViewBackgroundColor"/>
+
+            </StackPanel>
+
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="12">
+
+                <Button
+                    x:Name="NavigationViewContentGridBorderBrush_ColorPickerButton"
+                    BorderBrush="{ThemeResource ButtonBackgroundThemeBrush}"
+                    Background="White"
+                    Height="40"
+                    Width="40"
+                    BorderThickness="2"
+                    Flyout="{StaticResource ColorPickerFlyout}"
+                    Loading="NavigationViewContentGridBorderBrush_ColorPickerButton_Loading">
+                </Button>
+
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Text="i18n.navViewBorderColor"/>
+
+            </StackPanel>
+
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="12">
+
+                <Button
+                    x:Name="BackgroundSecondaryColor_ColorPickerButton"
+                    BorderBrush="{ThemeResource ButtonBackgroundThemeBrush}"
+                    Background="White"
+                    Height="40"
+                    Width="40"
+                    BorderThickness="2"
+                    Flyout="{StaticResource ColorPickerFlyout}"
+                    Loading="BackgroundSecondaryColor_ColorPickerButton_Loading">
+                </Button>
+
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Text="i18n.backgroundColorSecondary"/>
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <!--background image settings-->
+        <StackPanel
+            Padding="8"
+            Spacing="4"
+            CornerRadius="5"
+            Background="{StaticResource LayerOnMicaBaseAltFillColorDefault}">
+
+            <CheckBox
+                Content="i18n.enableImageBackground"
+                Checked="CheckBox_Checked"
+                Unchecked="CheckBox_Unchecked"
+                x:Name="BackgroundImageEnableCheckBox"/>
+
+            <StackPanel
+                Spacing="8"
+                Visibility="Collapsed"
+                x:Name="ImageBackgroundEnabledPanel">
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="8">
+
+                    <Button
+                        x:Name="SelectImageButton"
+                        Content="i18n.selectImage"
+                        Click="SelectImageButton_Click"/>
+
+                    <Button
+                        x:Name="ClearImageButton"
+                        Content="i18n.clearImage"
+                        Click="ClearImageButton_Click"/>
+
+                </StackPanel>
+
+                <Grid
+                    Height="180"
+                    Width="256"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    x:Name="BackgroundImagePreviewGrid">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="144"/>
+                        <RowDefinition Height="36"/>
+                    </Grid.RowDefinitions>
+
+                    <Image
+                        Grid.Row="0"
+                        x:Name="PreviewImage"
+                        Stretch="Uniform"/>
+
+                    <!--<Slider
+                        Grid.Row="1"
+                        Maximum="100"
+                        Minimum="0"
+                        ValueChanged="BackgroundImageOpacitySlider_ValueChanged"/>-->
+
+                </Grid>
+
+            </StackPanel>
+
+        </StackPanel>
+
+    </StackPanel>
+
+</UserControl>

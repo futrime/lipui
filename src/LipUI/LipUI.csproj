@@ -9,8 +9,8 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>LipUI</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x86;x64;ARM64</Platforms>
-    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
@@ -25,7 +25,7 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\applicationIcon-1024.png" />
@@ -35,26 +35,24 @@
     <Content Remove="Assets\netherrack.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Pages\HomePage.xaml" />
-    <None Remove="Pages\HomePageModules\AllowListViewerPage.xaml" />
-    <None Remove="Pages\HomePageModules\BdsPropertiesEditorPage.xaml" />
-    <None Remove="Pages\HomePageModules\ModulesPage.xaml" />
-    <None Remove="Pages\IndexPage.xaml" />
-    <None Remove="Pages\LipExecutionPanelPage.xaml" />
-    <None Remove="Pages\LocalPackagePage.xaml" />
-    <None Remove="Pages\PackToothPage.xaml" />
-    <None Remove="Pages\SelectServerPage.xaml" />
-    <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\Home\Modules\AllowListViewerPage.xaml" />
+    <None Remove="Pages\Home\Modules\BdsPropertiesEditorPage.xaml" />
+    <None Remove="Pages\Home\Modules\ModulesPage.xaml" />
+    <None Remove="Pages\LipExecutionPanel\LipExecutionPanelPage.xaml" />
+    <None Remove="Pages\LocalPackage\LocalPackagePage.xaml" />
+    <None Remove="Pages\PackTooth\PackToothPage.xaml" />
+    <None Remove="Pages\SelectServer\SelectServerPage.xaml" />
+    <None Remove="Pages\Settings\SettingsPage.xaml" />
+    <None Remove="Pages\Settings\GeneralSettingsView.xaml" />
+    <None Remove="Pages\Settings\PersonalizationSettingsView.xaml" />
     <None Remove="Pages\ToothInfoPage.xaml" />
-    <None Remove="Protocol\LocalToothView.xaml" />
-    <None Remove="VIews\EulaAcceptView.xaml" />
-    <None Remove="VIews\LipIndexToothView.xaml" />
-    <None Remove="VIews\LipInstallerView.xaml" />
-    <None Remove="VIews\LocalToothView.xaml" />
-    <None Remove="VIews\ModuleIcon.xaml" />
-    <None Remove="VIews\ServerInstanceEditView.xaml" />
-    <None Remove="VIews\ServerInstanceView.xaml" />
-    <None Remove="VIews\ToothVersionView.xaml" />
+    <None Remove="Pages\Index\IndexPage.xaml" />
+    <None Remove="Pages\LipExecutionPanel\EulaAcceptView.xaml" />
+    <None Remove="Pages\Index\LipIndexToothView.xaml" />
+    <None Remove="Pages\LipExecutionPanel\LipInstallerView.xaml" />
+    <None Remove="Pages\LocalPackage\LocalToothView.xaml" />
+    <None Remove="Pages\ServerSelection\ServerInstanceEditView.xaml" />
+    <None Remove="Pages\ServerSelection\ServerInstanceView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +70,7 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageReference Include="Octokit" Version="9.1.0" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
+    <PackageReference Include="WinUIEx" Version="2.3.3" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -109,61 +108,49 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\HomePageModules\AllowListViewerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="VIews\ModuleIcon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\HomePageModules\BdsPropertiesEditorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="VIews\LocalToothView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Protocol\LocalToothView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    <Page Update="Pages\Settings\PersonalizationSettingsView.xaml">
+		<Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="VIews\EulaAcceptView.xaml">
+    <Page Update="Pages\Settings\GeneralSettingsView.xaml">
+		<Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\Home\Modules\ModuleIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\LipExecutionPanelPage.xaml">
+    <Page Update="Pages\LocalPackage\LocalToothView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="VIews\LipInstallerView.xaml">
+    <Page Update="Pages\LipExecutionPanel\EulaAcceptView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="VIews\ServerInstanceEditView.xaml">
+    <Page Update="Pages\LipExecutionPanel\LipExecutionPanelPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\SelectServerPage.xaml">
+    <Page Update="Pages\LipExecutionPanel\LipInstallerView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="VIews\ServerInstanceView.xaml">
+    <Page Update="Pages\ServerSelection\ServerInstanceEditView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="VIews\ToothVersionView.xaml">
+    <Page Update="Pages\ServerSelection\ServerSelectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ServerSelection\ServerInstanceView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -173,39 +160,41 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\SettingsPage.xaml">
+    <Page Update="Pages\Settings\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\IndexPage.xaml">
+    <Page Update="Pages\Index\IndexPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\PackToothPage.xaml">
+    <Page Update="Pages\ToothPack\ToothPackPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\LocalPackagePage.xaml">
+    <Page Update="Pages\LocalPackage\LocalPackagePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\HomePage.xaml">
+    <Page Update="Pages\Home\HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="VIews\LipIndexToothView.xaml">
+    <Page Update="Pages\Index\\LipIndexToothView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\HomePageModules\ModulesPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Folder Include="Pages\Home\" />
+    <Folder Include="Pages\Index\" />
+    <Folder Include="Pages\LipExecutionPanel\" />
+    <Folder Include="Pages\LocalPackage\" />
+    <Folder Include="Pages\ServerSelection\" />
   </ItemGroup>
 
   <!-- 

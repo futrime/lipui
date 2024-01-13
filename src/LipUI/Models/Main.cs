@@ -1,5 +1,5 @@
 ﻿using LipUI.Models.Lip;
-using LipUI.VIews;
+using LipUI.Pages.LipExecutionPanel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -20,6 +20,8 @@ internal static class Main
     public static Config Config { get; private set; }
 
     public static string WorkingDirectory { get; private set; }
+
+    public static bool ColorsFirstInitSign = false;
 
 
     [MemberNotNull(nameof(Config), nameof(WorkingDirectory))]
@@ -55,6 +57,7 @@ internal static class Main
         else
         {
             Config = new Config();
+            Config.PersonalizationSettings.ResetColors = true;
         }
     }
 
@@ -71,26 +74,34 @@ internal static class Main
         return new LipConsole(path!, server.WorkingDirectory);
     }
 
+
+    private static readonly object _lock = new();
     public static async ValueTask SaveConfigAsync()
     {
-        var path = Path.Combine(WorkingDirectory, DefaultSettings.ConfigFileName);
-        if (File.Exists(path)) File.Delete(path);
-
-        using var file = File.Create(path);
-        using var writer = new StreamWriter(file);
-
-
-        await writer.WriteAsync(JsonSerializer.Serialize(Config, new JsonSerializerOptions()
+        await Task.Run(() =>
         {
-            WriteIndented = true,
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        }));
+            lock (_lock)
+            {
+                var path = Path.Combine(WorkingDirectory, DefaultSettings.ConfigFileName);
+                if (File.Exists(path)) File.Delete(path);
+
+                using var file = File.Create(path);
+                using var writer = new StreamWriter(file);
+
+
+                writer.Write(JsonSerializer.Serialize(Config, new JsonSerializerOptions()
+                {
+                    WriteIndented = true,
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                }));
+            }
+        });
     }
 
     public static async ValueTask<(bool, string)> TryGetLipConsolePathAsync(XamlRoot xamlRoot)
     {
-        if (File.Exists(Config.Settings.LipPath))
-            return (true, Config.Settings.LipPath);
+        if (File.Exists(Config.GeneralSettings.LipPath))
+            return (true, Config.GeneralSettings.LipPath);
         else
         {
             var dialog = new ContentDialog()
@@ -102,8 +113,8 @@ internal static class Main
             await dialog.ShowAsync();
 
 
-            return File.Exists(Config.Settings.LipPath) ?
-                (true, Config.Settings.LipPath) :
+            return File.Exists(Config.GeneralSettings.LipPath) ?
+                (true, Config.GeneralSettings.LipPath) :
                 (false, string.Empty);
         }
     }

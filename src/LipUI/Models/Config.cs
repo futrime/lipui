@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using CommunityToolkit.WinUI.Helpers;
+using LipUI.Pages.Settings;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.Json.Serialization;
 
@@ -28,43 +33,97 @@ internal static class DefaultSettings
 
 internal class Config
 {
+    public class GeneralSetting
+    {
+        [JsonPropertyName("lip_path")]
+        public string LipPath { get; set; } = string.Empty;
 
-    [JsonPropertyName("settings")]
-    public Setting Settings { get; set; }
+        [JsonPropertyName("lip_index_api")]
+        public string LipIndexApiKey { get; set; } = string.Empty;
+
+        [JsonPropertyName("github_api")]
+        public string GithubApiKey { get; set; } = string.Empty;
+    }
+
+    public class PersonalizationSetting
+    {
+
+        [JsonPropertyName("color_theme")]
+        public ElementTheme ColorTheme { get; set; } = ElementTheme.Default;
+
+        [JsonPropertyName("backdrop_type")]
+        public PersonalizationSettingsView.BackdropControllerType BackdropType { get; set; } = PersonalizationSettingsView.BackdropControllerType.None;
+
+        [JsonPropertyName("backdrop_luminosity")]
+        public double? BackdropLuminosity { get; set; } = 20;
+
+        [JsonPropertyName("background_color")]
+        public string? BackgroundColor { get; set; }
+
+        [JsonPropertyName("navigation_view_content_background_color")]
+        public string? NavigationViewContentBackgroundColor { get; set; }
+
+        [JsonPropertyName("navigation_view_content_border_color")]
+        public string? NavigationViewContentBorderColor { get; set; }
+
+        [JsonPropertyName("background_secondary_color")]
+        public string? BackgroundSecondaryColor { get; set; }
+
+        [JsonPropertyName("enable_image_background")]
+        public bool EnableImageBackground { get; set; }
+
+        [JsonPropertyName("background_image_path")]
+        public string? BackgroundImagePath { get; set; }
+
+        [JsonPropertyName("reload_colors")]
+        public bool ResetColors { get; set; }
+    }
+
+
+    [JsonPropertyName("general_settings")]
+    public GeneralSetting GeneralSettings { get; set; }
+
+    [JsonPropertyName("personalization_settings")]
+    public PersonalizationSetting PersonalizationSettings { get; set; }
 
     [JsonPropertyName("servers")]
     public List<ServerInstance> ServerInstances { get; set; }
 
     [JsonPropertyName("selected_server")]
-#nullable enable
     public ServerInstance? SelectedServer { get; set; }
-#nullable disable
-
-    public class Setting
-    {
-        [JsonPropertyName("lip_path")]
-        public string LipPath { get; set; }
-
-        [JsonPropertyName("lip_index_api")]
-        public string LipIndexApiKey { get; set; }
-
-        [JsonPropertyName("github_api")]
-        public string GithubApiKey { get; set; }
-    }
 
     public Config()
     {
         ServerInstances = new();
-        ResetSettings(Main.WorkingDirectory);
+        ResetGeneralSettings(Main.WorkingDirectory);
+        ResetPersonalizationSettings();
     }
 
-    public void ResetSettings(string workingDir)
+    [MemberNotNull(nameof(GeneralSettings))]
+    public void ResetGeneralSettings(string workingDir)
     {
-        Settings = new()
+        GeneralSettings = new()
         {
             LipPath = Path.Combine(workingDir, DefaultSettings.LipExecutableFileName),
             LipIndexApiKey = DefaultSettings.LipIndexApiKey,
             GithubApiKey = DefaultSettings.GitHubApiKey,
+        };
+    }
+
+    [MemberNotNull(nameof(PersonalizationSettings))]
+    public void ResetPersonalizationSettings()
+    {
+        PersonalizationSettings = new()
+        {
+            BackdropType = PersonalizationSettingsView.BackdropControllerType.None,
+            BackdropLuminosity = 0,
+            BackgroundColor = Colors.Transparent.ToHex(),
+            NavigationViewContentBackgroundColor = Colors.Transparent.ToHex(),
+            NavigationViewContentBorderColor = Colors.Transparent.ToHex(),
+            BackgroundSecondaryColor = Colors.Transparent.ToHex(),
+            EnableImageBackground = false,
+            BackgroundImagePath = null,
+            ResetColors = true
         };
     }
 }

@@ -1,5 +1,5 @@
-﻿using Microsoft.UI.Xaml;
-using System.IO;
+﻿using LipUI.Models;
+using Microsoft.UI.Xaml;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -17,6 +17,13 @@ namespace LipUI
         public App()
         {
             InitializeComponent();
+
+            Current.RequestedTheme = Main.Config.PersonalizationSettings.ColorTheme switch
+            {
+                ElementTheme.Dark => ApplicationTheme.Dark,
+                ElementTheme.Light => ApplicationTheme.Light,
+                ElementTheme.Default or _ => Current.RequestedTheme
+            };
         }
 
         /// <summary>

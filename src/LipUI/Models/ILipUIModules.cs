@@ -1,12 +1,7 @@
-﻿using LipUI.VIews;
+﻿using LipUI.Pages.Home.Modules;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LipUI.Models;
 
@@ -23,6 +18,10 @@ public interface ILipUIModulesNonGeneric
     public void OnIconInitialze(ModuleIcon icon) { }
 
     public void OnExit() { }
+
+    public void OnEnable() { }
+
+    public void OnDisable() { }
 }
 
 public interface ILipUIModules<TSelf> : ILipUIModulesNonGeneric

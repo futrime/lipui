@@ -2,6 +2,7 @@
 
 using CommunityToolkit.WinUI.UI.Controls;
 using LipUI.Models;
+using LipUI.Pages.LipExecutionPanel;
 using LipUI.Protocol;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -113,7 +114,7 @@ public sealed partial class ToothInfoPage : Page
         {
             using var client = new HttpClient();
             var dataStr = await client.GetStringAsync(
-                $"https://{Main.Config.Settings.LipIndexApiKey}/teeth/{ToothItem.RepoOwner}/{ToothItem.RepoName}/{ToothItem.LatestVersion}");
+                $"https://{Main.Config.GeneralSettings.LipIndexApiKey}/teeth/{ToothItem.RepoOwner}/{ToothItem.RepoName}/{ToothItem.LatestVersion}");
 
             tooth = LipTooth.Deserialize(dataStr);
 

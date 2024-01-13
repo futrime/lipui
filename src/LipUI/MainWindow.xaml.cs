@@ -1,15 +1,17 @@
 ﻿using LipUI.Models;
-using LipUI.Pages;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Composition.SystemBackdrops;
+using LipUI.Pages.Home;
+using LipUI.Pages.Index;
+using LipUI.Pages.LocalPackage;
+using LipUI.Pages.Settings;
+using LipUI.Pages.ToothPack;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -23,20 +25,11 @@ using static PInvoke.User32;
 
 namespace LipUI;
 
-internal static class NavigationViewHelper
-{
-    public static DependencyObject GetChild(this DependencyObject obj, int index)
-        => VisualTreeHelper.GetChild(obj, index);
-}
-
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class MainWindow : Window
+internal sealed partial class MainWindow : Window
 {
-    WindowsSystemDispatcherQueueHelper? m_wsdqHelper; // See below for implementation.
-    DesktopAcrylicController? m_backdropController;
-    SystemBackdropConfiguration? m_configurationSource;
 
     private readonly int MinWidth = 800;
     private readonly int MinHeight = 450;
@@ -45,18 +38,16 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
 
-        SubClassing();
-
-        TrySetSystemBackdrop();
-
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
 
+        SubClassing();
+        //TrySetSystemBackdrop();
         AppWindow.Resize(new(1600, 900));
 
-        Closed += MainWindow_Closed;
-
         Services.MainWindow = this;
+
+        PersonalizationSettingsView.Initialize();
     }
 
     private async void MainWindow_Closed(object sender, WindowEventArgs args)
@@ -80,7 +71,7 @@ public sealed partial class MainWindow : Window
         newWndProc = new(NewWindowProc);
 
         // Here we use the NativeMethods class 👇
-        oldWndProc = NativeMethods.SetWindowLong(hwnd, PInvoke.User32.WindowLongIndexFlags.GWL_WNDPROC, newWndProc);
+        oldWndProc = NativeMethods.SetWindowLong(hwnd, WindowLongIndexFlags.GWL_WNDPROC, newWndProc);
         if (oldWndProc == nint.Zero)
         {
             int error = Marshal.GetLastWin32Error();
@@ -144,82 +135,13 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    bool TrySetSystemBackdrop()
-    {
-        if (DesktopAcrylicController.IsSupported())
-        {
-            m_wsdqHelper = new WindowsSystemDispatcherQueueHelper();
-            m_wsdqHelper.EnsureWindowsSystemDispatcherQueueController();
-
-            // Create the policy object.
-            m_configurationSource = new SystemBackdropConfiguration();
-            //Activated += WindowActivated;
-            Closed += WindowClosed;
-            ((FrameworkElement)Content).ActualThemeChanged += WindowThemeChanged;
-
-            // Initial configuration state.
-            m_configurationSource.IsInputActive = true;
-            SetConfigurationSourceTheme();
-
-            m_backdropController = new DesktopAcrylicController()
-            {
-                TintOpacity = 0.2f,
-                LuminosityOpacity = 0.2f
-            };
-
-            // Enable the system backdrop.
-            // Note: Be sure to have "using WinRT;" to support the Window.As<...>() call.
-            m_backdropController.AddSystemBackdropTarget(this.As<ICompositionSupportsSystemBackdrop>());
-            m_backdropController.SetSystemBackdropConfiguration(m_configurationSource);
-            return true; // succeeded
-        }
-
-        return false; // Mica is not supported on this system
-    }
-
-    private void WindowActivated(object sender, WindowActivatedEventArgs args)
-    {
-        //m_configurationSource!.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
-    }
-
-    private void WindowClosed(object sender, WindowEventArgs args)
-    {
-        // Make sure any Mica/Acrylic controller is disposed
-        // so it doesn't try to use this closed window.
-        if (m_backdropController != null)
-        {
-            m_backdropController.Dispose();
-            m_backdropController = null;
-        }
-        //Activated -= WindowActivated;
-        m_configurationSource = null;
-    }
-
-    private void WindowThemeChanged(FrameworkElement sender, object args)
-    {
-        if (m_configurationSource != null)
-        {
-            SetConfigurationSourceTheme();
-        }
-    }
-
-    private void SetConfigurationSourceTheme()
-    {
-        switch (((FrameworkElement)this.Content).ActualTheme)
-        {
-            case ElementTheme.Dark: m_configurationSource!.Theme = SystemBackdropTheme.Dark; break;
-            case ElementTheme.Light: m_configurationSource!.Theme = SystemBackdropTheme.Light; break;
-            case ElementTheme.Default: m_configurationSource!.Theme = SystemBackdropTheme.Default; break;
-        }
-    }
-
     private record NavigationPages(string HomePage, string IndexPage, string PackToothPage, string LocalPackagePage, string SettingsPage);
 
 
     private readonly NavigationPages NavigationPage = new(
         typeof(HomePage).FullName!,
         typeof(IndexPage).FullName!,
-        typeof(PackToothPage).FullName!,
+        typeof(ToothPackPage).FullName!,
         typeof(LocalPackagePage).FullName!,
         typeof(SettingsPage).FullName!);
 
@@ -227,7 +149,7 @@ public sealed partial class MainWindow : Window
     {
         typeof(HomePage),
         typeof(IndexPage),
-        typeof(PackToothPage),
+        typeof(ToothPackPage),
         typeof(LocalPackagePage),
         typeof(SettingsPage)
     };
@@ -237,6 +159,34 @@ public sealed partial class MainWindow : Window
     private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
     {
         throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+    }
+
+    private void NavView_Loading(FrameworkElement sender, object args)
+    {
+        sender.Resources["NavigationViewContentBackground"]
+            = PersonalizationSettingsView.MyRes.ApplicationNavigationViewContentBackground;
+        sender.Resources["NavigationViewContentGridBorderBrush"]
+            = PersonalizationSettingsView.MyRes.ApplicationNavigationViewContentBorder;
+
+        PersonalizationSettingsView.MyRes.PropertyChanged += (object? _sender, PropertyChangedEventArgs e) =>
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(GlobalResources.ApplicationNavigationViewContentBackground):
+                    sender.Resources["NavigationViewContentBackground"]
+                    = PersonalizationSettingsView.MyRes.ApplicationNavigationViewContentBackground;
+                    break;
+
+                case nameof(GlobalResources.ApplicationNavigationViewContentBorder):
+                    sender.Resources["NavigationViewContentGridBorderBrush"]
+                    = PersonalizationSettingsView.MyRes.ApplicationNavigationViewContentBorder;
+                    break;
+
+                case nameof(GlobalResources.ApplicationBackground):
+                    RootBorder.Background = PersonalizationSettingsView.MyRes.ApplicationBackground;
+                    break;
+            }
+        };
     }
 
     private void NavView_Loaded(object sender, RoutedEventArgs e)
@@ -413,38 +363,10 @@ public sealed partial class MainWindow : Window
             mre.Dispose();
         });
     }
-}
 
-class WindowsSystemDispatcherQueueHelper
-{
-    [StructLayout(LayoutKind.Sequential)]
-    struct DispatcherQueueOptions
-    {
-        internal int dwSize;
-        internal int threadType;
-        internal int apartmentType;
-    }
+    //public SolidColorBrush NavViewContentBackground => MyNavigationViewContentBackgroundBrush;
 
-    [DllImport("CoreMessaging.dll")]
-    private static extern int CreateDispatcherQueueController([In] DispatcherQueueOptions options, [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object dispatcherQueueController);
+    //public SolidColorBrush NavViewContentGridBorder => MyNavigationViewContentGridBorderBrush;
 
-    object? m_dispatcherQueueController = null;
-    public void EnsureWindowsSystemDispatcherQueueController()
-    {
-        if (Windows.System.DispatcherQueue.GetForCurrentThread() != null)
-        {
-            // one already exists, so we'll just use it.
-            return;
-        }
-
-        if (m_dispatcherQueueController == null)
-        {
-            DispatcherQueueOptions options;
-            options.dwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions));
-            options.threadType = 2;    // DQTYPE_THREAD_CURRENT
-            options.apartmentType = 2; // DQTAT_COM_STA
-
-            CreateDispatcherQueueController(options, ref m_dispatcherQueueController!);
-        }
-    }
+    public Grid RootGrid => MainWondowRootGrid;
 }

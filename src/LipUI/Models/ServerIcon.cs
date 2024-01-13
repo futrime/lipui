@@ -26,9 +26,9 @@ internal static class ServerIcon
 
         switch (type)
         {
-            case IconType.Empty: return GlobalResources.Glass;
-            case IconType.Preview: return GlobalResources.Netherrack;
-            case IconType.Default: return GlobalResources.GrassBlock;
+            case IconType.Empty: return GlobalIcons.Glass;
+            case IconType.Preview: return GlobalIcons.Netherrack;
+            case IconType.Default: return GlobalIcons.GrassBlock;
             case IconType.Custom:
                 {
                     if (File.Exists(iconPath))

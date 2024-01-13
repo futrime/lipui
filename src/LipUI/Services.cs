@@ -1,9 +1,9 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.IO;
-using Microsoft.Windows.ApplicationModel.Resources;
 using System.Threading.Tasks;
 
 namespace LipUI;
@@ -28,7 +28,7 @@ internal static class FrameExtensions
     }
 }
 
-internal static class Services
+public static class Services
 {
     public static BitmapImage CreateImageFromBytes(byte[] bytes)
     {
@@ -38,37 +38,19 @@ internal static class Services
         return image;
     }
 
-    public static MainWindow? MainWindow { get; internal set; }
-
-    public static void ShowInfoBar(
-        string? title,
-        string? message,
-        InfoBarSeverity severity,
-        TimeSpan interval = default,
-        UIElement? barContent = null,
-        Action? completed = null)
-        => MainWindow?.ShowInfoBar(title, message, severity, interval, barContent, completed);
-
-    public static void ShowInfoBar(
-        Exception ex,
-        TimeSpan interval = default,
-        UIElement? barContent = null,
-        Action? completed = null)
-    {
-        if (interval == default)
-            interval = TimeSpan.FromSeconds(5);
-        ShowInfoBar(ex.GetType().Name, ex.Message, InfoBarSeverity.Error, interval, barContent, completed);
-    }
+    internal static MainWindow? MainWindow { get; set; }
 
     public static async ValueTask ShowInfoBarAsync(
         string? title,
-        string? message,
-        InfoBarSeverity severity,
+        string? message = null,
+        InfoBarSeverity severity = InfoBarSeverity.Informational,
         TimeSpan interval = default,
         UIElement? barContent = null)
     {
         if (interval == default)
             interval = TimeSpan.FromSeconds(3);
+
+
 
         if (MainWindow is not null)
             await MainWindow.ShowInfoBarAsync(title, message, severity, interval, barContent);
@@ -76,12 +58,14 @@ internal static class Services
 
     public static async ValueTask ShowInfoBarAsync(
         Exception ex,
+        bool containsStacktrace = false,
+        InfoBarSeverity severity = InfoBarSeverity.Error,
         TimeSpan interval = default,
         UIElement? barContent = null)
     {
         if (interval == default)
             interval = TimeSpan.FromSeconds(5);
-        await ShowInfoBarAsync(ex.GetType().Name, ex.Message, InfoBarSeverity.Error, interval, barContent);
+        await ShowInfoBarAsync(ex.GetType().Name, containsStacktrace ? ex.ToString() : ex.Message, severity, interval, barContent);
     }
 
     public static event Action? WindowClosed;
