@@ -224,11 +224,11 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
             if (settings.EnableImageBackground && settings.BackgroundImagePath is not null)
             {
-                var image = Services.CreateImageFromBytes(File.ReadAllBytes(settings.BackgroundImagePath));
+                var image = InternalServices.CreateImageFromBytes(File.ReadAllBytes(settings.BackgroundImagePath));
                 MyRes.ApplicationBackgroundImage = new ImageBrush() { ImageSource = image, Stretch = Stretch.UniformToFill };
             }
 
-            var window = Services.MainWindow;
+            var window = InternalServices.MainWindow;
             if (window is null) return;
 
             window.Closed += Window_Closed;
@@ -237,7 +237,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
             initialized = true;
         }
-        catch (Exception ex) { Task.Run(async () => await Services.ShowInfoBarAsync(ex)); }
+        catch (Exception ex) { Task.Run(async () => await InternalServices.ShowInfoBarAsync(ex)); }
     }
 
     private void InitilizeUIFromConfig(Config config)
@@ -265,14 +265,14 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             BackgroundImageEnableCheckBox.IsChecked = settings.EnableImageBackground;
             if (settings.EnableImageBackground && settings.BackgroundImagePath is not null)
             {
-                var image = Services.CreateImageFromBytes(File.ReadAllBytes(settings.BackgroundImagePath));
+                var image = InternalServices.CreateImageFromBytes(File.ReadAllBytes(settings.BackgroundImagePath));
                 image.DecodePixelType = DecodePixelType.Logical;
                 image.DecodePixelWidth = 256;
 
                 PreviewImage.Source = image;
             }
         }
-        catch (Exception ex) { Task.Run(async () => await Services.ShowInfoBarAsync(ex)); }
+        catch (Exception ex) { Task.Run(async () => await InternalServices.ShowInfoBarAsync(ex)); }
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -324,7 +324,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             var flyout = (Flyout)sender;
             ColorPicker.Color = ((SolidColorBrush)((Button)flyout.Target).Background).Color;
         }
-        catch (Exception ex) { Task.Run(() => Services.ShowInfoBarAsync(ex)); }
+        catch (Exception ex) { Task.Run(() => InternalServices.ShowInfoBarAsync(ex)); }
     }
 
     private async void ConfirmColorButton_Click(object sender, RoutedEventArgs e)
@@ -337,7 +337,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             ((SolidColorBrush)button.Background).Color = ColorPicker.Color;
             ColorChanged?.Invoke(button, ColorPicker.Color);
         }
-        catch (Exception ex) { await Services.ShowInfoBarAsync(ex, containsStacktrace: true); }
+        catch (Exception ex) { await InternalServices.ShowInfoBarAsync(ex, containsStacktrace: true); }
         BackgroundBrushSettingsPanel_ColorPickerButton.Flyout.Hide();
     }
 
@@ -359,7 +359,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
     private static void ResetController()
     {
 
-        Services.MainWindow!.SystemBackdrop = null;
+        InternalServices.MainWindow!.SystemBackdrop = null;
 
         if (backdropAcrylicController is not null)
         {
@@ -382,7 +382,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             if (DesktopAcrylicController.IsSupported() is false)
                 return false;
 
-            if (Services.MainWindow is null)
+            if (InternalServices.MainWindow is null)
                 return false;
 
             backdropAcrylicController ??= new DesktopAcrylicController();
@@ -390,7 +390,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
 
             backdropAcrylicController.AddSystemBackdropTarget(
-                Services.MainWindow.As<ICompositionSupportsSystemBackdrop>());
+                InternalServices.MainWindow.As<ICompositionSupportsSystemBackdrop>());
 
             backdropAcrylicController.SetSystemBackdropConfiguration(configurationSource);
 
@@ -398,7 +398,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
         }
         catch (Exception ex)
         {
-            Task.Run(() => Services.ShowInfoBarAsync(ex));
+            Task.Run(() => InternalServices.ShowInfoBarAsync(ex));
             return false;
         }
     }
@@ -411,7 +411,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             if (MicaController.IsSupported() is false)
                 return false;
 
-            if (Services.MainWindow is null)
+            if (InternalServices.MainWindow is null)
                 return false;
 
             backdropMicaController ??= new MicaController();
@@ -419,7 +419,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
 
             backdropMicaController.AddSystemBackdropTarget(
-                Services.MainWindow.As<ICompositionSupportsSystemBackdrop>());
+                InternalServices.MainWindow.As<ICompositionSupportsSystemBackdrop>());
 
             backdropMicaController.SetSystemBackdropConfiguration(configurationSource);
 
@@ -427,7 +427,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
         }
         catch (Exception ex)
         {
-            Task.Run(() => Services.ShowInfoBarAsync(ex));
+            Task.Run(() => InternalServices.ShowInfoBarAsync(ex));
             return false;
         }
     }
@@ -436,18 +436,18 @@ internal sealed partial class PersonalizationSettingsView : UserControl
     {
         try
         {
-            if (Services.MainWindow is null)
+            if (InternalServices.MainWindow is null)
                 return false;
 
             transparentTintBackdrop ??= new TransparentTintBackdrop();
 
-            Services.MainWindow.SystemBackdrop = transparentTintBackdrop;
+            InternalServices.MainWindow.SystemBackdrop = transparentTintBackdrop;
 
             return true;
         }
         catch (Exception ex)
         {
-            Task.Run(() => Services.ShowInfoBarAsync(ex));
+            Task.Run(() => InternalServices.ShowInfoBarAsync(ex));
             return false;
         }
     }
@@ -475,7 +475,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
     private static void Window_ThemeChanged(FrameworkElement sender, object args)
     {
-        if (configurationSource is not null) SetConfigurationSourceTheme(Services.MainWindow!);
+        if (configurationSource is not null) SetConfigurationSourceTheme(InternalServices.MainWindow!);
     }
 
     private static void SetConfigurationSourceTheme(Window window)
@@ -606,7 +606,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             Main.Config.PersonalizationSettings.BackdropLuminosity = ((Slider)sender).Value;
             await Main.SaveConfigAsync();
         }
-        catch (Exception ex) { await Services.ShowInfoBarAsync(ex, containsStacktrace: true); }
+        catch (Exception ex) { await InternalServices.ShowInfoBarAsync(ex, containsStacktrace: true); }
     }
 
     private void BackgroundBrushSettingsPanel_ColorPickerButton_Loading(FrameworkElement sender, object args)
@@ -676,16 +676,16 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             var path = Main.Config.PersonalizationSettings.BackgroundImagePath;
             if (path is not null)
             {
-                var image = Services.CreateImageFromBytes(await File.ReadAllBytesAsync(path));
+                var image = InternalServices.CreateImageFromBytes(await File.ReadAllBytesAsync(path));
                 image.DecodePixelType = DecodePixelType.Logical;
                 image.DecodePixelWidth = 256;
                 PreviewImage.Source = image;
 
-                image = Services.CreateImageFromBytes(await File.ReadAllBytesAsync(path));
+                image = InternalServices.CreateImageFromBytes(await File.ReadAllBytesAsync(path));
                 MyRes.ApplicationBackgroundImage = new ImageBrush() { ImageSource = image, Stretch = Stretch.UniformToFill };
             }
         }
-        catch (Exception ex) { await Services.ShowInfoBarAsync(ex); }
+        catch (Exception ex) { await InternalServices.ShowInfoBarAsync(ex); }
     }
 
     private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -715,18 +715,18 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             if (file is not null)
                 imagePath = file.Path;
 
-            var image = Services.CreateImageFromBytes(await File.ReadAllBytesAsync(imagePath));
+            var image = InternalServices.CreateImageFromBytes(await File.ReadAllBytesAsync(imagePath));
             image.DecodePixelType = DecodePixelType.Logical;
             image.DecodePixelWidth = 256;
             PreviewImage.Source = image;
 
-            image = Services.CreateImageFromBytes(await File.ReadAllBytesAsync(imagePath));
+            image = InternalServices.CreateImageFromBytes(await File.ReadAllBytesAsync(imagePath));
             MyRes.ApplicationBackgroundImage = new ImageBrush() { ImageSource = image, Stretch = Stretch.UniformToFill };
 
             Main.Config.PersonalizationSettings.BackgroundImagePath = imagePath;
             await Main.SaveConfigAsync();
         }
-        catch (Exception ex) { await Services.ShowInfoBarAsync(ex); }
+        catch (Exception ex) { await InternalServices.ShowInfoBarAsync(ex); }
 
     }
 
@@ -734,6 +734,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
     {
         PreviewImage.Source = null;
         MyRes.ResetBrush(nameof(GlobalResources.ApplicationBackgroundImage));
+        Main.Config.PersonalizationSettings.BackgroundImagePath = null;
     }
 
     private void BackgroundImageOpacitySlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -766,13 +767,13 @@ internal sealed partial class PersonalizationSettingsView : UserControl
         {
             var rlt = AppInstance.Restart(string.Empty);
 
-            await Services.ShowInfoBarAsync(
+            await InternalServices.ShowInfoBarAsync(
                 title: "infoBar$error".GetLocalized(),
                 message: rlt.ToString(),
                 severity: InfoBarSeverity.Error);
         };
 
-        Task.Run(() => Services.ShowInfoBarAsync(
+        Task.Run(() => InternalServices.ShowInfoBarAsync(
             title: "infoBar$warning".GetLocalized(),
             message: "i18n.restart",
             severity: InfoBarSeverity.Warning,

@@ -30,7 +30,12 @@ public sealed partial class HomePage : Page
     private async void RefreshIcon()
     {
         ServerInstance? instance = Main.Config.SelectedServer;
-        ServerIconImage.Source = await ServerIcon.GetIcon(instance);
+        var image = await ServerIcon.GetIcon(instance);
+        image.DecodePixelType = Microsoft.UI.Xaml.Media.Imaging.DecodePixelType.Logical;
+        image.DecodePixelHeight = (int)ServerIconImage.Height;
+        image.DecodePixelWidth = (int)ServerIconImage.Width;
+
+        ServerIconImage.Source = image;
         ServerDesc.Text =
             instance is null ?
                 "home$nullServerPath".GetLocalized() :
@@ -40,7 +45,7 @@ public sealed partial class HomePage : Page
     }
 
     private void SelectServerButton_Click(object sender, RoutedEventArgs e)
-        => Frame.Navigate(typeof(ServerSelectionPage), () => { DispatcherQueue.TryEnqueue(() => { RefreshIcon(); }); });
+        => Frame.Navigate(typeof(ServerSelectionPage), () => { DispatcherQueue.TryEnqueue(RefreshIcon); });
 
     private void StartServerButton_Click(object sender, RoutedEventArgs e)
     {
@@ -91,11 +96,11 @@ public sealed partial class HomePage : Page
             try
             {
                 InternalFrameTitle.Text = type != typeof(ModulesPage) ?
-                ModuleIcon.Modules[type].ModuleName : "modules$title$modulePage".GetLocalized();
+                ModuleIcon.Modules[type].PluginName : "modules$title$modulePage".GetLocalized();
             }
             catch (Exception ex)
             {
-                await Services.ShowInfoBarAsync(ex);
+                await InternalServices.ShowInfoBarAsync(ex);
             }
         });
     }

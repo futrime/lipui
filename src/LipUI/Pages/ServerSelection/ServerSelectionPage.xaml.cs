@@ -190,7 +190,7 @@ public sealed partial class ServerSelectionPage : Page
             {
                 if (instance == server)
                 {
-                    await Services.ShowInfoBarAsync(
+                    await InternalServices.ShowInfoBarAsync(
                         "infoBar$error".GetLocalized(),
                         "serverSelection$existed".GetLocalized(),
                         InfoBarSeverity.Error);

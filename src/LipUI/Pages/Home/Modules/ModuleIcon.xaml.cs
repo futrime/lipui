@@ -1,4 +1,4 @@
-using LipUI.Models;
+using LipUI.Models.Plugin;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -14,24 +14,22 @@ namespace LipUI.Pages.Home.Modules;
 public sealed partial class ModuleIcon : UserControl
 {
 
-    internal static Dictionary<Type, ILipUIModulesNonGeneric> Modules { get; private set; } = new();
+    internal static Dictionary<Type, ILipuiPluginModule> Modules { get; private set; } = new();
 
     public Type? PageType { get; private set; }
 
-    public ModuleIcon(Type moduleType)
+    public ModuleIcon(ILipuiPluginModule module)
     {
         InitializeComponent();
 
-        ILipUIModulesNonGeneric? module;
         try
         {
-            module = Modules.TryGetValue(moduleType, out var _module) ? _module : Activator.CreateInstance(moduleType) as ILipUIModulesNonGeneric;
 
             if (module is not null)
             {
                 PageType = module.PageType;
 
-                ModuleName.Text = module.ModuleName;
+                ModuleName.Text = module.PluginName;
 
                 var icon = module.IconContent;
                 IconView.Child = icon;
@@ -42,7 +40,7 @@ public sealed partial class ModuleIcon : UserControl
                 IconView.Height = icon!.Height;
                 IconView.Width = icon!.Width;
 
-                ElementBorder.Background ??= new SolidColorBrush(Colors.White);
+                ElementBorder.Background ??= new SolidColorBrush(Colors.Transparent);
 
                 Modules.TryAdd(PageType, module);
 
@@ -52,7 +50,7 @@ public sealed partial class ModuleIcon : UserControl
         }
         catch (Exception ex)
         {
-            Task.Run(() => Services.ShowInfoBarAsync(ex));
+            Task.Run(() => InternalServices.ShowInfoBarAsync(ex));
             return;
         }
     }

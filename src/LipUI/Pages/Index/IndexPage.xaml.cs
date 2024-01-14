@@ -31,21 +31,29 @@ public sealed partial class IndexPage : Page
     {
         DispatcherQueue.TryEnqueue(async () =>
         {
-            TeethScrollView.Content = new ProgressRing();
-            ToothListView.Items.Clear();
-
-            if (items is null)
+            try
             {
-                lipIndex = await RequestLipIndexAsync(Main.Config.GeneralSettings.LipIndexApiKey);
-                items = lipIndex.Data.Items;
-            }
+                TeethScrollView.Content = new ProgressRing();
+                ToothListView.Items.Clear();
 
-            var handler = AuthorButton_Click;
-            foreach (var item in items)
-            {
-                ToothListView.Items.Add(new LipIndexToothView(item, handler));
+                if (items is null)
+                {
+                    lipIndex = await RequestLipIndexAsync(Main.Config.GeneralSettings.LipIndexApiKey);
+                    items = lipIndex.Data.Items;
+                }
+
+                var handler = AuthorButton_Click;
+                foreach (var item in items)
+                {
+                    ToothListView.Items.Add(new LipIndexToothView(item, handler));
+                }
+                TeethScrollView.Content = ToothListView;
             }
-            TeethScrollView.Content = ToothListView;
+            catch (Exception ex)
+            {
+                TeethScrollView.Content = ToothListView;
+                await InternalServices.ShowInfoBarAsync(ex);
+            }
         });
     }
 
@@ -109,7 +117,7 @@ public sealed partial class IndexPage : Page
             }
             catch (Exception ex)
             {
-                await Services.ShowInfoBarAsync(ex);
+                await InternalServices.ShowInfoBarAsync(ex);
             }
         });
     }
@@ -141,7 +149,7 @@ public sealed partial class IndexPage : Page
             }
             catch (Exception ex)
             {
-                await Services.ShowInfoBarAsync(ex);
+                await InternalServices.ShowInfoBarAsync(ex);
             }
         });
 

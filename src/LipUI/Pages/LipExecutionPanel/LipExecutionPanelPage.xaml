@@ -71,7 +71,8 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
 
-                <ItemsRepeater ItemsSource="{x:Bind output}"/>
+                <ItemsRepeater 
+                    ItemsSource="{x:Bind output}"/>
 
             </ScrollViewer>
 

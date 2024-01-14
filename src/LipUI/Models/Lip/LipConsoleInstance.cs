@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace LipUI.Models.Lip;
 
-internal class LipConsoleInstance : IDisposable
+public class LipConsoleInstance : IDisposable
 {
     public Process? Process { get; private set; }
     public bool HasExited => Process?.HasExited ?? false;

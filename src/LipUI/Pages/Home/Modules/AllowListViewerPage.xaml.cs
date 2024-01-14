@@ -1,35 +1,30 @@
-using LipUI.Models;
-using Microsoft.UI;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using System;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace LipUI.Pages.Home.Modules;
 
-[LipUIModule]
-internal class AllowListViewerPage_Module : ILipUIModules<AllowListViewerPage_Module>
-{
-    public string ModuleName => "modules$title$allowListViewer".GetLocalized();
+//[LipUIModule]
+//internal class AllowListViewerPage_Module : ILipUIModules<AllowListViewerPage_Module>
+//{
+//    public string ModuleName => "modules$title$allowListViewer".GetLocalized();
 
-    public Type PageType => typeof(AllowListViewerPage);
+//    public Type PageType => typeof(AllowListViewerPage);
 
-    public FrameworkElement? IconContent
-        => new SymbolIcon(Symbol.ContactInfo) { Height = 32, Width = 32 };
+//    public FrameworkElement? IconContent
+//        => new SymbolIcon(Symbol.ContactInfo) { Height = 32, Width = 32 };
 
-    public Brush? IconBackground
-    {
-        get
-        {
-            var color = Colors.AliceBlue;
-            color.A = 200;
-            return new SolidColorBrush(color);
-        }
-    }
-}
+//    public Brush? IconBackground
+//    {
+//        get
+//        {
+//            var color = Colors.AliceBlue;
+//            color.A = 200;
+//            return new SolidColorBrush(color);
+//        }
+//    }
+//}
 
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LipUI.Models.Lip;
 
-internal class LipConsole
+public class LipConsole
 {
     public LipConsole(string executablePath, string workingDir)
     {
@@ -16,7 +16,7 @@ internal class LipConsole
     public string ExecutablePath { get; }
     public string WorkingPath { get; }
 
-    public event Action<string>? Error;
+    public event Action<string>? OutputError;
     public event Action<string>? Output;
 
     public async ValueTask<int> Run(string command, Action<LipConsoleInstance>? getInstance = null, CancellationToken cancellationToken = default)
@@ -32,7 +32,7 @@ internal class LipConsole
             },
             error =>
             {
-                Error?.Invoke(error);
+                OutputError?.Invoke(error);
             },
             out Process? process);
         getInstance?.Invoke(ins);
@@ -61,7 +61,7 @@ internal class LipConsole
             },
             error =>
             {
-                Error?.Invoke(error);
+                OutputError?.Invoke(error);
                 builder.AppendLine(error);
             },
             out Process? process);

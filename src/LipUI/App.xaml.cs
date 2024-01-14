@@ -18,7 +18,7 @@ namespace LipUI
         {
             InitializeComponent();
 
-            Current.RequestedTheme = Main.Config.PersonalizationSettings.ColorTheme switch
+            Current.RequestedTheme = InternalServices.ApplicationTheme = Main.Config.PersonalizationSettings.ColorTheme switch
             {
                 ElementTheme.Dark => ApplicationTheme.Dark,
                 ElementTheme.Light => ApplicationTheme.Light,

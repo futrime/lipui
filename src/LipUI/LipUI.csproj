@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 
-    <WindowsPackageType>None</WindowsPackageType>
+    <!--<WindowsPackageType>None</WindowsPackageType>-->
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 
     <OutputType>WinExe</OutputType>
@@ -35,11 +35,22 @@
     <Content Remove="Assets\netherrack.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Models\Plugin\ILipuiPlugin.cs~RF4957fb5.TMP" />
+    <None Remove="Models\Plugin\ILipuiPlugin.cs~RF49dcca6.TMP" />
+    <None Remove="Models\Plugin\ILipuiPlugin.cs~RF9ae41b7.TMP" />
+    <None Remove="Models\Plugin\ILipuiPluginModule.cs~RF4a8b04e.TMP" />
+    <None Remove="Models\Plugin\ILipuiPluginUI.cs~RF4a44265.TMP" />
+    <None Remove="Models\Plugin\ILipuiPluginUI.cs~RFa063bdf.TMP" />
+    <None Remove="Models\Plugin\LipuiRuntimeInfo.cs~RF49a61a6.TMP" />
+    <None Remove="Models\Plugin\PluginSystem.cs~RF4aaea31.TMP" />
     <None Remove="Pages\Home\Modules\AllowListViewerPage.xaml" />
     <None Remove="Pages\Home\Modules\BdsPropertiesEditorPage.xaml" />
     <None Remove="Pages\Home\Modules\ModulesPage.xaml" />
+    <None Remove="Pages\LipExecutionPanel\ConsoleLineView.xaml" />
     <None Remove="Pages\LipExecutionPanel\LipExecutionPanelPage.xaml" />
     <None Remove="Pages\LocalPackage\LocalPackagePage.xaml" />
+    <None Remove="Pages\ModuleManager\LipuiPluginsView.xaml" />
+    <None Remove="Pages\ModuleManager\ModuleManagerPage.xaml.cs~RF8701840.TMP" />
     <None Remove="Pages\PackTooth\PackToothPage.xaml" />
     <None Remove="Pages\SelectServer\SelectServerPage.xaml" />
     <None Remove="Pages\Settings\SettingsPage.xaml" />
@@ -192,9 +203,18 @@
   <ItemGroup>
     <Folder Include="Pages\Home\" />
     <Folder Include="Pages\Index\" />
-    <Folder Include="Pages\LipExecutionPanel\" />
     <Folder Include="Pages\LocalPackage\" />
     <Folder Include="Pages\ServerSelection\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ModuleManager\LipuiPluginsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\LipExecutionPanel\ConsoleLineView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!-- 

@@ -90,7 +90,7 @@ internal sealed partial class LipInstallerView : UserControl
         }
         catch (Exception ex)
         {
-            await Services.ShowInfoBarAsync(ex, severity: InfoBarSeverity.Warning);
+            await InternalServices.ShowInfoBarAsync(ex, severity: InfoBarSeverity.Warning);
             response = await client.GetAsync($"https://github.moeyy.xyz/{info.AssetUrl}");
         }
 
@@ -172,7 +172,7 @@ internal sealed partial class LipInstallerView : UserControl
         }
         catch (Exception ex)
         {
-            await Services.ShowInfoBarAsync(ex);
+            await InternalServices.ShowInfoBarAsync(ex);
             (Parent as ContentDialog)!.Hide();
         }
     }

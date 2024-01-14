@@ -32,6 +32,9 @@ internal sealed partial class ServerInstanceEditView : UserControl
     private async ValueTask RefreshIcon(string? version, string? iconPath)
     {
         var image = await ServerIcon.GetIcon(version, iconPath);
+        image.DecodePixelType = DecodePixelType.Logical;
+        image.DecodePixelHeight = (int)IconImage.Height;
+        image.DecodePixelWidth = (int)IconImage.Width;
         IconImage.Source = image;
         CustomIcon = image;
     }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="LipUI.Pages.ToothPack.ModuleManagerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LipUI.Pages.ToothPack"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Loading="Page_Loading">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="64"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="0"
+            Padding="0"
+            CornerRadius="0"
+            Click="PluginsButton_Click">
+
+            <TextBlock
+                HorizontalAlignment="Center"
+                Text="i18n.plugins"/>
+
+        </Button>
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="0"
+            Padding="0"
+            CornerRadius="0"
+            Click="UIPluginsButton_Click">
+
+            <TextBlock
+                HorizontalAlignment="Center"
+                Text="i18n.UIplugins"/>
+
+        </Button>
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="0"
+            Padding="0"
+            CornerRadius="0"
+            Click="ModulesButton_Click">
+
+            <TextBlock
+                HorizontalAlignment="Center"
+                Text="i18n.Modules"/>
+
+        </Button>
+
+        <ScrollView
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            x:Name="ModulesTreeView">
+
+        </ScrollView>
+
+    </Grid>
+
+</Page>

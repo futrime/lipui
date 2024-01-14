@@ -1,10 +1,10 @@
-using LipUI.Models;
+using LipUI.Models.Plugin;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -12,9 +12,8 @@ using System.Threading.Tasks;
 
 namespace LipUI.Pages.Home.Modules;
 
-internal class ModulesPage_Module : ILipUIModules<ModulesPage_Module>
+internal class ModulesPage_Module : ILipuiPluginModule
 {
-    public string ModuleName => "modules$title$modulePage".GetLocalized();
 
     public FrameworkElement IconContent => new Viewbox();
 
@@ -22,9 +21,11 @@ internal class ModulesPage_Module : ILipUIModules<ModulesPage_Module>
 
     public Type PageType => typeof(ModulesPage);
 
-    public double IconHeight => 32;
+    public string PluginName => "modules$title$modulePage".GetLocalized();
 
-    public double IconWidth => 32;
+    public bool DefaultEnabled => false;
+
+    public Guid Guid => default;
 }
 
 /// <summary>
@@ -32,6 +33,30 @@ internal class ModulesPage_Module : ILipUIModules<ModulesPage_Module>
 /// </summary>
 public sealed partial class ModulesPage : Page
 {
+    public static void InitEventHandlers()
+    {
+        PluginSystem.PluginEnabled += PluginSystem_PluginEnabled;
+        PluginSystem.PluginDisabled += PluginSystem_PluginDisabled;
+    }
+
+    private static readonly HashSet<ILipuiPluginModule> enabledModules = new();
+    private static void PluginSystem_PluginEnabled(ILipuiPlugin obj)
+    {
+        lock (enabledModules)
+        {
+            if (obj is ILipuiPluginModule module)
+                enabledModules.Add(module);
+        }
+    }
+
+    private static void PluginSystem_PluginDisabled(ILipuiPlugin obj)
+    {
+        lock (enabledModules)
+        {
+            if (obj is ILipuiPluginModule module)
+                enabledModules.Remove(module);
+        }
+    }
 
     public ModulesPage()
     {
@@ -40,16 +65,10 @@ public sealed partial class ModulesPage : Page
         DispatcherQueue.TryEnqueue(async () =>
         {
             await Task.Delay(500);
-            foreach (var moduleType in Assembly.GetExecutingAssembly().GetTypes())
+
+            foreach (var module in enabledModules)
             {
-                if (
-                moduleType.IsAssignableTo(typeof(ILipUIModulesNonGeneric))
-                && moduleType.IsClass
-                && moduleType != typeof(ModulesPage_Module)
-                && moduleType.GetCustomAttribute<LipUIModuleAttribute>() is not null)
-                {
-                    ModulesView.Items.Add(new ModuleIcon(moduleType));
-                }
+                ModulesView.Items.Add(new ModuleIcon(module));
             }
         });
     }

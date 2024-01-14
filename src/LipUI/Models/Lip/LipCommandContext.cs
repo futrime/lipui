@@ -5,14 +5,14 @@ using System.Text;
 
 namespace LipUI.Models.Lip;
 
-internal class LipCommandSyntaxException : Exception
+public class LipCommandSyntaxException : Exception
 {
     public LipCommandSyntaxException(string? message) : base(message)
     {
     }
 }
 
-internal class LipCommandContext
+public class LipCommandContext
 {
     private readonly List<LipCommand> commands = new();
     private readonly List<LipCommandOption> options = new();

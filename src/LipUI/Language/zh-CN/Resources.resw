@@ -180,11 +180,11 @@
   <data name="navigationView$localPackages.Content" xml:space="preserve">
     <value>本地包</value>
   </data>
+  <data name="navigationView$moduleManager.Content" xml:space="preserve">
+    <value>组件管理</value>
+  </data>
   <data name="navigationView$packageIndex.Content" xml:space="preserve">
     <value>包索引</value>
-  </data>
-  <data name="navigationView$packTooth.Content" xml:space="preserve">
-    <value>打包Tooth包</value>
   </data>
   <data name="propertiesEditor$nullServerPath" xml:space="preserve">
     <value>未知的服务器路径！</value>

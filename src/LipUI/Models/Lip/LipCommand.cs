@@ -2,7 +2,7 @@
 
 namespace LipUI.Models.Lip;
 
-internal class LipCommand
+public class LipCommand
 {
     public readonly string Command;
     public readonly LipCommand? Parent;

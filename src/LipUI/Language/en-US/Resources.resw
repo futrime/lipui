@@ -180,11 +180,11 @@
   <data name="navigationView$localPackages.Content" xml:space="preserve">
     <value>Local packages</value>
   </data>
+  <data name="navigationView$moduleManager.Content" xml:space="preserve">
+    <value>Module manager</value>
+  </data>
   <data name="navigationView$packageIndex.Content" xml:space="preserve">
     <value>Lip index</value>
-  </data>
-  <data name="navigationView$packTooth.Content" xml:space="preserve">
-    <value>Pack Tooth package</value>
   </data>
   <data name="propertiesEditor$nullServerPath" xml:space="preserve">
     <value>Unknown server path!</value>

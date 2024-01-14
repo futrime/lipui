@@ -13,6 +13,8 @@ internal static class DefaultSettings
 {
     public const string ConfigFileName = "config.json";
 
+    public const string PluginsDir = "plugins";
+
     public const string DataDirectory = ".lipui";
 
     public const string LipRepoOwner = "lippkg";
@@ -92,11 +94,15 @@ internal class Config
     [JsonPropertyName("selected_server")]
     public ServerInstance? SelectedServer { get; set; }
 
+    [JsonPropertyName("plugin_enable_info")]
+    public Dictionary<string, bool> PluginEanbleInfo { get; set; }
+
     public Config()
     {
         ServerInstances = new();
         ResetGeneralSettings(Main.WorkingDirectory);
         ResetPersonalizationSettings();
+        PluginEanbleInfo = new();
     }
 
     [MemberNotNull(nameof(GeneralSettings))]

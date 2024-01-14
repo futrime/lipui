@@ -56,6 +56,7 @@
                 Grid.Row="1"
                 x:Name="NavView"
                 PaneDisplayMode="LeftCompact"
+                IsBackButtonVisible="Collapsed"
                 Loading="NavView_Loading"
                 Loaded="NavView_Loaded"
                 ItemInvoked="NavView_ItemInvoked"
@@ -74,16 +75,30 @@
                         x:Uid="navigationView$localPackages"/>
 
                     <NavigationViewItem 
-                        Icon="Add" 
-                        Tag="{x:Bind NavigationPage.PackToothPage}"
-                        x:Uid="navigationView$packTooth"/>
+                        Icon="Library" 
+                        Tag="{x:Bind NavigationPage.ModuleManagerPage}"
+                        x:Uid="navigationView$moduleManager"/>
 
                     <NavigationViewItem 
                         Icon="Find"
                         Tag="{x:Bind NavigationPage.IndexPage}" 
                         x:Uid="navigationView$packageIndex"/>
 
+                    <NavigationViewItemSeparator/>
+
                 </NavigationView.MenuItems>
+
+                <NavigationView.FooterMenuItems>
+
+                    <NavigationViewItem
+                        x:Name="NavigationViewItem_More"
+                        Icon="More"
+                        Content="i18n.more"
+                        SelectsOnInvoked="False"/>
+
+                    <NavigationViewItemSeparator/>
+
+                </NavigationView.FooterMenuItems>
 
                 <Frame 
                     x:Name="ContentFrame" 

@@ -1,4 +1,5 @@
 using LipUI.Models;
+using LipUI.Models.Plugin;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -11,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI;
-using static LipUI.Services;
+using static LipUI.InternalServices;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -19,16 +20,23 @@ using static LipUI.Services;
 namespace LipUI.Pages.Home.Modules;
 
 [LipUIModule]
-internal class BdsPropertiesEditorPage_Module : ILipUIModules<BdsPropertiesEditorPage_Module>
+internal class BdsPropertiesEditorPage_Module : ILipuiPluginModule
 {
-    public string ModuleName => "modules$title$propertiesEditor".GetLocalized();
+    public string PluginName => "modules$title$propertiesEditor".GetLocalized();
 
     public FrameworkElement IconContent
         => new SymbolIcon(Symbol.Setting) { Height = 32, Width = 32 };
 
-    public Brush IconBackground => new SolidColorBrush(Colors.AntiqueWhite);
+    public Brush IconBackground => new SolidColorBrush(
+        InternalServices.ApplicationTheme is Microsoft.UI.Xaml.ApplicationTheme.Light ?
+        Colors.AntiqueWhite :
+        Colors.DarkSlateBlue);
 
     public Type PageType => typeof(BdsPropertiesEditorPage);
+
+    public bool DefaultEnabled => true;
+
+    public Guid Guid => new("4718D1E5-7665-0ED3-9D28-9001D8FC5812");
 }
 
 /// <summary>

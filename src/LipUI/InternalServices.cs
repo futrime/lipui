@@ -5,6 +5,7 @@ using Microsoft.Windows.ApplicationModel.Resources;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.UI;
 
 namespace LipUI;
 
@@ -28,7 +29,13 @@ internal static class FrameExtensions
     }
 }
 
-public static class Services
+internal static class ColorExtensions
+{
+    public static Color Invert(this in Color color)
+        => Color.FromArgb(color.A, (byte)(255 - color.R), (byte)(255 - color.G), (byte)(255 - color.B));
+}
+
+internal static class InternalServices
 {
     public static BitmapImage CreateImageFromBytes(byte[] bytes)
     {
@@ -65,10 +72,49 @@ public static class Services
     {
         if (interval == default)
             interval = TimeSpan.FromSeconds(5);
-        await ShowInfoBarAsync(ex.GetType().Name, containsStacktrace ? ex.ToString() : ex.Message, severity, interval, barContent);
+        await ShowInfoBarAsync(
+            ex.GetType().Name, 
+            containsStacktrace ? ex.ToString() : ex.Message, 
+            severity, 
+            interval, 
+            barContent);
+    }
+
+    public static void ShowInfoBar(
+        string? title,
+        string? message = null,
+        InfoBarSeverity severity = InfoBarSeverity.Informational,
+        TimeSpan interval = default,
+        UIElement? barContent = null,
+        Action? completed = null)
+    {
+        if (interval == default)
+            interval = TimeSpan.FromSeconds(3);
+
+        MainWindow?.ShowInfoBar(title, message, severity, interval, barContent, completed);
+    }
+
+    public static void ShowInfoBar(
+        Exception ex,
+        bool containsStacktrace = false,
+        InfoBarSeverity severity = InfoBarSeverity.Error,
+        TimeSpan interval = default,
+        UIElement? barContent = null,
+        Action? completed = null)
+    {
+        if (interval == default)
+            interval = TimeSpan.FromSeconds(5);
+        ShowInfoBar(ex.GetType().Name,
+            containsStacktrace ? ex.ToString() : ex.Message, 
+            severity, 
+            interval, 
+            barContent, 
+            completed);
     }
 
     public static event Action? WindowClosed;
 
     internal static void OnWindowClosed() => WindowClosed?.Invoke();
+
+    public static ApplicationTheme ApplicationTheme { get; internal set; }
 }

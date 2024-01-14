@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Page
-    x:Class="LipUI.Pages.ToothPack.ToothPackPage"
+<UserControl
+    x:Class="LipUI.Pages.ModuleManager.LipuiPluginsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:LipUI.Pages.ToothPack"
+    xmlns:local="using:LipUI.Pages.ModuleManager"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <TextBlock Text="todo"/>
-</Page>
+    <Grid
+        Padding="12,4,12,4">
+
+        <ListView
+            x:Name="PluginsListView"/>
+
+
+
+
+    </Grid>
+</UserControl>

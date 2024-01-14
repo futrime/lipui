@@ -35,14 +35,27 @@ internal sealed partial class LipExecutionPanelPage : Page
         private Process? process;
         private readonly DispatcherQueue dispatcherQueue;
 
+        private static Style CaptionTextBlockStyle = (Style)Application.Current.Resources["CaptionTextBlockStyle"];
+        private static Brush TextFillColorPrimaryBrush = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
+
         private readonly List<(Regex, Func<Regex, Match, string, bool>)> regexsAndMethods;
 
         public void Output(string line)
-            => dispatcherQueue.TryEnqueue(() => page.output.Add(line));
+            => dispatcherQueue.TryEnqueue(() => page.output.Add(new()
+            {
+                Text = line,
+                Style = CaptionTextBlockStyle,
+                Foreground = TextFillColorPrimaryBrush
+            }));
 
         public void Input(string line, bool output = true)
         {
-            if (output) dispatcherQueue.TryEnqueue(() => page.output.Add(line));
+            if (output) dispatcherQueue.TryEnqueue(() => page.output.Add(new()
+            {
+                Text = line,
+                Style = CaptionTextBlockStyle,
+                Foreground = TextFillColorPrimaryBrush
+            }));
             process?.StandardInput.WriteLine(line);
         }
 
@@ -88,9 +101,9 @@ internal sealed partial class LipExecutionPanelPage : Page
             closed = () =>
             {
                 process?.Kill();
-                Services.WindowClosed -= closed;
+                InternalServices.WindowClosed -= closed;
             };
-            Services.WindowClosed += closed;
+            InternalServices.WindowClosed += closed;
 
             dispatcherQueue.TryEnqueue(async () =>
             {
@@ -104,7 +117,7 @@ internal sealed partial class LipExecutionPanelPage : Page
                     page.LipWorkingInfoText.Text = string.Empty;
                     page.ProgressRateText.Text = string.Empty;
 
-                    await Services.ShowInfoBarAsync(
+                    await InternalServices.ShowInfoBarAsync(
                         "infobar$error".GetLocalized(),
                         "lipExecution$nullLipPath".GetLocalized(),
                          InfoBarSeverity.Error);
@@ -114,6 +127,7 @@ internal sealed partial class LipExecutionPanelPage : Page
 
 
                 lip.Output += OutputHandler;
+                lip.OutputError += OutputHandler;
 
                 switch (page.Mode)
                 {
@@ -135,7 +149,7 @@ internal sealed partial class LipExecutionPanelPage : Page
 
                         break;
                 }
-                Services.WindowClosed -= closed;
+                InternalServices.WindowClosed -= closed;
 
             });
         }
@@ -290,7 +304,7 @@ internal sealed partial class LipExecutionPanelPage : Page
 
 
 
-    private readonly ObservableCollection<string> output = new();
+    private readonly ObservableCollection<TextBlock> output = new();
     private LipConsoleHandler? handler;
 
     public LipExecutionPanelPage()

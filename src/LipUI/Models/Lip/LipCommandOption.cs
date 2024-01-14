@@ -3,7 +3,7 @@ using static LipUI.Models.Lip.LipCommand;
 
 namespace LipUI.Models.Lip;
 
-internal class LipCommandOption
+public class LipCommandOption
 {
     public readonly string? Abbreviation;
     public readonly string Option;
