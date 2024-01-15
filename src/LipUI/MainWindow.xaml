@@ -93,7 +93,7 @@
                     <NavigationViewItem
                         x:Name="NavigationViewItem_More"
                         Icon="More"
-                        Content="i18n.more"
+                        x:Uid="navigationView$More"
                         SelectsOnInvoked="False"/>
 
                     <NavigationViewItemSeparator/>

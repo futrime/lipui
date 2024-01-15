@@ -64,7 +64,7 @@
 
             <RadioButtons
                 x:Name="BackgroundStyleRadioButtons"
-                Header="i18n.background"
+                x:Uid="personalizationSettings$background"
                 MaxColumns="4"
                 Loading="BackgroundStyleRadioButtons_Loading"
                 SelectionChanged="BackgroundStyleRadioButtons_SelectionChanged"/>
@@ -78,7 +78,7 @@
                     Width="256">
 
                     <Slider 
-                        Header="i18n.luminosityOpacity"
+                        x:Uid="personalizationSettings$luminosityOpacity"
                         Maximum="100"
                         Minimum="0"
                         x:Name="LuminosityOpacitySlider"
@@ -106,17 +106,17 @@
                         Placement="BottomEdgeAlignedLeft">
 
                         <MenuFlyoutItem 
-                            Text="i18n.default"
+                            x:Uid="personalizationSettings$default"
                             Tag="default"
                             Click="MenuFlyoutItem_Click"/>
 
                         <MenuFlyoutItem 
-                            Text="i18n.light" 
+                            x:Uid="personalizationSettings$light"
                             Tag="light"
                             Click="MenuFlyoutItem_Click"/>
 
                         <MenuFlyoutItem
-                            Text="i18n.dark"  
+                            x:Uid="personalizationSettings$dark"
                             Tag="dark"
                             Click="MenuFlyoutItem_Click"/>
 
@@ -151,7 +151,7 @@
 
                 <TextBlock
                     VerticalAlignment="Center"
-                    Text="i18n.backgroundColor"/>
+                    x:Uid="personalizationSettings$backgroundColor"/>
 
             </StackPanel>
 
@@ -172,7 +172,7 @@
 
                 <TextBlock
                     VerticalAlignment="Center"
-                    Text="i18n.navViewBackgroundColor"/>
+                    x:Uid="personalizationSettings$navViewBackgroundColor"/>
 
             </StackPanel>
 
@@ -193,7 +193,7 @@
 
                 <TextBlock
                     VerticalAlignment="Center"
-                    Text="i18n.navViewBorderColor"/>
+                    x:Uid="personalizationSettings$navViewBorderColor"/>
 
             </StackPanel>
 
@@ -214,7 +214,7 @@
 
                 <TextBlock
                     VerticalAlignment="Center"
-                    Text="i18n.backgroundColorSecondary"/>
+                    x:Uid="personalizationSettings$backgroundColorSecondary"/>
 
             </StackPanel>
 
@@ -228,7 +228,7 @@
             Background="{StaticResource LayerOnMicaBaseAltFillColorDefault}">
 
             <CheckBox
-                Content="i18n.enableImageBackground"
+                x:Uid="personalizationSettings$enableImageBackground"
                 Checked="CheckBox_Checked"
                 Unchecked="CheckBox_Unchecked"
                 x:Name="BackgroundImageEnableCheckBox"/>
@@ -244,12 +244,12 @@
 
                     <Button
                         x:Name="SelectImageButton"
-                        Content="i18n.selectImage"
+                        x:Uid="personalizationSettings$selectImage"
                         Click="SelectImageButton_Click"/>
 
                     <Button
                         x:Name="ClearImageButton"
-                        Content="i18n.clearImage"
+                        x:Uid="personalizationSettings$clearImage"
                         Click="ClearImageButton_Click"/>
 
                 </StackPanel>

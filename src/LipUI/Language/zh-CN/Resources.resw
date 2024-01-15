@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="application$restart" xml:space="preserve">
+    <value>立即重启</value>
+  </data>
+  <data name="application$restartMessage" xml:space="preserve">
+    <value>需要重启应用</value>
+  </data>
   <data name="autoSuggestBox$search.PlaceholderText" xml:space="preserve">
     <value>搜索</value>
   </data>
@@ -125,6 +131,21 @@
   </data>
   <data name="eula$deny" xml:space="preserve">
     <value>不同意</value>
+  </data>
+  <data name="generalSettings$githubApi.Text" xml:space="preserve">
+    <value>GitHub API</value>
+  </data>
+  <data name="generalSettings$githubProxy.Text" xml:space="preserve">
+    <value>Github代理</value>
+  </data>
+  <data name="generalSettings$lipIndexApi.Text" xml:space="preserve">
+    <value>Lip Index API</value>
+  </data>
+  <data name="generalSettings$lipPath.Text" xml:space="preserve">
+    <value>Lip路径</value>
+  </data>
+  <data name="generalSettings$title.Text" xml:space="preserve">
+    <value>常规</value>
   </data>
   <data name="home$emptyDesc" xml:space="preserve">
     <value>无描述</value>
@@ -143,6 +164,9 @@
   </data>
   <data name="lipExecution$nullLipPath" xml:space="preserve">
     <value>未知的Lip路径！</value>
+  </data>
+  <data name="lipExecution$nullServerPath" xml:space="preserve">
+    <value>未知的服务器路径！</value>
   </data>
   <data name="lipInstaller$cancel.Content" xml:space="preserve">
     <value>取消</value>
@@ -165,6 +189,15 @@
   <data name="localTooth$update" xml:space="preserve">
     <value>更新</value>
   </data>
+  <data name="moduleManager$modules.Text" xml:space="preserve">
+    <value>组件</value>
+  </data>
+  <data name="moduleManager$plugins.Text" xml:space="preserve">
+    <value>插件</value>
+  </data>
+  <data name="moduleManager$UIplugins.Text" xml:space="preserve">
+    <value>UI插件</value>
+  </data>
   <data name="modules$title$allowListViewer" xml:space="preserve">
     <value>白名单</value>
   </data>
@@ -183,8 +216,62 @@
   <data name="navigationView$moduleManager.Content" xml:space="preserve">
     <value>组件管理</value>
   </data>
+  <data name="navigationView$More.Content" xml:space="preserve">
+    <value>更多</value>
+  </data>
   <data name="navigationView$packageIndex.Content" xml:space="preserve">
     <value>包索引</value>
+  </data>
+  <data name="personalizationSettings$backdrop$acrylic" xml:space="preserve">
+    <value>亚克力</value>
+  </data>
+  <data name="personalizationSettings$backdrop$mica" xml:space="preserve">
+    <value>云母</value>
+  </data>
+  <data name="personalizationSettings$backdrop$none" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="personalizationSettings$backdrop$transparent" xml:space="preserve">
+    <value>透明</value>
+  </data>
+  <data name="personalizationSettings$background.Header" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="personalizationSettings$backgroundColor.Text" xml:space="preserve">
+    <value>背景颜色</value>
+  </data>
+  <data name="personalizationSettings$backgroundColorSecondary.Text" xml:space="preserve">
+    <value>二级背景颜色</value>
+  </data>
+  <data name="personalizationSettings$clearImage.Content" xml:space="preserve">
+    <value>清除图片</value>
+  </data>
+  <data name="personalizationSettings$dark.Text" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="personalizationSettings$default.Text" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="personalizationSettings$enableImageBackground.Content" xml:space="preserve">
+    <value>启用背景图片</value>
+  </data>
+  <data name="personalizationSettings$light.Text" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="personalizationSettings$luminosityOpacity.Header" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="personalizationSettings$navViewBackgroundColor.Text" xml:space="preserve">
+    <value>导航视图内容背景颜色</value>
+  </data>
+  <data name="personalizationSettings$navViewBorderColor.Text" xml:space="preserve">
+    <value>导航视图内容边框颜色</value>
+  </data>
+  <data name="personalizationSettings$selectImage.Content" xml:space="preserve">
+    <value>选择图片</value>
+  </data>
+  <data name="personalizationSettings$title.Text" xml:space="preserve">
+    <value>个性化</value>
   </data>
   <data name="propertiesEditor$nullServerPath" xml:space="preserve">
     <value>未知的服务器路径！</value>

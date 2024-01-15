@@ -15,7 +15,7 @@ public sealed partial class SettingsPage : Page
         InitializeComponent();
 
         SettingsBorder.Child = new GeneralSettingsView();
-        SettingsTitleText.Text = "i18n.generalSettings";
+        SettingsTitleText.Text = "generalSettings$title/Text".GetLocalized();
     }
 
     private void ListView_ItemClick(object sender, ItemClickEventArgs e)

@@ -91,7 +91,7 @@ internal sealed partial class LipInstallerView : UserControl
         catch (Exception ex)
         {
             await InternalServices.ShowInfoBarAsync(ex, severity: InfoBarSeverity.Warning);
-            response = await client.GetAsync($"https://github.moeyy.xyz/{info.AssetUrl}");
+            response = await client.GetAsync($"{Main.Config.GeneralSettings.GithubProxy}/{info.AssetUrl}");
         }
 
         var input = await response.Content.ReadAsStreamAsync();

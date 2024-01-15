@@ -119,8 +119,12 @@ internal sealed partial class LipExecutionPanelPage : Page
 
                     await InternalServices.ShowInfoBarAsync(
                         "infobar$error".GetLocalized(),
+                        Main.Config.SelectedServer is null ?
+                        "lipExecution$nullServerPath".GetLocalized() :
                         "lipExecution$nullLipPath".GetLocalized(),
                          InfoBarSeverity.Error);
+
+                    page.Frame.TryGoBack();
 
                     return;
                 }

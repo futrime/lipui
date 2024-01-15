@@ -17,14 +17,16 @@
             Spacing="8">
 
             <TextBlock 
-                Text="i18n.githubProxy"
+                x:Uid="generalSettings$githubProxy"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"/>
 
             <TextBox
                 x:Name="GithubProxyInput"
                 BorderBrush="Transparent"
-                Background="{ThemeResource LayerOnAcrylicFillColorDefault}"/>
+                Background="{ThemeResource LayerOnAcrylicFillColorDefault}"
+                Loading="GithubProxyInput_Loading"
+                TextChanged="GithubProxyInput_TextChanged"/>
 
         </StackPanel>
 
@@ -33,14 +35,52 @@
             Spacing="8">
 
             <TextBlock 
-                Text="i18n.lipIndexApi"
+                x:Uid="generalSettings$lipIndexApi"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"/>
 
             <TextBox
                 x:Name="LipIndexApiInput"
                 BorderBrush="Transparent"
-                Background="{ThemeResource LayerOnAcrylicFillColorDefault}"/>
+                Background="{ThemeResource LayerOnAcrylicFillColorDefault}"
+                Loading="LipIndexApiInput_Loading"
+                TextChanged="LipIndexApiInput_TextChanged"/>
+
+        </StackPanel>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Spacing="8">
+
+            <TextBlock 
+                x:Uid="generalSettings$githubApi"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"/>
+
+            <TextBox
+                x:Name="GithubApiInput"
+                BorderBrush="Transparent"
+                Background="{ThemeResource LayerOnAcrylicFillColorDefault}"
+                Loading="GithubApiInput_Loading"
+                TextChanged="GithubApiInput_TextChanged"/>
+
+        </StackPanel>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Spacing="8">
+
+            <TextBlock 
+                x:Uid="generalSettings$lipPath"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"/>
+
+            <TextBox
+                x:Name="LipPathInput"
+                BorderBrush="Transparent"
+                Background="{ThemeResource LayerOnAcrylicFillColorDefault}"
+                Loading="LipPathInput_Loading"
+                TextChanged="LipPathInput_TextChanged"/>
 
         </StackPanel>
 

@@ -70,7 +70,7 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         if (Server is null)
         {
             await Task.Delay(500);
-            await ShowInfoBarAsync("propertiesEditor$nullServerPath".GetLocalized(), severity: InfoBarSeverity.Error);
+            ShowInfoBar("propertiesEditor$nullServerPath".GetLocalized(), severity: InfoBarSeverity.Error);
             Frame.TryGoBack();
             return;
         };
@@ -130,7 +130,8 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         }
         catch (Exception ex)
         {
-            await ShowInfoBarAsync(ex);
+            ShowInfoBar(ex);
+            await Task.Delay(1000);
             Frame.TryGoBack();
             return;
         }

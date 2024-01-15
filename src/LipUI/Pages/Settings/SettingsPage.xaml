@@ -24,13 +24,13 @@
 
             <ListViewItem>
                 <TextBlock
-                    Text="i18n.generalSettings"
+                    x:Uid="generalSettings$title"
                     Tag="generalSettings"/>
             </ListViewItem>
 
             <ListViewItem>
                 <TextBlock
-                    Text="i18n.personalizationSettings"
+                    x:Uid="personalizationSettings$title"
                     Tag="personalizationSettings"/>
             </ListViewItem>
 

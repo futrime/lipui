@@ -69,6 +69,7 @@ internal static class PluginSystem
         var types = from type in Assembly.GetExecutingAssembly().GetTypes()
                     where type.IsAssignableTo(typeof(ILipuiPlugin)) && type.GetCustomAttribute<LipUIModuleAttribute>() is not null
                     select type;
+
         pluginTypes.AddRange(types);
 
         foreach (var file in dirInfo.EnumerateFiles())
@@ -165,15 +166,16 @@ internal static class PluginSystem
 
     private static async ValueTask EnablePlugins(IEnumerable<ILipuiPlugin> plugins)
     {
+        var enableInfo = Main.Config.PluginEanbleInfo;
+        Main.Config.PluginEanbleInfo = new();
         foreach (var plugin in plugins)
         {
             var key = GetPluginEnabledConfigKey(plugin);
             try
             {
-                if (Main.Config.PluginEanbleInfo.TryGetValue(key, out bool enable) is false)
+                if (enableInfo.TryGetValue(key, out bool enable) is false)
                 {
                     enable = plugin.DefaultEnabled;
-                    Main.Config.PluginEanbleInfo.Add(key, enable);
                 }
 
                 if (enable)

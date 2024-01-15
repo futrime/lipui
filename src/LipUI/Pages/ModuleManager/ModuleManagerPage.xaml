@@ -34,7 +34,7 @@
 
             <TextBlock
                 HorizontalAlignment="Center"
-                Text="i18n.plugins"/>
+                x:Uid="moduleManager$plugins"/>
 
         </Button>
 
@@ -50,7 +50,7 @@
 
             <TextBlock
                 HorizontalAlignment="Center"
-                Text="i18n.UIplugins"/>
+                x:Uid="moduleManager$UIplugins"/>
 
         </Button>
 
@@ -66,7 +66,7 @@
 
             <TextBlock
                 HorizontalAlignment="Center"
-                Text="i18n.Modules"/>
+                x:Uid="moduleManager$modules"/>
 
         </Button>
 

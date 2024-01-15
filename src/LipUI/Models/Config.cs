@@ -45,6 +45,9 @@ internal class Config
 
         [JsonPropertyName("github_api")]
         public string GithubApiKey { get; set; } = string.Empty;
+        
+        [JsonPropertyName("github_proxy")]
+        public string GithubProxy { get; set; } = string.Empty;
     }
 
     public class PersonalizationSetting
@@ -88,14 +91,14 @@ internal class Config
     [JsonPropertyName("personalization_settings")]
     public PersonalizationSetting PersonalizationSettings { get; set; }
 
+    [JsonPropertyName("plugin_enable_info")]
+    public Dictionary<string, bool> PluginEanbleInfo { get; set; }
+
     [JsonPropertyName("servers")]
     public List<ServerInstance> ServerInstances { get; set; }
 
     [JsonPropertyName("selected_server")]
     public ServerInstance? SelectedServer { get; set; }
-
-    [JsonPropertyName("plugin_enable_info")]
-    public Dictionary<string, bool> PluginEanbleInfo { get; set; }
 
     public Config()
     {

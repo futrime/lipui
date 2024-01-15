@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="application$restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="application$restartMessage" xml:space="preserve">
+    <value>Need to restart application.</value>
+  </data>
   <data name="autoSuggestBox$search.PlaceholderText" xml:space="preserve">
     <value>Search</value>
   </data>
@@ -125,6 +131,21 @@
   </data>
   <data name="eula$deny" xml:space="preserve">
     <value>Disagree</value>
+  </data>
+  <data name="generalSettings$githubApi.Text" xml:space="preserve">
+    <value>GitHub API</value>
+  </data>
+  <data name="generalSettings$githubProxy.Text" xml:space="preserve">
+    <value>Github proxy</value>
+  </data>
+  <data name="generalSettings$lipIndexApi.Text" xml:space="preserve">
+    <value>Lip Index API</value>
+  </data>
+  <data name="generalSettings$lipPath.Text" xml:space="preserve">
+    <value>Lip path</value>
+  </data>
+  <data name="generalSettings$title.Text" xml:space="preserve">
+    <value>General settings</value>
   </data>
   <data name="home$emptyDesc" xml:space="preserve">
     <value>No description</value>
@@ -143,6 +164,9 @@
   </data>
   <data name="lipExecution$nullLipPath" xml:space="preserve">
     <value>Unknown Lip path!</value>
+  </data>
+  <data name="lipExecution$nullServerPath" xml:space="preserve">
+    <value>Unknown server path!</value>
   </data>
   <data name="lipInstaller$cancel.Content" xml:space="preserve">
     <value>Cancel</value>
@@ -165,6 +189,15 @@
   <data name="localTooth$update" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="moduleManager$modules.Text" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="moduleManager$plugins.Text" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="moduleManager$UIplugins.Text" xml:space="preserve">
+    <value>UI Plugins</value>
+  </data>
   <data name="modules$title$allowListViewer" xml:space="preserve">
     <value>Allowlist</value>
   </data>
@@ -183,8 +216,62 @@
   <data name="navigationView$moduleManager.Content" xml:space="preserve">
     <value>Module manager</value>
   </data>
+  <data name="navigationView$More.Content" xml:space="preserve">
+    <value>More</value>
+  </data>
   <data name="navigationView$packageIndex.Content" xml:space="preserve">
     <value>Lip index</value>
+  </data>
+  <data name="personalizationSettings$backdrop$acrylic" xml:space="preserve">
+    <value>Acrylic</value>
+  </data>
+  <data name="personalizationSettings$backdrop$mica" xml:space="preserve">
+    <value>Mica</value>
+  </data>
+  <data name="personalizationSettings$backdrop$none" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="personalizationSettings$backdrop$transparent" xml:space="preserve">
+    <value>Transparent</value>
+  </data>
+  <data name="personalizationSettings$background.Header" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="personalizationSettings$backgroundColor.Text" xml:space="preserve">
+    <value>Background color</value>
+  </data>
+  <data name="personalizationSettings$backgroundColorSecondary.Text" xml:space="preserve">
+    <value>Background color secondary</value>
+  </data>
+  <data name="personalizationSettings$clearImage.Content" xml:space="preserve">
+    <value>Clear image</value>
+  </data>
+  <data name="personalizationSettings$dark.Text" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="personalizationSettings$default.Text" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="personalizationSettings$enableImageBackground.Content" xml:space="preserve">
+    <value>Enable background image</value>
+  </data>
+  <data name="personalizationSettings$light.Text" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="personalizationSettings$luminosityOpacity.Header" xml:space="preserve">
+    <value>Luminosity opacity</value>
+  </data>
+  <data name="personalizationSettings$navViewBackgroundColor.Text" xml:space="preserve">
+    <value>Navigation view content background color</value>
+  </data>
+  <data name="personalizationSettings$navViewBorderColor.Text" xml:space="preserve">
+    <value>Navigation view content border color</value>
+  </data>
+  <data name="personalizationSettings$selectImage.Content" xml:space="preserve">
+    <value>Select image</value>
+  </data>
+  <data name="personalizationSettings$title.Text" xml:space="preserve">
+    <value>Personalization</value>
   </data>
   <data name="propertiesEditor$nullServerPath" xml:space="preserve">
     <value>Unknown server path!</value>

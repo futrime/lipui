@@ -247,9 +247,9 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             var settings = config.PersonalizationSettings;
             ColorThemeSelectionButton.Content = settings.ColorTheme switch
             {
-                ElementTheme.Light => "i18n.light",
-                ElementTheme.Dark => "i18n.dark",
-                ElementTheme.Default or _ => "i18n.default"
+                ElementTheme.Light => "personalizationSettings$light/Text".GetLocalized(),
+                ElementTheme.Dark => "personalizationSettings$dark/Text".GetLocalized(),
+                ElementTheme.Default or _ => "personalizationSettings$default/Text".GetLocalized()
             };
 
             var selection = settings.BackdropType switch
@@ -312,10 +312,10 @@ internal sealed partial class PersonalizationSettingsView : UserControl
         }
     }
 
-    private static readonly string None_Selection = "i18n.none";
-    private static readonly string Transparent_Selection = "i18n.transparent";
-    private static readonly string Mica_Selection = "i18n.mica";
-    private static readonly string Acrylic_Selection = "i18n.acrylic";
+    private static readonly string None_Selection = "personalizationSettings$backdrop$none".GetLocalized();
+    private static readonly string Transparent_Selection = "personalizationSettings$backdrop$transparent".GetLocalized();
+    private static readonly string Mica_Selection = "personalizationSettings$backdrop$mica".GetLocalized();
+    private static readonly string Acrylic_Selection = "personalizationSettings$backdrop$acrylic".GetLocalized();
 
     private void MyColorPickerFlyout_Opening(object sender, object e)
     {
@@ -759,7 +759,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
         Button button = new()
         {
-            Content = "i18n.restart",
+            Content = "application$restart".GetLocalized(),
             HorizontalAlignment = HorizontalAlignment.Left
         };
 
@@ -775,7 +775,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
         Task.Run(() => InternalServices.ShowInfoBarAsync(
             title: "infoBar$warning".GetLocalized(),
-            message: "i18n.restart",
+            message: "application$restartMessage".GetLocalized(),
             severity: InfoBarSeverity.Warning,
             barContent: button));
     }
