@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LipUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "LipUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

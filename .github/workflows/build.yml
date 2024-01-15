@@ -9,13 +9,6 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-    strategy:
-      matrix:
-        framework:
-          - net462
-          - net7.0-windows
-        runtime:
-          - win10-x64
     steps:
       - uses: actions/checkout@v3
 
@@ -25,10 +18,10 @@ jobs:
 
       - name: Build
         run: |
-          dotnet publish src/LipUI/LipUI.csproj -c Release -f ${{ matrix.framework }} -o build/ -r ${{ matrix.runtime }} --sc true
+          dotnet publish src/LipUI.sln -c Release
 
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.framework }}-${{ matrix.runtime }}
+          name: net7.0-windows-win10-x64
           path: |
-            build/
+            src/LipUI/bin/Release/net7.0-windows10.0.19041.0/win10-x64/publish/

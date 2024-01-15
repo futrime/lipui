@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="application$restart" xml:space="preserve">
+    <value>立即重启</value>
+  </data>
+  <data name="application$restartMessage" xml:space="preserve">
+    <value>需要重启应用</value>
+  </data>
+  <data name="autoSuggestBox$search.PlaceholderText" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="eula$accept" xml:space="preserve">
+    <value>同意</value>
+  </data>
+  <data name="eula$deny" xml:space="preserve">
+    <value>不同意</value>
+  </data>
+  <data name="generalSettings$githubApi.Text" xml:space="preserve">
+    <value>GitHub API</value>
+  </data>
+  <data name="generalSettings$githubProxy.Text" xml:space="preserve">
+    <value>Github代理</value>
+  </data>
+  <data name="generalSettings$lipIndexApi.Text" xml:space="preserve">
+    <value>Lip Index API</value>
+  </data>
+  <data name="generalSettings$lipPath.Text" xml:space="preserve">
+    <value>Lip路径</value>
+  </data>
+  <data name="generalSettings$title.Text" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="home$emptyDesc" xml:space="preserve">
+    <value>无描述</value>
+  </data>
+  <data name="home$nullServerPath" xml:space="preserve">
+    <value>未选择服务器</value>
+  </data>
+  <data name="infoBar$error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="infoBar$info" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="infoBar$warning" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="lipExecution$nullLipPath" xml:space="preserve">
+    <value>未知的Lip路径！</value>
+  </data>
+  <data name="lipExecution$nullServerPath" xml:space="preserve">
+    <value>未知的服务器路径！</value>
+  </data>
+  <data name="lipInstaller$cancel.Content" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="lipInstaller$install.Content" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="lipInstaller$installCompleted" xml:space="preserve">
+    <value>安装完成！</value>
+  </data>
+  <data name="lipInstaller$installLip" xml:space="preserve">
+    <value>安装Lip</value>
+  </data>
+  <data name="lipuiTitle.Text" xml:space="preserve">
+    <value>LipUI</value>
+  </data>
+  <data name="localTooth$uninstall" xml:space="preserve">
+    <value>卸载</value>
+  </data>
+  <data name="localTooth$update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="moduleManager$modules.Text" xml:space="preserve">
+    <value>组件</value>
+  </data>
+  <data name="moduleManager$plugins.Text" xml:space="preserve">
+    <value>插件</value>
+  </data>
+  <data name="moduleManager$UIplugins.Text" xml:space="preserve">
+    <value>UI插件</value>
+  </data>
+  <data name="modules$title$allowListViewer" xml:space="preserve">
+    <value>白名单</value>
+  </data>
+  <data name="modules$title$modulePage" xml:space="preserve">
+    <value>组件</value>
+  </data>
+  <data name="modules$title$propertiesEditor" xml:space="preserve">
+    <value>服务器配置</value>
+  </data>
+  <data name="navigationView$home.Content" xml:space="preserve">
+    <value>主页</value>
+  </data>
+  <data name="navigationView$localPackages.Content" xml:space="preserve">
+    <value>本地包</value>
+  </data>
+  <data name="navigationView$moduleManager.Content" xml:space="preserve">
+    <value>组件管理</value>
+  </data>
+  <data name="navigationView$More.Content" xml:space="preserve">
+    <value>更多</value>
+  </data>
+  <data name="navigationView$packageIndex.Content" xml:space="preserve">
+    <value>包索引</value>
+  </data>
+  <data name="personalizationSettings$backdrop$acrylic" xml:space="preserve">
+    <value>亚克力</value>
+  </data>
+  <data name="personalizationSettings$backdrop$mica" xml:space="preserve">
+    <value>云母</value>
+  </data>
+  <data name="personalizationSettings$backdrop$none" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="personalizationSettings$backdrop$transparent" xml:space="preserve">
+    <value>透明</value>
+  </data>
+  <data name="personalizationSettings$background.Header" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="personalizationSettings$backgroundColor.Text" xml:space="preserve">
+    <value>背景颜色</value>
+  </data>
+  <data name="personalizationSettings$backgroundColorSecondary.Text" xml:space="preserve">
+    <value>二级背景颜色</value>
+  </data>
+  <data name="personalizationSettings$clearImage.Content" xml:space="preserve">
+    <value>清除图片</value>
+  </data>
+  <data name="personalizationSettings$dark.Text" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="personalizationSettings$default.Text" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="personalizationSettings$enableImageBackground.Content" xml:space="preserve">
+    <value>启用背景图片</value>
+  </data>
+  <data name="personalizationSettings$light.Text" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="personalizationSettings$luminosityOpacity.Header" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="personalizationSettings$navViewBackgroundColor.Text" xml:space="preserve">
+    <value>导航视图内容背景颜色</value>
+  </data>
+  <data name="personalizationSettings$navViewBorderColor.Text" xml:space="preserve">
+    <value>导航视图内容边框颜色</value>
+  </data>
+  <data name="personalizationSettings$selectImage.Content" xml:space="preserve">
+    <value>选择图片</value>
+  </data>
+  <data name="personalizationSettings$title.Text" xml:space="preserve">
+    <value>个性化</value>
+  </data>
+  <data name="propertiesEditor$nullServerPath" xml:space="preserve">
+    <value>未知的服务器路径！</value>
+  </data>
+  <data name="propertiesEditor$saveCompleted" xml:space="preserve">
+    <value>保存成功！</value>
+  </data>
+  <data name="propertiesEditor$saving" xml:space="preserve">
+    <value>保存中...</value>
+  </data>
+  <data name="readme$notfound" xml:space="preserve">
+    <value>未找到README.md</value>
+  </data>
+  <data name="selectServer.Text" xml:space="preserve">
+    <value>选择服务器</value>
+  </data>
+  <data name="server$editor$cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="server$editor$confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="serverEditView$placeholder$desc.PlaceholderText" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="serverEditView$placeholder$name.PlaceholderText" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="serverEditView$placeholder$version.PlaceholderText" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="serverEditView$placeholder$workingDir.PlaceholderText" xml:space="preserve">
+    <value>工作目录</value>
+  </data>
+  <data name="serverSelection$existed" xml:space="preserve">
+    <value>服务器路径已存在！</value>
+  </data>
+  <data name="startServer.Text" xml:space="preserve">
+    <value>启动服务器</value>
+  </data>
+  <data name="tooth$install.Text" xml:space="preserve">
+    <value>安装</value>
+  </data>
+</root>

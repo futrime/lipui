@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HttpServerLite;
+using System;
 using System.Threading.Tasks;
-using HttpServerLite;
 
 Webserver server = new Webserver("localhost", 9000, false, null, null, DefaultRoute);
 server.Settings.Headers.Host = "https://localhost:3000";

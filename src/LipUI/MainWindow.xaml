@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Window
+    x:Class="LipUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LipUI.Pages"
+    xmlns:settings="using:LipUI.Pages.Settings"
+    xmlns:winuiex="using:WinUIEx"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Closed="MainWindow_Closed">
+
+    <Border
+        BorderBrush="Transparent"
+        BorderThickness="0"
+        Background="{x:Bind settings:PersonalizationSettingsView.MyRes.ApplicationBackgroundImage,Mode=TwoWay}"
+        x:Name="RootBorder"
+        CornerRadius="0">
+
+        <Grid
+            x:Name="MainWondowRootGrid"
+            Background="{x:Bind settings:PersonalizationSettingsView.MyRes.ApplicationBackground,Mode=TwoWay}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Image
+                Grid.RowSpan="2"
+                x:Name="BackgroundImage"
+                Visibility="Collapsed"/>
+
+            <Grid 
+                x:Name="AppTitleBar">
+
+                <Image
+                    Source="Images/WindowIcon.png"
+                    HorizontalAlignment="Left" 
+                    Width="16" Height="16" 
+                    Margin="8,0"/>
+
+                <TextBlock 
+                    x:Name="AppTitleTextBlock" 
+                    x:Uid="lipuiTitle"
+                    TextWrapping="NoWrap"
+                    Style="{StaticResource CaptionTextBlockStyle}" 
+                    VerticalAlignment="Center"
+                    Margin="28,0,0,0"/>
+
+            </Grid>
+
+            <NavigationView 
+                Grid.Row="1"
+                x:Name="NavView"
+                PaneDisplayMode="LeftCompact"
+                IsBackButtonVisible="Collapsed"
+                Loading="NavView_Loading"
+                Loaded="NavView_Loaded"
+                ItemInvoked="NavView_ItemInvoked"
+                BackRequested="NavView_BackRequested">
+
+                <NavigationView.MenuItems>
+
+                    <NavigationViewItem 
+                        Icon="Home" 
+                        Tag="{x:Bind NavigationPage.HomePage}"
+                        x:Uid="navigationView$home"/>
+
+                    <NavigationViewItem 
+                        Icon="AllApps" 
+                        Tag="{x:Bind NavigationPage.LocalPackagePage}" 
+                        x:Uid="navigationView$localPackages"/>
+
+                    <NavigationViewItem 
+                        Icon="Library" 
+                        Tag="{x:Bind NavigationPage.ModuleManagerPage}"
+                        x:Uid="navigationView$moduleManager"/>
+
+                    <NavigationViewItem 
+                        Icon="Find"
+                        Tag="{x:Bind NavigationPage.IndexPage}" 
+                        x:Uid="navigationView$packageIndex"/>
+
+                    <NavigationViewItemSeparator/>
+
+                </NavigationView.MenuItems>
+
+                <NavigationView.FooterMenuItems>
+
+                    <NavigationViewItem
+                        x:Name="NavigationViewItem_More"
+                        Icon="More"
+                        x:Uid="navigationView$More"
+                        SelectsOnInvoked="False"/>
+
+                    <NavigationViewItemSeparator/>
+
+                </NavigationView.FooterMenuItems>
+
+                <Frame 
+                    x:Name="ContentFrame" 
+                    IsTabStop="True" 
+                    NavigationFailed="ContentFrame_NavigationFailed" 
+                    CornerRadius="5"/>
+
+            </NavigationView>
+
+            <InfoBar
+                Grid.Row="1"
+                x:Name="GlobalInfoBar"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="8">
+
+                <InfoBar.Resources>
+
+                    <Storyboard
+                        x:Name="InfoBarPopInStoryboard">
+                        <PopInThemeAnimation 
+                            TargetName="GlobalInfoBar"/>
+                    </Storyboard>
+
+                    <Storyboard
+                        x:Name="InfoBarPopOutStoryboard">
+                        <PopOutThemeAnimation 
+                            TargetName="GlobalInfoBar"/>
+                    </Storyboard>
+
+                </InfoBar.Resources>
+
+            </InfoBar>
+
+        </Grid>
+    </Border>
+
+</Window>

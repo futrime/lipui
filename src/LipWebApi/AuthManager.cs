@@ -1,11 +1,11 @@
 ﻿using HttpServerLite;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using static LipWebApi.WebApi.Main;
 namespace LipWebApi;
 internal static class AuthManager
@@ -89,7 +89,7 @@ internal static class AuthManager
             //    }
             //}
             //_userTokens.TryRemove(username, out _);//移除旧验证
-            
+
             return false;
         }
         bool isValid = CheckUsernameAndPassword();
