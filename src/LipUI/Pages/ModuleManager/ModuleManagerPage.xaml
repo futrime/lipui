@@ -30,6 +30,7 @@
             Margin="0"
             Padding="0"
             CornerRadius="0"
+            BorderBrush="Transparent"
             Click="PluginsButton_Click">
 
             <TextBlock
@@ -46,6 +47,7 @@
             Margin="0"
             Padding="0"
             CornerRadius="0"
+            BorderBrush="Transparent"
             Click="UIPluginsButton_Click">
 
             <TextBlock
@@ -62,6 +64,7 @@
             Margin="0"
             Padding="0"
             CornerRadius="0"
+            BorderBrush="Transparent"
             Click="ModulesButton_Click">
 
             <TextBlock
