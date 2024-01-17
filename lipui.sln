@@ -1,51 +1,43 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.5.002.0
+VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0CADAFD8-0753-4869-BA72-59B6FC6B79FC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipNETWrapper", "src\LipNETWrapper\LipNETWrapper.csproj", "{485A0991-74A5-4A3A-90A6-B4E7CDBC00CA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipNETWrapperTest", "src\LipNETWrapperTest\LipNETWrapperTest.csproj", "{8165CB1E-1A2C-46EA-A3CD-DE46A3CDC1AE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipUI", "src\LipUI\LipUI.csproj", "{D72F9B3E-0D4C-4BA7-A436-13E3B94D54DC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipWebApi", "src\LipWebApi\LipWebApi.csproj", "{03F83CBD-D38F-42A2-9D08-0A3221F04746}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LipUI", "src\LipUI\LipUI.csproj", "{E0A3F349-6972-4266-8730-9E983EEFCA0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{485A0991-74A5-4A3A-90A6-B4E7CDBC00CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{485A0991-74A5-4A3A-90A6-B4E7CDBC00CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{485A0991-74A5-4A3A-90A6-B4E7CDBC00CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{485A0991-74A5-4A3A-90A6-B4E7CDBC00CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8165CB1E-1A2C-46EA-A3CD-DE46A3CDC1AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8165CB1E-1A2C-46EA-A3CD-DE46A3CDC1AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8165CB1E-1A2C-46EA-A3CD-DE46A3CDC1AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8165CB1E-1A2C-46EA-A3CD-DE46A3CDC1AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D72F9B3E-0D4C-4BA7-A436-13E3B94D54DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D72F9B3E-0D4C-4BA7-A436-13E3B94D54DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D72F9B3E-0D4C-4BA7-A436-13E3B94D54DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D72F9B3E-0D4C-4BA7-A436-13E3B94D54DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03F83CBD-D38F-42A2-9D08-0A3221F04746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03F83CBD-D38F-42A2-9D08-0A3221F04746}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03F83CBD-D38F-42A2-9D08-0A3221F04746}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03F83CBD-D38F-42A2-9D08-0A3221F04746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Debug|ARM64.Build.0 = Debug|ARM64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Debug|x64.ActiveCfg = Debug|x64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Debug|x64.Build.0 = Debug|x64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Debug|x64.Deploy.0 = Debug|x64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Debug|x86.ActiveCfg = Debug|x86
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Debug|x86.Build.0 = Debug|x86
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Debug|x86.Deploy.0 = Debug|x86
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Release|ARM64.ActiveCfg = Release|ARM64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Release|ARM64.Build.0 = Release|ARM64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Release|ARM64.Deploy.0 = Release|ARM64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Release|x64.ActiveCfg = Release|x64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Release|x64.Build.0 = Release|x64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Release|x64.Deploy.0 = Release|x64
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Release|x86.ActiveCfg = Release|x86
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Release|x86.Build.0 = Release|x86
+		{E0A3F349-6972-4266-8730-9E983EEFCA0D}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{485A0991-74A5-4A3A-90A6-B4E7CDBC00CA} = {0CADAFD8-0753-4869-BA72-59B6FC6B79FC}
-		{8165CB1E-1A2C-46EA-A3CD-DE46A3CDC1AE} = {0CADAFD8-0753-4869-BA72-59B6FC6B79FC}
-		{D72F9B3E-0D4C-4BA7-A436-13E3B94D54DC} = {0CADAFD8-0753-4869-BA72-59B6FC6B79FC}
-		{03F83CBD-D38F-42A2-9D08-0A3221F04746} = {0CADAFD8-0753-4869-BA72-59B6FC6B79FC}
-	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {4BDECB42-58DC-4BCC-B2D3-E6B2E4DEA7E3}
+		SolutionGuid = {19C83D64-AA9C-4A55-9A1F-D035A212D14F}
 	EndGlobalSection
 EndGlobal
