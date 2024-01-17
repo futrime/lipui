@@ -1,2 +1,12 @@
+## https://github.com/alexkaratarakis/gitattributes/blob/master/CSharp.gitattributes
 # Auto detect text files and perform LF normalization
-* text=auto
+*          text=auto
+
+*.cs       text diff=csharp
+*.cshtml   text diff=html
+*.csx      text diff=csharp
+*.sln      text eol=crlf
+*.csproj   text eol=crlf
+
+
+## Repository specific attributes

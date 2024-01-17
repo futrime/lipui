@@ -1,4 +1,4 @@
-## community/DotNet/core.gitignore
+## https://github.com/github/gitignore/blob/main/community/DotNet/core.gitignore
 *.swp
 *.*~
 project.lock.json
@@ -36,3 +36,6 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+
+
+## Repository specific ignores
