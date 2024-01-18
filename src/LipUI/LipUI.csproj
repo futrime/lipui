@@ -1,227 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-
-    <WindowsPackageType>None</WindowsPackageType>
-    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>LipUI</RootNamespace>
+    <ApplicationIcon>Assets/WindowIcon.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x64</Platforms>
-    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
-    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
-    <UseWinUI>true</UseWinUI>
+    <Platforms>x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x64;win10-arm64</RuntimeIdentifiers>
+    <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+  	<UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Nullable>enable</Nullable>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>41F2155140B5369541BFDEEAC7B71FFB18F9E6DF</PackageCertificateThumbprint>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Never</AppxBundle>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <WindowsPackageType>None</WindowsPackageType>
+
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Remove="Assets\applicationIcon-1024.png" />
-    <Content Remove="Assets\glass.png" />
-    <Content Remove="Assets\grass_block.png" />
-    <Content Remove="Assets\Images.resx" />
-    <Content Remove="Assets\netherrack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Models\Plugin\ILipuiPlugin.cs~RF4957fb5.TMP" />
-    <None Remove="Models\Plugin\ILipuiPlugin.cs~RF49dcca6.TMP" />
-    <None Remove="Models\Plugin\ILipuiPlugin.cs~RF9ae41b7.TMP" />
-    <None Remove="Models\Plugin\ILipuiPluginModule.cs~RF4a8b04e.TMP" />
-    <None Remove="Models\Plugin\ILipuiPluginUI.cs~RF4a44265.TMP" />
-    <None Remove="Models\Plugin\ILipuiPluginUI.cs~RFa063bdf.TMP" />
-    <None Remove="Models\Plugin\LipuiRuntimeInfo.cs~RF49a61a6.TMP" />
-    <None Remove="Models\Plugin\PluginSystem.cs~RF4aaea31.TMP" />
-    <None Remove="Pages\Home\Modules\AllowListViewerPage.xaml" />
-    <None Remove="Pages\Home\Modules\BdsPropertiesEditorPage.xaml" />
-    <None Remove="Pages\Home\Modules\ModulesPage.xaml" />
-    <None Remove="Pages\LipExecutionPanel\ConsoleLineView.xaml" />
-    <None Remove="Pages\LipExecutionPanel\LipExecutionPanelPage.xaml" />
-    <None Remove="Pages\LocalPackage\LocalPackagePage.xaml" />
-    <None Remove="Pages\ModuleManager\LipuiPluginsView.xaml" />
-    <None Remove="Pages\ModuleManager\ModuleManagerPage.xaml.cs~RF8701840.TMP" />
-    <None Remove="Pages\PackTooth\PackToothPage.xaml" />
-    <None Remove="Pages\SelectServer\SelectServerPage.xaml" />
-    <None Remove="Pages\Settings\SettingsPage.xaml" />
-    <None Remove="Pages\Settings\GeneralSettingsView.xaml" />
-    <None Remove="Pages\Settings\PersonalizationSettingsView.xaml" />
-    <None Remove="Pages\ToothInfoPage.xaml" />
-    <None Remove="Pages\Index\IndexPage.xaml" />
-    <None Remove="Pages\LipExecutionPanel\EulaAcceptView.xaml" />
-    <None Remove="Pages\Index\LipIndexToothView.xaml" />
-    <None Remove="Pages\LipExecutionPanel\LipInstallerView.xaml" />
-    <None Remove="Pages\LocalPackage\LocalToothView.xaml" />
-    <None Remove="Pages\ServerSelection\ServerInstanceEditView.xaml" />
-    <None Remove="Pages\ServerSelection\ServerInstanceView.xaml" />
-  </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-  </ItemGroup>
+    <Manifest Include="$(ApplicationManifest)" />
 
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageReference Include="Octokit" Version="9.1.0" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
     <PackageReference Include="WinUIEx" Version="2.3.3" />
-    <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
-  <!-- 
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
-  -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <ProjectCapability Include="Msix" />
+    <ProjectCapability Include="Msix"/>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Assets\Images.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Images.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="Assets\Images.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Images.resx</DependentUpon>
-    </Content>
-    <Content Update="Assets\Resource1.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resource1.resx</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Assets\Images.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Images.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Settings\PersonalizationSettingsView.xaml">
-		<Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Settings\GeneralSettingsView.xaml">
-		<Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Pages\Home\Modules\ModuleIcon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\LocalPackage\LocalToothView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\LipExecutionPanel\EulaAcceptView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\LipExecutionPanel\LipExecutionPanelPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\LipExecutionPanel\LipInstallerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\ServerSelection\ServerInstanceEditView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\ServerSelection\ServerSelectionPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\ServerSelection\ServerInstanceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\ToothInfoPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Settings\SettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Index\IndexPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\ToothPack\ToothPackPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\LocalPackage\LocalPackagePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Home\HomePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Index\\LipIndexToothView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Home\" />
-    <Folder Include="Pages\Index\" />
-    <Folder Include="Pages\LocalPackage\" />
-    <Folder Include="Pages\ServerSelection\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\ModuleManager\LipuiPluginsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\LipExecutionPanel\ConsoleLineView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <!-- 
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
-    the Windows App SDK Nuget package has not yet been restored.
-  -->
+  
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>

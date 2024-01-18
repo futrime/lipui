@@ -1,0 +1,64 @@
+on:
+  release:
+    types: 
+      - published
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - runtime: win-arm64
+            platform: arm64
+          - runtime: win-x64
+            platform: x64
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 7.0.x
+
+      - run: |
+          dotnet build src/LipUI/LipUI.csproj -c Release -o bin -r ${{ matrix.runtime }} `
+          -p:DebugType=none -p:Platform=${{ matrix.platform }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LipUI-${{ matrix.runtime }}-${{ github.sha }}
+          path: bin
+
+  upload-to-release:
+    needs:
+      - build
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runtime:
+          - win-arm64
+          - win-x64
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: LipUI-${{ matrix.runtime }}-${{ github.sha }}
+          path: bin
+
+      - run: |
+          cp CHANGELOG.md LICENSE README.md bin/
+
+      - name: Create archive
+        run: |
+          cd bin
+          zip -r ../LipUI-${{ matrix.runtime }}.zip *
+          cd ..
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          append_body: true
+          files: |
+            LipUI-${{ matrix.runtime }}.zip

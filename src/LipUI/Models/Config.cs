@@ -45,7 +45,7 @@ internal class Config
 
         [JsonPropertyName("github_api")]
         public string GithubApiKey { get; set; } = string.Empty;
-        
+
         [JsonPropertyName("github_proxy")]
         public string GithubProxy { get; set; } = string.Empty;
     }

@@ -73,10 +73,10 @@ internal static class InternalServices
         if (interval == default)
             interval = TimeSpan.FromSeconds(5);
         await ShowInfoBarAsync(
-            ex.GetType().Name, 
-            containsStacktrace ? ex.ToString() : ex.Message, 
-            severity, 
-            interval, 
+            ex.GetType().Name,
+            containsStacktrace ? ex.ToString() : ex.Message,
+            severity,
+            interval,
             barContent);
     }
 
@@ -105,10 +105,10 @@ internal static class InternalServices
         if (interval == default)
             interval = TimeSpan.FromSeconds(5);
         ShowInfoBar(ex.GetType().Name,
-            containsStacktrace ? ex.ToString() : ex.Message, 
-            severity, 
-            interval, 
-            barContent, 
+            containsStacktrace ? ex.ToString() : ex.Message,
+            severity,
+            interval,
+            barContent,
             completed);
     }
 
