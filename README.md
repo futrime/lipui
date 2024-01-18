@@ -4,7 +4,7 @@ A GUI client for lip
 
 ## Install
 
-1. Download the latest release from [here](https://github.com/lippkg/lipui/releases).
+1. Download the latest release from [here](https://github.com/lippkg/LipUI/releases).
 
 2. Extract the archive.
 
@@ -16,7 +16,7 @@ Just follow the instructions on the screen.
 
 ## Contributing
 
-If you have any suggestions or improvements, please [submit an issue](https://github.com/lippkg/lipui/issues) or a pull request.
+If you have any suggestions or improvements, please [submit an issue](https://github.com/lippkg/LipUI/issues) or a pull request.
 
 LipUI follows the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) Code of Conduct.
 
