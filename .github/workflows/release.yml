@@ -22,7 +22,7 @@ jobs:
 
       - run: |
           dotnet build src/LipUI/LipUI.csproj -c Release -o bin -r ${{ matrix.runtime }} `
-          -p:DebugType=none -p:Platform=${{ matrix.platform }} -p:PublishSingleFile=true
+          -p:DebugType=none -p:Platform=${{ matrix.platform }}
 
       - uses: actions/upload-artifact@v4
         with:
