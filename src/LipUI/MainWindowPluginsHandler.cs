@@ -59,8 +59,8 @@ internal partial class MainWindow
                     //bool addIntoNavViewBar = false;
                     //if (navViewBarEnabledPluginsCount < 4)
                     //{
-                        items = NavView.MenuItems;
-                        //addIntoNavViewBar = true;
+                    items = NavView.MenuItems;
+                    //addIntoNavViewBar = true;
                     //}
                     //else
                     //    items = NavigationViewItem_More.MenuItems;
@@ -76,7 +76,7 @@ internal partial class MainWindow
                     items.Add(view);
 
                     //if (addIntoNavViewBar)
-                        navViewBarEnabledPluginsCount++;
+                    navViewBarEnabledPluginsCount++;
 
                 }
             }

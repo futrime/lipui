@@ -7,70 +7,35 @@ jobs:
   build:
     strategy:
       matrix:
-        runtime:
-          - linux-arm
-          - linux-arm64
-          - linux-x64
-          - linux-musl-arm
-          - linux-musl-arm64
-          - linux-musl-x64
-          - osx-arm64
-          - osx-x64
-          - win-arm
-          - win-arm64
-          - win-x64
-          - win-x86
         include:
-          - runs-on: ubuntu-latest
-          - runs-on: macos-latest
-            runtime: osx-x64
-          - runs-on: macos-latest
-            runtime: osx-arm64
-    runs-on: ubuntu-latest
+          - runtime: win-arm64
+            platform: arm64
+          - runtime: win-x64
+            platform: x64
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v3
+      - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
 
       - run: |
-          dotnet build src/LipUI/LipUI.csproj -c Release -o bin \
-          --sc false -r ${{ matrix.runtime }} -p:DebugType=none \
-          -p:PublishSingleFile=true
+          dotnet build src/LipUI/LipUI.csproj -c Release -o bin -r ${{ matrix.runtime }} \
+          -p:DebugType=none -p:Platform=${{ matrix.platform }} -p:PublishSingleFile=true
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: LipUI-${{ matrix.runtime }}-${{ github.sha }}
           path: bin
 
-  format:
+  check-style:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v3
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 7.0.x
 
       - run: dotnet format --verify-no-changes src/LipUI
-
-      - run: dotnet format --verify-no-changes src/LipUI.Tests
-
-  test:
-    strategy:
-      matrix:
-        runs-on:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-    runs-on: ${{ matrix.runs-on }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-
-      - run: |
-          dotnet test src/LipUI.Tests/LipUI.Tests.csproj

@@ -7,42 +7,24 @@ jobs:
   build:
     strategy:
       matrix:
-        runtime:
-          - linux-arm
-          - linux-arm64
-          - linux-x64
-          - linux-musl-arm
-          - linux-musl-arm64
-          - linux-musl-x64
-          - osx-arm64
-          - osx-x64
-          - win-arm
-          - win-arm64
-          - win-x64
-          - win-x86
         include:
-          - runs-on: ubuntu-latest
-          - runs-on: macos-latest
-            runtime: osx-x64
-          - runs-on: macos-latest
-            runtime: osx-arm64
-    runs-on: ${{ matrix.runs-on }}
+          - runtime: win-arm64
+            platform: arm64
+          - runtime: win-x64
+            platform: x64
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v3
+      - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
 
       - run: |
-          dotnet publish src/LipUI/LipUI.csproj -c Release -o bin \
-          --sc false -r ${{ matrix.runtime }} -p:DebugType=none \
-          -p:PublishSingleFile=true
+          dotnet build src/LipUI/LipUI.csproj -c Release -o bin -r ${{ matrix.runtime }} \
+          -p:DebugType=none -p:Platform=${{ matrix.platform }} -p:PublishSingleFile=true
 
-      - run: |
-          cp CHANGELOG.md LICENSE README.md bin
-
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: LipUI-${{ matrix.runtime }}-${{ github.sha }}
           path: bin
@@ -56,22 +38,12 @@ jobs:
     strategy:
       matrix:
         runtime:
-          - linux-arm
-          - linux-arm64
-          - linux-x64
-          - linux-musl-arm
-          - linux-musl-arm64
-          - linux-musl-x64
-          - osx-arm64
-          - osx-x64
-          - win-arm
           - win-arm64
           - win-x64
-          - win-x86
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: LipUI-${{ matrix.runtime }}-${{ github.sha }}
           path: bin
@@ -79,32 +51,14 @@ jobs:
       - run: |
           cp CHANGELOG.md LICENSE README.md bin/
 
-      - name: Pack artifact (Windows)
-        if: startsWith(matrix.runtime, 'win')
+      - name: Create archive
         run: |
           cd bin
           zip -r ../LipUI-${{ matrix.runtime }}.zip *
           cd ..
-  
-      - name: Pack artifact (Linux & macOS)
-        if: startsWith(matrix.runtime, 'linux') || startsWith(matrix.runtime, 'osx')
-        run: |
-          cd bin
-          tar -czvf ../LipUI-${{ matrix.runtime }}.tar.gz *
-          cd ..
 
-      - name: Upload artifact to release (Windows)
-        if: startsWith(matrix.runtime, 'win')
-        uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v1
         with:
           append_body: true
           files: |
             LipUI-${{ matrix.runtime }}.zip
-
-      - name: Upload artifact to release (Linux & macOS)
-        if: startsWith(matrix.runtime, 'linux') || startsWith(matrix.runtime, 'osx')
-        uses: softprops/action-gh-release@v1
-        with:
-          append_body: true
-          files: |
-            LipUI-${{ matrix.runtime }}.tar.gz
