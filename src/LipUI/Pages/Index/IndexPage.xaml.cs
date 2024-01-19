@@ -74,7 +74,7 @@ public sealed partial class IndexPage : Page
 
         //foreach all lip index pages
 
-        var text = await client.GetStringAsync($"https://{lipApiUrl}/search/teeth?page=1");
+        var text = await client.GetStringAsync($"https://{lipApiUrl}/search/teeth");
         if (string.IsNullOrWhiteSpace(text))
             ThrowException(lipApiUrl);
 

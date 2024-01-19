@@ -75,35 +75,47 @@ internal sealed partial class LipInstallerView : UserControl
         var buffer = new byte[1024];
         var output = File.Create(zipFilePath);
 
-        using var client = new HttpClient(
-            new HttpClientHandler() { ClientCertificateOptions = ClientCertificateOption.Automatic })
-        {
-            Timeout = TimeSpan.FromSeconds(5),
-            DefaultRequestHeaders = { ExpectContinue = false }
-        };
+        void InternalServices_WindowClosed() => output.Dispose();
 
-        HttpResponseMessage response;
+        InternalServices.WindowClosed += InternalServices_WindowClosed;
 
         try
         {
-            response = await client.GetAsync(info.AssetUrl, HttpCompletionOption.ResponseHeadersRead);
-        }
-        catch (Exception ex)
-        {
-            await InternalServices.ShowInfoBarAsync(ex, severity: InfoBarSeverity.Warning);
-            response = await client.GetAsync($"{Main.Config.GeneralSettings.GithubProxy}/{info.AssetUrl}");
-        }
+            using var client = new HttpClient(new HttpClientHandler() { ClientCertificateOptions = ClientCertificateOption.Automatic })
+            {
+                Timeout = TimeSpan.FromSeconds(5),
+                DefaultRequestHeaders = { ExpectContinue = false }
+            };
 
-        var input = await response.Content.ReadAsStreamAsync();
+            HttpResponseMessage response;
 
-        int totalBytesRead = 0, bytesRead = 0;
-        while (true)
+            try
+            {
+                response = await client.GetAsync(info.AssetUrl, HttpCompletionOption.ResponseHeadersRead);
+            }
+            catch (Exception ex)
+            {
+                await InternalServices.ShowInfoBarAsync(ex, severity: InfoBarSeverity.Warning);
+                response = await client.GetAsync($"{Main.Config.GeneralSettings.GithubProxy}/{info.AssetUrl}");
+            }
+
+            var input = await response.Content.ReadAsStreamAsync();
+
+            int totalBytesRead = 0, bytesRead = 0;
+            while (true)
+            {
+                bytesRead = await input.ReadAsync(buffer);
+                if (bytesRead is 0) break;
+                totalBytesRead += bytesRead;
+                DownloadProgressChanged?.Invoke(totalBytesRead);
+                await output.WriteAsync(buffer.AsMemory(0, bytesRead));
+            }
+        }
+        catch (Exception)
         {
-            bytesRead = await input.ReadAsync(buffer);
-            if (bytesRead is 0) break;
-            totalBytesRead += bytesRead;
-            DownloadProgressChanged?.Invoke(totalBytesRead);
-            await output.WriteAsync(buffer.AsMemory(0, bytesRead));
+            output.Dispose();
+            InternalServices.WindowClosed -= InternalServices_WindowClosed;
+            throw;
         }
 
         output.Dispose();

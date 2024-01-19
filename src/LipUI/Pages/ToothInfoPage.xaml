@@ -78,12 +78,17 @@
                         Foreground="{ThemeResource TextFillColorSecondary}"/>
 
                     <TextBlock 
-                        x:Name="LatestReleaseTime" 
+                        x:Name="LatestVersionReleasedAt" 
+                        Style="{StaticResource CaptionTextBlockStyle}" 
+                        Foreground="{ThemeResource TextFillColorSecondary}"/>
+                    
+                    <TextBlock 
+                        x:Name="SourceRepoCreatedAt" 
                         Style="{StaticResource CaptionTextBlockStyle}" 
                         Foreground="{ThemeResource TextFillColorSecondary}"/>
 
                     <TextBlock 
-                        x:Name="DownloadCount" 
+                        x:Name="SourceRepoStarCount" 
                         Style="{StaticResource CaptionTextBlockStyle}" 
                         Foreground="{ThemeResource TextFillColorSecondary}"/>
 

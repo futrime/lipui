@@ -26,14 +26,20 @@ public class LipIndex
 
         public class LipToothItem
         {
-            [JsonPropertyName("toothRepoPath")]
+            [JsonPropertyName("repoPath")]
             public string RepoPath { get; set; } = string.Empty;
 
-            [JsonPropertyName("toothRepoOwner")]
+            [JsonPropertyName("repoOwner")]
             public string RepoOwner { get; set; } = string.Empty;
 
-            [JsonPropertyName("toothRepoName")]
+            [JsonPropertyName("repoName")]
             public string RepoName { get; set; } = string.Empty;
+
+            [JsonPropertyName("latestVersion")]
+            public string LatestVersion { get; set; } = string.Empty;
+
+            [JsonPropertyName("latestVersionReleasedAt")]
+            public string LatestVersionReleasedAt { get; set; } = string.Empty;
 
             [JsonPropertyName("name")]
             public string Name { get; set; } = string.Empty;
@@ -47,14 +53,17 @@ public class LipIndex
             [JsonPropertyName("tags")]
             public IReadOnlyList<string> Tags { get; set; } = new List<string>();
 
-            [JsonPropertyName("latestVersion")]
-            public string LatestVersion { get; set; } = string.Empty;
+            [JsonPropertyName("avatarUrl")]
+            public string AvatarUrl { get; set; } = string.Empty;
 
-            [JsonPropertyName("latestVersionReleaseTime")]
-            public long LatestVersionReleaseTime { get; set; }
+            [JsonPropertyName("source")]
+            public string Source { get; set; } = string.Empty;
 
-            [JsonPropertyName("downloadCount")]
-            public int DownloadCount { get; set; }
+            [JsonPropertyName("sourceRepoCreatedAt")]
+            public string SourceRepoCreatedAt { get; set; } = string.Empty;
+
+            [JsonPropertyName("sourceRepoStarCount")]
+            public int SourceRepoStarCount { get; set; }
         }
     }
 

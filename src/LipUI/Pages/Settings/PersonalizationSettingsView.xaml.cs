@@ -677,6 +677,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             if (path is not null)
             {
                 var image = InternalServices.CreateImageFromBytes(await File.ReadAllBytesAsync(path));
+
                 image.DecodePixelType = DecodePixelType.Logical;
                 image.DecodePixelWidth = 256;
                 PreviewImage.Source = image;

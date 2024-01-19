@@ -37,9 +37,10 @@ internal static class ColorExtensions
 
 internal static class InternalServices
 {
-    public static BitmapImage CreateImageFromBytes(byte[] bytes)
+    public static BitmapImage CreateImageFromBytes(byte[] bytes, Action<BitmapImage>? onInit = null)
     {
         var image = new BitmapImage();
+        onInit?.Invoke(image);
         using var stream = new MemoryStream(bytes);
         image.SetSource(stream.AsRandomAccessStream());
         return image;

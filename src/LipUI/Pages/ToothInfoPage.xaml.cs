@@ -8,8 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Net.Http;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
 
@@ -40,12 +38,9 @@ public sealed partial class ToothInfoPage : Page
             Description.Text = toothItem.Description;
             Author.Text = toothItem.Author;
             LatestVersion.Text = toothItem.LatestVersion;
-            LatestReleaseTime.Text
-                = DateTimeOffset
-                .FromUnixTimeSeconds(toothItem.LatestVersionReleaseTime)
-                .LocalDateTime
-                .ToString();
-            DownloadCount.Text = toothItem.DownloadCount.ToString();
+            LatestVersionReleasedAt.Text = toothItem.LatestVersionReleasedAt;
+            SourceRepoCreatedAt.Text = toothItem.SourceRepoCreatedAt;
+            SourceRepoStarCount.Text = toothItem.SourceRepoStarCount.ToString();
 
         }
     }
@@ -54,7 +49,7 @@ public sealed partial class ToothInfoPage : Page
 
     public ToothInfoPage()
     {
-        this.InitializeComponent();
+        InitializeComponent();
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
