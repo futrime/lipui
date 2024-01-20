@@ -2,12 +2,9 @@
 using LipUI.Pages.LipExecutionPanel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace LipUI.Models;
 
@@ -61,7 +58,7 @@ internal static class Main
         }
     }
 
-    public static async ValueTask<LipConsole?> CreateLipConsole(XamlRoot xamlRoot)
+    public static async ValueTask<LipConsole?> CreateLipConsole(XamlRoot xamlRoot, string? workingDir = null)
     {
         var (success, path) = await TryGetLipConsolePathAsync(xamlRoot);
         if (success is false)
@@ -71,7 +68,7 @@ internal static class Main
         if (server is null)
             return null;
 
-        return new LipConsole(path!, server.WorkingDirectory);
+        return new LipConsole(path!, workingDir is null ? server.WorkingDirectory : workingDir);
     }
 
 

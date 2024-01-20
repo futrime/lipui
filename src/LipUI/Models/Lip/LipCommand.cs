@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LipUI.Models.Lip;
+﻿namespace LipUI.Models.Lip;
 
 public class LipCommand
 {

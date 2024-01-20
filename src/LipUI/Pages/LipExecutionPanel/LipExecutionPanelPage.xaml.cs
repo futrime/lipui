@@ -7,8 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -107,54 +105,14 @@ internal sealed partial class LipExecutionPanelPage : Page
 
             dispatcherQueue.TryEnqueue(async () =>
             {
-                lip = await Main.CreateLipConsole(page.XamlRoot);
-                if (lip is null)
-                {
-                    var bar = page.TaskProgressBar;
-                    bar.IsIndeterminate = false;
-                    bar.Value = 0;
-
-                    page.LipWorkingInfoText.Text = string.Empty;
-                    page.ProgressRateText.Text = string.Empty;
-
-                    await InternalServices.ShowInfoBarAsync(
-                        "infobar$error".GetLocalized(),
-                        Main.Config.SelectedServer is null ?
-                        "lipExecution$nullServerPath".GetLocalized() :
-                        "lipExecution$nullLipPath".GetLocalized(),
-                         InfoBarSeverity.Error);
-
-                    page.Frame.TryGoBack();
-
-                    return;
-                }
-
+                lip = page.args!.Lip;
 
                 lip.Output += OutputHandler;
                 lip.OutputError += OutputHandler;
 
-                switch (page.Mode)
-                {
-                    case ExecutionMode.Install:
+                await lip.Run(page.args!.LipCommand, ins => process = ins.Process);
 
-                        await lip.Run(CreateCommand() + Install + page.ToothItem!.RepoPath, ins => process = ins.Process);
-
-                        break;
-
-                    case ExecutionMode.Delete:
-
-                        await lip.Run(CreateCommand() + Uninstall + page.Package!.Tooth, ins => process = ins.Process);
-
-                        break;
-
-                    case ExecutionMode.Update:
-
-                        await lip.Run(CreateCommand() + Install + Upgrade + page.Package!.Tooth, ins => process = ins.Process);
-
-                        break;
-                }
                 InternalServices.WindowClosed -= closed;
-
             });
         }
 
@@ -290,26 +248,9 @@ internal sealed partial class LipExecutionPanelPage : Page
 
     }
 
-    public enum ExecutionMode { Install, Delete, Update }
-
-    public record InitArguments(ExecutionMode Mode, object Parameter);
-
-
-    private LipTooth? Tooth { get; set; }
-
-    private LipToothItem? ToothItem { get; set; }
-
-    private string? SelectedVersion { get; set; }
-
-    private ToothPackage? Package { get; set; }
-
-    private ExecutionMode Mode { get; set; }
-
-
-
-
     private readonly ObservableCollection<TextBlock> output = new();
     private LipConsoleHandler? handler;
+    private NavigationArgs? args;
 
     public LipExecutionPanelPage()
     {
@@ -317,56 +258,23 @@ internal sealed partial class LipExecutionPanelPage : Page
         output.CollectionChanged += Output_CollectionChanged;
     }
 
+    public record NavigationArgs(string Title, IReadOnlyList<string> Info, LipConsole Lip, LipCommandContext LipCommand);
+
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        var args = (InitArguments)e.Parameter;
-        Mode = args.Mode;
+        args = (NavigationArgs)e.Parameter;
 
         var style = (Style)Application.Current.Resources["CaptionTextBlockStyle"];
         var brush = new SolidColorBrush((Color)Application.Current.Resources["TextFillColorSecondary"]);
 
-        switch (args.Mode)
+        foreach (var item in args.Info)
         {
-            case ExecutionMode.Install:
-                {
-                    var (tooth, toothItem, selectedVersion) = ((LipTooth, LipToothItem, string))args.Parameter;
-                    Tooth = tooth;
-                    ToothItem = toothItem;
-                    SelectedVersion = selectedVersion;
-
-                    ToothInfoPanel.Children.Add(new TextBlock()
-                    {
-                        Text = ToothItem.RepoName,
-                        Style = style,
-                        Foreground = brush
-                    });
-                    ToothInfoPanel.Children.Add(new TextBlock()
-                    {
-                        Text = SelectedVersion,
-                        Style = style,
-                        Foreground = brush
-                    });
-                }
-                break;
-            case ExecutionMode.Delete:
-            case ExecutionMode.Update:
-                {
-                    Package = (ToothPackage)args.Parameter;
-
-                    ToothInfoPanel.Children.Add(new TextBlock()
-                    {
-                        Text = Package.Tooth,
-                        Style = style,
-                        Foreground = brush
-                    });
-                    ToothInfoPanel.Children.Add(new TextBlock()
-                    {
-                        Text = Package.Version,
-                        Style = style,
-                        Foreground = brush
-                    });
-                }
-                break;
+            ToothInfoPanel.Children.Add(new TextBlock()
+            {
+                Text = item,
+                Style = style,
+                Foreground = brush
+            });
         }
 
         base.OnNavigatedTo(e);
@@ -380,13 +288,7 @@ internal sealed partial class LipExecutionPanelPage : Page
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
         handler = new(this);
-        Title.Text = Mode switch
-        {
-            ExecutionMode.Install => ToothItem!.RepoPath,
-            ExecutionMode.Delete or ExecutionMode.Update => Package!.Tooth,
-            _ => throw new Exception()
-        };
-
+        Title.Text = args!.Title;
         handler.Run();
     }
 

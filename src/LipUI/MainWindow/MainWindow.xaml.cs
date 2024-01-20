@@ -1,12 +1,14 @@
 ﻿using LipUI.Models;
+using LipUI.Models.Lip;
 using LipUI.Models.Plugin;
+using LipUI.Pages.LipExecutionPanel;
 using LipUI.Pages.Settings;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using Octokit;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -147,5 +149,50 @@ internal sealed partial class MainWindow : Window
             mre.WaitOne();
             mre.Dispose();
         });
+    }
+
+    private async void RootBorder_Drop(object sender, DragEventArgs e)
+    {
+        if (e.DataView.Contains(StandardDataFormats.StorageItems) is false)
+            return;
+
+        foreach (var item in await e.DataView.GetStorageItemsAsync())
+        {
+            if (item is StorageFile file && Path.GetExtension(file.Path) is ".tth")
+            {
+                var lip = await Main.CreateLipConsole(RootBorder.XamlRoot);
+                if (lip is null)
+                {
+                    InternalServices.ShowInfoBar(
+                        "infobar$error".GetLocalized(),
+                        Main.Config.SelectedServer is null ?
+                        "lipExecution$nullServerPath".GetLocalized() :
+                        "lipExecution$nullLipPath".GetLocalized(),
+                        InfoBarSeverity.Error);
+
+                    return;
+                }
+                var cmd = LipCommand.CreateCommand() + LipCommand.Install + file.Path;
+                var info = new List<string>();
+
+                ContentFrame.Navigate(
+                    typeof(LipExecutionPanelPage),
+                    new LipExecutionPanelPage.NavigationArgs(file.Path, info, lip, cmd));
+            }
+            else
+            {
+                await InternalServices.ShowInfoBarAsync(
+                    "infobar$error".GetLocalized(),
+                    @$"{item.Name} is not a '.tth' file.",
+                    InfoBarSeverity.Error);
+            }
+        }
+    }
+
+    private void RootBorder_DragOver(object sender, DragEventArgs e)
+    {
+        e.AcceptedOperation = DataPackageOperation.Move;
+        e.DragUIOverride.IsCaptionVisible = false;
+        e.DragUIOverride.IsGlyphVisible = false;
     }
 }

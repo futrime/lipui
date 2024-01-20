@@ -1,7 +1,6 @@
-﻿using LipUI.Models.Plugin;
+﻿using LipUI.Models;
+using LipUI.Models.Plugin;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
 
 namespace LipUI;
 

@@ -1,13 +1,8 @@
 using LipUI.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -75,7 +70,11 @@ internal sealed partial class LipInstallerView : UserControl
         var buffer = new byte[1024];
         var output = File.Create(zipFilePath);
 
-        void InternalServices_WindowClosed() => output.Dispose();
+        void InternalServices_WindowClosed()
+        {
+            output.Dispose();
+            File.Delete(zipFilePath);
+        }
 
         InternalServices.WindowClosed += InternalServices_WindowClosed;
 
@@ -113,7 +112,7 @@ internal sealed partial class LipInstallerView : UserControl
         }
         catch (Exception)
         {
-            output.Dispose();
+            InternalServices_WindowClosed();
             InternalServices.WindowClosed -= InternalServices_WindowClosed;
             throw;
         }

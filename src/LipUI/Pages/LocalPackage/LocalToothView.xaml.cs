@@ -1,3 +1,5 @@
+using LipUI.Models;
+using LipUI.Models.Lip;
 using LipUI.Pages.LipExecutionPanel;
 using LipUI.Protocol;
 using Microsoft.UI.Xaml;
@@ -40,21 +42,47 @@ internal sealed partial class LocalToothView : UserControl
             UpdateButton.Content = UpdateButtonText;
         });
 
-    private void UpdateButton_Click(object sender, RoutedEventArgs e)
+    private async void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
+        var lip = await Main.CreateLipConsole(XamlRoot);
+        if (lip is null)
+        {
+            InternalServices.ShowInfoBar(
+                "infobar$error".GetLocalized(),
+                Main.Config.SelectedServer is null ?
+                "lipExecution$nullServerPath".GetLocalized() :
+                "lipExecution$nullLipPath".GetLocalized(),
+                InfoBarSeverity.Error);
+
+            return;
+        }
+        var cmd = LipCommand.CreateCommand() + LipCommand.Install + LipCommandOption.Upgrade + Tooth.Tooth;
+        var info = new List<string>();
+
         page.Frame.Navigate(
             typeof(LipExecutionPanelPage),
-            new LipExecutionPanelPage.InitArguments(
-                 LipExecutionPanelPage.ExecutionMode.Update,
-                 Tooth));
+            new LipExecutionPanelPage.NavigationArgs(Tooth.Tooth, info, lip, cmd));
     }
 
-    private void DeleteButton_Click(object sender, RoutedEventArgs e)
+    private async void DeleteButton_Click(object sender, RoutedEventArgs e)
     {
+        var lip = await Main.CreateLipConsole(XamlRoot);
+        if (lip is null)
+        {
+            InternalServices.ShowInfoBar(
+                "infobar$error".GetLocalized(),
+                Main.Config.SelectedServer is null ?
+                "lipExecution$nullServerPath".GetLocalized() :
+                "lipExecution$nullLipPath".GetLocalized(),
+                InfoBarSeverity.Error);
+
+            return;
+        }
+        var cmd = LipCommand.CreateCommand() + LipCommand.Uninstall + Tooth.Tooth;
+        var info = new List<string>();
+
         page.Frame.Navigate(
             typeof(LipExecutionPanelPage),
-            new LipExecutionPanelPage.InitArguments(
-                 LipExecutionPanelPage.ExecutionMode.Delete,
-                 Tooth));
+            new LipExecutionPanelPage.NavigationArgs(Tooth.Tooth, info, lip, cmd));
     }
 }

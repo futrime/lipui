@@ -1,7 +1,6 @@
 ﻿using LipUI.Pages.Home.Modules;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using System;
 
 namespace LipUI.Models.Plugin;
 

@@ -2,6 +2,7 @@
 
 using CommunityToolkit.WinUI.UI.Controls;
 using LipUI.Models;
+using LipUI.Models.Lip;
 using LipUI.Pages.LipExecutionPanel;
 using LipUI.Protocol;
 using Microsoft.UI.Xaml;
@@ -140,13 +141,43 @@ public sealed partial class ToothInfoPage : Page
         }
     }
 
-    private void InstallButton_Click(object sender, RoutedEventArgs e)
+    private async void InstallButton_Click(object sender, RoutedEventArgs e)
     {
         if (ToothVersionSelectButton.Content is TextBlock text)
+        {
+            var lip = await Main.CreateLipConsole(XamlRoot);
+            if (lip is null)
+            {
+                InternalServices.ShowInfoBar(
+                    "infobar$error".GetLocalized(),
+                    Main.Config.SelectedServer is null ?
+                    "lipExecution$nullServerPath".GetLocalized() :
+                    "lipExecution$nullLipPath".GetLocalized(),
+                    InfoBarSeverity.Error);
+
+                return;
+            }
+
+            var cmd = LipCommand.CreateCommand() + LipCommand.Install + toothItem!.RepoPath;
+            var info = new List<string>()
+            {
+                toothItem!.RepoPath,
+                toothItem!.RepoOwner,
+                toothItem!.RepoName,
+                toothItem!.LatestVersion,
+                toothItem!.LatestVersionReleasedAt,
+                toothItem!.Name,
+                toothItem!.Description,
+                toothItem!.Author,
+                toothItem!.AvatarUrl,
+                toothItem!.Source,
+                toothItem!.SourceRepoCreatedAt,
+            };
+
             Frame.Navigate(
-                typeof(LipExecutionPanelPage),
-                new LipExecutionPanelPage.InitArguments(
-                    LipExecutionPanelPage.ExecutionMode.Install,
-                    (tooth, toothItem, text.Text)));
+                typeof(LipExecutionPanelPage), 
+                new LipExecutionPanelPage.NavigationArgs(toothItem.RepoPath, info, lip, cmd));
+
+        }
     }
 }

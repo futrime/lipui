@@ -2,11 +2,6 @@ using LipUI.Models;
 using LipUI.Protocol;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using static LipUI.Protocol.LipIndex.LipIndexData;
 
 // To learn more about WinUI, the WinUI project structure,

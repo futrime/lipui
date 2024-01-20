@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace LipUI.Protocol;
@@ -30,7 +28,7 @@ public class LipTooth
     {
         [JsonPropertyName("repoPath")]
         public string RepoPath { get; set; } = string.Empty;
-        
+
         [JsonPropertyName("repoOwner")]
         public string RepoOwner { get; set; } = string.Empty;
 

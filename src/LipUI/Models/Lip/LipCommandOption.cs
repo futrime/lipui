@@ -1,5 +1,4 @@
-﻿using System;
-using static LipUI.Models.Lip.LipCommand;
+﻿using static LipUI.Models.Lip.LipCommand;
 
 namespace LipUI.Models.Lip;
 

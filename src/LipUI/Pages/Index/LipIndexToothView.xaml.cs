@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
+using Microsoft.UI.Xaml.Media;
+using Windows.UI;
 using static LipUI.Protocol.LipIndex.LipIndexData;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -25,6 +26,17 @@ public sealed partial class LipIndexToothView : UserControl
         ToothDescription.Text = tooth.Description;
         AuthorButtonText.Text = tooth.Author;
         onClick = authorButtonClickHandler;
+
+        var style = Application.Current.Resources["CaptionTextBlockStyle"] as Style;
+        var foreground = new SolidColorBrush((Color)Application.Current.Resources["TextFillColorTertiary"]);
+
+        foreach (var tag in tooth.Tags)
+            ToothTags.Children.Add(new TextBlock()
+            {
+                Text = tag,
+                Style = style,
+                Foreground = foreground
+            });
     }
 
     private void AuthorButton_Click(object sender, RoutedEventArgs e)

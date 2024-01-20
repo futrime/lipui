@@ -1,4 +1,5 @@
-﻿using LipUI.Models.Plugin;
+﻿using LipUI.Models;
+using LipUI.Models.Plugin;
 using LipUI.Pages.Home;
 using LipUI.Pages.Index;
 using LipUI.Pages.LocalPackage;
@@ -8,10 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace LipUI;
 

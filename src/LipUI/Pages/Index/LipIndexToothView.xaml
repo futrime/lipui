@@ -27,17 +27,28 @@
             Grid.Row="0"
             Grid.Column="0"
             Orientation="Horizontal"
-            HorizontalAlignment="Left">
+            HorizontalAlignment="Left"
+            Spacing="16">
 
             <TextBlock
                 x:Name="ToothName"
                 Style="{StaticResource SubtitleTextBlockStyle}"
                 Foreground="{ThemeResource TextFillColorPrimary}"/>
 
-            <StackPanel
-                x:Name="ToothTags"
-                Orientation="Horizontal"
-                HorizontalAlignment="Left"/>
+            <ScrollViewer
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Disabled">
+                
+                <StackPanel
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Spacing="8"
+                    x:Name="ToothTags"
+                    Orientation="Horizontal"/>
+
+            </ScrollViewer>
 
         </StackPanel>
 

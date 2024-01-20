@@ -2,12 +2,9 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Windows.ApplicationModel.Resources;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Windows.UI;
 
-namespace LipUI;
+namespace LipUI.Models;
 
 internal static class ResourceExtensions
 {

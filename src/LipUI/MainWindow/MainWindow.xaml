@@ -17,7 +17,11 @@
         BorderThickness="0"
         Background="{x:Bind settings:PersonalizationSettingsView.MyRes.ApplicationBackgroundImage,Mode=TwoWay}"
         x:Name="RootBorder"
-        CornerRadius="0">
+        CornerRadius="0"
+        AllowDrop="True"
+        Drop="RootBorder_Drop"
+        CanDrag="True"
+        DragOver="RootBorder_DragOver">
 
         <Grid
             x:Name="MainWondowRootGrid"

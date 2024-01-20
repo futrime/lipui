@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LipUI.Models.Plugin;
+﻿namespace LipUI.Models.Plugin;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public sealed class LipUIModuleAttribute : Attribute

@@ -1,8 +1,8 @@
-﻿using LipUI.Models.Lip;
+﻿#pragma warning disable CA1822
+
+using LipUI.Models.Lip;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
 
 namespace LipUI.Models.Plugin;
 
@@ -18,7 +18,7 @@ public class LipuiServices
         return null;
     }
 
-    public static async ValueTask ShowInfoBarAsync(
+    public async ValueTask ShowInfoBarAsync(
         string? title,
         string? message = null,
         InfoBarSeverity severity = InfoBarSeverity.Informational,
@@ -26,7 +26,7 @@ public class LipuiServices
         UIElement? barContent = null)
         => await InternalServices.ShowInfoBarAsync(title, message, severity, interval, barContent);
 
-    public static async ValueTask ShowInfoBarAsync(
+    public async ValueTask ShowInfoBarAsync(
         Exception ex,
         bool containsStacktrace = false,
         InfoBarSeverity severity = InfoBarSeverity.Error,
@@ -34,7 +34,7 @@ public class LipuiServices
         UIElement? barContent = null)
         => await InternalServices.ShowInfoBarAsync(ex, containsStacktrace, severity, interval, barContent);
 
-    public static void ShowInfoBar(
+    public void ShowInfoBar(
         string? title,
         string? message = null,
         InfoBarSeverity severity = InfoBarSeverity.Informational,
@@ -43,7 +43,7 @@ public class LipuiServices
         Action? completed = null)
         => InternalServices.ShowInfoBar(title, message, severity, interval, barContent, completed);
 
-    public static void ShowInfoBar(
+    public void ShowInfoBar(
         Exception ex,
         bool containsStacktrace = false,
         InfoBarSeverity severity = InfoBarSeverity.Error,
@@ -51,4 +51,6 @@ public class LipuiServices
         UIElement? barContent = null,
         Action? completed = null)
         => InternalServices.ShowInfoBar(ex, containsStacktrace, severity, interval, barContent, completed);
+
+    public string? CurrentServerDirectory => Main.Config.SelectedServer?.WorkingDirectory;
 }

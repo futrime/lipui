@@ -2,9 +2,7 @@
 using LipUI.Pages.Settings;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Text.Json.Serialization;
 
 namespace LipUI.Models;
