@@ -39,8 +39,20 @@ namespace LipUI
             UnhandledException += App_UnhandledException;
         }
 
-        private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+        private async void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
         {
+            static async ValueTask _exp(Exception ex)
+            {
+                await InternalServices.ShowInfoBarAsync(ex, containsStacktrace: true);
+                if (ex.InnerException is not null)
+                    await _exp(ex.InnerException);
+            }
+
+            if (InternalServices.MainWindow is not null)
+            {
+                e.Handled = true;
+                await _exp(e.Exception);
+            }
         }
 
         internal Window? m_window;

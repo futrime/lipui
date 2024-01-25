@@ -108,27 +108,36 @@ public sealed partial class ToothInfoPage : Page
 
         DispatcherQueue.TryEnqueue(async () =>
         {
-            using var client = new HttpClient();
-            var dataStr = await client.GetStringAsync(
-                $"https://{Main.Config.GeneralSettings.LipIndexApiKey}/teeth/{ToothItem.RepoOwner}/{ToothItem.RepoName}/{ToothItem.LatestVersion}");
-
-            tooth = LipTooth.Deserialize(dataStr);
-
-            var flyout = new MenuFlyout();
-            ToothVersionSelectButton.Flyout = flyout;
-
-            foreach (var version in tooth.Data.Versions)
+            try
             {
-                var item = new MenuFlyoutItem() { Text = version.Version };
-                item.Click += Item_Click;
+                using var client = new HttpClient();
+                var dataStr = await client.GetStringAsync(
+                    $"https://{Main.Config.GeneralSettings.LipIndexApiKey}/teeth/{ToothItem.RepoOwner}/{ToothItem.RepoName}/{ToothItem.LatestVersion}");
 
-                flyout.Items.Add(item);
+                tooth = LipTooth.Deserialize(dataStr);
+
+                var flyout = new MenuFlyout();
+                ToothVersionSelectButton.Flyout = flyout;
+
+                foreach (var version in tooth.Data.Versions)
+                {
+                    var item = new MenuFlyoutItem() { Text = version.Version };
+                    item.Click += Item_Click;
+
+                    flyout.Items.Add(item);
+                }
             }
-
-            ToothVersionSelectButton.Content = new TextBlock()
+            catch (Exception ex)
             {
-                Text = ToothItem.LatestVersion
-            };
+                await InternalServices.ShowInfoBarAsync(ex);
+            }
+            finally
+            {
+                ToothVersionSelectButton.Content = new TextBlock()
+                {
+                    Text = ToothItem.LatestVersion
+                };
+            }
         });
     }
 
@@ -175,7 +184,7 @@ public sealed partial class ToothInfoPage : Page
             };
 
             Frame.Navigate(
-                typeof(LipExecutionPanelPage), 
+                typeof(LipExecutionPanelPage),
                 new LipExecutionPanelPage.NavigationArgs(toothItem.RepoPath, info, lip, cmd));
 
         }
