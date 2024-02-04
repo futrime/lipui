@@ -57,8 +57,12 @@ jobs:
           zip -r ../LipUI-${{ matrix.runtime }}.zip *
           cd ..
 
+      - id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v2
+
       - uses: softprops/action-gh-release@v1
         with:
-          append_body: true
+          body: |
+            ${{ steps.extract-release-notes.outputs.release_notes }}
           files: |
             LipUI-${{ matrix.runtime }}.zip

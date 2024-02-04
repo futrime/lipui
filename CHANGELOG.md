@@ -5,7 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.0] - 2024-02-04
+
+### Added
+
+- Install teeth by dragging and dropping the package file into the window.
+
+### Changed
+
+- Adapt to lip-index 0.8.0.
+
+### Fixed
+
+- Crash under some conditions.
 
 ## [0.3.0] - 2024-01-18
 
@@ -19,13 +31,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Cache purge.
 
-### Fixed
-
-- Crash on deleting working directory.
-
 ### Changed
 
 - Adapt to lip 0.15.0.
+
+### Fixed
+
+- Crash on deleting working directory.
 
 ## [0.2.6] - 2023-04-24
 
@@ -42,9 +54,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Optimize the UI.
-
-### Changed
-
 - Optimize the UI.
 
 ## [0.2.4] - 2023-03-11
@@ -53,10 +62,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Animations.
 
-### Fixed
-
-- Unicode encoding.
-
 ### Changed
 
 - Optimize user experience.
@@ -64,6 +69,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Icon at status bar.
+
+### Fixed
+
+- Unicode encoding.
 
 ## [0.2.3] - 2023-03-07
 
@@ -99,7 +108,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release.
 
-[unreleased]: https://github.com/lippkg/LipUI/compare/v0.3.0...HEAD
+[0.4.0]: https://github.com/lippkg/LipUI/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/lippkg/LipUI/compare/v0.2.7...v0.3.0
 [0.2.7]: https://github.com/lippkg/LipUI/compare/v0.2.6...v0.2.7
 [0.2.6]: https://github.com/lippkg/LipUI/compare/v0.2.5...v0.2.6

@@ -40,8 +40,8 @@ public sealed partial class ToothInfoPage : Page
             Author.Text = toothItem.Author;
             LatestVersion.Text = toothItem.LatestVersion;
             LatestVersionReleasedAt.Text = toothItem.LatestVersionReleasedAt;
-            SourceRepoCreatedAt.Text = toothItem.SourceRepoCreatedAt;
-            SourceRepoStarCount.Text = toothItem.SourceRepoStarCount.ToString();
+            SourceRepoCreatedAt.Text = toothItem.RepoCreatedAt;
+            SourceRepoStarCount.Text = toothItem.StarCount.ToString();
 
         }
     }
@@ -179,8 +179,7 @@ public sealed partial class ToothInfoPage : Page
                 toothItem!.Description,
                 toothItem!.Author,
                 toothItem!.AvatarUrl,
-                toothItem!.Source,
-                toothItem!.SourceRepoCreatedAt,
+                toothItem!.RepoCreatedAt,
             };
 
             Frame.Navigate(

@@ -54,14 +54,11 @@ public class LipIndex
             [JsonPropertyName("avatarUrl")]
             public string AvatarUrl { get; set; } = string.Empty;
 
-            [JsonPropertyName("source")]
-            public string Source { get; set; } = string.Empty;
+            [JsonPropertyName("repoCreatedAt")]
+            public string RepoCreatedAt { get; set; } = string.Empty;
 
-            [JsonPropertyName("sourceRepoCreatedAt")]
-            public string SourceRepoCreatedAt { get; set; } = string.Empty;
-
-            [JsonPropertyName("sourceRepoStarCount")]
-            public int SourceRepoStarCount { get; set; }
+            [JsonPropertyName("starCount")]
+            public int StarCount { get; set; }
         }
     }
 
