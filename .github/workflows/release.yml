@@ -49,7 +49,7 @@ jobs:
           path: bin
 
       - run: |
-          cp CHANGELOG.md LICENSE README.md bin/
+          cp CHANGELOG.md COPYING README.md bin/
 
       - name: Create archive
         run: |
