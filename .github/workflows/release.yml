@@ -29,6 +29,21 @@ jobs:
           name: LipUI-${{ matrix.runtime }}-${{ github.sha }}
           path: bin
 
+  update-changelog:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v2
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          body: |
+            ${{ steps.extract-release-notes.outputs.release_notes }}
+
   upload-to-release:
     needs:
       - build
@@ -57,12 +72,7 @@ jobs:
           zip -r ../LipUI-${{ matrix.runtime }}.zip *
           cd ..
 
-      - id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v2
-
       - uses: softprops/action-gh-release@v1
         with:
-          body: |
-            ${{ steps.extract-release-notes.outputs.release_notes }}
           files: |
             LipUI-${{ matrix.runtime }}.zip
