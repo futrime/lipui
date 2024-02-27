@@ -12,7 +12,7 @@ internal partial class MainWindow
         PluginSystem.PluginDisabled += PluginSystem_PluginDisabled;
     }
 
-    private static readonly HashSet<ILipuiPluginUI> enabledModules = new();
+    private static readonly HashSet<ILipuiPluginUI> enabledModules = [];
     private static void PluginSystem_PluginEnabled(ILipuiPlugin obj)
     {
         lock (enabledModules)
@@ -43,7 +43,7 @@ internal partial class MainWindow
     private readonly object _lock = new();
     private uint navViewBarEnabledPluginsCount;
 
-    private readonly Dictionary<ILipuiPluginUI, NavigationViewItemBase> views = new();
+    private readonly Dictionary<ILipuiPluginUI, NavigationViewItemBase> views = [];
 
     private void PluginEnabled(ILipuiPluginUI plugin)
     {

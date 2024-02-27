@@ -21,7 +21,7 @@ public sealed partial class LocalPackagePage : Page
     }
 
     private ToothPackage[]? teeth;
-    private object _lock = new();
+    private readonly object _lock = new();
 
     private void ReloadPackage(IEnumerable<ToothPackage>? items = null)
     {
@@ -90,7 +90,7 @@ public sealed partial class LocalPackagePage : Page
                 return;
             }
 
-            HashSet<string> strings = new();
+            HashSet<string> strings = [];
 
             foreach (var tooth in arr)
                 strings.Add(tooth.Info.Name + tooth.Info.Author + tooth.Version);

@@ -16,7 +16,7 @@ internal class ToothPackage
         public string Author { get; set; } = string.Empty;
 
         [JsonPropertyName("tags")]
-        public List<string> Tags { get; set; } = new();
+        public List<string> Tags { get; set; } = [];
     }
 
     public class ToothPackageFiles

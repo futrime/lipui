@@ -45,14 +45,14 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         { "gamemode", new string[]{ "survival", "creative", "adventure" } },
         { "difficulty", new string[]{ "peaceful", "easy", "normal", "hard" } },
         { "default-player-permission-level", new string[]{ "visitor", "member", "operator" } },
-        { "compression-algorithm", new string[]{ "zlib", "easy", "snappy" } },
+        { "compression-algorithm", new string[]{ "zlib", "snappy" } },
         { "server-authoritative-movement", new string[]{ "client-auth", "server-auth", "server-auth-with-rewind" } },
         { "chat-restriction", new string[]{ "None", "Dropped", "Disabled" } },
     };
 
     public ServerInstance? Server { get; private set; }
 
-    public Dictionary<string, string> BindingSettings { get; private set; } = new();
+    public Dictionary<string, string> BindingSettings { get; private set; } = [];
 
     public BdsPropertiesEditorPage()
     {
@@ -170,7 +170,7 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         Viewer.Content = PropertiesView;
     }
 
-    private static UIElement BoolTypeView(
+    private static StackPanel BoolTypeView(
         string key,
         string? currentValue,
         string[] notes,
@@ -219,7 +219,7 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         return rlt;
     }
 
-    private static UIElement EnumTypeView(
+    private static StackPanel EnumTypeView(
         string key,
         string? currentValue,
         string[] notes,
@@ -278,7 +278,7 @@ internal sealed partial class BdsPropertiesEditorPage : Page
         return rlt;
     }
 
-    private static UIElement StringTypeView(
+    private static StackPanel StringTypeView(
         string key,
         string? currentValue,
         string[] notes,

@@ -100,10 +100,10 @@ internal class Config
 
     public Config()
     {
-        ServerInstances = new();
+        ServerInstances = [];
         ResetGeneralSettings(Main.WorkingDirectory);
         ResetPersonalizationSettings();
-        PluginEanbleInfo = new();
+        PluginEanbleInfo = [];
     }
 
     [MemberNotNull(nameof(GeneralSettings))]

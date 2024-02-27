@@ -3,12 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace LipUI.Protocol;
 
-public struct LipToothVersion
+public struct LipToothVersion()
 {
-    public LipToothVersion()
-    {
-    }
-
     [JsonPropertyName("version")]
     public string Version { get; set; } = string.Empty;
 

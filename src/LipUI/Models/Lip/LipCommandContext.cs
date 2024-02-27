@@ -11,8 +11,8 @@ public class LipCommandSyntaxException : Exception
 
 public class LipCommandContext
 {
-    private readonly List<LipCommand> commands = new();
-    private readonly List<LipCommandOption> options = new();
+    private readonly List<LipCommand> commands = [];
+    private readonly List<LipCommandOption> options = [];
 
     private LipCommand? current;
     private string? parameter;

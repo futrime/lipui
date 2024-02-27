@@ -19,9 +19,9 @@ internal static class PluginSystem
 
     public static IEnumerable<ILipuiPluginModule>? Modules { get; private set; }
 
-    private static readonly HashSet<ILipuiPlugin> enabledPlugins = new();
+    private static readonly HashSet<ILipuiPlugin> enabledPlugins = [];
 
-    private static Dictionary<guid_string, ILipuiPlugin> guidWithPlugins = new();
+    private static readonly Dictionary<guid_string, ILipuiPlugin> guidWithPlugins = [];
 
     private static readonly LipuiServices services = new();
 
@@ -56,7 +56,7 @@ internal static class PluginSystem
             return null;
         }
 
-        List<Type> pluginTypes = new();
+        List<Type> pluginTypes = [];
         var ctx = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly())!;
 
         var dirInfo = new DirectoryInfo(dir);
@@ -100,8 +100,8 @@ internal static class PluginSystem
     private static async ValueTask<(IEnumerable<ILipuiPlugin>, IEnumerable<ILipuiPluginUI>, IEnumerable<ILipuiPluginModule>)> CreateInstances(IEnumerable<Type> types)
     {
         List<ILipuiPlugin> instances = new(types.Count());
-        List<ILipuiPluginUI> uiInstances = new();
-        List<ILipuiPluginModule> modules = new();
+        List<ILipuiPluginUI> uiInstances = [];
+        List<ILipuiPluginModule> modules = [];
 
         foreach (var type in types)
         {
@@ -162,7 +162,7 @@ internal static class PluginSystem
     private static async ValueTask EnablePlugins(IEnumerable<ILipuiPlugin> plugins)
     {
         var enableInfo = Main.Config.PluginEanbleInfo;
-        Main.Config.PluginEanbleInfo = new();
+        Main.Config.PluginEanbleInfo = [];
         foreach (var plugin in plugins)
         {
             var key = GetPluginEnabledConfigKey(plugin);

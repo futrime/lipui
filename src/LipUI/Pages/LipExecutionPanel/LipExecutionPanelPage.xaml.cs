@@ -81,8 +81,8 @@ internal sealed partial class LipExecutionPanelPage : Page
         {
             this.page = page;
             dispatcherQueue = page.DispatcherQueue;
-            regexsAndMethods = new()
-            {
+            regexsAndMethods =
+            [
                 (Y_or_N_Regex(), Y_or_N_Matched),
                 (BDSDownloader_ProgressBar_Regex(), BDSDownloader_ProgressBar_Matched),
                 (BDSDownloader_StartDownloadOrUnziping_Regex(), BDSDownloader_StartDownloadOrUnziping_Matched),
@@ -90,7 +90,7 @@ internal sealed partial class LipExecutionPanelPage : Page
                 (Done_Regex(), Done_Matched),
                 (Lip_ProgressBar_Regex(), Lip_ProgressBar_Matched),
                 (Lip_StartDownload_Regex(), Lip_StartDownload_Matched)
-            };
+            ];
         }
 
         public void Run()
@@ -248,7 +248,7 @@ internal sealed partial class LipExecutionPanelPage : Page
 
     }
 
-    private readonly ObservableCollection<TextBlock> output = new();
+    private readonly ObservableCollection<TextBlock> output = [];
     private LipConsoleHandler? handler;
     private NavigationArgs? args;
 

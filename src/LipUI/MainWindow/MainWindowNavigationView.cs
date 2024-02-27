@@ -25,14 +25,13 @@ internal partial class MainWindow
         typeof(LocalPackagePage).FullName!,
         typeof(SettingsPage).FullName!);
 
-    private readonly HashSet<Type> NavigationPageTypes = new()
-    {
+    private readonly HashSet<Type> NavigationPageTypes = [
         typeof(HomePage),
         typeof(IndexPage),
         typeof(ModuleManagerPage),
         typeof(LocalPackagePage),
         typeof(SettingsPage)
-    };
+    ];
 
 
 

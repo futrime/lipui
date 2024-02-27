@@ -20,7 +20,7 @@ public class LipIndex
         public int TotalPages { get; set; }
 
         [JsonPropertyName("items")]
-        public List<LipToothItem> Items { get; set; } = new List<LipToothItem>();
+        public List<LipToothItem> Items { get; set; } = [];
 
         public class LipToothItem
         {
@@ -49,7 +49,7 @@ public class LipIndex
             public string Author { get; set; } = string.Empty;
 
             [JsonPropertyName("tags")]
-            public IReadOnlyList<string> Tags { get; set; } = new List<string>();
+            public IReadOnlyList<string> Tags { get; set; } = [];
 
             [JsonPropertyName("avatarUrl")]
             public string AvatarUrl { get; set; } = string.Empty;
