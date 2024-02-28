@@ -19,7 +19,7 @@ public class LipuiServices
 
         workingDir ??= Main.Config.SelectedServer?.WorkingDirectory;
 
-        if (string.IsNullOrWhiteSpace(workingDir))
+        if (workingDir is null)
             return null;
 
         return new(path!, workingDir);
@@ -30,16 +30,18 @@ public class LipuiServices
         string? message = null,
         InfoBarSeverity severity = InfoBarSeverity.Informational,
         TimeSpan interval = default,
-        UIElement? barContent = null)
-        => await InternalServices.ShowInfoBarAsync(title, message, severity, interval, barContent);
+        UIElement? barContent = null,
+        CancellationToken cancellationToken = default)
+        => await InternalServices.ShowInfoBarAsync(title, message, severity, interval, barContent, cancellationToken);
 
     public async ValueTask ShowInfoBarAsync(
         Exception ex,
         bool containsStacktrace = false,
         InfoBarSeverity severity = InfoBarSeverity.Error,
         TimeSpan interval = default,
-        UIElement? barContent = null)
-        => await InternalServices.ShowInfoBarAsync(ex, containsStacktrace, severity, interval, barContent);
+        UIElement? barContent = null,
+        CancellationToken cancellationToken = default)
+        => await InternalServices.ShowInfoBarAsync(ex, containsStacktrace, severity, interval, barContent, cancellationToken);
 
     public void ShowInfoBar(
         string? title = null,
@@ -47,8 +49,9 @@ public class LipuiServices
         InfoBarSeverity severity = InfoBarSeverity.Informational,
         TimeSpan interval = default,
         UIElement? barContent = null,
-        Action? completed = null)
-        => InternalServices.ShowInfoBar(title, message, severity, interval, barContent, completed);
+        Action? completed = null,
+        CancellationToken cancellationToken = default)
+        => InternalServices.ShowInfoBar(title, message, severity, interval, barContent, completed, cancellationToken);
 
     public void ShowInfoBar(
         Exception ex,
@@ -56,8 +59,9 @@ public class LipuiServices
         InfoBarSeverity severity = InfoBarSeverity.Error,
         TimeSpan interval = default,
         UIElement? barContent = null,
-        Action? completed = null)
-        => InternalServices.ShowInfoBar(ex, containsStacktrace, severity, interval, barContent, completed);
+        Action? completed = null,
+        CancellationToken cancellationToken = default)
+        => InternalServices.ShowInfoBar(ex, containsStacktrace, severity, interval, barContent, completed, cancellationToken);
 
     public string GetPluginKey(ILipuiPlugin plugin) => PluginSystem.GetPluginKey(plugin);
 

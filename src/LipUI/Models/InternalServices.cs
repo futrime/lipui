@@ -50,15 +50,14 @@ internal static class InternalServices
         string? message = null,
         InfoBarSeverity severity = InfoBarSeverity.Informational,
         TimeSpan interval = default,
-        UIElement? barContent = null)
+        UIElement? barContent = null,
+        CancellationToken cancellationToken = default)
     {
         if (interval == default)
             interval = TimeSpan.FromSeconds(3);
 
-
-
         if (MainWindow is not null)
-            await MainWindow.ShowInfoBarAsync(title, message, severity, interval, barContent);
+            await MainWindow.ShowInfoBarAsync(title, message, severity, interval, barContent, cancellationToken);
     }
 
     public static async ValueTask ShowInfoBarAsync(
@@ -66,16 +65,19 @@ internal static class InternalServices
         bool containsStacktrace = false,
         InfoBarSeverity severity = InfoBarSeverity.Error,
         TimeSpan interval = default,
-        UIElement? barContent = null)
+        UIElement? barContent = null,
+        CancellationToken cancellationToken = default)
     {
         if (interval == default)
             interval = TimeSpan.FromSeconds(5);
+
         await ShowInfoBarAsync(
             ex.GetType().Name,
             containsStacktrace ? ex.ToString() : ex.Message,
             severity,
             interval,
-            barContent);
+            barContent,
+            cancellationToken);
     }
 
     public static void ShowInfoBar(
@@ -84,12 +86,13 @@ internal static class InternalServices
         InfoBarSeverity severity = InfoBarSeverity.Informational,
         TimeSpan interval = default,
         UIElement? barContent = null,
-        Action? completed = null)
+        Action? completed = null,
+        CancellationToken cancellationToken = default)
     {
         if (interval == default)
             interval = TimeSpan.FromSeconds(3);
 
-        MainWindow?.ShowInfoBar(title, message, severity, interval, barContent, completed);
+        MainWindow?.ShowInfoBar(title, message, severity, interval, barContent, completed, cancellationToken);
     }
 
     public static void ShowInfoBar(
@@ -98,16 +101,20 @@ internal static class InternalServices
         InfoBarSeverity severity = InfoBarSeverity.Error,
         TimeSpan interval = default,
         UIElement? barContent = null,
-        Action? completed = null)
+        Action? completed = null,
+        CancellationToken cancellationToken = default)
     {
         if (interval == default)
             interval = TimeSpan.FromSeconds(5);
-        ShowInfoBar(ex.GetType().Name,
+
+        ShowInfoBar(
+            ex.GetType().Name,
             containsStacktrace ? ex.ToString() : ex.Message,
             severity,
             interval,
             barContent,
-            completed);
+            completed,
+            cancellationToken);
     }
 
     public static event Action? WindowClosed;
