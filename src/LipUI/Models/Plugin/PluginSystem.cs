@@ -23,8 +23,6 @@ internal static class PluginSystem
 
     private static readonly Dictionary<guid_string, ILipuiPlugin> guidWithPlugins = [];
 
-    private static readonly LipuiServices services = new();
-
 
     /// <summary>
     /// noexcept
@@ -156,16 +154,17 @@ internal static class PluginSystem
         }
     }
 
-    public static string GetPluginEnabledConfigKey(ILipuiPlugin plugin)
+    public static string GetPluginKey(ILipuiPlugin plugin)
         => $"{plugin.GetType().Assembly.GetName().Name}+{plugin.PluginName}+{plugin.Guid}";
 
     private static async ValueTask EnablePlugins(IEnumerable<ILipuiPlugin> plugins)
     {
         var enableInfo = Main.Config.PluginEanbleInfo;
-        Main.Config.PluginEanbleInfo = [];
+        List<(string, bool)> temp = new(8);
+
         foreach (var plugin in plugins)
         {
-            var key = GetPluginEnabledConfigKey(plugin);
+            var key = GetPluginKey(plugin);
             try
             {
                 if (enableInfo.TryGetValue(key, out bool enable) is false)
@@ -177,6 +176,8 @@ internal static class PluginSystem
                 {
                     EnablePlugin(plugin);
                 }
+
+                temp.Add((key, enable));
             }
             catch (Exception ex)
             {
@@ -184,6 +185,10 @@ internal static class PluginSystem
                 continue;
             }
         }
+
+        Main.Config.ClearPluginEnableInfo();
+        foreach (var (key, val) in temp)
+            Main.Config.AddPluginEnableInfo(key, val);
     }
 
     public static void EnablePlugin(ILipuiPlugin plugin)
@@ -193,12 +198,11 @@ internal static class PluginSystem
             if (enabledPlugins.Contains(plugin))
                 return;
 
-            Main.Config.PluginEanbleInfo[GetPluginEnabledConfigKey(plugin)] = true;
-            var task = Main.SaveConfigAsync();
+            Main.Config.SetPluginEnabled(GetPluginKey(plugin));
 
             enabledPlugins.Add(plugin);
 
-            Task.Run(() => plugin.OnEnable(services));
+            Task.Run(() => plugin.OnEnable(LipuiServices.Default));
             PluginEnabled?.Invoke(plugin);
         }
         catch (Exception ex)
@@ -214,12 +218,11 @@ internal static class PluginSystem
             if (enabledPlugins.Contains(plugin) is false)
                 return;
 
-            Main.Config.PluginEanbleInfo[GetPluginEnabledConfigKey(plugin)] = false;
+            Main.Config.SetPluginDisabled(GetPluginKey(plugin));
 
             enabledPlugins.Remove(plugin);
-            var task = Main.SaveConfigAsync();
 
-            Task.Run(() => plugin.OnDisable(services));
+            Task.Run(() => plugin.OnDisable(LipuiServices.Default));
             PluginDisabled?.Invoke(plugin);
         }
         catch (Exception ex)

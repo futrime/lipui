@@ -1,11 +1,16 @@
-﻿using CommunityToolkit.WinUI.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.WinUI.Helpers;
 using LipUI.Pages.Settings;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace LipUI.Models;
+
+public enum BackdropControllerType { Mica, Acrylic, Transparent, None }
 
 internal static class DefaultSettings
 {
@@ -31,106 +36,190 @@ internal static class DefaultSettings
     public const string LipExecutableFileName = "lip.exe";
 }
 
-internal class Config
+public partial class Config : ObservableObject
 {
-    public class GeneralSetting
+    public partial class GeneralSetting : ObservableObject
     {
-        [JsonPropertyName("lip_path")]
-        public string LipPath { get; set; } = string.Empty;
+        [ObservableProperty]
+        [property: JsonPropertyName("lip_path")]
+        private string lipPath = string.Empty;
 
-        [JsonPropertyName("lip_index_api")]
-        public string LipIndexApiKey { get; set; } = string.Empty;
+        [ObservableProperty]
+        [property: JsonPropertyName("lip_index_api")]
+        private string lipIndexApiKey = string.Empty;
 
-        [JsonPropertyName("github_api")]
-        public string GithubApiKey { get; set; } = string.Empty;
+        [ObservableProperty]
+        [property: JsonPropertyName("github_api")]
+        private string githubApiKey = string.Empty;
 
-        [JsonPropertyName("github_proxy")]
-        public string GithubProxy { get; set; } = string.Empty;
+        [ObservableProperty]
+        [property: JsonPropertyName("github_proxy")]
+        private string githubProxy = string.Empty;
     }
 
-    public class PersonalizationSetting
+    public partial class PersonalizationSetting : ObservableObject
     {
+        [ObservableProperty]
+        [property: JsonPropertyName("color_theme")]
+        private ElementTheme colorTheme = ElementTheme.Default;
 
-        [JsonPropertyName("color_theme")]
-        public ElementTheme ColorTheme { get; set; } = ElementTheme.Default;
+        [ObservableProperty]
+        [property: JsonPropertyName("backdrop_type")]
+        private BackdropControllerType backdropType = BackdropControllerType.None;
 
-        [JsonPropertyName("backdrop_type")]
-        public PersonalizationSettingsView.BackdropControllerType BackdropType { get; set; } = PersonalizationSettingsView.BackdropControllerType.None;
+        [ObservableProperty]
+        [property: JsonPropertyName("backdrop_luminosity")]
+        private double? backdropLuminosity = 20;
 
-        [JsonPropertyName("backdrop_luminosity")]
-        public double? BackdropLuminosity { get; set; } = 20;
+        [ObservableProperty]
+        [property: JsonPropertyName("background_color")]
+        private string? backgroundColor;
 
-        [JsonPropertyName("background_color")]
-        public string? BackgroundColor { get; set; }
+        [ObservableProperty]
+        [property: JsonPropertyName("navigation_view_content_background_color")]
+        private string? navigationViewContentBackgroundColor;
 
-        [JsonPropertyName("navigation_view_content_background_color")]
-        public string? NavigationViewContentBackgroundColor { get; set; }
+        [ObservableProperty]
+        [property: JsonPropertyName("navigation_view_content_border_color")]
+        private string? navigationViewContentBorderColor;
 
-        [JsonPropertyName("navigation_view_content_border_color")]
-        public string? NavigationViewContentBorderColor { get; set; }
+        [ObservableProperty]
+        [property: JsonPropertyName("background_secondary_color")]
+        private string? backgroundSecondaryColor;
 
-        [JsonPropertyName("background_secondary_color")]
-        public string? BackgroundSecondaryColor { get; set; }
+        [ObservableProperty]
+        [property: JsonPropertyName("enable_image_background")]
+        private bool enableImageBackground;
 
-        [JsonPropertyName("enable_image_background")]
-        public bool EnableImageBackground { get; set; }
+        [ObservableProperty]
+        [property: JsonPropertyName("background_image_path")]
+        private string? backgroundImagePath;
 
-        [JsonPropertyName("background_image_path")]
-        public string? BackgroundImagePath { get; set; }
-
-        [JsonPropertyName("reload_colors")]
-        public bool ResetColors { get; set; }
+        [ObservableProperty]
+        [property: JsonPropertyName("reload_colors")]
+        private bool resetColors;
     }
 
+    [ObservableProperty]
+    [property: JsonPropertyName("general_settings")]
+    private GeneralSetting generalSettings = new();
 
-    [JsonPropertyName("general_settings")]
-    public GeneralSetting GeneralSettings { get; set; }
+    [ObservableProperty]
+    [property: JsonPropertyName("personalization_settings")]
+    private PersonalizationSetting personalizationSettings = new();
 
-    [JsonPropertyName("personalization_settings")]
-    public PersonalizationSetting PersonalizationSettings { get; set; }
+    [ObservableProperty]
+    [property: JsonPropertyName("selected_server")]
+    private ServerInstance? selectedServer;
 
+
+    [JsonInclude]
     [JsonPropertyName("plugin_enable_info")]
-    public Dictionary<string, bool> PluginEanbleInfo { get; set; }
+    private Dictionary<string, bool> pluginEanbleInfo = [];
 
+    [JsonInclude]
     [JsonPropertyName("servers")]
-    public List<ServerInstance> ServerInstances { get; set; }
+    private readonly List<ServerInstance> serverInstances = [];
 
-    [JsonPropertyName("selected_server")]
-    public ServerInstance? SelectedServer { get; set; }
+    [JsonIgnore]
+    public IReadOnlyDictionary<string, bool> PluginEanbleInfo => pluginEanbleInfo;
+
+    [JsonIgnore]
+    public IReadOnlyList<ServerInstance> ServerInstances => serverInstances;
+
+    public void AddServerInstance(ServerInstance instance)
+    {
+        serverInstances.Add(instance);
+        OnPropertyChanged(nameof(ServerInstances));
+    }
+
+    public void RemoveServerInstance(ServerInstance instance)
+    {
+        serverInstances.Remove(instance);
+        OnPropertyChanged(nameof(ServerInstances));
+    }
+
+    public void SetPluginEnabled(string key)
+    {
+        pluginEanbleInfo[key] = true;
+        OnPropertyChanged(nameof(PluginEanbleInfo));
+    }
+
+    public void SetPluginDisabled(string key)
+    {
+        pluginEanbleInfo[key] = false;
+        OnPropertyChanged(nameof(PluginEanbleInfo));
+    }
+
+    public void AddPluginEnableInfo(string key, bool val)
+    {
+        pluginEanbleInfo.Add(key, val);
+        OnPropertyChanged(nameof(PluginEanbleInfo));
+    }
+
+    public void RemovePluginEnableInfo(string key)
+    {
+        pluginEanbleInfo.Remove(key);
+        OnPropertyChanged(nameof(PluginEanbleInfo));
+    }
+
+    public void ClearPluginEnableInfo()
+    {
+        pluginEanbleInfo.Clear();
+        OnPropertyChanged(nameof(PluginEanbleInfo));
+    }
 
     public Config()
     {
-        ServerInstances = [];
         ResetGeneralSettings(Main.WorkingDirectory);
         ResetPersonalizationSettings();
-        PluginEanbleInfo = [];
+
+        void GeneralSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(GeneralSettings));
+        }
+        void PersonalizationSettingsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(PersonalizationSettings));
+        }
+
+        GeneralSettings.PropertyChanged += GeneralSettingsPropertyChanged;
+        PersonalizationSettings.PropertyChanged += PersonalizationSettingsPropertyChanged;
     }
 
-    [MemberNotNull(nameof(GeneralSettings))]
     public void ResetGeneralSettings(string workingDir)
     {
-        GeneralSettings = new()
-        {
-            LipPath = Path.Combine(workingDir, DefaultSettings.LipExecutableFileName),
-            LipIndexApiKey = DefaultSettings.LipIndexApiKey,
-            GithubApiKey = DefaultSettings.GitHubApiKey,
-        };
+        GeneralSettings.LipPath = Path.Combine(workingDir, DefaultSettings.LipExecutableFileName);
+        GeneralSettings.LipIndexApiKey = DefaultSettings.LipIndexApiKey;
+        GeneralSettings.GithubApiKey = DefaultSettings.GitHubApiKey;
     }
 
-    [MemberNotNull(nameof(PersonalizationSettings))]
     public void ResetPersonalizationSettings()
     {
-        PersonalizationSettings = new()
+        PersonalizationSettings.BackdropType = BackdropControllerType.None;
+        PersonalizationSettings.BackdropLuminosity = 0;
+        PersonalizationSettings.BackgroundColor = Colors.Transparent.ToHex();
+        PersonalizationSettings.NavigationViewContentBackgroundColor = Colors.Transparent.ToHex();
+        PersonalizationSettings.NavigationViewContentBorderColor = Colors.Transparent.ToHex();
+        PersonalizationSettings.BackgroundSecondaryColor = Colors.Transparent.ToHex();
+        PersonalizationSettings.EnableImageBackground = false;
+        PersonalizationSettings.BackgroundImagePath = null;
+        PersonalizationSettings.ResetColors = true;
+    }
+
+    private static readonly JsonSerializerOptions options = new()
+    {
+        WriteIndented = true,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
+
+    public static Config Deserialize(string json) => JsonSerializer.Deserialize<Config>(json)!;
+
+    public string Serialize()
+    {
+        lock (this)
         {
-            BackdropType = PersonalizationSettingsView.BackdropControllerType.None,
-            BackdropLuminosity = 0,
-            BackgroundColor = Colors.Transparent.ToHex(),
-            NavigationViewContentBackgroundColor = Colors.Transparent.ToHex(),
-            NavigationViewContentBorderColor = Colors.Transparent.ToHex(),
-            BackgroundSecondaryColor = Colors.Transparent.ToHex(),
-            EnableImageBackground = false,
-            BackgroundImagePath = null,
-            ResetColors = true
-        };
+            return JsonSerializer.Serialize(this, options);
+        }
     }
 }

@@ -81,6 +81,7 @@
                         x:Uid="personalizationSettings$luminosityOpacity"
                         Maximum="100"
                         Minimum="0"
+                        TickFrequency="1"
                         x:Name="LuminosityOpacitySlider"
                         ValueChanged="LuminosityOpacitySlider_ValueChanged"/>
 

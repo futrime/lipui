@@ -18,7 +18,7 @@ public class LipCommandOption
     }
 
     public static readonly LipCommandOption Help
-        = new("h", "help", LipCommand.Lip, AutoRemove, Cache, Purge, Install, List, Show, Tooth, Init, Pack, Uninstall);
+        = new("h", "help", LipCommand.Lip, AutoRemove, Cache, Purge, Install, List, Show, Tooth, Init, Pack, Uninstall, LipCommand.Config);
 
     public static readonly LipCommandOption Version
         = new("V", "version", LipCommand.Lip);

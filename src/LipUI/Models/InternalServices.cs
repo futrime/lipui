@@ -46,7 +46,7 @@ internal static class InternalServices
     internal static MainWindow? MainWindow { get; set; }
 
     public static async ValueTask ShowInfoBarAsync(
-        string? title,
+        string? title = null,
         string? message = null,
         InfoBarSeverity severity = InfoBarSeverity.Informational,
         TimeSpan interval = default,
@@ -79,7 +79,7 @@ internal static class InternalServices
     }
 
     public static void ShowInfoBar(
-        string? title,
+        string? title = null,
         string? message = null,
         InfoBarSeverity severity = InfoBarSeverity.Informational,
         TimeSpan interval = default,

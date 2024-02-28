@@ -34,6 +34,10 @@ public sealed partial class SettingsPage : Page
                 case "personalizationSettings":
                     SettingsBorder.Child = new PersonalizationSettingsView();
                     break;
+
+                case "lipSettings":
+                    SettingsBorder.Child = new LipSettingsView();
+                    break;
             }
         }
     }

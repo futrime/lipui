@@ -2,7 +2,7 @@
 
 namespace LipUI.Models;
 
-internal class ServerInstance
+public class ServerInstance
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = "undefined";

@@ -196,7 +196,7 @@ public sealed partial class ServerSelectionPage : Page
                 }
             }
 
-            Main.Config.ServerInstances.Add(server);
+            Main.Config.AddServerInstance(server);
 
             ServerGridView.DispatcherQueue.TryEnqueue(async () =>
             {
@@ -210,11 +210,10 @@ public sealed partial class ServerSelectionPage : Page
         }
     }
 
-    private async void ItemClick_SelectMode(object sender, ItemClickEventArgs e)
+    private void ItemClick_SelectMode(object sender, ItemClickEventArgs e)
     {
         Main.Config.SelectedServer = (e.ClickedItem as ServerInstanceView)!.ServerInstance;
         refreshIcon!();
-        await Main.SaveConfigAsync();
         Frame.TryGoBack();
     }
 
@@ -225,9 +224,8 @@ public sealed partial class ServerSelectionPage : Page
             var view = (ServerInstanceView)e.ClickedItem;
             if (DeleteButton.IsChecked!.Value)
             {
-                if (selectedViews.Contains(view))
+                if (selectedViews.Remove(view))
                 {
-                    selectedViews.Remove(view);
                     view.UnselectStoryboard.Begin();
                 }
                 else if (selectedViews.Add(view))
@@ -265,7 +263,6 @@ public sealed partial class ServerSelectionPage : Page
                         view.SetIconImageSource(editView.CustomIcon);
 
                     view.RefreshUI();
-                    await Main.SaveConfigAsync();
 
                     return;
                 case ContentDialogResult.None:
@@ -276,7 +273,7 @@ public sealed partial class ServerSelectionPage : Page
                         lock (Main.Config)
                         {
                             ServerGridView.Items.Remove(view);
-                            Main.Config.ServerInstances.Remove(view.ServerInstance);
+                            Main.Config.RemoveServerInstance(view.ServerInstance);
                             if (Main.Config.SelectedServer == view.ServerInstance)
                                 Main.Config.SelectedServer = null;
                         }
@@ -307,20 +304,19 @@ public sealed partial class ServerSelectionPage : Page
         }
     }
 
-    private async void DeleteApplyButton_Click(object sender, RoutedEventArgs e)
+    private void DeleteApplyButton_Click(object sender, RoutedEventArgs e)
     {
         lock (Main.Config)
         {
             foreach (var view in selectedViews)
             {
                 ServerGridView.Items.Remove(view);
-                Main.Config.ServerInstances.Remove(view.ServerInstance);
+                Main.Config.RemoveServerInstance(view.ServerInstance);
                 if (Main.Config.SelectedServer == view.ServerInstance)
                     Main.Config.SelectedServer = null;
             }
 
             refreshIcon!();
         }
-        await Main.SaveConfigAsync();
     }
 }

@@ -13,8 +13,20 @@ internal static class Main
     static Main() => Initialize();
 
 
+    private static Config? config;
 
-    public static Config Config { get; private set; }
+    public static Config Config
+    {
+        get => config ?? throw new NullReferenceException();
+        private set
+        {
+            if (config is not null)
+                config.PropertyChanged -= ConfigPropertyChanged;
+
+            config = value;
+            config!.PropertyChanged += ConfigPropertyChanged;
+        }
+    }
 
     public static string WorkingDirectory { get; private set; }
 
@@ -26,6 +38,7 @@ internal static class Main
     {
         InitializeWorkingDir();
         InitializeConfig();
+        InternalServices.WindowClosed += SaveConfig;
     }
 
     [MemberNotNull(nameof(WorkingDirectory))]
@@ -47,9 +60,8 @@ internal static class Main
         var path = Path.Combine(WorkingDirectory, DefaultSettings.ConfigFileName);
         if (File.Exists(path))
         {
-            using var config = File.OpenRead(path);
-            using var reader = new StreamReader(config);
-            Config = JsonSerializer.Deserialize<Config>(reader.ReadToEnd()) ?? throw new NullReferenceException();
+            var str = File.ReadAllText(path);
+            Config = JsonSerializer.Deserialize<Config>(str) ?? throw new NullReferenceException();
         }
         else
         {
@@ -71,30 +83,6 @@ internal static class Main
         return new LipConsole(path!, workingDir is null ? server.WorkingDirectory : workingDir);
     }
 
-
-    private static readonly object _lock = new();
-    public static async ValueTask SaveConfigAsync()
-    {
-        await Task.Run(() =>
-        {
-            lock (_lock)
-            {
-                var path = Path.Combine(WorkingDirectory, DefaultSettings.ConfigFileName);
-                if (File.Exists(path)) File.Delete(path);
-
-                using var file = File.Create(path);
-                using var writer = new StreamWriter(file);
-
-
-                writer.Write(JsonSerializer.Serialize(Config, new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                }));
-            }
-        });
-    }
-
     public static async ValueTask<(bool, string)> TryGetLipConsolePathAsync(XamlRoot xamlRoot)
     {
         if (File.Exists(Config.GeneralSettings.LipPath))
@@ -113,6 +101,56 @@ internal static class Main
             return File.Exists(Config.GeneralSettings.LipPath) ?
                 (true, Config.GeneralSettings.LipPath) :
                 (false, string.Empty);
+        }
+    }
+
+    private static bool configChanged = false;
+    private static uint configEditCount = 0;
+    private static readonly object _lock = new();
+    private static bool saving = false;
+    private static bool saveRequesting = false;
+
+    private static void ConfigPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        configChanged = true;
+        configEditCount++;
+
+        if (configEditCount >= 0xf)
+            Task.Run(SaveConfig);
+    }
+
+    internal static void SaveConfig()
+    {
+        if (saving)
+        {
+            saveRequesting = true;
+            return;
+        }
+
+        lock (_lock)
+        {
+            saving = true;
+            if (configChanged)
+            {
+                var path = Path.Combine(WorkingDirectory, DefaultSettings.ConfigFileName);
+                if (File.Exists(path)) File.Delete(path);
+
+                using var file = File.Create(path);
+                using var writer = new StreamWriter(file);
+
+                writer.Write(Config.Serialize());
+
+                configChanged = false;
+                configEditCount = 0;
+            }
+
+            if (saveRequesting)
+            {
+                saveRequesting = false;
+                SaveConfig();
+            }
+
+            saving = false;
         }
     }
 }

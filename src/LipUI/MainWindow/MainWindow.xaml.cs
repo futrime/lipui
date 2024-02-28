@@ -25,6 +25,8 @@ internal sealed partial class MainWindow : Window
     {
         InitializeComponent();
 
+        AppWindow.Closing += (_, _) => InternalServices.OnWindowClosed();
+
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
 
@@ -34,18 +36,10 @@ internal sealed partial class MainWindow : Window
 
         InternalServices.MainWindow = this;
 
-        PersonalizationSettingsView.Initialize();
+        PersonalizationSettingsView.Initialize(Main.Config.PersonalizationSettings);
 
         enabled = PluginEnabled;
         disabled = PluginDisabled;
-
-        Task.Run(PluginSystem.LoadAsync);
-    }
-
-    private async void MainWindow_Closed(object sender, WindowEventArgs args)
-    {
-        InternalServices.OnWindowClosed();
-        await Main.SaveConfigAsync();
     }
 
     internal void ShowInfoBar(
@@ -194,5 +188,16 @@ internal sealed partial class MainWindow : Window
         e.AcceptedOperation = DataPackageOperation.Move;
         e.DragUIOverride.IsCaptionVisible = false;
         e.DragUIOverride.IsGlyphVisible = false;
+    }
+
+    private async void RootBorder_Loaded(object sender, RoutedEventArgs e)
+    {
+        await PluginSystem.LoadAsync();
+
+        var timer = DispatcherQueue.CreateTimer();
+        timer.Interval = TimeSpan.FromSeconds(60);
+        timer.IsRepeating = true;
+        timer.Tick += (_sender, e) => Task.Run(Main.SaveConfig);
+        timer.Start();
     }
 }

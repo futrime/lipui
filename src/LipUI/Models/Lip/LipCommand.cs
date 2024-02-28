@@ -37,6 +37,8 @@ public class LipCommand
 
     public static readonly LipCommand Uninstall = new("uninstall", Lip);
 
+    public static readonly LipCommand Config = new("config", Lip);
+
     public override string ToString() => Command;
 
     public static explicit operator string(LipCommand command) => command.Command;

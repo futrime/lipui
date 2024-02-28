@@ -168,7 +168,7 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
     public static GlobalResources MyRes = new();
 
-    public static void Initialize()
+    public static void Initialize(Config.PersonalizationSetting settings)
     {
         try
         {
@@ -184,8 +184,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
                     IsInputActive = true
                 };
             }
-
-            var settings = Main.Config.PersonalizationSettings;
 
             if (settings.ResetColors)
             {
@@ -522,8 +520,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
 
     #region BackdropControllerSelection
 
-    public enum BackdropControllerType { Mica, Acrylic, Transparent, None }
-
     private static BackdropControllerType CurrentBackdrop
     {
         get
@@ -534,7 +530,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
         set
         {
             Main.Config.PersonalizationSettings.BackdropType = value;
-            Task.Run(Main.SaveConfigAsync);
         }
     }
 
@@ -601,7 +596,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             }
 
             Main.Config.PersonalizationSettings.BackdropLuminosity = ((Slider)sender).Value;
-            await Main.SaveConfigAsync();
         }
         catch (Exception ex) { await InternalServices.ShowInfoBarAsync(ex, containsStacktrace: true); }
     }
@@ -615,7 +609,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             {
                 MyRes.appBackgroundBrush.Color = color;
                 Main.Config.PersonalizationSettings.BackgroundColor = color.ToHex();
-                Task.Run(Main.SaveConfigAsync);
             }
         };
     }
@@ -629,7 +622,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             {
                 MyRes.appNavigationViewContentBackgroundBrush.Color = color;
                 Main.Config.PersonalizationSettings.NavigationViewContentBackgroundColor = color.ToHex();
-                Task.Run(Main.SaveConfigAsync);
             }
         };
     }
@@ -643,7 +635,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             {
                 MyRes.appNavigationViewContentBorderBrush.Color = color;
                 Main.Config.PersonalizationSettings.NavigationViewContentBorderColor = color.ToHex();
-                Task.Run(Main.SaveConfigAsync);
             }
         };
     }
@@ -657,7 +648,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             {
                 MyRes.appBackgroundSecondaryColorBrush.Color = color;
                 Main.Config.PersonalizationSettings.BackgroundSecondaryColor = color.ToHex();
-                Task.Run(Main.SaveConfigAsync);
             }
         };
     }
@@ -668,7 +658,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
         {
             ImageBackgroundEnabledPanel.Visibility = Visibility.Visible;
             Main.Config.PersonalizationSettings.EnableImageBackground = true;
-            await Main.SaveConfigAsync();
 
             var path = Main.Config.PersonalizationSettings.BackgroundImagePath;
             if (path is not null)
@@ -690,7 +679,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
     {
         ImageBackgroundEnabledPanel.Visibility = Visibility.Collapsed;
         Main.Config.PersonalizationSettings.EnableImageBackground = false;
-        Task.Run(Main.SaveConfigAsync);
 
         PreviewImage.Source = null;
         MyRes.ResetBrush(nameof(GlobalResources.ApplicationBackgroundImage));
@@ -722,7 +710,6 @@ internal sealed partial class PersonalizationSettingsView : UserControl
             MyRes.ApplicationBackgroundImage = new ImageBrush() { ImageSource = image, Stretch = Stretch.UniformToFill };
 
             Main.Config.PersonalizationSettings.BackgroundImagePath = imagePath;
-            await Main.SaveConfigAsync();
         }
         catch (Exception ex) { await InternalServices.ShowInfoBarAsync(ex); }
 
@@ -739,30 +726,31 @@ internal sealed partial class PersonalizationSettingsView : UserControl
     {
         MyRes.ApplicationBackgroundImage.Opacity = e.NewValue / 100;
         Main.Config.PersonalizationSettings.BackdropLuminosity = e.NewValue;
-        Task.Run(Main.SaveConfigAsync);
     }
 
     private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        var option = ((MenuFlyoutItem)sender).Tag.ToString();
-        ColorThemeSelectionButton.Content = option;
+        var tag = ((MenuFlyoutItem)sender).Tag.ToString();
 
-        Main.Config.PersonalizationSettings.ColorTheme = option switch
+        (ElementTheme theme, string option) = tag switch
         {
-            "light" => ElementTheme.Light,
-            "dark" => ElementTheme.Dark,
-            "default" or _ => ElementTheme.Default,
+            "light" => (ElementTheme.Light, "personalizationSettings$light/Text"),
+            "dark" => (ElementTheme.Dark, "personalizationSettings$dark/Text"),
+            "default" or _ => (ElementTheme.Default, "personalizationSettings$default/Text"),
         };
-        Task.Run(Main.SaveConfigAsync);
+        Main.Config.PersonalizationSettings.ColorTheme = theme;
+        ColorThemeSelectionButton.Content = option.GetLocalized();
 
         Button button = new()
         {
             Content = "application$restart".GetLocalized(),
-            HorizontalAlignment = HorizontalAlignment.Left
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Margin = new(4)
         };
 
         button.Click += async (sender, e) =>
         {
+            Main.SaveConfig();
             var rlt = AppInstance.Restart(string.Empty);
 
             await InternalServices.ShowInfoBarAsync(
