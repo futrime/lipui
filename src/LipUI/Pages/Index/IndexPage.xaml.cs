@@ -65,7 +65,7 @@ public sealed partial class IndexPage : Page
     {
         static void ThrowException(string api) => throw new NullReferenceException($"Failed to get index : {api}");
 
-        using var client = InternalServices.HttpClient;
+        var client = InternalServices.HttpClient;
 
         //foreach all lip index pages
 

@@ -110,7 +110,7 @@ public sealed partial class ToothInfoPage : Page
         {
             try
             {
-                using var client = new HttpClient();
+                var client = InternalServices.HttpClient;
                 var dataStr = await client.GetStringAsync(
                     $"https://{Main.Config.GeneralSettings.LipIndexApiKey}/teeth/{ToothItem.RepoOwner}/{ToothItem.RepoName}/{ToothItem.LatestVersion}");
 
