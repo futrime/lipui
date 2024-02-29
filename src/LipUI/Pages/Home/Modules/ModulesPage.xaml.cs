@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace LipUI.Pages.Home.Modules;
 
-internal class ModulesPage_Module : ILipuiPluginModule
+internal class ModulesPage_Module : IHomePageModule
 {
 
     public FrameworkElement IconContent => new Viewbox();
@@ -37,21 +37,21 @@ public sealed partial class ModulesPage : Page
         PluginSystem.PluginDisabled += PluginSystem_PluginDisabled;
     }
 
-    private static readonly HashSet<ILipuiPluginModule> enabledModules = new();
-    private static void PluginSystem_PluginEnabled(ILipuiPlugin obj)
+    private static readonly HashSet<IHomePageModule> enabledModules = new();
+    private static void PluginSystem_PluginEnabled(IPlugin obj)
     {
         lock (enabledModules)
         {
-            if (obj is ILipuiPluginModule module)
+            if (obj is IHomePageModule module)
                 enabledModules.Add(module);
         }
     }
 
-    private static void PluginSystem_PluginDisabled(ILipuiPlugin obj)
+    private static void PluginSystem_PluginDisabled(IPlugin obj)
     {
         lock (enabledModules)
         {
-            if (obj is ILipuiPluginModule module)
+            if (obj is IHomePageModule module)
                 enabledModules.Remove(module);
         }
     }

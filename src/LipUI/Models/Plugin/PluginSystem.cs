@@ -1,7 +1,7 @@
 ﻿using LipUI.Pages.Home.Modules;
 using System.Reflection;
 using System.Runtime.Loader;
-using guid_string = System.String;
+using GuidString = System.String;
 
 namespace LipUI.Models.Plugin;
 
@@ -9,19 +9,20 @@ internal static class PluginSystem
 {
     static PluginSystem()
     {
+        PluginConfigManager.Load();
         ModulesPage.InitEventHandlers();
         MainWindow.InitEventHandlers();
     }
 
-    public static IEnumerable<ILipuiPlugin>? Plugins { get; private set; }
+    public static IEnumerable<IPlugin>? Plugins { get; private set; }
 
-    public static IEnumerable<ILipuiPluginUI>? UIPlugins { get; private set; }
+    public static IEnumerable<IUIPlugin>? UIPlugins { get; private set; }
 
-    public static IEnumerable<ILipuiPluginModule>? Modules { get; private set; }
+    public static IEnumerable<IHomePageModule>? Modules { get; private set; }
 
-    private static readonly HashSet<ILipuiPlugin> enabledPlugins = [];
+    private static readonly HashSet<IPlugin> enabledPlugins = [];
 
-    private static readonly Dictionary<guid_string, ILipuiPlugin> guidWithPlugins = [];
+    private static readonly Dictionary<GuidString, IPlugin> guidWithPlugins = [];
 
 
     /// <summary>
@@ -48,11 +49,9 @@ internal static class PluginSystem
     private static async ValueTask<IEnumerable<Type>?> GetPluginTypes()
     {
         var dir = Path.Combine(Main.WorkingDirectory, DefaultSettings.PluginsDir);
+
         if (Directory.Exists(dir) is false)
-        {
             Directory.CreateDirectory(dir);
-            return null;
-        }
 
         List<Type> pluginTypes = [];
         var ctx = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly())!;
@@ -60,7 +59,7 @@ internal static class PluginSystem
         var dirInfo = new DirectoryInfo(dir);
 
         var types = from type in Assembly.GetExecutingAssembly().GetTypes()
-                    where type.IsAssignableTo(typeof(ILipuiPlugin)) && type.GetCustomAttribute<LipUIModuleAttribute>() is not null
+                    where type.IsAssignableTo(typeof(IPlugin)) && type.GetCustomAttribute<LipUIModuleAttribute>() is not null
                     select type;
 
         pluginTypes.AddRange(types);
@@ -84,7 +83,7 @@ internal static class PluginSystem
                 return null;
 
             var types = from type in assembly.DefinedTypes
-                        where type.IsAssignableTo(typeof(ILipuiPlugin)) && type.GetCustomAttribute<LipUIModuleAttribute>() is not null
+                        where type.IsAssignableTo(typeof(IPlugin)) && type.GetCustomAttribute<LipUIModuleAttribute>() is not null
                         select type;
             return types;
         }
@@ -95,11 +94,11 @@ internal static class PluginSystem
         }
     }
 
-    private static async ValueTask<(IEnumerable<ILipuiPlugin>, IEnumerable<ILipuiPluginUI>, IEnumerable<ILipuiPluginModule>)> CreateInstances(IEnumerable<Type> types)
+    private static async ValueTask<(IEnumerable<IPlugin>, IEnumerable<IUIPlugin>, IEnumerable<IHomePageModule>)> CreateInstances(IEnumerable<Type> types)
     {
-        List<ILipuiPlugin> instances = new(types.Count());
-        List<ILipuiPluginUI> uiInstances = [];
-        List<ILipuiPluginModule> modules = [];
+        List<IPlugin> instances = new(types.Count());
+        List<IUIPlugin> uiInstances = [];
+        List<IHomePageModule> modules = [];
 
         foreach (var type in types)
         {
@@ -107,7 +106,7 @@ internal static class PluginSystem
             {
                 var obj = Activator.CreateInstance(type);
 
-                if (obj is ILipuiPlugin plugin)
+                if (obj is IPlugin plugin)
                 {
                     var guidStr = plugin.Guid.ToString();
                     if (guidWithPlugins.ContainsKey(guidStr))
@@ -118,10 +117,10 @@ internal static class PluginSystem
                     instances.Add(plugin);
                 }
 
-                if (obj is ILipuiPluginUI ui)
+                if (obj is IUIPlugin ui)
                     uiInstances.Add(ui);
 
-                if (obj is ILipuiPluginModule module)
+                if (obj is IHomePageModule module)
                     modules.Add(module);
             }
             catch (Exception ex)
@@ -133,18 +132,13 @@ internal static class PluginSystem
         return (instances, uiInstances, modules);
     }
 
-    private static async ValueTask InitializePlugins(IEnumerable<ILipuiPlugin> plugins)
+    private static async ValueTask InitializePlugins(IEnumerable<IPlugin> plugins)
     {
-        var info = new LipuiRuntimeInfo()
-        {
-            Theme = Main.Config.PersonalizationSettings.ColorTheme,
-            ApplicationWindow = InternalServices.MainWindow ?? throw new NullReferenceException()
-        };
         foreach (var plugin in plugins)
         {
             try
             {
-                await Task.Run(() => plugin.OnInitlalize(info));
+                await Task.Run(() => plugin.OnInitlalize(LipuiServices.Default));
             }
             catch (Exception ex)
             {
@@ -154,10 +148,10 @@ internal static class PluginSystem
         }
     }
 
-    public static string GetPluginKey(ILipuiPlugin plugin)
+    public static string GetPluginKey(IPlugin plugin)
         => $"{plugin.GetType().Assembly.GetName().Name}+{plugin.PluginName}+{plugin.Guid}";
 
-    private static async ValueTask EnablePlugins(IEnumerable<ILipuiPlugin> plugins)
+    private static async ValueTask EnablePlugins(IEnumerable<IPlugin> plugins)
     {
         var enableInfo = Main.Config.PluginEanbleInfo;
         List<(string, bool)> temp = new(8);
@@ -191,7 +185,7 @@ internal static class PluginSystem
             Main.Config.AddPluginEnableInfo(key, val);
     }
 
-    public static void EnablePlugin(ILipuiPlugin plugin)
+    public static void EnablePlugin(IPlugin plugin)
     {
         try
         {
@@ -211,7 +205,7 @@ internal static class PluginSystem
         }
     }
 
-    public static void DisablePlugin(ILipuiPlugin plugin)
+    public static void DisablePlugin(IPlugin plugin)
     {
         try
         {
@@ -231,9 +225,9 @@ internal static class PluginSystem
         }
     }
 
-    public static bool IsPluginEnabled(ILipuiPlugin plugin)
+    public static bool IsPluginEnabled(IPlugin plugin)
         => enabledPlugins.Contains(plugin);
 
-    public static event Action<ILipuiPlugin>? PluginEnabled;
-    public static event Action<ILipuiPlugin>? PluginDisabled;
+    public static event Action<IPlugin>? PluginEnabled;
+    public static event Action<IPlugin>? PluginDisabled;
 }

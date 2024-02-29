@@ -12,12 +12,12 @@ internal partial class MainWindow
         PluginSystem.PluginDisabled += PluginSystem_PluginDisabled;
     }
 
-    private static readonly HashSet<ILipuiPluginUI> enabledModules = [];
-    private static void PluginSystem_PluginEnabled(ILipuiPlugin obj)
+    private static readonly HashSet<IUIPlugin> enabledModules = [];
+    private static void PluginSystem_PluginEnabled(IPlugin obj)
     {
         lock (enabledModules)
         {
-            if (obj is ILipuiPluginUI uiPlugin)
+            if (obj is IUIPlugin uiPlugin)
             {
                 enabledModules.Add(uiPlugin);
                 enabled?.Invoke(uiPlugin);
@@ -25,11 +25,11 @@ internal partial class MainWindow
         }
     }
 
-    private static void PluginSystem_PluginDisabled(ILipuiPlugin obj)
+    private static void PluginSystem_PluginDisabled(IPlugin obj)
     {
         lock (enabledModules)
         {
-            if (obj is ILipuiPluginUI uiPlugin)
+            if (obj is IUIPlugin uiPlugin)
             {
                 enabledModules.Remove(uiPlugin);
                 disabled?.Invoke(uiPlugin);
@@ -37,15 +37,15 @@ internal partial class MainWindow
         }
     }
 
-    private static Action<ILipuiPluginUI>? enabled;
-    private static Action<ILipuiPluginUI>? disabled;
+    private static Action<IUIPlugin>? enabled;
+    private static Action<IUIPlugin>? disabled;
 
     private readonly object _lock = new();
     private uint navViewBarEnabledPluginsCount;
 
-    private readonly Dictionary<ILipuiPluginUI, NavigationViewItemBase> views = [];
+    private readonly Dictionary<IUIPlugin, NavigationViewItemBase> views = [];
 
-    private void PluginEnabled(ILipuiPluginUI plugin)
+    private void PluginEnabled(IUIPlugin plugin)
     {
         DispatcherQueue.TryEnqueue(async () =>
         {
@@ -86,7 +86,7 @@ internal partial class MainWindow
         });
     }
 
-    private void PluginDisabled(ILipuiPluginUI plugin)
+    private void PluginDisabled(IUIPlugin plugin)
     {
         DispatcherQueue.TryEnqueue(async () =>
         {

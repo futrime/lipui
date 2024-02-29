@@ -63,11 +63,20 @@ public class LipuiServices
         CancellationToken cancellationToken = default)
         => InternalServices.ShowInfoBar(ex, containsStacktrace, severity, interval, barContent, completed, cancellationToken);
 
-    public string GetPluginKey(ILipuiPlugin plugin) => PluginSystem.GetPluginKey(plugin);
+    public string GetPluginKey(IPlugin plugin) => PluginSystem.GetPluginKey(plugin);
+
+    public ConfigCollection GetPluginConfig(IPlugin plugin)
+        => PluginConfigManager.GetOrCreatePluginConfig(plugin);
 
     public string? CurrentServerDirectory => Main.Config.SelectedServer?.WorkingDirectory;
 
     public Config LipuiConfig => Main.Config;
 
     public DispatcherQueue DispatcherQueue => InternalServices.MainWindow!.DispatcherQueue;
+
+    public LipuiRuntimeInfo LipuiInfo => new()
+    {
+        Theme = Main.Config.PersonalizationSettings.ColorTheme,
+        ApplicationWindow = InternalServices.MainWindow ?? throw new NullReferenceException()
+    };
 }

@@ -5,7 +5,7 @@ public sealed class LipUIModuleAttribute : Attribute
 {
 }
 
-public interface ILipuiPlugin
+public interface IPlugin
 {
     public string PluginName { get; }
 
@@ -13,7 +13,7 @@ public interface ILipuiPlugin
 
     public Guid Guid { get; }
 
-    public void OnInitlalize(LipuiRuntimeInfo info) { }
+    public void OnInitlalize(LipuiServices services) { }
 
     public void OnEnable(LipuiServices services) { }
 

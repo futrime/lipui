@@ -111,6 +111,9 @@ internal static class Main
     private static bool saveRequesting = false;
 
     private static void ConfigPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        => ConfigChanged();
+
+    internal static void ConfigChanged()
     {
         configChanged = true;
         configEditCount++;
@@ -121,6 +124,8 @@ internal static class Main
 
     internal static void SaveConfig()
     {
+        Task.Run(Plugin.PluginConfigManager.Save);
+
         if (saving)
         {
             saveRequesting = true;

@@ -12,11 +12,11 @@ namespace LipUI.Pages.Home.Modules;
 public sealed partial class ModuleIcon : UserControl
 {
 
-    internal static Dictionary<Type, ILipuiPluginModule> Modules { get; private set; } = new();
+    internal static Dictionary<Type, IHomePageModule> Modules { get; private set; } = new();
 
     public Type? PageType { get; private set; }
 
-    public ModuleIcon(ILipuiPluginModule module)
+    public ModuleIcon(IHomePageModule module)
     {
         InitializeComponent();
 

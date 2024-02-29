@@ -34,7 +34,7 @@ internal sealed partial class LipInstallerView : UserControl
 
     private static async ValueTask<InstallerInfo> RequestLipInstallerInfo()
     {
-        using var client = new HttpClient();
+        var client = InternalServices.HttpClient;
 
         // Fetch latest release from GitHub API
         client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
@@ -80,23 +80,18 @@ internal sealed partial class LipInstallerView : UserControl
 
         try
         {
-            using var client = new HttpClient(new HttpClientHandler() { ClientCertificateOptions = ClientCertificateOption.Automatic })
-            {
-                Timeout = TimeSpan.FromSeconds(5),
-                DefaultRequestHeaders = { ExpectContinue = false }
-            };
+            var client = InternalServices.HttpClient;
 
             HttpResponseMessage response;
 
-            try
-            {
-                response = await client.GetAsync(info.AssetUrl, HttpCompletionOption.ResponseHeadersRead);
-            }
-            catch (Exception ex)
-            {
-                await InternalServices.ShowInfoBarAsync(ex, severity: InfoBarSeverity.Warning);
-                response = await client.GetAsync($"{Main.Config.GeneralSettings.GithubProxy}/{info.AssetUrl}");
-            }
+            string url;
+            var proxy = Main.Config.GeneralSettings.GithubProxy;
+            if (string.IsNullOrWhiteSpace(proxy))
+                url = info.AssetUrl;
+            else
+                url = $"{(proxy.StartsWith("https://") ? "" : $"https://")}{proxy}/{info.AssetUrl}";
+
+            response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
             var input = await response.Content.ReadAsStreamAsync();
 

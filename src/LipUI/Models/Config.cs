@@ -20,6 +20,8 @@ internal static class DefaultSettings
 
     public const string DataDirectory = ".lipui";
 
+    public const string ConfigsDirectory = DataDirectory + "/configs";
+
     public const string LipRepoOwner = "lippkg";
 
     public const string LipRepoName = "lip";
@@ -207,7 +209,7 @@ public partial class Config : ObservableObject
         PersonalizationSettings.ResetColors = true;
     }
 
-    private static readonly JsonSerializerOptions options = new()
+    internal static readonly JsonSerializerOptions options = new()
     {
         WriteIndented = true,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping

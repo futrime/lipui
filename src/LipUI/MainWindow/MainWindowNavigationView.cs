@@ -95,7 +95,7 @@ internal partial class MainWindow
             if (args.InvokedItemContainer.Tag is null)
                 return;
 
-            if (args.InvokedItemContainer.Tag is ILipuiPluginUI plugin)
+            if (args.InvokedItemContainer.Tag is IUIPlugin plugin)
             {
                 try
                 {

@@ -122,4 +122,11 @@ internal static class InternalServices
     internal static void OnWindowClosed() => WindowClosed?.Invoke();
 
     public static ApplicationTheme ApplicationTheme { get; internal set; }
+
+    public static HttpClient HttpClient { get; } = new HttpClient(
+        new HttpClientHandler() { ClientCertificateOptions = ClientCertificateOption.Automatic })
+    {
+        Timeout = TimeSpan.FromSeconds(5),
+        DefaultRequestHeaders = { ExpectContinue = false }
+    };
 }

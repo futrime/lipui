@@ -12,7 +12,8 @@
         Padding="12,4,12,4">
 
         <ListView
-            x:Name="PluginsListView"/>
+            x:Name="PluginsListView"
+            CharacterSpacing="4"/>
 
 
 

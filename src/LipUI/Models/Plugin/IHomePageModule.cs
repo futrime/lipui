@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace LipUI.Models.Plugin;
 
-public interface ILipuiPluginModule : ILipuiPlugin
+public interface IHomePageModule : IPlugin
 {
     public Type PageType { get; }
 

@@ -1,5 +1,4 @@
-﻿using LipUI.Models;
-using LipUI.Models.Lip;
+﻿using LipUI.Models.Lip;
 using LipUI.Models.Plugin;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 namespace LipUI.BuiltInPlugins.DefaultLipProxySetter;
 
 [LipUIModule]
-internal class DefaultLipProxySetter : ILipuiPlugin
+internal class DefaultLipProxySetter : IPlugin
 {
     private static class Strings
     {
@@ -29,14 +28,25 @@ internal class DefaultLipProxySetter : ILipuiPlugin
 
     private static class DefaultProxies
     {
-        public const string Github = "github.bibk.top";
+        public const string Github = "mirror.ghproxy.com";
     }
 
-    void ILipuiPlugin.OnEnable(LipuiServices services)
+    void IPlugin.OnInitlalize(LipuiServices services)
     {
-        //todo (plugin config)
-        if (services.LipuiConfig.GeneralSettings.GithubProxy is DefaultProxies.Github)
+        var config = services.GetPluginConfig(this);
+
+        var selfDisabled = config["SelfDisabled"];
+        if (selfDisabled.IsNull)
+            config["SelfDisabled"] = false;
+    }
+
+    void IPlugin.OnEnable(LipuiServices services)
+    {
+        var config = services.GetPluginConfig(this);
+        if (config["SelfDisabled"].As<bool>())
             return;
+
+        config["SelfDisabled"] = true;
 
         if (System.Globalization.CultureInfo.CurrentCulture.Name.ToLower() is "zh-cn")
         {
@@ -97,7 +107,7 @@ internal class DefaultLipProxySetter : ILipuiPlugin
                 await services.ShowInfoBarAsync(
                     severity: InfoBarSeverity.Warning,
                     message: Strings.InfoBarMessage,
-                    interval: TimeSpan.FromSeconds(10),
+                    interval: TimeSpan.FromSeconds(30),
                     barContent: stackPanel,
                     cancellationToken: cts.Token);
             });

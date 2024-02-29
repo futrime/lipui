@@ -87,9 +87,9 @@ internal sealed partial class MainWindow : Window
         e.DragUIOverride.IsGlyphVisible = false;
     }
 
-    private async void RootBorder_Loaded(object sender, RoutedEventArgs e)
+    private void RootBorder_Loaded(object sender, RoutedEventArgs e)
     {
-        await PluginSystem.LoadAsync();
+        Task.Run(PluginSystem.LoadAsync);
 
         var timer = DispatcherQueue.CreateTimer();
         timer.Interval = TimeSpan.FromSeconds(60);

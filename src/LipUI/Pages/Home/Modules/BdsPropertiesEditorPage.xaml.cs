@@ -16,7 +16,7 @@ using static LipUI.Models.InternalServices;
 namespace LipUI.Pages.Home.Modules;
 
 [LipUIModule]
-internal class BdsPropertiesEditorPage_Module : ILipuiPluginModule
+internal class BdsPropertiesEditorPage_Module : IHomePageModule
 {
     public string PluginName => "modules$title$propertiesEditor".GetLocalized();
 

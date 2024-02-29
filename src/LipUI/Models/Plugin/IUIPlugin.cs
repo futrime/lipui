@@ -2,7 +2,7 @@
 
 namespace LipUI.Models.Plugin;
 
-public interface ILipuiPluginUI : ILipuiPlugin
+public interface IUIPlugin : IPlugin
 {
     public IconElement NavigatonBarIcon { get; }
 

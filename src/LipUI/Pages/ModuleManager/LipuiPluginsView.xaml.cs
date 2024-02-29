@@ -16,9 +16,9 @@ public sealed partial class LipuiPluginsView : UserControl
     private readonly Brush TextFillColorPrimaryBrush = (Brush)Application.Current.Resources["TextFillColorPrimaryBrush"];
     private readonly Brush TextFillColorSecondaryBrush = (Brush)Application.Current.Resources["TextFillColorSecondaryBrush"];
 
-    private readonly IEnumerable<ILipuiPlugin> plugins;
+    private readonly IEnumerable<IPlugin> plugins;
 
-    public LipuiPluginsView(IEnumerable<ILipuiPlugin> plugins)
+    public LipuiPluginsView(IEnumerable<IPlugin> plugins)
     {
         InitializeComponent();
 
@@ -28,7 +28,7 @@ public sealed partial class LipuiPluginsView : UserControl
     public async ValueTask InitializeUIAsync()
     {
 
-        Dictionary<Assembly, List<ILipuiPlugin>> assemblyAndPlugins = new();
+        Dictionary<Assembly, List<IPlugin>> assemblyAndPlugins = [];
 
         foreach (var plugin in plugins)
         {
@@ -36,7 +36,7 @@ public sealed partial class LipuiPluginsView : UserControl
             {
                 var assembly = plugin.GetType().Assembly;
                 if (assemblyAndPlugins.TryGetValue(assembly, out var list) is false)
-                    assemblyAndPlugins[assembly] = list = new();
+                    assemblyAndPlugins[assembly] = list = [];
 
                 list.Add(plugin);
             }
@@ -118,28 +118,29 @@ public sealed partial class LipuiPluginsView : UserControl
 
                     var grid = new Grid()
                     {
+                        Margin = new(4),
                         RowSpacing = 2,
                         ColumnSpacing = 2,
                         RowDefinitions =
-                    {
-                        new() { Height = new(1, GridUnitType.Star) },
-                        new() { Height = new(1, GridUnitType.Star) }
-                    },
+                        {
+                            new() { Height = new(1, GridUnitType.Star) },
+                            new() { Height = new(1, GridUnitType.Star) }
+                        },
                         ColumnDefinitions =
-                    {
-                        new() { Width = new(1, GridUnitType.Star) },
-                        new() { Width = new(1, GridUnitType.Star) },
-                        new() { Width = new(4, GridUnitType.Star) },
-                        new() { Width = new(2, GridUnitType.Star) },
-                    },
+                        {
+                            new() { Width = new(1, GridUnitType.Star) },
+                            new() { Width = new(1, GridUnitType.Star) },
+                            new() { Width = new(4, GridUnitType.Star) },
+                            new() { Width = new(2, GridUnitType.Star) },
+                        },
                         Children =
-                    {
-                        pluginNameTextBlock,
-                        assemblyNameTextBlock,
-                        assemblyPathTextBlock,
-                        guidTextBlock,
-                        swich
-                    }
+                        {
+                            pluginNameTextBlock,
+                            assemblyNameTextBlock,
+                            assemblyPathTextBlock,
+                            guidTextBlock,
+                            swich
+                        }
                     };
                     PluginsListView.Items.Add(grid);
                 }
