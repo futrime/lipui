@@ -18,11 +18,16 @@ jobs:
 
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
 
       - run: |
+          dotnet build src/LipUI/LipUI.csproj -c Release -o temp
+
           dotnet build src/LipUI/LipUI.csproj -c Release -o bin -r ${{ matrix.runtime }} `
           -p:DebugType=none -p:Platform=${{ matrix.platform }}
+
+          copy temp/runtimes/win10-${{ matrix.platform }}`
+          /native/Microsoft.WindowsAppRuntime.Bootstrap.dll bin
 
       - uses: actions/upload-artifact@v4
         with:
