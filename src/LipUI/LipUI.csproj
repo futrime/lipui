@@ -15,6 +15,9 @@
 	<WindowsPackageType>None</WindowsPackageType>
 	  
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="BuiltInPlugins\LipPanel\LipPanelPage.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
 	<RuntimeHostConfigurationOption Include="System.Runtime.Loader.UseRidGraph" Value="true" />
@@ -32,6 +35,12 @@
 
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="BuiltInPlugins\LipPanel\LipPanelPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

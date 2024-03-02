@@ -79,4 +79,6 @@ public class LipuiServices
         Theme = Main.Config.PersonalizationSettings.ColorTheme,
         ApplicationWindow = InternalServices.MainWindow ?? throw new NullReferenceException()
     };
+
+    public static ApplicationTheme ApplicationTheme => InternalServices.ApplicationTheme;
 }

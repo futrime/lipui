@@ -149,7 +149,7 @@ internal static class PluginSystem
     }
 
     public static string GetPluginKey(IPlugin plugin)
-        => $"{plugin.GetType().Assembly.GetName().Name}+{plugin.PluginName}+{plugin.Guid}";
+        => $"{plugin.GetType().Assembly.GetName().Name}+{plugin.Guid}";
 
     private static async ValueTask EnablePlugins(IEnumerable<IPlugin> plugins)
     {
