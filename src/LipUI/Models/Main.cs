@@ -3,7 +3,6 @@ using LipUI.Pages.LipExecutionPanel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace LipUI.Models;

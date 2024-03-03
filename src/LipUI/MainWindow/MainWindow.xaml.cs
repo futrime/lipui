@@ -6,7 +6,6 @@ using LipUI.Pages.Settings;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Octokit;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;

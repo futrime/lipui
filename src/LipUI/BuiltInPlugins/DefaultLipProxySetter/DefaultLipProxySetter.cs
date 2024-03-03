@@ -28,7 +28,9 @@ internal class DefaultLipProxySetter : IPlugin
 
     private static class DefaultProxies
     {
-        public const string Github = "mirror.ghproxy.com";
+        public const string Github_LipInstaller = "https://mirror.ghproxy.com";
+        public const string Github_Lip = "https://github.bibk.top";
+        public const string GoProxy_Lip = "https://goproxy.cn";
     }
 
     void IPlugin.OnInitlalize(LipuiServices services)
@@ -64,7 +66,7 @@ internal class DefaultLipProxySetter : IPlugin
 
                 confirmButton.Click += async (sender, _) =>
                 {
-                    services.LipuiConfig.GeneralSettings.GithubProxy = DefaultProxies.Github;
+                    services.LipuiConfig.GeneralSettings.GithubProxy = DefaultProxies.Github_LipInstaller;
                     var lip = await services.CreateLipConsoleAsync((sender as Button)!.XamlRoot, string.Empty);
 
                     if (lip is null)
@@ -78,14 +80,14 @@ internal class DefaultLipProxySetter : IPlugin
 
                     cts.Cancel();
 
-                    var cmd = LipCommand.CreateCommand() + LipCommand.Config + $"GitHubMirrorURL {DefaultProxies.Github}";
-
                     services.ShowInfoBar(
                         message: Strings.SettingUp,
                         severity: InfoBarSeverity.Informational,
                         interval: TimeSpan.FromSeconds(2));
 
-                    await lip.Run(cmd);
+                    await lip.Run(LipCommand.CreateCommand() + LipCommand.Config + $"GitHubMirrorURL {DefaultProxies.Github_Lip}");
+
+                    await lip.Run(LipCommand.CreateCommand() + LipCommand.Config + $"GoModuleProxyURL {DefaultProxies.GoProxy_Lip}");
 
                     services.ShowInfoBar(
                         message: Strings.Complete,

@@ -1,6 +1,5 @@
 using LipUI.Models;
 using LipUI.Models.Lip;
-using LipUI.Protocol;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,9 +11,6 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Windows.UI;
-using static LipUI.Models.Lip.LipCommand;
-using static LipUI.Models.Lip.LipCommandOption;
-using static LipUI.Protocol.LipIndex.LipIndexData;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

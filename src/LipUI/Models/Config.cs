@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Helpers;
-using LipUI.Pages.Settings;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using System.ComponentModel;
