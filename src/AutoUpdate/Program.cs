@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.CommandLine;
 using System.Diagnostics;
-using System.Text;
 
 using var factory = LoggerFactory.Create(builder => builder.AddConsole());
 var logger = factory.CreateLogger("AutoUpdate");

@@ -15,16 +15,12 @@
             "goos": "windows",
             "goarch": "amd64",
             "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.6/LipUI-win-x64.zip",
-            "commands": {
-                "post-install": [
-                    "./LipUI.exe"
-                ]
-            },
+            "commands": {},
             "files": {
                 "place": [
                     {
                         "src": "lipui/*",
-                        "dest": ".autoupdate"
+                        "dest": "./"
                     }
                 ]
             }
@@ -33,16 +29,12 @@
             "goos": "windows",
             "goarch": "arm64",
             "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.6/LipUI-win-arm64.zip",
-            "commands": {
-                "post-install": [
-                    "./LipUI.exe"
-                ]
-            },
+            "commands": {},
             "files": {
                 "place": [
                     {
                         "src": "lipui/*",
-                        "dest": ".autoupdate"
+                        "dest": "./"
                     }
                 ]
             }

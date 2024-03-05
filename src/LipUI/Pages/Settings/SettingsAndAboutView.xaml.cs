@@ -48,15 +48,21 @@ namespace LipUI.Pages.Settings
                 return;
             }
 
-            var args = @$"--type lipui_autoupdate --lip-path ""{path}"" --working-dir ""{Main.ProgramDirectory}""";
+            var args = "install --yes --force-reinstall --no-dependencies github.com/lippkg/LipUI";
 
             InternalServices.ShowInfoBar(
                 interval: TimeSpan.FromSeconds(3),
                 message: $"Running {args}");
 
-            Process.Start(
-                Path.Combine(Main.ProgramDirectory, "AutoUpdate.exe"), args);
-
+            var process = new Process()
+            {
+                StartInfo = new(path)
+                {
+                    WorkingDirectory = Main.ProgramDirectory,
+                    Arguments = args,
+                }
+            };
+            process.Start();
             Environment.Exit(0);
         }
     }
