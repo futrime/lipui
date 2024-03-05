@@ -21,12 +21,12 @@ jobs:
           dotnet-version: 8.0.x
 
       - run: |
-          dotnet publish src/AutoUpdate/AutoUpdate.csproj -c Release -o bin -r ${{ matrix.runtime }}
+          dotnet publish src/AutoUpdate/AutoUpdate.csproj -c Release -o bin/lipui -r ${{ matrix.runtime }}
 
-          dotnet build src/LipUI/LipUI.csproj -c Release -o bin -r ${{ matrix.runtime }} `
+          dotnet build src/LipUI/LipUI.csproj -c Release -o bin/lipui -r ${{ matrix.runtime }} `
           -p:DebugType=none -p:Platform=${{ matrix.platform }}
 
-          copy runtimes/win10-${{ matrix.platform }}/native/Microsoft.WindowsAppRuntime.Bootstrap.dll bin
+          copy runtimes/win10-${{ matrix.platform }}/native/Microsoft.WindowsAppRuntime.Bootstrap.dll bin/lipui
 
       - uses: actions/upload-artifact@v4
         with:
