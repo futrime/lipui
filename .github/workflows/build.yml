@@ -21,6 +21,8 @@ jobs:
           dotnet-version: 8.0.x
 
       - run: |
+          dotnet publish src/AutoUpdate/AutoUpdate.csproj -c Release -o bin -r ${{ matrix.runtime }}
+
           dotnet build src/LipUI/LipUI.csproj -c Release -o bin -r ${{ matrix.runtime }} `
           -p:DebugType=none -p:Platform=${{ matrix.platform }}
 

@@ -47,7 +47,7 @@ internal static partial class PluginConfigManager
     {
         lock (pluginConfigs)
         {
-            var dir = new DirectoryInfo(DefaultSettings.ConfigsDirectory);
+            var dir = new DirectoryInfo(Path.Combine(Main.WorkingDirectory, DefaultSettings.ConfigsDirectory));
             if (dir.Exists is false)
                 dir.Create();
 
@@ -70,7 +70,7 @@ internal static partial class PluginConfigManager
             if (config.Changed is false)
                 return;
 
-            var path = Path.Combine(DefaultSettings.ConfigsDirectory, $"{info.AssemblyName}+{info.Name}+{info.Guid}.json");
+            var path = Path.Combine(Main.WorkingDirectory, DefaultSettings.ConfigsDirectory, $"{info.AssemblyName}+{info.Name}+{info.Guid}.json");
             if (File.Exists(path))
                 File.Delete(path);
             File.WriteAllText(path, config.Serialize());

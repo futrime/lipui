@@ -1,0 +1,26 @@
+{
+    "format_version": 2,
+    "tooth": "github.com/lippkg/LipUI",
+    "version": "0.4.1",
+    "info": {
+        "name": "LipUI",
+        "description": "A GUI client for lip",
+        "author": "lippkg",
+        "tags": [
+            "lipui"
+        ]
+    },
+    "commands": {
+        "post-install": [
+            ".autoupdate/AutoUpdate.exe --type lip_postinstall"
+        ]
+    },
+    "files": {
+        "place": [
+            {
+                "src": "*",
+                "dest": ".autoupdate"
+            }
+        ]
+    }
+}

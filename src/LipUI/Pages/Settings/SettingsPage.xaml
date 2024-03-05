@@ -36,6 +36,12 @@
 
             <ListViewItem>
                 <TextBlock
+                    x:Uid="settingsAndAbout$title"
+                    Tag="settingsAndAbout"/>
+            </ListViewItem>
+
+            <ListViewItem>
+                <TextBlock
                     x:Uid="lipSettings$title"
                     Tag="lipSettings"/>
             </ListViewItem>
