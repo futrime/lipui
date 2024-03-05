@@ -50,7 +50,7 @@ namespace LipUI.Pages.Settings
 
             var args = @$"--type lipui_autoupdate --lip-path ""{path}"" --working-dir ""{Main.ProgramDirectory}""";
 
-            await InternalServices.ShowInfoBarAsync(
+            InternalServices.ShowInfoBar(
                 interval: TimeSpan.FromSeconds(3),
                 message: $"Running {args}");
 

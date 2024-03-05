@@ -46,11 +46,17 @@ internal static class Main
 
     private static void AutoUpdate()
     {
-        var autoupdateDir = Path.Combine(WorkingDirectory, ".autoupdate");
-        if (Directory.Exists(autoupdateDir) is false)
+        var autoupdateDir = new DirectoryInfo(Path.Combine(ProgramDirectory, ".autoupdate"));
+        if (autoupdateDir.Exists is false)
             return;
 
-        Process.Start(Path.Combine(autoupdateDir, "AutoUpdate.exe"), "--type lip_postinstall");
+        if (autoupdateDir.EnumerateFiles().Count() is 0)
+        {
+            autoupdateDir.Delete();
+            return;
+        }
+
+        Process.Start(Path.Combine(autoupdateDir.FullName, "AutoUpdate.exe"), "--type lip_postinstall");
         Environment.Exit(0);
     }
 
