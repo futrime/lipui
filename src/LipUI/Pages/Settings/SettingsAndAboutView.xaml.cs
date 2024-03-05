@@ -39,14 +39,23 @@ namespace LipUI.Pages.Settings
             var (success, path) = await Main.TryGetLipConsolePathAsync(XamlRoot);
 
             if (success is false)
+            {
                 await InternalServices.ShowInfoBarAsync(
                     severity: InfoBarSeverity.Error,
                     title: "infoBar$error".GetLocalized(),
                     message: "lipExecution$nullLipPath".GetLocalized());
 
+                return;
+            }
+
+            var args = @$"--type lipui_autoupdate --lip-path ""{path}"" --working-dir ""{Main.ProgramDirectory}""";
+
+            await InternalServices.ShowInfoBarAsync(
+                interval: TimeSpan.FromSeconds(3),
+                message: $"Running {args}");
+
             Process.Start(
-                Path.Combine(Main.ProgramDirectory, "AutoUpdate.exe"),
-                @$"--type lipui_autoupdate --lip-path ""{path}"" --working-dir ""{Main.ProgramDirectory}""");
+                Path.Combine(Main.ProgramDirectory, "AutoUpdate.exe"), args);
 
             Environment.Exit(0);
         }

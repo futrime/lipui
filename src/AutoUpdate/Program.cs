@@ -38,10 +38,12 @@ void Lipui_Handler(string? lipPath, string? workingDir)
         {
             WorkingDirectory = workingDir,
             Arguments = "install --yes --force-reinstall --no-dependencies github.com/lippkg/LipUI",
+            WindowStyle = ProcessWindowStyle.Normal,
         }
     };
     logger.LogInformation("Running: {lipPath} install github.com/lippkg/LipUI", lipPath);
     process.Start();
+    Environment.Exit(0);
 }
 
 void Lip_Handler()
