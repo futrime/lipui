@@ -37,7 +37,7 @@ void Lipui_Handler(string? lipPath, string? workingDir)
         StartInfo = new(lipPath)
         {
             WorkingDirectory = workingDir,
-            Arguments = "install github.com/lippkg/LipUI --upgrade",
+            Arguments = "install --yes --force-reinstall --no-dependencies github.com/lippkg/LipUI",
         }
     };
     logger.LogInformation("Running: {lipPath} install github.com/lippkg/LipUI", lipPath);

@@ -23,7 +23,7 @@
             "files": {
                 "place": [
                     {
-                        "src": "*",
+                        "src": "./*",
                         "dest": ".autoupdate"
                     }
                 ]
@@ -41,7 +41,7 @@
             "files": {
                 "place": [
                     {
-                        "src": "*",
+                        "src": "./*",
                         "dest": ".autoupdate"
                     }
                 ]
