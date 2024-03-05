@@ -14,7 +14,7 @@
         {
             "goos": "windows",
             "goarch": "amd64",
-            "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.1/LipUI-win-x64.zip",
+            "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.2/LipUI-win-x64.zip",
             "commands": {
                 "post-install": [
                     ".autoupdate/AutoUpdate.exe --type lip_postinstall"
@@ -32,7 +32,7 @@
         {
             "goos": "windows",
             "goarch": "arm64",
-            "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.1/LipUI-win-arm64.zip",
+            "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.2/LipUI-win-arm64.zip",
             "commands": {
                 "post-install": [
                     ".autoupdate/AutoUpdate.exe --type lip_postinstall"
