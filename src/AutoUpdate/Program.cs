@@ -70,11 +70,6 @@ void Lip_Handler()
 
     logger.LogInformation("LipUI updated");
 
-    logger.LogInformation("Clean up");
-    var autoupdateDir = Path.Combine(lipuiWorkingDir, ".autoupdate");
-    if (Directory.Exists(autoupdateDir))
-        Directory.Delete(autoupdateDir);
-
     Process.Start(Path.Combine(lipuiWorkingDir, "LipUI.exe"));
 };
 

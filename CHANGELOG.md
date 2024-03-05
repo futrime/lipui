@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2024-03-05
+
+### Added
+
+- Introduce support for .NET 8.0.
+- Provide a built-in default proxy setter for users in Mainland China.
+- Introduce a plugin configuration system.
+- Add an auto-update feature.
+
+### Changed
+
+- Refactor the display logic of the info bar based on queue information.
+
+### Fixed
+
+- Fix related bugs.
+
 ## [0.4.0] - 2024-02-04
 
 ### Added

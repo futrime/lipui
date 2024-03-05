@@ -38,6 +38,9 @@ internal static class Main
         InitializeWorkingDir();
         InitializeConfig();
         InternalServices.WindowClosed += SaveConfig;
+        var autoupdateDir = Path.Combine(WorkingDirectory, ".autoupdate");
+        if (Directory.Exists(autoupdateDir))
+            Directory.Delete(autoupdateDir);
     }
 
     [MemberNotNull(nameof(WorkingDirectory))]

@@ -36,9 +36,6 @@ namespace LipUI.Pages.Settings
 
         private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (RuntimeInformation.ProcessArchitecture is not Architecture.X64)
-                throw new NotImplementedException($"{RuntimeInformation.ProcessArchitecture} is not supported yet.");
-
             var (success, path) = await Main.TryGetLipConsolePathAsync(XamlRoot);
 
             if (success is false)
