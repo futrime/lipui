@@ -64,7 +64,10 @@ void Lip_Handler()
 
     foreach (var dir in currentDir.EnumerateDirectories())
     {
-        Directory.Move(dir.FullName, Path.Combine(lipuiWorkingDir, dir.Name));
+        var temp = Path.Combine(lipuiWorkingDir, dir.Name);
+        if (Directory.Exists(temp))
+            Directory.Delete(temp, true);
+        Directory.Move(dir.FullName, temp);
         logger.LogInformation("Moved {dir} to {lipuiWorkingDir}", dir.Name, lipuiWorkingDir);
     }
 
