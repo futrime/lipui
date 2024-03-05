@@ -2,6 +2,7 @@
 using LipUI.Pages.LipExecutionPanel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
@@ -40,9 +41,17 @@ internal static class Main
         InitializeWorkingDir();
         InitializeConfig();
         InternalServices.WindowClosed += SaveConfig;
+        AutoUpdate();
+    }
+
+    private static void AutoUpdate()
+    {
         var autoupdateDir = Path.Combine(WorkingDirectory, ".autoupdate");
-        if (Directory.Exists(autoupdateDir))
-            Directory.Delete(autoupdateDir);
+        if (Directory.Exists(autoupdateDir) is false)
+            return;
+
+        Process.Start(Path.Combine(autoupdateDir, "AutoUpdate.exe"), "--type lip_postinstall");
+        Environment.Exit(0);
     }
 
     [MemberNotNull(nameof(WorkingDirectory), nameof(ProgramDirectory))]
@@ -95,6 +104,9 @@ internal static class Main
             return (true, Config.GeneralSettings.LipPath);
         else
         {
+            if (Path.GetDirectoryName(Config.GeneralSettings.LipPath) != WorkingDirectory)
+                return (false, string.Empty);
+
             var dialog = new ContentDialog()
             {
                 XamlRoot = xamlRoot,
