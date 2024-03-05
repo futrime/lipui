@@ -29,10 +29,12 @@ internal static class Main
 
     public static string WorkingDirectory { get; private set; }
 
+    public static string ProgramDirectory { get; private set; }
+
     public static bool ColorsFirstInitSign = false;
 
 
-    [MemberNotNull(nameof(Config), nameof(WorkingDirectory))]
+    [MemberNotNull(nameof(Config), nameof(WorkingDirectory), nameof(ProgramDirectory))]
     private static void Initialize()
     {
         InitializeWorkingDir();
@@ -43,10 +45,12 @@ internal static class Main
             Directory.Delete(autoupdateDir);
     }
 
-    [MemberNotNull(nameof(WorkingDirectory))]
+    [MemberNotNull(nameof(WorkingDirectory), nameof(ProgramDirectory))]
     private static void InitializeWorkingDir()
     {
         var currentDir = new FileInfo(Environment.ProcessPath!).Directory!.FullName;
+
+        ProgramDirectory = currentDir;
 
         var path = Path.Combine(currentDir, DefaultSettings.DataDirectory);
         if (Directory.Exists(path) is false)

@@ -45,8 +45,8 @@ namespace LipUI.Pages.Settings
                     message: "lipExecution$nullLipPath".GetLocalized());
 
             Process.Start(
-                Path.Combine(Main.WorkingDirectory, "AutoUpdate.exe"),
-                @$"--type lipui_autoupdate --lip-path ""{path}"" --working-dir ""{Main.WorkingDirectory}""");
+                Path.Combine(Main.ProgramDirectory, "AutoUpdate.exe"),
+                @$"--type lipui_autoupdate --lip-path ""{path}"" --working-dir ""{Main.ProgramDirectory}""");
 
             Environment.Exit(0);
         }

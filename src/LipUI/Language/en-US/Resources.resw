@@ -309,7 +309,7 @@
   <data name="serverSelection$existed" xml:space="preserve">
     <value>Server path already exists!</value>
   </data>
-  <data name="settingsAndAbout$title" xml:space="preserve">
+  <data name="settingsAndAbout$title.Text" xml:space="preserve">
     <value>Settings &amp; About</value>
   </data>
   <data name="startServer.Text" xml:space="preserve">
