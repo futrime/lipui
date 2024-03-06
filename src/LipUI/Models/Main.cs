@@ -56,15 +56,8 @@ internal static class Main
             return;
         }
 
-        var process = new Process()
-        {
-            StartInfo = new(Path.Combine(autoupdateDir.FullName, "AutoUpdate.exe"))
-            {
-                Arguments = $"--lipui-dir {ProgramDirectory}"
-            }
-        };
-        process.Start();
-        Application.Current.Exit();
+        SaveConfig();
+        Process.Start("CMD.exe", $"/c {Path.Combine(autoupdateDir.FullName, "AutoUpdate.exe")} --lipui-dir {ProgramDirectory} --lipui-pid {Environment.ProcessId}");
     }
 
     [MemberNotNull(nameof(WorkingDirectory), nameof(ProgramDirectory))]
