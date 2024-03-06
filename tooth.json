@@ -1,7 +1,7 @@
 {
     "format_version": 2,
     "tooth": "github.com/lippkg/LipUI",
-    "version": "0.4.8",
+    "version": "0.4.9",
     "info": {
         "name": "LipUI",
         "description": "A GUI client for lip",
@@ -14,28 +14,36 @@
         {
             "goos": "windows",
             "goarch": "amd64",
-            "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.8/LipUI-win-x64.zip",
-            "commands": {},
+            "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.9/LipUI-win-x64.zip",
             "files": {
                 "place": [
                     {
                         "src": "lipui/*",
-                        "dest": ""
+                        "dest": ".autoupdate"
                     }
+                ]
+            },
+            "commands": {
+                "post-install": [
+                    ".\\LipUI.exe"
                 ]
             }
         },
         {
             "goos": "windows",
             "goarch": "arm64",
-            "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.8/LipUI-win-arm64.zip",
-            "commands": {},
+            "asset_url": "https://github.com/lippkg/LipUI/releases/download/v0.4.9/LipUI-win-arm64.zip",
             "files": {
                 "place": [
                     {
                         "src": "lipui/*",
-                        "dest": ""
+                        "dest": ".autoupdate"
                     }
+                ]
+            },
+            "commands": {
+                "post-install": [
+                    ".\\LipUI.exe"
                 ]
             }
         }

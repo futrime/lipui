@@ -41,31 +41,31 @@ internal static class Main
         InitializeWorkingDir();
         InitializeConfig();
         InternalServices.WindowClosed += SaveConfig;
-        //AutoUpdate();
+        AutoUpdate();
     }
 
-    //private static void AutoUpdate()
-    //{
-    //    var autoupdateDir = new DirectoryInfo(Path.Combine(ProgramDirectory, ".autoupdate"));
-    //    if (autoupdateDir.Exists is false)
-    //        return;
+    private static void AutoUpdate()
+    {
+        var autoupdateDir = new DirectoryInfo(Path.Combine(ProgramDirectory, ".autoupdate"));
+        if (autoupdateDir.Exists is false)
+            return;
 
-    //    if (autoupdateDir.EnumerateFiles().Count() is 0)
-    //    {
-    //        autoupdateDir.Delete();
-    //        return;
-    //    }
+        if (autoupdateDir.EnumerateFiles().Count() is 0)
+        {
+            autoupdateDir.Delete();
+            return;
+        }
 
-    //    var process = new Process()
-    //    {
-    //        StartInfo = new(Path.Combine(autoupdateDir.FullName, "AutoUpdate.exe"))
-    //        {
-    //            Arguments = "--type lip_postinstall"
-    //        }
-    //    };
-    //    process.Start();
-    //    Environment.Exit(0);
-    //}
+        var process = new Process()
+        {
+            StartInfo = new(Path.Combine(autoupdateDir.FullName, "AutoUpdate.exe"))
+            {
+                Arguments = $"--lipui-dir {ProgramDirectory}"
+            }
+        };
+        process.Start();
+        Application.Current.Exit();
+    }
 
     [MemberNotNull(nameof(WorkingDirectory), nameof(ProgramDirectory))]
     private static void InitializeWorkingDir()

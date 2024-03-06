@@ -63,7 +63,7 @@ namespace LipUI.Pages.Settings
                 }
             };
             process.Start();
-            Environment.Exit(0);
+            Application.Current.Exit();
         }
     }
 }
