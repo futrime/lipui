@@ -12,23 +12,9 @@
 	  <Nullable>enable</Nullable>
   	<UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>EECEBA1A034834A8FCA2C7E7B8878D2477C1AC0B</PackageCertificateThumbprint>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Auto</AppxBundle>
-    <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	<WindowsPackageType>None</WindowsPackageType>
 	  
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="BuiltInPlugins\LipPanel\LipPanelPage.xaml" />
-    <None Remove="Pages\Settings\SettingsAndAboutView.xaml" />
-  </ItemGroup>
 
   <ItemGroup>
 	<RuntimeHostConfigurationOption Include="System.Runtime.Loader.UseRidGraph" Value="true" />
@@ -37,7 +23,7 @@
 	  
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
     <PackageReference Include="Octokit" Version="9.1.0" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
@@ -46,18 +32,6 @@
 
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Pages\Settings\SettingsAndAboutView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="BuiltInPlugins\LipPanel\LipPanelPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
