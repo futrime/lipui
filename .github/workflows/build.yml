@@ -8,10 +8,16 @@ jobs:
     strategy:
       matrix:
         include:
-          - runtime: win-arm64
-            platform: arm64
           - runtime: win-x64
             platform: x64
+          - runtime: win-x64
+            platform: x64
+            self-contained: true
+          - runtime: win-arm64
+            platform: arm64
+          - runtime: win-arm64
+            platform: arm64
+            self-contained: true
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,9 +29,18 @@ jobs:
       - run: |
           dotnet publish src/AutoUpdate/AutoUpdate.csproj -o bin/lipui -r ${{ matrix.runtime }}
 
+      - if: !matrix.self-contained
+        run: |
           dotnet publish src/LipUI/LipUI.csproj -o bin/lipui -r ${{ matrix.runtime }} `
           -p:DebugType=none -p:Platform=${{ matrix.platform }}
 
+      - if: matrix.self-contained
+        run: |
+          dotnet publish src/LipUI/LipUI.csproj -o bin/lipui -r ${{ matrix.runtime }} `
+          -p:DebugType=none -p:Platform=${{ matrix.platform }} `
+          --self-contained -p:WindowsAppSDKSelfContained=true
+
+      - run: |
           copy runtimes/win10-${{ matrix.platform }}/native/Microsoft.WindowsAppRuntime.Bootstrap.dll bin/lipui
 
       - uses: actions/upload-artifact@v4
