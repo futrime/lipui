@@ -21,9 +21,7 @@ rootCommand.SetHandler((lipuiPath, pid) =>
 
     lipuiProcess.Kill();
     lipuiProcess.WaitForExit();
-    logger.LogInformation("Waiting for lipui process {pid} to exit", pid);
-
-    Task.Delay(TimeSpan.FromSeconds(2)).Wait();
+    logger.LogInformation("LipUI process {pid} exited", pid);
 
     var currentDir = new FileInfo(Environment.ProcessPath!).Directory ?? throw new InvalidOperationException("Current directory not found");
 
@@ -32,12 +30,12 @@ rootCommand.SetHandler((lipuiPath, pid) =>
     if (lipuiDir.FullName == currentDir.FullName)
     {
         logger.LogError("LipUI directory cannot be the same as the current directory");
-        logger.LogError("lipuiDir: {lipuiDir.FullName} currentDir: {currentDir.FullName}", lipuiDir.FullName, currentDir.FullName);
+        logger.LogError("lipUIDir: {lipuiDir.FullName} currentDir: {currentDir.FullName}", lipuiDir.FullName, currentDir.FullName);
         return;
     }
 
     var lipuiExeFile = new FileInfo(Path.Combine(lipuiDir.FullName, "LipUI.exe"));
-    if (lipuiExeFile.Exists is false)
+    if (!lipuiExeFile.Exists)
     {
         logger.LogError("LipUI.exe file not found");
         return;
@@ -58,11 +56,8 @@ rootCommand.SetHandler((lipuiPath, pid) =>
         logger.LogInformation("Moved {file} to {lipuiWorkingDir}", file.Name, lipuiDir.FullName);
     }
 
-    Task.Delay(TimeSpan.FromSeconds(2)).Wait();
-
     Process.Start(lipuiExeFile.FullName);
-    Environment.Exit(0);
 
 }, lipuiDirOption, lipuiPid);
 
-rootCommand.Invoke(args);
+await rootCommand.InvokeAsync(args);
