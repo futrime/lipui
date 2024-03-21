@@ -50,7 +50,7 @@ namespace LipUI.Pages.Settings
                             Arguments = args,
                         }
                     };
-                    
+
                     Main.SaveConfig();
                     process.Start();
                     Environment.Exit(0);

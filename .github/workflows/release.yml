@@ -8,10 +8,16 @@ jobs:
     strategy:
       matrix:
         include:
-          - runtime: win-arm64
-            platform: arm64
           - runtime: win-x64
             platform: x64
+          - runtime: win-x64
+            platform: x64
+            self-contained: true
+          - runtime: win-arm64
+            platform: arm64
+          - runtime: win-arm64
+            platform: arm64
+            self-contained: true
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,14 +27,30 @@ jobs:
           dotnet-version: 8.0.x
 
       - run: |
-          dotnet publish src/AutoUpdate/AutoUpdate.csproj -c Release -o bin/lipui -r ${{ matrix.runtime }}
+          dotnet publish src/AutoUpdate/AutoUpdate.csproj -o bin/lipui -r ${{ matrix.runtime }}
 
-          dotnet build src/LipUI/LipUI.csproj -c Release -o bin/lipui -r ${{ matrix.runtime }} `
+      - if: "!matrix.self-contained"
+        run: |
+          dotnet publish src/LipUI/LipUI.csproj -o bin/lipui -r ${{ matrix.runtime }} `
           -p:DebugType=none -p:Platform=${{ matrix.platform }}
 
+      - if: matrix.self-contained
+        run: |
+          dotnet publish src/LipUI/LipUI.csproj -o bin/lipui -r ${{ matrix.runtime }} `
+          -p:DebugType=none -p:Platform=${{ matrix.platform }} `
+          --self-contained -p:WindowsAppSDKSelfContained=true
+
+      - run: |
           copy runtimes/win10-${{ matrix.platform }}/native/Microsoft.WindowsAppRuntime.Bootstrap.dll bin/lipui
 
-      - uses: actions/upload-artifact@v4
+      - if: "!matrix.self-contained"
+        uses: actions/upload-artifact@v4
+        with:
+          name: LipUI-${{ matrix.runtime }}-no_runtime-${{ github.sha }}
+          path: bin
+
+      - if: matrix.self-contained
+        uses: actions/upload-artifact@v4
         with:
           name: LipUI-${{ matrix.runtime }}-${{ github.sha }}
           path: bin
@@ -57,8 +79,10 @@ jobs:
     strategy:
       matrix:
         runtime:
-          - win-arm64
           - win-x64
+          - win-x64-no_runtime
+          - win-arm64
+          - win-arm64-no_runtime
     steps:
       - uses: actions/checkout@v4
 
