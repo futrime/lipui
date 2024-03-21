@@ -43,7 +43,14 @@ jobs:
       - run: |
           copy runtimes/win10-${{ matrix.platform }}/native/Microsoft.WindowsAppRuntime.Bootstrap.dll bin/lipui
 
-      - uses: actions/upload-artifact@v4
+      - if: "!matrix.self-contained"
+        uses: actions/upload-artifact@v4
+        with:
+          name: LipUI-${{ matrix.runtime }}-no_runtime-${{ github.sha }}
+          path: bin
+
+      - if: matrix.self-contained
+        uses: actions/upload-artifact@v4
         with:
           name: LipUI-${{ matrix.runtime }}-${{ github.sha }}
           path: bin
