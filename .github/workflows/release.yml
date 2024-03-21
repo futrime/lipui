@@ -29,7 +29,7 @@ jobs:
       - run: |
           dotnet publish src/AutoUpdate/AutoUpdate.csproj -o bin/lipui -r ${{ matrix.runtime }}
 
-      - if: !matrix.self-contained
+      - if: "!matrix.self-contained"
         run: |
           dotnet publish src/LipUI/LipUI.csproj -o bin/lipui -r ${{ matrix.runtime }} `
           -p:DebugType=none -p:Platform=${{ matrix.platform }}
@@ -43,7 +43,7 @@ jobs:
       - run: |
           copy runtimes/win10-${{ matrix.platform }}/native/Microsoft.WindowsAppRuntime.Bootstrap.dll bin/lipui
 
-      - if: !matrix.self-contained
+      - if: "!matrix.self-contained"
         uses: actions/upload-artifact@v4
         with:
           name: LipUI-${{ matrix.runtime }}-no_runtime-${{ github.sha }}

@@ -29,7 +29,7 @@ jobs:
       - run: |
           dotnet publish src/AutoUpdate/AutoUpdate.csproj -o bin/lipui -r ${{ matrix.runtime }}
 
-      - if: !matrix.self-contained
+      - if: "!matrix.self-contained"
         run: |
           dotnet publish src/LipUI/LipUI.csproj -o bin/lipui -r ${{ matrix.runtime }} `
           -p:DebugType=none -p:Platform=${{ matrix.platform }}
