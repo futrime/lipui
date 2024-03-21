@@ -21,9 +21,9 @@ jobs:
           dotnet-version: 8.0.x
 
       - run: |
-          dotnet publish src/AutoUpdate/AutoUpdate.csproj -c Release -o bin/lipui -r ${{ matrix.runtime }}
+          dotnet publish src/AutoUpdate/AutoUpdate.csproj -o bin/lipui -r ${{ matrix.runtime }}
 
-          dotnet build src/LipUI/LipUI.csproj -c Release -o bin/lipui -r ${{ matrix.runtime }} `
+          dotnet publish src/LipUI/LipUI.csproj -o bin/lipui -r ${{ matrix.runtime }} `
           -p:DebugType=none -p:Platform=${{ matrix.platform }}
 
           copy runtimes/win10-${{ matrix.platform }}/native/Microsoft.WindowsAppRuntime.Bootstrap.dll bin/lipui
