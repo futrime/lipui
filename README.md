@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> I'm refactoring lip and lipui will be integrated within lip. Go to [lip repo](https://github.com/futrime/lip) to keep track.
+
 # LipUI
 
 A GUI client for lip
